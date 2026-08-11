@@ -25,6 +25,12 @@ protected:
 	
 	std::list<std::weak_ptr<class CMonster>> mMonsterList;
 
+	float mForward = 0.f;
+	float mRight = 0.f;
+
+	float mTime = 1.f;
+	bool mbChangeCamera = true;
+
 	float mMoveSpeed = 100.f;
 
 	//스킬
