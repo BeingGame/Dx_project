@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\World">
+      <UniqueIdentifier>{e5b2d89a-1ef6-48c8-a53b-4fba16c8335b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player">
+      <UniqueIdentifier>{5e4c4ffc-323f-436b-91a6-fe5c0b108c3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Bullet">
+      <UniqueIdentifier>{22a85f48-6980-46d3-87e4-41f5e881bec8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Monster">
+      <UniqueIdentifier>{64d40f5e-7f14-4456-9447-059687857d58}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Skill">
+      <UniqueIdentifier>{dce52691-f6bb-4fe0-825a-4f03e56b6bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Skill\Chaser">
+      <UniqueIdentifier>{c5633365-ce60-4942-8f93-e23f67373015}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Skill\PlayerSkillComponent">
+      <UniqueIdentifier>{edc079e7-1733-47a9-b853-f91ffb910cfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Status">
+      <UniqueIdentifier>{f82d1835-3184-45ef-a19a-6c6117f78d2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Interface">
+      <UniqueIdentifier>{aa2b20f2-01b1-4a34-8bab-ea432042fe46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Skill\Shield">
+      <UniqueIdentifier>{e55e6783-22d4-4bdc-aa77-11c0992a6ca5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Skill\Slow">
+      <UniqueIdentifier>{259627d8-0440-4ab2-b27b-e8ed0520b255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Object">
+      <UniqueIdentifier>{6d0e6b11-7256-4c50-bb2f-548e5ff80d79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\Skill\Slow\Turret">
+      <UniqueIdentifier>{44b67391-b5e9-4067-aac1-3e3a9c47a89d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\UI">
+      <UniqueIdentifier>{d8b91811-15df-4f47-8134-1641ff1348c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Monster\AI">
+      <UniqueIdentifier>{3cc9c0b2-f676-4a31-bd4f-4df6218fc78f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Player\UI">
+      <UniqueIdentifier>{dfc78209-63c3-4e42-b169-ba8f219f9ef4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MainWorld.cpp">
+      <Filter>소스 파일\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Player.cpp">
+      <Filter>소스 파일\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Bullet.cpp">
+      <Filter>소스 파일\Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Monster.cpp">
+      <Filter>소스 파일\Monster</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Turret.cpp">
+      <Filter>소스 파일\Player\Skill\Slow\Turret</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Chaser.cpp">
+      <Filter>소스 파일\Player\Skill\Chaser</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component\SkillComponent.cpp">
+      <Filter>소스 파일\Player\Skill</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component\TurretSkillComp.cpp">
+      <Filter>소스 파일\Player\Skill\PlayerSkillComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component\StatusComponent.cpp">
+      <Filter>소스 파일\Player\Status</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Interface\StatusInterface.cpp">
+      <Filter>소스 파일\Player\Interface</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Shield.cpp">
+      <Filter>소스 파일\Player\Skill\Shield</Filter>
+    </ClCompile>
+    <ClCompile Include="World\SlowArea.cpp">
+      <Filter>소스 파일\Player\Skill\Slow</Filter>
+    </ClCompile>
+    <ClCompile Include="World\GlobalCollision.cpp">
+      <Filter>소스 파일\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ReflectBullet.cpp">
+      <Filter>소스 파일\Player\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="World\BlackHole.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="World\OneWayWall.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Wall.cpp">
+      <Filter>소스 파일\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MainUI.cpp">
+      <Filter>소스 파일\World\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MonsterMoveState.cpp">
+      <Filter>소스 파일\Monster\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MonsterAttackState.cpp">
+      <Filter>소스 파일\Monster\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\EditorWorld.cpp">
+      <Filter>소스 파일\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\EditorPlayer.cpp">
+      <Filter>소스 파일\Player</Filter>
+    </ClCompile>
+    <ClCompile Include="World\StartWorld.cpp">
+      <Filter>소스 파일\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\EditorWidget.cpp">
+      <Filter>소스 파일\Player\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\StartWidget.cpp">
+      <Filter>소스 파일\Player\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\StartPlayer.cpp">
+      <Filter>소스 파일\Player</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MainWorld.h">
+      <Filter>소스 파일\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Player.h">
+      <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Bullet.h">
+      <Filter>소스 파일\Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Monster.h">
+      <Filter>소스 파일\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Turret.h">
+      <Filter>소스 파일\Player\Skill\Slow\Turret</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Chaser.h">
+      <Filter>소스 파일\Player\Skill\Chaser</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component\SkillComponent.h">
+      <Filter>소스 파일\Player\Skill</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component\TurretSkillComp.h">
+      <Filter>소스 파일\Player\Skill\PlayerSkillComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component\StatusComponent.h">
+      <Filter>소스 파일\Player\Status</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Interface\StatusInterface.h">
+      <Filter>소스 파일\Player\Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Shield.h">
+      <Filter>소스 파일\Player\Skill\Shield</Filter>
+    </ClInclude>
+    <ClInclude Include="World\SlowArea.h">
+      <Filter>소스 파일\Player\Skill\Slow</Filter>
+    </ClInclude>
+    <ClInclude Include="World\GlobalCollision.h">
+      <Filter>소스 파일\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ReflectBullet.h">
+      <Filter>소스 파일\Player\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="World\BlackHole.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="World\OneWayWall.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Wall.h">
+      <Filter>소스 파일\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MainUI.h">
+      <Filter>소스 파일\World\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MonsterMoveState.h">
+      <Filter>소스 파일\Monster\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MonsterAttackState.h">
+      <Filter>소스 파일\Monster\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\EditorWorld.h">
+      <Filter>소스 파일\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\EditorPlayer.h">
+      <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="World\StartWorld.h">
+      <Filter>소스 파일\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\EditorWidget.h">
+      <Filter>소스 파일\Player\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\StartWidget.h">
+      <Filter>소스 파일\Player\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\StartPlayer.h">
+      <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="icon1.ico">
+      <Filter>리소스 파일</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

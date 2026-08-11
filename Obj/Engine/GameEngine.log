@@ -1,0 +1,173 @@
+﻿  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Animation2D.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Collider.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Color2D.cso
+C:\Users\assort_c5\Desktop\dx\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,5): warning X4000: use of potentially uninitialized variable (UpdateAnimationUV)
+  
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\GlobalUI.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Material.cso
+  Animation2D.cpp
+  AnimationManager.cpp
+  Asset.cpp
+  AssetManager.cpp
+  AssetSubManager.cpp
+  CBuffer.cpp
+  CBufferAnimation2D.cpp
+  CBufferCollider.cpp
+  CBufferData.cpp
+  CBufferMaterial.cpp
+  CBufferPalette.cpp
+  CBufferTransform.cpp
+  CBufferUIDefault.cpp
+  GraphicShader.cpp
+  Material.cpp
+  MaterialManager.cpp
+  Mesh.cpp
+  MeshManager.cpp
+  PathManager.cpp
+  Shader.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  ShaderAnimation2D.cpp
+  ShaderColor2D.cpp
+  ShaderFrame.cpp
+  ShaderManager.cpp
+  ShaderMaterial.cpp
+  ShaderUIDefault.cpp
+  Sound.cpp
+  SoundManager.cpp
+  Texture.cpp
+  TextureManager.cpp
+  BlendState.cpp
+  CSVReader.cpp
+  DepthStencilState.cpp
+  Device.cpp
+  Engine.cpp
+  Logger.cpp
+  LogManager.cpp
+  Matrix.cpp
+  Vector2.cpp
+  Vector3.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Vector4.cpp
+  Object.cpp
+  RenderManager.cpp
+  RenderState.cpp
+  TimeManager.cpp
+  Actor.cpp
+  ActorComponent.cpp
+  Animation2DComponent.cpp
+  Animation2DSequence.cpp
+  Button.cpp
+  CameraComponent.cpp
+  CameraManager.cpp
+  CharacterMovementComponent.cpp
+  Collider.cpp
+  ColliderBox2D.cpp
+  ColliderSphere2D.cpp
+  Collision.cpp
+  CollisionInfoManager.cpp
+  CollisionQuadTree.cpp
+  CollisionQuadTreeNode.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  Component.cpp
+  Input.cpp
+  MeshComponent.cpp
+  MovementComponent.cpp
+  ProjectileMovementComponent.cpp
+  SceneComponent.cpp
+  SoundComponent.cpp
+  UIManager.cpp
+  Widget.cpp
+  WidgetContainer.cpp
+  World.cpp
+  WorldCollision.cpp
+  WorldManager.cpp
+  코드를 생성하고 있습니다...
+  GameEngine.vcxproj -> C:\Users\assort_c5\Desktop\dx\Engine\Binary\GameEngine_Debug.lib
+  .\BlendState.h
+  .\DepthStencilState.h
+  .\Device.h
+  .\Engine.h
+  .\EngineMath.h
+  .\Enums.h
+  .\Logger.h
+  .\LogManager.h
+  .\Macro.h
+  .\RenderManager.h
+  .\RenderState.h
+  .\Structs.h
+  .\TimeManager.h
+  .\Asset\Animation2D.h
+  .\Asset\AnimationManager.h
+  .\Asset\Asset.h
+  .\Asset\AssetManager.h
+  .\Asset\AssetSubManager.h
+  .\Asset\CBuffer.h
+  .\Asset\CBufferAnimation2D.h
+  .\Asset\CBufferCollider.h
+  .\Asset\CBufferData.h
+  .\Asset\CBufferMaterial.h
+  .\Asset\CBufferPalette.h
+  .\Asset\CBufferTransform.h
+  .\Asset\DirectXTex.h
+  .\Asset\fmod.h
+  .\Asset\fmod_codec.h
+  .\Asset\fmod_common.h
+  .\Asset\fmod_dsp.h
+  .\Asset\fmod_dsp_effects.h
+  .\Asset\fmod_errors.h
+  .\Asset\fmod_output.h
+  .\Asset\GraphicShader.h
+  .\Asset\Material.h
+  .\Asset\MaterialManager.h
+  .\Asset\Mesh.h
+  .\Asset\MeshManager.h
+  .\Asset\PathManager.h
+  .\Asset\Shader.h
+  .\Asset\ShaderAnimation2D.h
+  .\Asset\ShaderColor2D.h
+  .\Asset\ShaderFrame.h
+  .\Asset\ShaderManager.h
+  .\Asset\ShaderMaterial.h
+  .\Asset\Sound.h
+  .\Asset\SoundManager.h
+  .\Asset\Texture.h
+  .\Asset\TextureManager.h
+  .\Math\Matrix.h
+  .\Math\Vector2.h
+  .\Math\Vector3.h
+  .\Math\Vector4.h
+  .\World\ActorComponent.h
+  .\World\Animation2DComponent.h
+  .\World\Animation2DSequence.h
+  .\World\Button.h
+  .\World\CameraComponent.h
+  .\World\CameraManager.h
+  .\World\CharacterMovementComponent.h
+  .\World\Collision.h
+  .\World\CollisionInfoManager.h
+  .\World\Component.h
+  .\World\Input.h
+  .\World\MeshComponent.h
+  .\World\MovementComponent.h
+  .\World\ProjectileMovementComponent.h
+  .\World\SceneComponent.h
+  .\World\SoundComponent.h
+  .\World\Widget.h
+  70 File(s) copied
+  .\Asset\DirectXTex.inl
+  1 File(s) copied
+  .\Asset\fmod.hpp
+  1 File(s) copied
+  .\Asset\fmod.cs
+  .\Asset\fmod_dsp.cs
+  .\Asset\fmod_errors.cs
+  3 File(s) copied
+  .\..\Engine\Binary\EngineAsset\Shader\Animation2D.hlsl
+  .\..\Engine\Binary\EngineAsset\Shader\Collider.hlsl
+  .\..\Engine\Binary\EngineAsset\Shader\Color2D.hlsl
+  .\..\Engine\Binary\EngineAsset\Shader\Material.hlsl
+  .\..\Engine\Binary\EngineAsset\Shader\Share.hlsli
+  5 File(s) copied

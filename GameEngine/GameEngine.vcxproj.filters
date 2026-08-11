@@ -1,0 +1,834 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="소스 파일">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="헤더 파일">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="소스 파일\Core">
+      <UniqueIdentifier>{3f468748-253d-4134-9f4a-c592995e269e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Engine">
+      <UniqueIdentifier>{23841ad6-689f-4961-af8e-d7b93c163613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Time">
+      <UniqueIdentifier>{a2ec0855-06c8-4473-b80e-9bbadd66597f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Device">
+      <UniqueIdentifier>{7971323b-8f4f-4449-9030-1f777b8c9f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Math">
+      <UniqueIdentifier>{78506373-a7e0-45d7-b651-77c45e2d4a35}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset">
+      <UniqueIdentifier>{218e025c-a3fd-4230-bb0a-75b2e4351c12}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Object">
+      <UniqueIdentifier>{dfe0dd5c-c99b-42b8-abe3-b948fecf9b02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Mesh">
+      <UniqueIdentifier>{2ad1baff-cbd4-487b-b2b6-bb8d03e54525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader">
+      <UniqueIdentifier>{9358e365-0dc8-407a-9ed8-3d94c9168ca7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\HLSL">
+      <UniqueIdentifier>{b63ed26b-c459-405b-b227-5f6e3c48cff5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader">
+      <UniqueIdentifier>{825acbb5-a515-4637-8f7b-3853905ca684}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer">
+      <UniqueIdentifier>{a9156068-a388-42ad-b9a4-5d8c05e8632d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\Transform">
+      <UniqueIdentifier>{5e709f2e-015a-4698-a9ca-3059e1119a82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Log">
+      <UniqueIdentifier>{ca0e1cdf-cbf0-4f0d-8f84-89efe70f78cb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World">
+      <UniqueIdentifier>{8617ece1-8019-4029-b960-dc4dbbd7473e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Actor">
+      <UniqueIdentifier>{95497503-2221-459f-a31a-986d7038f239}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component">
+      <UniqueIdentifier>{a7eaa408-2e88-41cb-a590-a1de909a6272}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene">
+      <UniqueIdentifier>{8e9270cb-ca10-49a8-806a-9de0b2f27dfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Actor">
+      <UniqueIdentifier>{9bb1d77a-db15-4006-b915-4c24c98572f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Camera">
+      <UniqueIdentifier>{02e394cb-3265-4227-8f99-23df4d3fe0ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Input">
+      <UniqueIdentifier>{ecb30bed-0c47-4194-a44a-6ab3ac061000}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Actor\Movement">
+      <UniqueIdentifier>{405c87ef-2114-4eb4-9cc7-d15d58d241f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene\Mesh">
+      <UniqueIdentifier>{7efc39af-4d58-462d-bc5b-b0c55ec5deb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene\Camera">
+      <UniqueIdentifier>{4974d22a-11fd-462f-828b-b104a0fdc7e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Collision">
+      <UniqueIdentifier>{1f2bdcb4-a064-49d4-b444-2643a3e421e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene\Collider">
+      <UniqueIdentifier>{5b7e0a54-eb31-4c98-a4b6-ef7fa977dc6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\Collider">
+      <UniqueIdentifier>{7754d514-d14c-424d-b50c-73973e571544}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Texture">
+      <UniqueIdentifier>{f66cac09-30be-4327-b447-ce619e80d07a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader\Color2D">
+      <UniqueIdentifier>{91c66897-2a42-4104-9257-057230821476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader\Material">
+      <UniqueIdentifier>{e053217e-702d-4fc6-8fff-a04f7276fcf1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader\Frame">
+      <UniqueIdentifier>{9baee6a8-cd7d-4d9d-b95a-5f5c0d635237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\Material">
+      <UniqueIdentifier>{8450f93c-2998-4e29-bac7-03271271c77f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Material">
+      <UniqueIdentifier>{336fcb3d-7198-464b-b83c-85a0a6a296e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Render">
+      <UniqueIdentifier>{7ccc6682-f56e-4ac8-9225-e1034c3e5fc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Animation">
+      <UniqueIdentifier>{36a81c40-bb60-43f3-bebd-2407deff5b10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader\Animation2D">
+      <UniqueIdentifier>{429a85c7-f5bd-4944-8956-b5c3d56ad843}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\Animation2D">
+      <UniqueIdentifier>{e98bc4cf-4d3e-4069-944a-820cbd111ff3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Actor\Animation">
+      <UniqueIdentifier>{e28874f2-b731-4c41-aa8e-706269ba8b4f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\Palette">
+      <UniqueIdentifier>{7902112b-412b-4196-9ba1-cb54a6e13864}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Sound">
+      <UniqueIdentifier>{08e0a09f-b93a-47a5-8ba1-c8bb6aa74fba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Sound\Lib">
+      <UniqueIdentifier>{a8d670db-59a7-44d9-95b4-eafc5ffc9351}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene\Sound">
+      <UniqueIdentifier>{266261a1-1e47-4d8b-bdfc-3ac76eaa3389}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Helpers">
+      <UniqueIdentifier>{15d9293e-cba2-43b5-8a0f-ab317c8b2be0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\UI">
+      <UniqueIdentifier>{904d2a52-e69f-4b30-ac10-8971999f1fa7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\UI\Widget">
+      <UniqueIdentifier>{96d7821a-194b-465d-bdda-65d5ec704059}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\UI">
+      <UniqueIdentifier>{77c81cc1-b79f-4e11-a17b-8c899303fbbf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader\UI">
+      <UniqueIdentifier>{f97b0663-a37b-4c19-8cb2-74f97dc10019}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Font">
+      <UniqueIdentifier>{40c8d0b4-4050-4858-bb1a-754e388120bb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene\Widget">
+      <UniqueIdentifier>{eb634be7-907b-428a-99a9-ebbc410eb8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Actor\AI">
+      <UniqueIdentifier>{0c7b9b22-1d07-44b1-859c-865157018c7c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Actor\Tile">
+      <UniqueIdentifier>{e592e7ae-592d-4820-bb74-9ce381ac0dee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\World\Component\Scene\Tile">
+      <UniqueIdentifier>{c4978647-8e67-4788-8a1a-416d2eb44e39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\Shader\Tile">
+      <UniqueIdentifier>{374c1379-8504-46d3-a286-ceeabba2a841}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\Core\Asset\Shader\ConstantBuffer\Tile">
+      <UniqueIdentifier>{02579fcf-9bc3-4b5a-9bd6-fc91673b8382}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="EngineInfo.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Macro.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>소스 파일\Core\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>소스 파일\Core\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="Device.h">
+      <Filter>소스 파일\Core\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineMath.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector2.h">
+      <Filter>소스 파일\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector3.h">
+      <Filter>소스 파일\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Vector4.h">
+      <Filter>소스 파일\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\Matrix.h">
+      <Filter>소스 파일\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Asset.h">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>소스 파일\Core\Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Enums.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\AssetManager.h">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\AssetSubManager.h">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Mesh.h">
+      <Filter>소스 파일\Core\Asset\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\MeshManager.h">
+      <Filter>소스 파일\Core\Asset\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="Structs.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\PathManager.h">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Shader.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\GraphicShader.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderManager.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBuffer.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferData.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferContainer.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferTransform.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Transform</Filter>
+    </ClInclude>
+    <ClInclude Include="LogManager.h">
+      <Filter>소스 파일\Core\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="Logger.h">
+      <Filter>소스 파일\Core\Log</Filter>
+    </ClInclude>
+    <ClInclude Include="World\WorldManager.h">
+      <Filter>소스 파일\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\World.h">
+      <Filter>소스 파일\World</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Actor.h">
+      <Filter>소스 파일\World\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component.h">
+      <Filter>소스 파일\World\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ActorComponent.h">
+      <Filter>소스 파일\World\Component\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="World\SceneComponent.h">
+      <Filter>소스 파일\World\Component\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CameraManager.h">
+      <Filter>소스 파일\World\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Input.h">
+      <Filter>소스 파일\World\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CharacterMovementComponent.h">
+      <Filter>소스 파일\World\Component\Actor\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MeshComponent.h">
+      <Filter>소스 파일\World\Component\Scene\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CameraComponent.h">
+      <Filter>소스 파일\World\Component\Scene\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MovementComponent.h">
+      <Filter>소스 파일\World\Component\Actor\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ProjectileMovementComponent.h">
+      <Filter>소스 파일\World\Component\Actor\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Collision.h">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Collider.h">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferCollider.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ColliderSphere2D.h">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ColliderBox2D.h">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </ClInclude>
+    <ClInclude Include="World\WorldCollision.h">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CollisionInfoManager.h">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CollisionQuadTreeNode.h">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="World\CollisionQuadTree.h">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\DirectXTex.h">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\TextureManager.h">
+      <Filter>소스 파일\Core\Asset\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Texture.h">
+      <Filter>소스 파일\Core\Asset\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderColor2D.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Color2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderMaterial.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderFrame.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Frame</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferMaterial.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Material.h">
+      <Filter>소스 파일\Core\Asset\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\MaterialManager.h">
+      <Filter>소스 파일\Core\Asset\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderState.h">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="BlendState.h">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="DepthStencilState.h">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Animation2D.h">
+      <Filter>소스 파일\Core\Asset\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\AnimationManager.h">
+      <Filter>소스 파일\Core\Asset\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderAnimation2D.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Animation2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferAnimation2D.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Animation2D</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Animation2DSequence.h">
+      <Filter>소스 파일\World\Component\Actor\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Animation2DComponent.h">
+      <Filter>소스 파일\World\Component\Actor\Animation</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferPalette.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Palette</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\SoundManager.h">
+      <Filter>소스 파일\Core\Asset\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Sound.h">
+      <Filter>소스 파일\Core\Asset\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod_dsp.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod_dsp_effects.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod_errors.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod_output.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod.hpp">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod_codec.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\fmod_common.h">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </ClInclude>
+    <ClInclude Include="World\SoundComponent.h">
+      <Filter>소스 파일\World\Component\Scene\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="CSVReader.h">
+      <Filter>소스 파일\Core\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="World\UIManager.h">
+      <Filter>소스 파일\World\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Widget.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferUIDefault.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderUIDefault.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\WidgetContainer.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Button.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MouseWidget.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\FontManager.h">
+      <Filter>소스 파일\Core\Asset\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\FontCollection.h">
+      <Filter>소스 파일\Core\Asset\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\Font.h">
+      <Filter>소스 파일\Core\Asset\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TextBlock.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Image.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ProgressBar.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TitleBar.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\WidgetComponent.h">
+      <Filter>소스 파일\World\Component\Scene\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\NumberWidget.h">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClInclude>
+    <ClInclude Include="World\AIComponent.h">
+      <Filter>소스 파일\World\Component\Actor\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\AIState.h">
+      <Filter>소스 파일\World\Component\Actor\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\BlackBoard.h">
+      <Filter>소스 파일\World\Component\Actor\AI</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TileMapComponent.h">
+      <Filter>소스 파일\World\Component\Actor\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TileMapRender.h">
+      <Filter>소스 파일\World\Component\Scene\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Tile.h">
+      <Filter>소스 파일\World\Component\Actor\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\CBufferTileMap.h">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderTileMap.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Tile</Filter>
+    </ClInclude>
+    <ClInclude Include="World\TileMapActor.h">
+      <Filter>소스 파일\World\Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Asset\ShaderTexture.h">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Material</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Engine.cpp">
+      <Filter>소스 파일\Core\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>소스 파일\Core\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="Device.cpp">
+      <Filter>소스 파일\Core\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector2.cpp">
+      <Filter>소스 파일\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector3.cpp">
+      <Filter>소스 파일\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Vector4.cpp">
+      <Filter>소스 파일\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Math\Matrix.cpp">
+      <Filter>소스 파일\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Asset.cpp">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Object.cpp">
+      <Filter>소스 파일\Core\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetManager.cpp">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AssetSubManager.cpp">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Mesh.cpp">
+      <Filter>소스 파일\Core\Asset\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\MeshManager.cpp">
+      <Filter>소스 파일\Core\Asset\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\PathManager.cpp">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\GraphicShader.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Shader.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderManager.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBuffer.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferData.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferTransform.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Transform</Filter>
+    </ClCompile>
+    <ClCompile Include="LogManager.cpp">
+      <Filter>소스 파일\Core\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="Logger.cpp">
+      <Filter>소스 파일\Core\Log</Filter>
+    </ClCompile>
+    <ClCompile Include="World\WorldManager.cpp">
+      <Filter>소스 파일\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\World.cpp">
+      <Filter>소스 파일\World</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Actor.cpp">
+      <Filter>소스 파일\World\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component.cpp">
+      <Filter>소스 파일\World\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ActorComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="World\SceneComponent.cpp">
+      <Filter>소스 파일\World\Component\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CameraManager.cpp">
+      <Filter>소스 파일\World\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Input.cpp">
+      <Filter>소스 파일\World\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CharacterMovementComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MeshComponent.cpp">
+      <Filter>소스 파일\World\Component\Scene\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CameraComponent.cpp">
+      <Filter>소스 파일\World\Component\Scene\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MovementComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ProjectileMovementComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Collision.cpp">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Collider.cpp">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferCollider.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ColliderSphere2D.cpp">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ColliderBox2D.cpp">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </ClCompile>
+    <ClCompile Include="World\WorldCollision.cpp">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CollisionInfoManager.cpp">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CollisionQuadTreeNode.cpp">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="World\CollisionQuadTree.cpp">
+      <Filter>소스 파일\World\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\TextureManager.cpp">
+      <Filter>소스 파일\Core\Asset\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Texture.cpp">
+      <Filter>소스 파일\Core\Asset\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderColor2D.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Color2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderMaterial.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderFrame.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Frame</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferMaterial.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Material.cpp">
+      <Filter>소스 파일\Core\Asset\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\MaterialManager.cpp">
+      <Filter>소스 파일\Core\Asset\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderState.cpp">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="BlendState.cpp">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthStencilState.cpp">
+      <Filter>소스 파일\Core\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Animation2D.cpp">
+      <Filter>소스 파일\Core\Asset\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\AnimationManager.cpp">
+      <Filter>소스 파일\Core\Asset\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderAnimation2D.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Animation2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferAnimation2D.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Animation2D</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Animation2DSequence.cpp">
+      <Filter>소스 파일\World\Component\Actor\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Animation2DComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferPalette.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Palette</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\SoundManager.cpp">
+      <Filter>소스 파일\Core\Asset\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Sound.cpp">
+      <Filter>소스 파일\Core\Asset\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="World\SoundComponent.cpp">
+      <Filter>소스 파일\World\Component\Scene\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="CSVReader.cpp">
+      <Filter>소스 파일\Core\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="World\UIManager.cpp">
+      <Filter>소스 파일\World\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Widget.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferUIDefault.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderUIDefault.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\WidgetContainer.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Button.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MouseWidget.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\FontManager.cpp">
+      <Filter>소스 파일\Core\Asset\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\FontCollection.cpp">
+      <Filter>소스 파일\Core\Asset\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\Font.cpp">
+      <Filter>소스 파일\Core\Asset\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="World\TextBlock.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Image.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\ProgressBar.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\TitleBar.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\WidgetComponent.cpp">
+      <Filter>소스 파일\World\Component\Scene\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\NumberWidget.cpp">
+      <Filter>소스 파일\World\UI\Widget</Filter>
+    </ClCompile>
+    <ClCompile Include="World\AIComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\AIState.cpp">
+      <Filter>소스 파일\World\Component\Actor\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\BlackBoard.cpp">
+      <Filter>소스 파일\World\Component\Actor\AI</Filter>
+    </ClCompile>
+    <ClCompile Include="World\TileMapComponent.cpp">
+      <Filter>소스 파일\World\Component\Actor\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="World\TileMapRender.cpp">
+      <Filter>소스 파일\World\Component\Scene\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Tile.cpp">
+      <Filter>소스 파일\World\Component\Actor\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\CBufferTileMap.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\ConstantBuffer\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderTileMap.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Tile</Filter>
+    </ClCompile>
+    <ClCompile Include="World\TileMapActor.cpp">
+      <Filter>소스 파일\World\Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Asset\ShaderTexture.cpp">
+      <Filter>소스 파일\Core\Asset\Shader\Shader\Material</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Copy.bat">
+      <Filter>소스 파일</Filter>
+    </None>
+    <None Include="..\Engine\Binary\EngineAsset\Shader\Share.hlsli">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </None>
+    <None Include="Asset\DirectXTex.inl">
+      <Filter>소스 파일\Core\Asset</Filter>
+    </None>
+    <None Include="Asset\fmod_errors.cs">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </None>
+    <None Include="Asset\fmod.cs">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </None>
+    <None Include="Asset\fmod_dsp.cs">
+      <Filter>소스 파일\Core\Asset\Sound\Lib</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\Engine\Binary\EngineAsset\Shader\Color2D.hlsl">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Engine\Binary\EngineAsset\Shader\Collider.hlsl">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Engine\Binary\EngineAsset\Shader\Material.hlsl">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Engine\Binary\EngineAsset\Shader\Animation2D.hlsl">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </FxCompile>
+    <FxCompile Include="..\Engine\Binary\EngineAsset\Shader\TileMap.hlsl">
+      <Filter>소스 파일\Core\Asset\Shader\HLSL</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Review.txt">
+      <Filter>헤더 파일</Filter>
+    </Text>
+    <Text Include="Review2.txt">
+      <Filter>소스 파일\World\Component\Scene\Collider</Filter>
+    </Text>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,64 @@
+#pragma once
+#include "ActorComponent.h"
+class CMovementComponent :
+    public CActorComponent
+{
+public:
+	CMovementComponent();
+	CMovementComponent(const CMovementComponent& src);
+	CMovementComponent(CMovementComponent&& src) noexcept;
+	virtual ~CMovementComponent();
+
+protected:
+	std::weak_ptr<class CSceneComponent> mUpdateComp;
+
+	FVector3 mMoveDir;
+	float mMoveSpeed = 150.f;
+	float mCurrentSpeed = 150.f;
+
+public:
+	float GetMoveSpeed() const
+	{
+		return mMoveSpeed;
+	}
+
+	float GetCurrentSpeed() const
+	{
+		return mCurrentSpeed;
+	}
+
+	FVector3 GetMoveDir() const
+	{
+		return mMoveDir;
+	}
+
+	virtual void SetMoveDir(const FVector3& Dir);
+
+	void SetUpdateComp(const std::weak_ptr<class CSceneComponent> Comp)
+	{
+		mUpdateComp = Comp;
+	}
+
+	void SetSpeed(float Speed)
+	{
+		mMoveSpeed = Speed;
+	}
+
+	void SetCurrentSpeed(float Speed)
+	{
+		mCurrentSpeed = Speed;
+	}
+
+public:
+	virtual bool Init();
+	virtual void Update(float DeltaTime);
+	virtual void PostUpdate(float DeltaTime);
+	virtual void Destroy();
+
+public:
+	virtual CMovementComponent* Clone() const
+	{
+		return new CMovementComponent(*this);
+	}
+};
+
