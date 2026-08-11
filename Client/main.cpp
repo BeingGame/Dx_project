@@ -1,22 +1,16 @@
 
-
 #include "Engine.h"
 #include "resource.h"
 
 #include "World/MainWorld.h"
-#include "World/StartWorld.h"
 #include "World/WorldManager.h"
 
 #include "World/GlobalCollision.h"
 
 #ifdef _DEBUG
-
 #pragma comment(lib,"GameEngine_Debug.lib")
-
 #else
-
 #pragma comment(lib,"GameEngine.lib")
-
 #endif
 
 
@@ -25,7 +19,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ LPWSTR    lpCmdLine,
 	_In_ int       nCmdShow)
 {
-	//UNREFERENCED_PARAMETER : 인자 미사용 경고를 제거하는데 사용되는 매크로
 	UNREFERENCED_PARAMETER(hPrevInstance);
 	UNREFERENCED_PARAMETER(lpCmdLine);
 
@@ -37,7 +30,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	CGlobalCollision::SetGlobalCollision();
 
-	CWorldManager::GetInst()->CreateWorld<CStartWorld>(false);
+	CWorldManager::GetInst()->CreateWorld<CMainWorld>(false);
 
 	int Ret = CEngine::GetInst()->Run();
 

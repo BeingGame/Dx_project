@@ -189,12 +189,6 @@ bool CPlayer::Init()
 		}
 	}
 
-	//실습
-	//버튼을 눌러서
-	//카메라를 몬스터 시점으로 변경한다. -> 카메라 맵을 순차적으로 받아와 카메라를 변경한다.
-	//특정 버튼을 누르면 다시 플레이어 시점으로 변경한다.
-
-
 	auto Input = mWorld.lock()->GetInput().lock();
 
 	if (Input)
@@ -230,9 +224,6 @@ bool CPlayer::Init()
 		Input->AddBindKey("Skill3", '3');
 		Input->SetBindFunction("Skill3", EInputType::Press, this, &CPlayer::NewSkill3);
 
-		Input->AddBindKey("Skill3", '3');
-		Input->SetBindFunction("Skill3", EInputType::Press, this, &CPlayer::NewSkill3);
-
 		Input->AddBindKey("Dissolve", 'T');
 		Input->SetBindFunction("Dissolve", EInputType::Press, this, &CPlayer::Dissolve);
 
@@ -253,92 +244,11 @@ bool CPlayer::Init()
 		MoveComp->SetCurrentSpeed(200.f);
 	}
 
-	//스킬 실습
-	//스킬1
-	//각도를 이용해서 n개 이상의 총알을 생성해서 제일 가까운 몬스터에게
-	//날아가는 스킬
-
-	//스킬2
-	//플레이어 양옆에 포탑을 소환해서 플레이어를 따라다니면서 총알을 본인의 정면으로 발사하는 스킬
-
-
 	return true;
 }
 
 void CPlayer::Update(float DeltaTime)
 {
-	//실습
-	//총알을 발사한다. 발사 방향은 본인이 선택해서
-	//방향이 다르면 다른 방향으로 발사되게끔 만든다.
-
-	//몬스터
-	//특정위치까지 플레이어에게 접근한다.
-	//플레이어위치 기준 100만큼의 위치가 떨어져있어야지 움직인다.
-
-	//float Speed = 100.f * DeltaTime;
-
-	//mForward = 1.f;
-	//mRight = 0.f;
-
-	//if (GetAsyncKeyState('W') & 0x8000)
-	//{
-	//	//축을 가져와서 움직임을 시도한다.
-	//	FVector3 Axis = GetAxis(EAxis::Y);
-
-	//	AddRelativePos(Axis * Speed);
-
-	//	mForward = 1.f;
-	//}
-
-	//if (GetAsyncKeyState('A') & 0x8000)
-	//{
-
-	//	FVector3 Axis = GetAxis(EAxis::X);
-
-	//	AddRelativePos(Axis * -Speed);
-
-	//	mRight = -1.f;
-	//}
-
-	//if (GetAsyncKeyState('S') & 0x8000)
-	//{
-	//	FVector3 Axis = GetAxis(EAxis::Y);
-
-	//	AddRelativePos(Axis * -Speed);
-
-	//	mForward = -1.f;
-	//}
-
-	//if (GetAsyncKeyState('D') & 0x8000)
-	//{
-
-	//	FVector3 Axis = GetAxis(EAxis::X);
-
-	//	AddRelativePos(Axis * Speed);
-
-	//	mRight = 1.f;
-	//}
-
-	//if (GetAsyncKeyState(VK_SPACE) & 0x8000)
-	//{
-	//	Fire();
-	//}
-
-	//if (mbChangeCamera)
-	//{
-	//	if (GetAsyncKeyState('F') & 0x8000)
-	//	{
-	//		ChangeCamera();
-	//	}
-
-	//	if (GetAsyncKeyState('G') & 0x8000)
-	//	{
-	//		ReturnCamera();
-	//	}
-
-	//	mbChangeCamera = false;
-	//}
-
 	CActor::Update(DeltaTime);
 
 	if (mDash)
@@ -429,25 +339,6 @@ void CPlayer::Update(float DeltaTime)
 		}
 	}
 
-	/*if (!mbChangeCamera)
-	{
-		mTime -= DeltaTime;
-
-		if (mTime <= 0.f)
-		{
-			mTime = 1.f;
-			mbChangeCamera = true;
-		}
-	}*/
-
-	//LOG_DEBUG("Player Rot : ", GetWorldRot().z);
-
-	/*auto Input = mWorld.lock()->GetInput().lock();
-
-	if (Input)
-	{
-		LOG_DEBUG("Mouse Pos : ", Input->GetWorldMousePos().x, " ", Input->GetWorldMousePos().y);
-	}*/
 }
 
 void CPlayer::Destroy()
@@ -892,16 +783,3 @@ void CPlayer::DebugMessage()
 {
 	LOG_DEBUG("Player");
 }
-
-//실습1
-//투사체를 막는 실드 생성
-//플레이어의 주변을 회전하도록 만든다.
-//실드가 아직 있을때 스킬을 재사용하면 이전의 실드는 전부 제거하고 새로운 실드를 생성한다.
-
-//실습2
-//슬로우 영역 만들기
-//특정 지점에 들어온 모든 액테의 속도를 n퍼 이상 늦춘다.
-//지점에 빠져나오면 다시 원래속도로 돌려준다.
-
-//실습3
-//마우스 위치로 빠른속도로 이동하는 대쉬 기능 만들기
