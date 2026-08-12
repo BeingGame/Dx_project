@@ -10,6 +10,7 @@ public:
 	CTurret(const CTurret& src);
 	CTurret(CTurret&& src) noexcept;
 	virtual ~CTurret();
+	virtual std::string GetTypeName() const override { return "CTurret"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

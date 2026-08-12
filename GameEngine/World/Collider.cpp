@@ -251,3 +251,17 @@ void CCollider::CallCollisionHit(const FVector3& HitPoint, const FVector3& Norma
 		mHitFunc(HitPoint, Normal, Collider);
 	}
 }
+
+void CCollider::Save(std::ofstream& File) const
+{
+	CSceneComponent::Save(File);
+	File << "Profile=" << GetCollisionProfileName() << "\n";
+}
+
+void CCollider::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	CSceneComponent::Load(Props);
+	auto it = Props.find("Profile");
+	if (it != Props.end() && !it->second.empty())
+		SetCollisionProfile(it->second);
+}

@@ -169,3 +169,25 @@ bool CColliderBox2D::CollisionMouse(const FVector2& MousePos)
 
 	return CCollision::CollisionPointToOBB2D(HitPoint, Normal, Depth, GetInfo(), Point);
 }
+
+void CColliderBox2D::Save(std::ofstream& File) const
+{
+	CCollider::Save(File);
+	File << "HalfX=" << mInfo.Halfsize.x << "\n";
+	File << "HalfY=" << mInfo.Halfsize.y << "\n";
+}
+
+void CColliderBox2D::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	CCollider::Load(Props);
+	float hx = 0.5f, hy = 0.5f;
+	{
+		auto it = Props.find("HalfX");
+		if (it != Props.end()) hx = std::stof(it->second);
+	}
+	{
+		auto it = Props.find("HalfY");
+		if (it != Props.end()) hy = std::stof(it->second);
+	}
+	mInfo.Halfsize = FVector2(hx, hy);
+}

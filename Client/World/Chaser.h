@@ -10,6 +10,7 @@ public:
 	CChaser(const CChaser& src);
 	CChaser(CChaser&& src) noexcept;
 	virtual ~CChaser();
+	virtual std::string GetTypeName() const override { return "CChaser"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

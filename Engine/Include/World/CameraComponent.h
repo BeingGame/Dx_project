@@ -50,5 +50,6 @@ public:
 
 public:
 	virtual CCameraComponent* Clone() const;
+	virtual std::string GetTypeName() const override { return "CCameraComponent"; }
 };
 

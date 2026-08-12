@@ -11,6 +11,7 @@ public:
 	CPlayer(const CPlayer& src);
 	CPlayer(CPlayer&& src) noexcept;
 	virtual ~CPlayer();
+	virtual std::string GetTypeName() const override { return "CPlayer"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

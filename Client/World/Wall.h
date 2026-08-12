@@ -10,6 +10,7 @@ public:
 	CWall(const CWall& src);
 	CWall(CWall&& src) noexcept;
 	virtual ~CWall();
+	virtual std::string GetTypeName() const override { return "CWall"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

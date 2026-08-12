@@ -34,6 +34,7 @@ public:
 
 public:
 	virtual CWidgetComponent* Clone() const;
+	virtual std::string GetTypeName() const override { return "CWidgetComponent"; }
 
 public:
 	template<typename T>

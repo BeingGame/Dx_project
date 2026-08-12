@@ -141,3 +141,16 @@ bool CColliderSphere2D::CollisionMouse(const FVector2& MousePos)
 
 	return CCollision::CollisionPointToSphere2D(HitPoint, Normal, Depth, GetInfo(), Point);
 }
+
+void CColliderSphere2D::Save(std::ofstream& File) const
+{
+	CCollider::Save(File);
+	File << "Radius=" << mInfo.Radius << "\n";
+}
+
+void CColliderSphere2D::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	CCollider::Load(Props);
+	auto it = Props.find("Radius");
+	if (it != Props.end()) mInfo.Radius = std::stof(it->second);
+}

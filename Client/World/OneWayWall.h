@@ -10,6 +10,7 @@ public:
 	COneWayWall(const COneWayWall& src);
 	COneWayWall(COneWayWall&& src) noexcept;
 	virtual ~COneWayWall();
+	virtual std::string GetTypeName() const override { return "COneWayWall"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

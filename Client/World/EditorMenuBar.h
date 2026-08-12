@@ -28,6 +28,13 @@ protected:
     bool mPrefabSubmenuOpen = false;
     int  mPrefabSaveCount   = 0;
 
+    // ---- Scene menu ----
+    std::weak_ptr<class CButton>          mSceneButton;
+    std::weak_ptr<class CWidgetContainer> mSceneSubmenu;
+    std::vector<std::weak_ptr<class CButton>> mSceneSubmenuButtons;
+    bool mSceneSubmenuOpen = false;
+    int  mSceneSaveCount   = 0;
+
     // 현재 액터에 UI로 추가한 컴포넌트 추적
     std::vector<FPrefabComponentEntry> mTrackedComponents;
 
@@ -75,6 +82,11 @@ public:
     void OnSpawnPrefab3();
     void OnSpawnPrefab4();
     void OnSpawnPrefab5();
+
+    // Scene 콜백
+    void OnSceneHovered();
+    void OnSaveSceneClicked();
+    void OnLoadSceneClicked();
 
 private:
     void TrackComponent(const std::string& TypeName, const std::string& CompName, const std::string& Parent = "");

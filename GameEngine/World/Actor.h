@@ -316,16 +316,29 @@ public:
 	{
 		return mActorTag;
 	}
-	
-	/*void SetRadius(float Radius)
-	{
-		mRadius = Radius;
-	}*/
 
 	void SetActorTag(const std::string& Tag)
 	{
 		mActorTag = Tag;
 	}
+
+	virtual std::string GetTypeName() const { return "CActor"; }
+
+	const std::vector<std::shared_ptr<CSceneComponent>>& GetSceneCompList() const
+	{
+		return mSceneCompList;
+	}
+
+	const std::vector<std::shared_ptr<CActorComponent>>& GetActorCompList() const
+	{
+		return mActorCompList;
+	}
+
+	std::string GetParentName(const std::shared_ptr<CSceneComponent>& Comp) const;
+
+	void SaveScene(std::ofstream& File, int ActorIdx) const;
+	void LoadSceneComp(std::shared_ptr<CSceneComponent> Comp, const std::string& Parent);
+	void LoadActorComp(std::shared_ptr<CActorComponent> Comp);
 
 
 

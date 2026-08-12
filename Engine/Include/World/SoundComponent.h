@@ -46,5 +46,6 @@ public:
 
 public:
 	virtual CSoundComponent* Clone() const;
+	virtual std::string GetTypeName() const override { return "CSoundComponent"; }
 };
 

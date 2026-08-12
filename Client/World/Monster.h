@@ -10,6 +10,7 @@ public:
 	CMonster(const CMonster& src);
 	CMonster(CMonster&& src) noexcept;
 	virtual ~CMonster();
+	virtual std::string GetTypeName() const override { return "CMonster"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

@@ -224,6 +224,8 @@ public:
 		return new CTileMapComponent(*this);
 	}
 
+	virtual std::string GetTypeName() const override { return "CTileMapComponent"; }
+
 public:
 	//지정된 갯수의 타일을 생성해준다.
 	void CreateTile(ETileShape Shape, int CountX, int CountY, const FVector2& TileSize, int TileTextureFrame = -1, bool OutLineRender = false);

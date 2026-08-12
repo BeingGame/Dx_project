@@ -11,6 +11,7 @@ public:
 	CBullet(const CBullet& src);
 	CBullet(CBullet&& src) noexcept;
 	virtual ~CBullet();
+	virtual std::string GetTypeName() const override { return "CBullet"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

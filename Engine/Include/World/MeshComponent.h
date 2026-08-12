@@ -79,5 +79,10 @@ public:
 	virtual bool Init();
 	virtual void Render();
 	virtual void Destroy();
+
+public:
+	virtual std::string GetTypeName() const override { return "CMeshComponent"; }
+	virtual void Save(std::ofstream& File) const override;
+	virtual void Load(const std::unordered_map<std::string, std::string>& Props) override;
 };
 

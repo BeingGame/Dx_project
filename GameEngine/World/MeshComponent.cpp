@@ -490,3 +490,27 @@ void CMeshComponent::Destroy()
 {
 	CSceneComponent::Destroy();
 }
+
+void CMeshComponent::Save(std::ofstream& File) const
+{
+	CSceneComponent::Save(File);
+	auto Mesh = mMesh.lock();
+	if (Mesh) File << "Mesh=" << Mesh->GetName() << "\n";
+	auto Shader = mShader.lock();
+	if (Shader) File << "Shader=" << Shader->GetName() << "\n";
+}
+
+void CMeshComponent::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	CSceneComponent::Load(Props);
+	{
+		auto it = Props.find("Mesh");
+		if (it != Props.end() && !it->second.empty())
+			SetMesh(it->second);
+	}
+	{
+		auto it = Props.find("Shader");
+		if (it != Props.end() && !it->second.empty())
+			SetShader(it->second);
+	}
+}

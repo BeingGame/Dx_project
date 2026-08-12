@@ -45,5 +45,10 @@ public:
 public:
     virtual bool Collision(FVector3& HitPoint, FVector3& Normal, float& Depth, std::shared_ptr<CCollider>& Dest);
 	virtual bool CollisionMouse(const FVector2& MousePos);
+
+public:
+	virtual std::string GetTypeName() const override { return "CColliderBox2D"; }
+	virtual void Save(std::ofstream& File) const override;
+	virtual void Load(const std::unordered_map<std::string, std::string>& Props) override;
 };
 

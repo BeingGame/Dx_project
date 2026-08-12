@@ -958,3 +958,50 @@ void CSceneComponent::UpdateChildWorldPos(const FVector3& Dist)
 		}
 	}
 }
+
+void CSceneComponent::Save(std::ofstream& File) const
+{
+	CComponent::Save(File);
+	auto Parent = mParent.lock();
+	File << "Parent=" << (Parent ? Parent->GetName() : "") << "\n";
+	File << "RelPos=" << mRelativePos.x << " " << mRelativePos.y << " " << mRelativePos.z << "\n";
+	File << "RelScale=" << mRelativeScale.x << " " << mRelativeScale.y << " " << mRelativeScale.z << "\n";
+	File << "RelRot=" << mRelativeRot.x << " " << mRelativeRot.y << " " << mRelativeRot.z << "\n";
+	File << "Layer=" << mRenderLayerOrder << "\n";
+}
+
+void CSceneComponent::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	{
+		auto it = Props.find("RelPos");
+		if (it != Props.end())
+		{
+			float x = 0.f, y = 0.f, z = 0.f;
+			sscanf_s(it->second.c_str(), "%f %f %f", &x, &y, &z);
+			SetRelativePos(x, y, z);
+		}
+	}
+	{
+		auto it = Props.find("RelScale");
+		if (it != Props.end())
+		{
+			float x = 1.f, y = 1.f, z = 1.f;
+			sscanf_s(it->second.c_str(), "%f %f %f", &x, &y, &z);
+			SetRelativeScale(x, y, z);
+		}
+	}
+	{
+		auto it = Props.find("RelRot");
+		if (it != Props.end())
+		{
+			float x = 0.f, y = 0.f, z = 0.f;
+			sscanf_s(it->second.c_str(), "%f %f %f", &x, &y, &z);
+			SetRelativeRotation(x, y, z);
+		}
+	}
+	{
+		auto it = Props.find("Layer");
+		if (it != Props.end())
+			SetRenderLayer(std::stoi(it->second));
+	}
+}

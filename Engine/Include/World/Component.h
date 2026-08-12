@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../Object.h"
+#include <fstream>
+#include <unordered_map>
+#include <string>
 
 //컴포넌트의 최상위 클래스
 //액터와는 다르게 추상클래스로 설계한다.
@@ -107,6 +110,11 @@ public:
 	virtual void Render();
 	virtual void PostRender();
 	virtual void Destroy();
+
+public:
+	virtual std::string GetTypeName() const { return "CComponent"; }
+	virtual void Save(std::ofstream& File) const;
+	virtual void Load(const std::unordered_map<std::string, std::string>& Props);
 
 public:
 	virtual CComponent* Clone() const = 0;

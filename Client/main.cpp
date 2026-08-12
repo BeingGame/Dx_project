@@ -10,6 +10,25 @@
 #include "World/GlobalCollision.h"
 #include "World/PrefabManager.h"
 
+// Actor types for scene save/load
+#include "World/Player.h"
+#include "World/Monster.h"
+#include "World/Bullet.h"
+#include "World/Wall.h"
+#include "World/Chaser.h"
+#include "World/Turret.h"
+#include "World/BlackHole.h"
+#include "World/OneWayWall.h"
+#include "World/ReflectBullet.h"
+#include "World/SlowArea.h"
+#include "World/Shield.h"
+
+// Component types for scene save/load
+#include "World/Component/StatusComponent.h"
+#include "World/Component/TurretSkillComp.h"
+
+#include "World/World.h"
+
 #ifdef _DEBUG
 
 #pragma comment(lib,"GameEngine_Debug.lib")
@@ -39,6 +58,23 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CGlobalCollision::SetGlobalCollision();
 
 	CPrefabManager::GetInst()->Init();
+
+	// Register actor types
+	CWorld::RegisterActorType<CPlayer>("CPlayer");
+	CWorld::RegisterActorType<CMonster>("CMonster");
+	CWorld::RegisterActorType<CBullet>("CBullet");
+	CWorld::RegisterActorType<CWall>("CWall");
+	CWorld::RegisterActorType<CChaser>("CChaser");
+	CWorld::RegisterActorType<CTurret>("CTurret");
+	CWorld::RegisterActorType<CBlackHole>("CBlackHole");
+	CWorld::RegisterActorType<COneWayWall>("COneWayWall");
+	CWorld::RegisterActorType<CReflectBullet>("CReflectBullet");
+	CWorld::RegisterActorType<CSlowArea>("CSlowArea");
+	CWorld::RegisterActorType<CShield>("CShield");
+
+	// Register client component types
+	CWorld::RegisterComponentType<CStatusComponent>("CStatusComponent");
+	CWorld::RegisterComponentType<CTurretSkillComp>("CTurretSkillComp");
 
 	CWorldManager::GetInst()->CreateWorld<CMainWorld>(false);
 

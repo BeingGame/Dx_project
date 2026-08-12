@@ -164,8 +164,32 @@ bool CEditorMenuBar::Init()
         AddCompBtn("TileMapComponent",     10, TEXT("TileMap Component"),      &CEditorMenuBar::OnTileMapComponentClicked);
     }
 
-    // ---- "Prefab" 메뉴 (x=300) ----
-    mPrefabButton = MakeMenuButton(this, "PrefabBtn", 300.f, 100.f, TEXT("Prefab"));
+    // ---- "Scene" 메뉴 (x=300) ----
+    mSceneButton = MakeMenuButton(this, "SceneBtn", 300.f, 100.f, TEXT("Scene"));
+    if (auto B = mSceneButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnSceneHovered);
+
+    mSceneSubmenu = CreateWidget<CWidgetContainer>("SceneSubmenu", 2);
+    auto SceneSub = mSceneSubmenu.lock();
+    if (SceneSub)
+    {
+        SceneSub->SetPos(300.f, BAR_H);
+        SceneSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
+        SceneSub->SetEnable(false);
+
+        auto SaveSceneBtn = MakeSubmenuButton(SceneSub.get(), "SaveSceneBtn", 0, TEXT("Save Scene"));
+        if (auto B = SaveSceneBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSaveSceneClicked);
+        mSceneSubmenuButtons.push_back(SaveSceneBtn);
+
+        auto LoadSceneBtn = MakeSubmenuButton(SceneSub.get(), "LoadSceneBtn", 1, TEXT("Load Scene"));
+        if (auto B = LoadSceneBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadSceneClicked);
+        mSceneSubmenuButtons.push_back(LoadSceneBtn);
+    }
+
+    // ---- "Prefab" 메뉴 (x=410) ----
+    mPrefabButton = MakeMenuButton(this, "PrefabBtn", 410.f, 100.f, TEXT("Prefab"));
     if (auto B = mPrefabButton.lock())
         B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnPrefabHovered);
 
@@ -174,7 +198,7 @@ bool CEditorMenuBar::Init()
     auto PrefabSub = mPrefabSubmenu.lock();
     if (PrefabSub)
     {
-        PrefabSub->SetPos(300.f, BAR_H);
+        PrefabSub->SetPos(410.f, BAR_H);
         PrefabSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * (1 + MAX_PREFAB_SLOTS));
         PrefabSub->SetEnable(false);
 
@@ -245,6 +269,28 @@ void CEditorMenuBar::Update(float DeltaTime)
         {
             mSubmenuOpen = false;
             if (auto S = mSubmenu.lock()) S->SetEnable(false);
+        }
+    }
+
+    // Scene 서브메뉴 닫기 로직
+    if (mSceneSubmenuOpen)
+    {
+        auto SceneBtn = mSceneButton.lock();
+        bool AnyHovered = SceneBtn && (SceneBtn->GetWidgetState() == EWidgetState::Hovered);
+
+        if (!AnyHovered)
+        {
+            for (auto& WeakBtn : mSceneSubmenuButtons)
+            {
+                auto B = WeakBtn.lock();
+                if (B && B->GetWidgetState() == EWidgetState::Hovered) { AnyHovered = true; break; }
+            }
+        }
+
+        if (!AnyHovered)
+        {
+            mSceneSubmenuOpen = false;
+            if (auto S = mSceneSubmenu.lock()) S->SetEnable(false);
         }
     }
 
@@ -483,3 +529,35 @@ void CEditorMenuBar::OnSpawnPrefab2() { ExecuteSpawnSlot(2); }
 void CEditorMenuBar::OnSpawnPrefab3() { ExecuteSpawnSlot(3); }
 void CEditorMenuBar::OnSpawnPrefab4() { ExecuteSpawnSlot(4); }
 void CEditorMenuBar::OnSpawnPrefab5() { ExecuteSpawnSlot(5); }
+
+// ---- Scene 콜백 ----
+
+void CEditorMenuBar::OnSceneHovered()
+{
+    if (mSceneSubmenuOpen) return;
+    mSceneSubmenuOpen = true;
+    if (auto S = mSceneSubmenu.lock()) S->SetEnable(true);
+}
+
+void CEditorMenuBar::OnSaveSceneClicked()
+{
+    auto World = mWorld.lock();
+    if (!World) return;
+
+    CreateDirectoryA("Scene", nullptr);
+    std::string FilePath = "Scene/Scene_" + std::to_string(mSceneSaveCount++) + ".scene";
+    World->SaveScene(FilePath);
+    LOG_DEBUG("[MenuBar] Scene saved: %s", FilePath.c_str());
+}
+
+void CEditorMenuBar::OnLoadSceneClicked()
+{
+    auto World = mWorld.lock();
+    if (!World) return;
+
+    std::string FilePath = "Scene/Scene_" + std::to_string(mSceneSaveCount > 0 ? mSceneSaveCount - 1 : 0) + ".scene";
+    if (World->LoadScene(FilePath))
+        LOG_DEBUG("[MenuBar] Scene loaded: %s", FilePath.c_str());
+    else
+        LOG_ERROR("[MenuBar] Scene load failed: %s", FilePath.c_str());
+}

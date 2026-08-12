@@ -26,6 +26,8 @@ public:
 		return new CProjectileMovementComponent(*this);
 	}
 
+	virtual std::string GetTypeName() const override { return "CProjectileMovementComponent"; }
+
 public:
 	template<typename T>
 	void SetDestroyFunction(T* Object, void (T::* Func)())

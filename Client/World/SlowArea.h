@@ -13,6 +13,7 @@ public:
 	CSlowArea(const CSlowArea& src);
 	CSlowArea(CSlowArea&& src) noexcept;
 	virtual ~CSlowArea();
+	virtual std::string GetTypeName() const override { return "CSlowArea"; }
 
 protected:
 	std::weak_ptr<class CColliderSphere2D> mSphere;

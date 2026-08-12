@@ -26,5 +26,7 @@ public:
 	{
 		return new CTurretSkillComp(*this);
 	}
+
+	virtual std::string GetTypeName() const override { return "CTurretSkillComp"; }
 };
 

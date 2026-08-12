@@ -10,6 +10,7 @@ public:
 	CReflectBullet(const CReflectBullet& src);
 	CReflectBullet(CReflectBullet&& src) noexcept;
 	virtual ~CReflectBullet();
+	virtual std::string GetTypeName() const override { return "CReflectBullet"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

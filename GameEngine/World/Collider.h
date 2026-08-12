@@ -76,6 +76,11 @@ public:
 		return mProfile;
 	}
 
+	std::string GetCollisionProfileName() const
+	{
+		return mProfile ? mProfile->Name : "";
+	}
+
 	virtual void SetDebugDraw(bool DebugDraw);
 	void SetCollisionProfile(const std::string& Name);
 
@@ -94,6 +99,10 @@ public:
 	//충돌시 정보변경을 할 함수
 	//postupdate이후에 호출해 정보를 갱신한다.
 	virtual void UpdateInfo() = 0;
+
+public:
+	virtual void Save(std::ofstream& File) const override;
+	virtual void Load(const std::unordered_map<std::string, std::string>& Props) override;
 
 public:
 	virtual CCollider* Clone() const = 0;

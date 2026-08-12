@@ -57,3 +57,12 @@ void CComponent::Destroy()
 {
 	mAlive = false;
 }
+
+void CComponent::Save(std::ofstream& File) const
+{
+	File << "TypeName=" << GetTypeName() << "\n";
+	File << "Name=" << mName << "\n";
+}
+
+void CComponent::Load(const std::unordered_map<std::string, std::string>& Props)
+{}

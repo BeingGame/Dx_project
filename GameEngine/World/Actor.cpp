@@ -7,6 +7,8 @@
 
 #include "../LogManager.h"
 
+#include <fstream>
+
 CActor::CActor()
 {}
 
@@ -927,3 +929,86 @@ void CActor::AddWorldPos(float x, float y)
 
 void CActor::OnCollision(const std::weak_ptr<CActor>& HitActor)
 {}
+
+std::string CActor::GetParentName(const std::shared_ptr<CSceneComponent>& Comp) const
+{
+	auto Parent = Comp->GetParent().lock();
+	return Parent ? Parent->GetName() : "";
+}
+
+void CActor::SaveScene(std::ofstream& File, int ActorIdx) const
+{
+	FVector3 Pos   = GetWorldPos();
+	FVector3 Scale = GetWorldScale();
+	FVector3 Rot   = GetWorldRot();
+
+	bool IsGeneric = (GetTypeName() == "CActor");
+
+	File << "[Actor:" << ActorIdx << "]\n";
+	File << "TypeName=" << GetTypeName() << "\n";
+	File << "Name=" << mName << "\n";
+	File << "Tag=" << mActorTag << "\n";
+	File << "WorldPos=" << Pos.x << " " << Pos.y << " " << Pos.z << "\n";
+	File << "WorldScale=" << Scale.x << " " << Scale.y << " " << Scale.z << "\n";
+	File << "WorldRot=" << Rot.x << " " << Rot.y << " " << Rot.z << "\n";
+	File << "SceneCompCount=" << (IsGeneric ? mSceneCompList.size() : 0) << "\n";
+	File << "ActorCompCount=" << (IsGeneric ? mActorCompList.size() : 0) << "\n";
+	File << "\n";
+
+	if (!IsGeneric) return;
+
+	for (size_t i = 0; i < mSceneCompList.size(); ++i)
+	{
+		const auto& Comp = mSceneCompList[i];
+		File << "[SceneComp:" << ActorIdx << ":" << i << "]\n";
+		Comp->Save(File);
+		File << "\n";
+	}
+
+	for (size_t i = 0; i < mActorCompList.size(); ++i)
+	{
+		const auto& Comp = mActorCompList[i];
+		File << "[ActorComp:" << ActorIdx << ":" << i << "]\n";
+		Comp->Save(File);
+		File << "\n";
+	}
+}
+
+void CActor::LoadSceneComp(std::shared_ptr<CSceneComponent> Comp, const std::string& Parent)
+{
+	Comp->SetWorld(mWorld);
+	Comp->SetOwner(GetThisPtr<CActor>());
+	Comp->Init();
+
+	if (mSceneCompList.empty())
+	{
+		mRoot = Comp;
+	}
+	else
+	{
+		std::shared_ptr<CSceneComponent> ParentComp;
+		if (Parent.empty() || Parent == "Root")
+		{
+			ParentComp = mRoot.lock();
+		}
+		else
+		{
+			for (const auto& SC : mSceneCompList)
+			{
+				if (SC->GetName() == Parent) { ParentComp = SC; break; }
+			}
+			if (!ParentComp) ParentComp = mRoot.lock();
+		}
+		if (ParentComp) ParentComp->AddChild(Comp);
+	}
+
+	mSceneCompList.push_back(Comp);
+}
+
+void CActor::LoadActorComp(std::shared_ptr<CActorComponent> Comp)
+{
+	Comp->SetWorld(mWorld);
+	Comp->SetOwner(GetThisPtr<CActor>());
+	Comp->Init();
+	mActorCompList.push_back(Comp);
+}

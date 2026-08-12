@@ -44,6 +44,8 @@ public:
 		return new CStatusComponent(*this);
 	}
 
+	virtual std::string GetTypeName() const override { return "CStatusComponent"; }
+
 public:
 	template<typename T>
 	void SetDeathFunction(T* Object, void (T::* Func)())

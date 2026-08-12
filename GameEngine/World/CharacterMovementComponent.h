@@ -25,5 +25,7 @@ public:
 	{
 		return new CCharacterMovementComponent(*this);
 	}
+
+	virtual std::string GetTypeName() const override { return "CCharacterMovementComponent"; }
 };
 

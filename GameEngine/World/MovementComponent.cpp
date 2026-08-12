@@ -60,3 +60,15 @@ void CMovementComponent::Destroy()
 {
 	CActorComponent::Destroy();
 }
+
+void CMovementComponent::Save(std::ofstream& File) const
+{
+	CComponent::Save(File);
+	File << "Speed=" << mMoveSpeed << "\n";
+}
+
+void CMovementComponent::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	auto it = Props.find("Speed");
+	if (it != Props.end()) mMoveSpeed = std::stof(it->second);
+}

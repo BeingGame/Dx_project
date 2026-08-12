@@ -10,6 +10,7 @@ public:
 	CBlackHole(const CBlackHole& src);
 	CBlackHole(CBlackHole&& src) noexcept;
 	virtual ~CBlackHole();
+	virtual std::string GetTypeName() const override { return "CBlackHole"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

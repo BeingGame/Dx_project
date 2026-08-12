@@ -73,6 +73,8 @@ public:
 		return new CAnimation2DComponent(*this);
 	}
 
+	virtual std::string GetTypeName() const override { return "CAnimation2DComponent"; }
+
 public:
 	template<typename T>
 	void AddNotify(const std::string& SequenceName, const std::string& Name, int Frame, T* Object, void(T::* Func)())

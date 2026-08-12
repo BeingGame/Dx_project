@@ -3,6 +3,8 @@
 #include "../EngineInfo.h"
 #include "Actor.h"
 #include "../TimeManager.h"
+#include <fstream>
+#include <functional>
 
 //월드
 //하나의 레벨혹은 스테이지
@@ -10,6 +12,25 @@
 
 class CWorld : public std::enable_shared_from_this<CWorld>
 {
+public:
+	using ActorFactory = std::function<std::shared_ptr<CActor>()>;
+	using CompFactory  = std::function<std::shared_ptr<CComponent>()>;
+
+	static std::unordered_map<std::string, ActorFactory> sActorFactoryMap;
+	static std::unordered_map<std::string, CompFactory>  sCompFactoryMap;
+
+	template<typename T>
+	static void RegisterActorType(const std::string& TypeName)
+	{
+		sActorFactoryMap[TypeName] = []() { return std::make_shared<T>(); };
+	}
+
+	template<typename T>
+	static void RegisterComponentType(const std::string& TypeName)
+	{
+		sCompFactoryMap[TypeName] = []() { return std::make_shared<T>(); };
+	}
+
 public:
 	CWorld();
 	virtual ~CWorld();
@@ -68,6 +89,9 @@ public:
 	virtual void Render();
 	virtual void PostRender();
 	virtual void RenderUI();
+
+	void SaveScene(const std::string& FilePath) const;
+	bool LoadScene(const std::string& FilePath);
 
 public:
 	std::shared_ptr<CWorld> GetThisPtr()

@@ -10,6 +10,7 @@ public:
 	CShield(const CShield& src);
 	CShield(CShield&& src) noexcept;
 	virtual ~CShield();
+	virtual std::string GetTypeName() const override { return "CShield"; }
 
 protected:
 	std::weak_ptr<class CMeshComponent> mMeshComp;

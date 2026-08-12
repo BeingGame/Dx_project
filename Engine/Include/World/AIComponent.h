@@ -54,6 +54,8 @@ public:
 		return new CAIComponent(*this);
 	}
 
+	virtual std::string GetTypeName() const override { return "CAIComponent"; }
+
 public:
 	template<typename T>
 	void AddState(const std::string& Name)

@@ -60,5 +60,10 @@ public:
 	{
 		return new CMovementComponent(*this);
 	}
+
+public:
+	virtual std::string GetTypeName() const override { return "CMovementComponent"; }
+	virtual void Save(std::ofstream& File) const override;
+	virtual void Load(const std::unordered_map<std::string, std::string>& Props) override;
 };
 
