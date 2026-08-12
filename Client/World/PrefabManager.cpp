@@ -26,6 +26,12 @@
 
 CPrefabManager* CPrefabManager::mInstance = nullptr;
 
+CPrefabManager::CPrefabManager()
+{}
+
+CPrefabManager::~CPrefabManager()
+{}
+
 bool CPrefabManager::Init()
 {
     mPrefabDir = "Prefab/";
