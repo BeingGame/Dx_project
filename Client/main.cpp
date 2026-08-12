@@ -8,6 +8,7 @@
 #include "World/WorldManager.h"
 
 #include "World/GlobalCollision.h"
+#include "World/PrefabManager.h"
 
 #ifdef _DEBUG
 
@@ -37,10 +38,13 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	CGlobalCollision::SetGlobalCollision();
 
-	CWorldManager::GetInst()->CreateWorld<CStartWorld>(false);
+	CPrefabManager::GetInst()->Init();
+
+	CWorldManager::GetInst()->CreateWorld<CMainWorld>(false);
 
 	int Ret = CEngine::GetInst()->Run();
 
+	CPrefabManager::GetInst()->DestroyInst();
 	CEngine::GetInst()->DestroyInst();
 
 	return Ret;
