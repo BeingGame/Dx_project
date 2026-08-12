@@ -164,8 +164,8 @@ bool CEditorMenuBar::Init()
         AddCompBtn("TileMapComponent",     10, TEXT("TileMap Component"),      &CEditorMenuBar::OnTileMapComponentClicked);
     }
 
-    // ---- "Scene" 메뉴 (x=300) ----
-    mSceneButton = MakeMenuButton(this, "SceneBtn", 300.f, 100.f, TEXT("Scene"));
+    // ---- "World" 메뉴 (x=300) ----
+    mSceneButton = MakeMenuButton(this, "SceneBtn", 300.f, 100.f, TEXT("World"));
     if (auto B = mSceneButton.lock())
         B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnSceneHovered);
 
@@ -177,12 +177,12 @@ bool CEditorMenuBar::Init()
         SceneSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
         SceneSub->SetEnable(false);
 
-        auto SaveSceneBtn = MakeSubmenuButton(SceneSub.get(), "SaveSceneBtn", 0, TEXT("Save Scene"));
+        auto SaveSceneBtn = MakeSubmenuButton(SceneSub.get(), "SaveSceneBtn", 0, TEXT("Save World"));
         if (auto B = SaveSceneBtn.lock())
             B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSaveSceneClicked);
         mSceneSubmenuButtons.push_back(SaveSceneBtn);
 
-        auto LoadSceneBtn = MakeSubmenuButton(SceneSub.get(), "LoadSceneBtn", 1, TEXT("Load Scene"));
+        auto LoadSceneBtn = MakeSubmenuButton(SceneSub.get(), "LoadSceneBtn", 1, TEXT("Load World"));
         if (auto B = LoadSceneBtn.lock())
             B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadSceneClicked);
         mSceneSubmenuButtons.push_back(LoadSceneBtn);
@@ -544,10 +544,10 @@ void CEditorMenuBar::OnSaveSceneClicked()
     auto World = mWorld.lock();
     if (!World) return;
 
-    CreateDirectoryA("Scene", nullptr);
-    std::string FilePath = "Scene/Scene_" + std::to_string(mSceneSaveCount++) + ".scene";
+    CreateDirectoryA("World", nullptr);
+    std::string FilePath = "World/World_" + std::to_string(mSceneSaveCount++) + ".world";
     World->SaveScene(FilePath);
-    LOG_DEBUG("[MenuBar] Scene saved: %s", FilePath.c_str());
+    LOG_DEBUG("[MenuBar] World saved: %s", FilePath.c_str());
 }
 
 void CEditorMenuBar::OnLoadSceneClicked()
@@ -555,9 +555,9 @@ void CEditorMenuBar::OnLoadSceneClicked()
     auto World = mWorld.lock();
     if (!World) return;
 
-    std::string FilePath = "Scene/Scene_" + std::to_string(mSceneSaveCount > 0 ? mSceneSaveCount - 1 : 0) + ".scene";
+    std::string FilePath = "World/World_" + std::to_string(mSceneSaveCount > 0 ? mSceneSaveCount - 1 : 0) + ".world";
     if (World->LoadScene(FilePath))
-        LOG_DEBUG("[MenuBar] Scene loaded: %s", FilePath.c_str());
+        LOG_DEBUG("[MenuBar] World loaded: %s", FilePath.c_str());
     else
-        LOG_ERROR("[MenuBar] Scene load failed: %s", FilePath.c_str());
+        LOG_ERROR("[MenuBar] World load failed: %s", FilePath.c_str());
 }
