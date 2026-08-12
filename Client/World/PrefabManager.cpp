@@ -3,7 +3,7 @@
 #include "World/Actor.h"
 #include "World/World.h"
 
-// Engine components
+// 엔진 컴포넌트
 #include "World/MeshComponent.h"
 #include "World/CameraComponent.h"
 #include "World/Animation2DComponent.h"
@@ -16,7 +16,7 @@
 #include "World/WidgetComponent.h"
 #include "World/TileMapComponent.h"
 
-// Client components
+// 클라이언트 컴포넌트
 #include "Component/StatusComponent.h"
 #include "Component/TurretSkillComp.h"
 
@@ -47,7 +47,7 @@ void CPrefabManager::RegisterComponents()
         mFactoryMap[TypeName] = std::move(Fn);
     };
 
-    // SceneComponents (계층 구조 지원, Parent 전달)
+    // 씬 컴포넌트 (계층 구조 지원, Parent 이름 전달)
     Reg("MeshComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
         A->CreateComponent<CMeshComponent>(N, P.empty() ? "Root" : P);
     });
@@ -70,7 +70,7 @@ void CPrefabManager::RegisterComponents()
         A->CreateComponent<CTileMapComponent>(N, P.empty() ? "Root" : P);
     });
 
-    // ActorComponents (계층 구조 없음, Parent 무시)
+    // 액터 컴포넌트 (계층 구조 없음, Parent 무시)
     Reg("CharacterMovement", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
         A->CreateComponent<CCharacterMovementComponent>(N);
     });
@@ -96,7 +96,7 @@ std::string CPrefabManager::GetPrefabFilePath(const std::string& PrefabName) con
     return mPrefabDir + PrefabName + ".prefab";
 }
 
-// ---- Save ----
+// ---- 저장 ----
 
 void CPrefabManager::SavePrefab(const std::string& PrefabName, const FPrefabData& Data)
 {
@@ -107,7 +107,7 @@ void CPrefabManager::SavePrefab(const std::string& PrefabName, const FPrefabData
         return;
     }
 
-    // Actor info
+    // 액터 정보
     File << "Tag=" << Data.ActorTag << "\n";
     File << "PX=" << Data.WorldPos.x
          << " PY=" << Data.WorldPos.y
@@ -119,7 +119,7 @@ void CPrefabManager::SavePrefab(const std::string& PrefabName, const FPrefabData
          << " RY=" << Data.WorldRot.y
          << " RZ=" << Data.WorldRot.z << "\n";
 
-    // Component list  (TypeName|CompName|ParentName)
+    // 컴포넌트 목록 (TypeName|CompName|ParentName)
     File << "Count=" << Data.Components.size() << "\n";
     for (size_t i = 0; i < Data.Components.size(); ++i)
     {
@@ -131,7 +131,7 @@ void CPrefabManager::SavePrefab(const std::string& PrefabName, const FPrefabData
               PrefabName.c_str(), Data.Components.size());
 }
 
-// ---- Load ----
+// ---- 불러오기 ----
 
 bool CPrefabManager::LoadPrefabData(const std::string& PrefabName, FPrefabData& OutData) const
 {
@@ -175,7 +175,7 @@ bool CPrefabManager::LoadPrefabData(const std::string& PrefabName, FPrefabData& 
         }
         else if (!Key.empty() && Key[0] == 'C' && Key.size() > 1 && std::isdigit((unsigned char)Key[1]))
         {
-            // Parse "TypeName|CompName|ParentName"
+            // "TypeName|CompName|ParentName" 형식 파싱
             FPrefabComponentEntry Entry;
             size_t P1 = Val.find('|');
             size_t P2 = (P1 != std::string::npos) ? Val.find('|', P1 + 1) : std::string::npos;
@@ -193,7 +193,7 @@ bool CPrefabManager::LoadPrefabData(const std::string& PrefabName, FPrefabData& 
     return true;
 }
 
-// ---- Spawn ----
+// ---- 스폰 ----
 
 std::weak_ptr<CActor> CPrefabManager::SpawnPrefab(const std::string& PrefabName,
                                                     std::weak_ptr<CWorld> World,
@@ -231,7 +231,7 @@ std::weak_ptr<CActor> CPrefabManager::SpawnPrefab(const std::string& PrefabName,
     return Actor;
 }
 
-// ---- Query ----
+// ---- 조회 ----
 
 bool CPrefabManager::HasPrefab(const std::string& PrefabName) const
 {
@@ -261,7 +261,7 @@ std::vector<std::string> CPrefabManager::GetPrefabNames() const
     return Names;
 }
 
-// ---- Component attach helper ----
+// ---- 컴포넌트 부착 ----
 
 bool CPrefabManager::AttachComponent(const std::string& TypeName,
                                       std::shared_ptr<CActor> Actor,

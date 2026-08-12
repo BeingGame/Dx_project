@@ -81,7 +81,7 @@ bool CWorld::Init()
 		return false;
 	}
 
-	// Register engine component types (once per process)
+	// 엔진 컴포넌트 타입 등록 (프로세스당 한 번)
 	static bool sEngineTypesRegistered = false;
 	if (!sEngineTypesRegistered)
 	{
@@ -248,7 +248,7 @@ void CWorld::RenderUI()
 	mUIManager->Render();
 }
 
-// ---- Scene Save ----
+// ---- 월드 저장 ----
 
 void CWorld::SaveScene(const std::string& FilePath) const
 {
@@ -271,7 +271,7 @@ void CWorld::SaveScene(const std::string& FilePath) const
 	LOG_DEBUG("[World] Scene saved: %s (%zu actors)", FilePath.c_str(), mActorList.size());
 }
 
-// ---- Scene Load ----
+// ---- 월드 불러오기 ----
 
 static std::unordered_map<std::string, std::string> ParseSection(
 	const std::vector<std::string>& Lines, size_t Start, size_t End)
@@ -297,18 +297,18 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		return false;
 	}
 
-	// Read all lines
+	// 전체 라인 읽기
 	std::vector<std::string> Lines;
 	std::string Line;
 	while (std::getline(File, Line))
 	{
-		// strip \r
+		// Windows 줄바꿈(\r) 제거
 		if (!Line.empty() && Line.back() == '\r')
 			Line.pop_back();
 		Lines.push_back(Line);
 	}
 
-	// Find section boundaries: header lines are "[SectionName]"
+	// 섹션 경계 탐색: "[섹션명]" 형태의 헤더 라인 기준
 	struct FSection { std::string Header; size_t Start; size_t End; };
 	std::vector<FSection> Sections;
 
@@ -325,7 +325,7 @@ bool CWorld::LoadScene(const std::string& FilePath)
 	if (!Sections.empty())
 		Sections.back().End = Lines.size();
 
-	// Parse root key-values (before first section)
+	// 첫 섹션 이전의 루트 키-값 파싱 (SceneVersion, ActorCount)
 	size_t FirstSectionLine = Sections.empty() ? Lines.size() : Sections[0].Start - 1;
 	auto RootProps = ParseSection(Lines, 0, FirstSectionLine);
 
@@ -335,12 +335,12 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		if (it != RootProps.end()) ActorCount = std::stoi(it->second);
 	}
 
-	// Build header → section index map
+	// 헤더 문자열 → 섹션 인덱스 맵 구성
 	std::unordered_map<std::string, size_t> SectionMap;
 	for (size_t i = 0; i < Sections.size(); ++i)
 		SectionMap[Sections[i].Header] = i;
 
-	// Load actors
+	// 액터 복원
 	for (int ai = 0; ai < ActorCount; ++ai)
 	{
 		std::string ActorHeader = "Actor:" + std::to_string(ai);
@@ -386,7 +386,7 @@ bool CWorld::LoadScene(const std::string& FilePath)
 			auto i2 = AProps.find("ActorCompCount"); if (i2 != AProps.end()) ActorCompCount = std::stoi(i2->second);
 		}
 
-		// Create actor from factory
+		// 팩토리에서 액터 생성 (등록되지 않은 타입은 기본 CActor로 대체)
 		std::shared_ptr<CActor> Actor;
 		auto FactIt = sActorFactoryMap.find(TypeName);
 		if (FactIt != sActorFactoryMap.end())
@@ -401,7 +401,7 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		if (!Actor->Init())
 			continue;
 
-		// For generic CActor: load components from file
+		// generic CActor만 파일에서 컴포넌트를 복원 (서브클래스는 Init()에서 직접 생성)
 		if (TypeName == "CActor")
 		{
 			for (int ci = 0; ci < SceneCompCount; ++ci)
@@ -466,7 +466,7 @@ bool CWorld::LoadScene(const std::string& FilePath)
 			}
 		}
 
-		// Set transform after components are set up
+		// 컴포넌트 구성 완료 후 트랜스폼 적용
 		Actor->SetWorldPos(WorldPos);
 		Actor->SetWorldScale(WorldScale);
 		Actor->SetWorldRotation(WorldRot);

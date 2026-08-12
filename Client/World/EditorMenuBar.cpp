@@ -38,7 +38,7 @@ CEditorMenuBar::CEditorMenuBar(const CEditorMenuBar& src)
 CEditorMenuBar::~CEditorMenuBar()
 {}
 
-// ---- Helpers ----
+// ---- 헬퍼 함수 ----
 
 static std::weak_ptr<CButton> MakeMenuButton(CWidgetContainer* Parent,
     const std::string& Name, float X, float W, const wchar_t* Label)
@@ -102,7 +102,7 @@ static std::weak_ptr<CButton> MakeSubmenuButton(CWidgetContainer* Parent,
     return Btn;
 }
 
-// ---- Init ----
+// ---- 초기화 ----
 
 bool CEditorMenuBar::Init()
 {
@@ -124,17 +124,17 @@ bool CEditorMenuBar::Init()
         Bg->SetTint(EWidgetState::Disable, 0.20f, 0.20f, 0.22f, 0.95f);
     }
 
-    // "Empty Actor" (x=10)
+    // 빈 액터 생성 버튼 (x=10)
     mEmptyActorButton = MakeMenuButton(this, "EmptyActorBtn", 10.f, 120.f, TEXT("Empty Actor"));
     if (auto B = mEmptyActorButton.lock())
         B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnEmptyActorClicked);
 
-    // "Add Component" (x=140)
+    // 컴포넌트 추가 버튼 (x=140)
     mAddComponentButton = MakeMenuButton(this, "AddComponentBtn", 140.f, 150.f, TEXT("Add Component"));
     if (auto B = mAddComponentButton.lock())
         B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnAddComponentHovered);
 
-    // Add Component 서브메뉴
+    // 컴포넌트 추가 서브메뉴
     mSubmenu = CreateWidget<CWidgetContainer>("Submenu", 2);
     auto Submenu = mSubmenu.lock();
     if (Submenu)
@@ -202,7 +202,7 @@ bool CEditorMenuBar::Init()
         PrefabSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * (1 + MAX_PREFAB_SLOTS));
         PrefabSub->SetEnable(false);
 
-        // Row 0: Save Prefab
+        // 0번 행: 프리팹 저장
         auto SaveBtn = MakeSubmenuButton(PrefabSub.get(), "SavePrefabBtn", 0, TEXT("Save Prefab"));
         if (auto B = SaveBtn.lock())
             B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSavePrefabClicked);
@@ -227,7 +227,7 @@ bool CEditorMenuBar::Init()
                 B->SetWidgetEnable(false);
             }
 
-            // Label은 BtnName + "_Lbl" 로 FindWidget
+            // 레이블 위젯은 BtnName + "_Lbl" 로 FindWidget
             mPrefabSlots[i].Btn   = SlotBtn;
             mPrefabSlots[i].Label = PrefabSub->FindWidget<CTextBlock>(BtnName + "_Lbl");
             mPrefabSlots[i].PrefabName = "";
@@ -239,13 +239,13 @@ bool CEditorMenuBar::Init()
     return true;
 }
 
-// ---- Update ----
+// ---- 업데이트 ----
 
 void CEditorMenuBar::Update(float DeltaTime)
 {
     CWidgetContainer::Update(DeltaTime);
 
-    // Add Component 서브메뉴 닫기 로직
+    // 컴포넌트 추가 서브메뉴 닫기 로직
     if (mSubmenuOpen)
     {
         auto AddCompBtn = mAddComponentButton.lock();
@@ -327,7 +327,7 @@ CEditorMenuBar* CEditorMenuBar::Clone()
     return new CEditorMenuBar(*this);
 }
 
-// ---- Internal helpers ----
+// ---- 내부 헬퍼 ----
 
 void CEditorMenuBar::TrackComponent(const std::string& TypeName,
                                      const std::string& CompName,
@@ -348,7 +348,7 @@ void CEditorMenuBar::ExecuteSpawnSlot(int Idx)
     CPrefabManager::GetInst()->SpawnPrefab(Name, World);
 }
 
-// ---- Add Component 콜백 ----
+// ---- 컴포넌트 추가 콜백 ----
 
 void CEditorMenuBar::OnEmptyActorClicked()
 {
@@ -469,7 +469,7 @@ void CEditorMenuBar::OnTileMapComponentClicked()
     LOG_DEBUG("[MenuBar] Added TileMapComponent");
 }
 
-// ---- Prefab 콜백 ----
+// ---- 프리팹 콜백 ----
 
 void CEditorMenuBar::OnPrefabHovered()
 {
@@ -530,7 +530,7 @@ void CEditorMenuBar::OnSpawnPrefab3() { ExecuteSpawnSlot(3); }
 void CEditorMenuBar::OnSpawnPrefab4() { ExecuteSpawnSlot(4); }
 void CEditorMenuBar::OnSpawnPrefab5() { ExecuteSpawnSlot(5); }
 
-// ---- Scene 콜백 ----
+// ---- 월드 저장/불러오기 콜백 ----
 
 void CEditorMenuBar::OnSceneHovered()
 {
