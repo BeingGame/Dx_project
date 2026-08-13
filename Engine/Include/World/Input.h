@@ -106,6 +106,10 @@ private:
 	FVector2 mMouseMove;
 	bool mMouseCheckStart = false;
 
+	// 마우스 휠 델타 (양수=위=확대, 음수=아래=축소)
+	float mMouseWheelDelta = 0.f;
+	static int sWheelAccum; // Window 입력 모드용 누적 휠 값
+
 public:
 	void SetWorld(const std::weak_ptr<class CWorld> World)
 	{
@@ -115,6 +119,23 @@ public:
 	bool GetMouseState(EMouseType::Type MouseType, EInputType::Type InputType) const
 	{
 		return mMouseButton[MouseType][InputType];
+	}
+
+	float GetMouseWheelDelta() const { return mMouseWheelDelta; }
+
+	static void AddWheelDelta(int Delta) { sWheelAccum += Delta; }
+
+	bool GetKey(unsigned char Key, EInputType::Type Type) const
+	{
+		auto iter = mKeyStateMap.find(Key);
+		if (iter == mKeyStateMap.end()) return false;
+		switch (Type)
+		{
+		case EInputType::Press:   return iter->second->Press;
+		case EInputType::Hold:    return iter->second->Hold;
+		case EInputType::Release: return iter->second->Release;
+		default: return false;
+		}
 	}
 
 	bool GetCtrl(EInputType::Type Type) const

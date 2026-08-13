@@ -4,9 +4,9 @@
 
 struct FPrefabComponentEntry
 {
-    std::string TypeName;  // "MeshComponent", "ColliderBox2D", etc.
-    std::string Name;      // component name
-    std::string Parent;    // parent component name ("" = auto-root)
+    std::string TypeName;  // "MeshComponent", "ColliderBox2D" 등
+    std::string Name;      // 컴포넌트 이름
+    std::string Parent;    // 부모 컴포넌트 이름 ("" = 자동 루트)
 };
 
 struct FPrefabData
@@ -41,7 +41,7 @@ public:
     // 파일에서 FPrefabData를 읽어옴
     bool LoadPrefabData(const std::string& PrefabName, FPrefabData& OutData) const;
 
-    // 프리팹을 월드에 Spawn
+    // 프리팹을 월드에 스폰
     std::weak_ptr<class CActor> SpawnPrefab(const std::string& PrefabName,
                                             std::weak_ptr<class CWorld> World,
                                             const FVector3& SpawnPos = FVector3(0.f, 0.f, 0.f));

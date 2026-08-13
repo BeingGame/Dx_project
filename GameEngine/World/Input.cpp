@@ -7,6 +7,8 @@
 
 #include "../LogManager.h"
 
+int CInput::sWheelAccum = 0;
+
 CInput::CInput()
 {}
 
@@ -161,6 +163,9 @@ void CInput::UpdateKeyboard()
 	//키상태를 재확인
 	if (FAILED(Result))
 	{
+		// 장치 분리/포커스 손실 시 구버퍼 클리어 → 키 고착 방지
+		ZeroMemory(mKeyState, sizeof(mKeyState));
+
 		//장치가 끊기거나, 포커스르 잃었을때 DIERR_INPUTLOST가 나온다.
 		//이를 acquire함수로 다시 제어권을 가져오게한다.
 		//DIERR_NOTACQUIRED : 장치 획득이 아직 되지 않은 상태
@@ -171,7 +176,6 @@ void CInput::UpdateKeyboard()
 				mKeyboard->GetDeviceState(256, (LPVOID)&mKeyState);
 			}
 		}
-
 	}
 
 }
@@ -191,6 +195,11 @@ void CInput::UpdateMouse()
 	//키상태를 재확인
 	if (FAILED(Result))
 	{
+		// 장치 분리/포커스 손실 시 구버퍼 클리어 → 버튼 고착 방지
+		// (다이얼로그 사용 후 DISCL_FOREGROUND 언어콰이어 타이밍에서
+		//  LButton pressed 상태가 남아 게임이 멈추는 현상 수정)
+		ZeroMemory(&mMouseState, sizeof(mMouseState));
+
 		//장치가 끊기거나, 포커스르 잃었을때 DIERR_INPUTLOST가 나온다.
 		//이를 acquire함수로 다시 제어권을 가져오게한다.
 		//DIERR_NOTACQUIRED : 장치 획득이 아직 되지 않은 상태
@@ -201,7 +210,6 @@ void CInput::UpdateMouse()
 				mMouse->GetDeviceState(sizeof(mMouseState), (LPVOID)&mMouseState);
 			}
 		}
-
 	}
 }
 
@@ -345,6 +353,9 @@ void CInput::UpdateDInput(float DeltaTime)
 			mMouseButton[i][EInputType::Release] = false;
 		}
 	}
+
+	// DirectInput 마우스 lZ = 휠 누적 델타 (양수=위, 음수=아래)
+	mMouseWheelDelta = (float)mMouseState.lZ;
 
 	//인풋시스템에서 바인드된 키를 확인한다.
 
@@ -540,6 +551,10 @@ void CInput::UpdateWindowInput(float DeltaTime)
 			mMouseButton[i][EInputType::Release] = false;
 		}
 	}
+
+	// Window 입력 모드: WM_MOUSEWHEEL로 누적된 값 읽고 초기화
+	mMouseWheelDelta = (float)sWheelAccum;
+	sWheelAccum = 0;
 
 	//인풋시스템에서 바인드된 키를 확인한다.
 

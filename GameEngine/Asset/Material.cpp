@@ -16,6 +16,7 @@ CMaterial::CMaterial()
 
 CMaterial::CMaterial(const CMaterial& src)
 {
+	mName = src.mName;
 	mShader = src.mShader;
 	mBaseColor = src.mBaseColor;
 	mOpacity = src.mOpacity;
@@ -36,6 +37,8 @@ CMaterial::CMaterial(const CMaterial& src)
 		std::shared_ptr<FMaterialTextureInfo> NewInfo = std::make_shared<FMaterialTextureInfo>();
 
 		*NewInfo = *src.mTextureArray[i];
+
+		mTextureArray.push_back(NewInfo);
 	}
 
 	mRenderState = src.mRenderState;
@@ -499,3 +502,9 @@ void CMaterial::ResetMaterial()
 		State->ResetState();
 	}
 }
+
+std::string CMaterial::GetShaderName() const
+{
+	auto S = mShader.lock(); return S ? S->GetName() : "";
+}
+

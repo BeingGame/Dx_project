@@ -17,6 +17,7 @@
 
 #include "World/WorldManager.h"
 #include "World/CollisionInfoManager.h"
+#include "World/Input.h"
 
 #include "LogManager.h"
 
@@ -303,6 +304,23 @@ LRESULT CEngine::WndProc(HWND hWnd, UINT Message, WPARAM wParam, LPARAM lParam)
 		mLoop = false;
 		PostQuitMessage(0);
 		break;
+	case WM_MOUSEWHEEL:
+		CInput::AddWheelDelta((int)(short)HIWORD(wParam));
+		break;
+	case WM_SETFOCUS:
+	case WM_ACTIVATE:
+		// 파일 다이얼로그가 닫힌 후 DirectInput DISCL_FOREGROUND 재획득
+		if (Message == WM_SETFOCUS ||
+			(Message == WM_ACTIVATE && LOWORD(wParam) != WA_INACTIVE))
+		{
+			auto World = CWorldManager::GetInst()->GetWorld().lock();
+			if (World)
+			{
+				if (auto Input = World->GetInput().lock())
+					Input->DeviceAcquire();
+			}
+		}
+		return DefWindowProc(hWnd, Message, wParam, lParam);
 	default:
 		return DefWindowProc(hWnd, Message, wParam, lParam);
 	}

@@ -1,10 +1,11 @@
-﻿  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Animation2D.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Collider.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Color2D.cso
-C:\Users\assort_c5\Desktop\dx\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,5): warning X4000: use of potentially uninitialized variable (UpdateAnimationUV)
+﻿  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Animation2D.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Collider.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Color2D.cso
+C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,5): warning X4000: use of potentially uninitialized variable (UpdateAnimationUV)
   
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\GlobalUI.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\dx\Engine\Binary\Material.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\GlobalUI.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Material.cso
+  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\TileMap.cso
   Animation2D.cpp
   AnimationManager.cpp
   Asset.cpp
@@ -16,22 +17,28 @@ C:\Users\assort_c5\Desktop\dx\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,
   CBufferData.cpp
   CBufferMaterial.cpp
   CBufferPalette.cpp
+  CBufferTileMap.cpp
   CBufferTransform.cpp
   CBufferUIDefault.cpp
+  Font.cpp
+  FontCollection.cpp
+  FontManager.cpp
   GraphicShader.cpp
   Material.cpp
   MaterialManager.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
   Mesh.cpp
   MeshManager.cpp
   PathManager.cpp
   Shader.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
   ShaderAnimation2D.cpp
   ShaderColor2D.cpp
   ShaderFrame.cpp
   ShaderManager.cpp
   ShaderMaterial.cpp
+  ShaderTexture.cpp
+  ShaderTileMap.cpp
   ShaderUIDefault.cpp
   Sound.cpp
   SoundManager.cpp
@@ -41,14 +48,14 @@ C:\Users\assort_c5\Desktop\dx\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,
   CSVReader.cpp
   DepthStencilState.cpp
   Device.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
   Engine.cpp
   Logger.cpp
   LogManager.cpp
   Matrix.cpp
   Vector2.cpp
   Vector3.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
   Vector4.cpp
   Object.cpp
   RenderManager.cpp
@@ -56,10 +63,15 @@ C:\Users\assort_c5\Desktop\dx\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,
   TimeManager.cpp
   Actor.cpp
   ActorComponent.cpp
+  AIComponent.cpp
+  AIState.cpp
   Animation2DComponent.cpp
   Animation2DSequence.cpp
+  BlackBoard.cpp
   Button.cpp
   CameraComponent.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
   CameraManager.cpp
   CharacterMovementComponent.cpp
   Collider.cpp
@@ -69,105 +81,39 @@ C:\Users\assort_c5\Desktop\dx\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,
   CollisionInfoManager.cpp
   CollisionQuadTree.cpp
   CollisionQuadTreeNode.cpp
-  코드를 생성하고 있습니다...
-  컴파일하고 있습니다...
   Component.cpp
+  Image.cpp
   Input.cpp
   MeshComponent.cpp
+  MouseWidget.cpp
   MovementComponent.cpp
+  NumberWidget.cpp
+  ProgressBar.cpp
   ProjectileMovementComponent.cpp
   SceneComponent.cpp
   SoundComponent.cpp
+  코드를 생성하고 있습니다...
+  컴파일하고 있습니다...
+  TextBlock.cpp
+  Tile.cpp
+  TileMapActor.cpp
+  TileMapComponent.cpp
+  TileMapRender.cpp
+  TitleBar.cpp
   UIManager.cpp
   Widget.cpp
+  WidgetComponent.cpp
   WidgetContainer.cpp
   World.cpp
   WorldCollision.cpp
   WorldManager.cpp
   코드를 생성하고 있습니다...
-  GameEngine.vcxproj -> C:\Users\assort_c5\Desktop\dx\Engine\Binary\GameEngine_Debug.lib
-  .\BlendState.h
-  .\DepthStencilState.h
-  .\Device.h
-  .\Engine.h
-  .\EngineMath.h
-  .\Enums.h
-  .\Logger.h
-  .\LogManager.h
-  .\Macro.h
-  .\RenderManager.h
-  .\RenderState.h
-  .\Structs.h
-  .\TimeManager.h
-  .\Asset\Animation2D.h
-  .\Asset\AnimationManager.h
-  .\Asset\Asset.h
-  .\Asset\AssetManager.h
-  .\Asset\AssetSubManager.h
-  .\Asset\CBuffer.h
-  .\Asset\CBufferAnimation2D.h
-  .\Asset\CBufferCollider.h
-  .\Asset\CBufferData.h
-  .\Asset\CBufferMaterial.h
-  .\Asset\CBufferPalette.h
-  .\Asset\CBufferTransform.h
-  .\Asset\DirectXTex.h
-  .\Asset\fmod.h
-  .\Asset\fmod_codec.h
-  .\Asset\fmod_common.h
-  .\Asset\fmod_dsp.h
-  .\Asset\fmod_dsp_effects.h
-  .\Asset\fmod_errors.h
-  .\Asset\fmod_output.h
-  .\Asset\GraphicShader.h
-  .\Asset\Material.h
-  .\Asset\MaterialManager.h
-  .\Asset\Mesh.h
-  .\Asset\MeshManager.h
-  .\Asset\PathManager.h
-  .\Asset\Shader.h
-  .\Asset\ShaderAnimation2D.h
-  .\Asset\ShaderColor2D.h
-  .\Asset\ShaderFrame.h
-  .\Asset\ShaderManager.h
-  .\Asset\ShaderMaterial.h
-  .\Asset\Sound.h
-  .\Asset\SoundManager.h
-  .\Asset\Texture.h
-  .\Asset\TextureManager.h
-  .\Math\Matrix.h
-  .\Math\Vector2.h
-  .\Math\Vector3.h
-  .\Math\Vector4.h
-  .\World\ActorComponent.h
-  .\World\Animation2DComponent.h
-  .\World\Animation2DSequence.h
-  .\World\Button.h
-  .\World\CameraComponent.h
-  .\World\CameraManager.h
-  .\World\CharacterMovementComponent.h
-  .\World\Collision.h
-  .\World\CollisionInfoManager.h
-  .\World\Component.h
-  .\World\Input.h
-  .\World\MeshComponent.h
-  .\World\MovementComponent.h
-  .\World\ProjectileMovementComponent.h
-  .\World\SceneComponent.h
-  .\World\SoundComponent.h
-  .\World\Widget.h
-  70 File(s) copied
-  .\Asset\DirectXTex.inl
-  1 File(s) copied
-  .\Asset\fmod.hpp
-  1 File(s) copied
-  .\Asset\fmod.cs
-  .\Asset\fmod_dsp.cs
-  .\Asset\fmod_errors.cs
-  3 File(s) copied
-  .\..\Engine\Binary\EngineAsset\Shader\Animation2D.hlsl
-  .\..\Engine\Binary\EngineAsset\Shader\Collider.hlsl
-  .\..\Engine\Binary\EngineAsset\Shader\Color2D.hlsl
-  .\..\Engine\Binary\EngineAsset\Shader\Material.hlsl
-  .\..\Engine\Binary\EngineAsset\Shader\Share.hlsli
-  5 File(s) copied
+  GameEngine.vcxproj -> C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\GameEngine_Debug.lib
+  0 File(s) copied
+  File not found - *.inl
+  0 File(s) copied
+  File not found - *.hpp
+  0 File(s) copied
+  File not found - *.cs
+  0 File(s) copied
+  0 File(s) copied

@@ -1,0 +1,22 @@
+SceneVersion=1
+ActorCount=1
+
+[Actor:0]
+TypeName=CActor
+Name=EmptyActor_0
+Tag=Actor
+WorldPos=0 0 0
+WorldScale=1 1 1
+WorldRot=0 0 0
+SceneCompCount=1
+ActorCompCount=0
+
+[SceneComp:0:0]
+TypeName=CCameraComponent
+Name=CameraComponent
+Parent=
+RelPos=0 0 0
+RelScale=1 1 1
+RelRot=0 0 0
+Layer=0
+

@@ -297,6 +297,9 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		return false;
 	}
 
+	// 기존 액터 제거 후 로드
+	mActorList.clear();
+
 	// 전체 라인 읽기
 	std::vector<std::string> Lines;
 	std::string Line;

@@ -7,6 +7,8 @@
 #include "../Asset/Shader.h"
 #include "../Asset/CBufferTransform.h"
 #include "../Asset/Material.h"
+#include "../Asset/MaterialManager.h"
+#include "../RenderState.h"
 
 #include "../Device.h"
 
@@ -498,6 +500,18 @@ void CMeshComponent::Save(std::ofstream& File) const
 	if (Mesh) File << "Mesh=" << Mesh->GetName() << "\n";
 	auto Shader = mShader.lock();
 	if (Shader) File << "Shader=" << Shader->GetName() << "\n";
+
+	// 머티리얼 슬롯 0
+	std::string MatName = GetMaterialName(0);
+	if (!MatName.empty())
+		File << "Material=" << MatName << "\n";
+
+	// 블렌드 스테이트
+	if (!mMaterialSlot.empty() && mMaterialSlot[0])
+	{
+		auto RS = mMaterialSlot[0]->GetBlendState().lock();
+		File << "Blend=" << (RS ? RS->GetName() : "(none)") << "\n";
+	}
 }
 
 void CMeshComponent::Load(const std::unordered_map<std::string, std::string>& Props)
@@ -513,4 +527,56 @@ void CMeshComponent::Load(const std::unordered_map<std::string, std::string>& Pr
 		if (it != Props.end() && !it->second.empty())
 			SetShader(it->second);
 	}
+	// 머티리얼: Mesh 로드 후 mMaterialSlot[0]이 생성된 뒤에 교체
+	{
+		auto it = Props.find("Material");
+		if (it != Props.end() && !it->second.empty())
+		{
+			auto MatMgr = CAssetManager::GetInst()->GetSubManager<CMaterialManager>(EAssetType::Material);
+			if (MatMgr)
+			{
+				auto NewMat = MatMgr->CreateMaterialInstance(it->second);
+				if (NewMat)
+				{
+					SetMaterialSlot(0, NewMat);
+					const std::string& ShaderName = NewMat->GetShaderName();
+					if (!ShaderName.empty())
+						SetShader(ShaderName);
+				}
+			}
+		}
+	}
+	// 블렌드 스테이트
+	{
+		auto it = Props.find("Blend");
+		if (it != Props.end() && it->second != "(none)" && !it->second.empty())
+			SetBlendState(0, it->second);
+	}
+}
+
+std::string CMeshComponent::GetMaterialName(int SlotIndex) const
+{
+	if (SlotIndex < 0 || SlotIndex >= (int)mMaterialSlot.size()) return "";
+	auto Mat = mMaterialSlot[SlotIndex];
+	if (!Mat) return "";
+	const std::string& N = Mat->GetName();
+	if (N.size() > 9 && N[0] == 'M' && N[8] == '_')
+		return N.substr(9);
+	return N;
+}
+
+void CMeshComponent::SetMaterialSlot(int SlotIndex, std::shared_ptr<CMaterial> Mat)
+{
+	if (SlotIndex < 0 || SlotIndex >= (int)mMaterialSlot.size()) return;
+	if (!Mat) return;
+	mMaterialSlot[SlotIndex] = Mat;
+}
+
+std::string CMeshComponent::GetMeshName() const
+{
+	auto M = mMesh.lock(); return M ? M->GetName() : "";
+}
+std::string CMeshComponent::GetShaderName() const
+{
+	auto S = mShader.lock(); return S ? S->GetName() : "";
 }

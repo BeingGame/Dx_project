@@ -84,5 +84,16 @@ public:
 	virtual std::string GetTypeName() const override { return "CMeshComponent"; }
 	virtual void Save(std::ofstream& File) const override;
 	virtual void Load(const std::unordered_map<std::string, std::string>& Props) override;
+
+	std::string GetMeshName()     const;
+	std::string GetShaderName()   const;
+	std::string GetMaterialName(int SlotIndex = 0) const;
+	void        SetMaterialSlot(int SlotIndex, std::shared_ptr<class CMaterial> Mat);
+	std::shared_ptr<class CMaterial> GetMaterial(int SlotIndex = 0) const
+	{
+		if (SlotIndex >= 0 && SlotIndex < (int)mMaterialSlot.size())
+			return mMaterialSlot[SlotIndex];
+		return nullptr;
+	}
 };
 

@@ -40,6 +40,7 @@ public:
 	void MoveBackward();
 	void MoveRight();
 	void MoveLeft();
+	void RightDrag();
 
 	void LeftClick();
 	void ChangeMode();

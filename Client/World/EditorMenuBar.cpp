@@ -5,6 +5,7 @@
 #include "World/WidgetContainer.h"
 #include "World/Actor.h"
 #include "World/World.h"
+#include "World/Input.h"
 
 #include "World/MeshComponent.h"
 #include "World/CameraComponent.h"
@@ -21,6 +22,8 @@
 #include "World/TextBlock.h"
 
 #include "LogManager.h"
+
+#include "DialogUtil.h"
 
 static constexpr float BAR_H         = 40.f;
 static constexpr float BTN_Y         = 4.f;
@@ -199,7 +202,7 @@ bool CEditorMenuBar::Init()
     if (PrefabSub)
     {
         PrefabSub->SetPos(410.f, BAR_H);
-        PrefabSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * (1 + MAX_PREFAB_SLOTS));
+        PrefabSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
         PrefabSub->SetEnable(false);
 
         // 0번 행: 프리팹 저장
@@ -208,116 +211,203 @@ bool CEditorMenuBar::Init()
             B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSavePrefabClicked);
         mPrefabSubmenuButtons.push_back(SaveBtn);
 
-        // 콜백 배열 (SetWidgetEventFunc는 멤버 함수 포인터만 받으므로 고정 메서드 사용)
-        using SpawnFn = void(CEditorMenuBar::*)();
-        const SpawnFn SpawnCallbacks[MAX_PREFAB_SLOTS] = {
-            &CEditorMenuBar::OnSpawnPrefab0, &CEditorMenuBar::OnSpawnPrefab1,
-            &CEditorMenuBar::OnSpawnPrefab2, &CEditorMenuBar::OnSpawnPrefab3,
-            &CEditorMenuBar::OnSpawnPrefab4, &CEditorMenuBar::OnSpawnPrefab5
-        };
-
-        for (int i = 0; i < MAX_PREFAB_SLOTS; ++i)
-        {
-            std::string BtnName = "SpawnSlot" + std::to_string(i);
-            auto SlotBtn = MakeSubmenuButton(PrefabSub.get(), BtnName, i + 1, TEXT("---"));
-
-            if (auto B = SlotBtn.lock())
-            {
-                B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, SpawnCallbacks[i]);
-                B->SetWidgetEnable(false);
-            }
-
-            // 레이블 위젯은 BtnName + "_Lbl" 로 FindWidget
-            mPrefabSlots[i].Btn   = SlotBtn;
-            mPrefabSlots[i].Label = PrefabSub->FindWidget<CTextBlock>(BtnName + "_Lbl");
-            mPrefabSlots[i].PrefabName = "";
-
-            mPrefabSubmenuButtons.push_back(SlotBtn);
-        }
+        // 1번 행: 파일 탐색기로 프리팹 불러오기/스폰
+        auto LoadPrefabBtn = MakeSubmenuButton(PrefabSub.get(), "LoadPrefabBtn", 1, TEXT("Load Prefab..."));
+        if (auto B = LoadPrefabBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadPrefabClicked);
+        mPrefabSubmenuButtons.push_back(LoadPrefabBtn);
     }
+
+    // ---- "Material" 메뉴 (x=520) ----
+    mMaterialButton = MakeMenuButton(this, "MaterialBtn", 520.f, 100.f, TEXT("Material"));
+    if (auto B = mMaterialButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnMaterialHovered);
+
+    mMaterialSubmenu = CreateWidget<CWidgetContainer>("MaterialSubmenu", 2);
+    auto MatSub = mMaterialSubmenu.lock();
+    if (MatSub)
+    {
+        MatSub->SetPos(520.f, BAR_H);
+        MatSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 1.f);
+        MatSub->SetEnable(false);
+
+        auto NewMatBtn = MakeSubmenuButton(MatSub.get(), "NewMaterialBtn", 0, TEXT("New Material Editor..."));
+        if (auto B = NewMatBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnNewMaterialClicked);
+    }
+
+    // ---- "Anim Editor" 버튼 (x=630) ----
+    mAnimEditorButton = MakeMenuButton(this, "AnimEditorBtn", 630.f, 100.f, TEXT("Anim Editor"));
+    if (auto B = mAnimEditorButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnAnimEditorClicked);
 
     return true;
 }
 
 // ---- 업데이트 ----
 
+// Hovered, Clicked, Release 세 상태 모두 "활성" 으로 판단
+static bool IsActive(const std::weak_ptr<CButton>& W)
+{
+    auto B = W.lock();
+    if (!B) return false;
+    auto S = B->GetWidgetState();
+    return S == EWidgetState::Hovered
+        || S == EWidgetState::Clicked
+        || S == EWidgetState::Release;
+}
+
+static constexpr float CLOSE_DELAY = 0.08f; // 허용 갭 시간 (초)
+
 void CEditorMenuBar::Update(float DeltaTime)
 {
     CWidgetContainer::Update(DeltaTime);
 
-    // 컴포넌트 추가 서브메뉴 닫기 로직
+    // ── 서브메뉴 영역 밖 클릭 시 즉시 닫기 (표준 드롭다운 동작) ──────────────
+    if (mSubmenuOpen || mSceneSubmenuOpen || mPrefabSubmenuOpen || mMaterialSubmenuOpen)
+    {
+        if (auto World = mWorld.lock())
+        {
+            if (auto Input = World->GetInput().lock())
+            {
+                if (Input->GetMouseState(EMouseType::LButton, EInputType::Press))
+                {
+                    FVector2 MP = Input->GetMousePos();
+
+                    // 메뉴바 자체 영역 (Y < BAR_H)
+                    bool InMenuBar = (MP.y >= 0.f && MP.y < BAR_H);
+
+                    // 열린 서브메뉴 영역
+                    bool InAnySub = false;
+                    auto CheckSub = [&](const std::weak_ptr<CWidgetContainer>& SubW, float LocalX)
+                    {
+                        auto Sub = SubW.lock();
+                        if (!Sub || !Sub->IsEnable()) return;
+                        FVector3 SubSize = Sub->GetSize();
+                        if (MP.x >= LocalX && MP.x < LocalX + SubSize.x &&
+                            MP.y >= BAR_H  && MP.y < BAR_H  + SubSize.y)
+                            InAnySub = true;
+                    };
+                    CheckSub(mSubmenu,         140.f);
+                    CheckSub(mSceneSubmenu,    300.f);
+                    CheckSub(mPrefabSubmenu,   410.f);
+                    CheckSub(mMaterialSubmenu, 520.f);
+
+                    if (!InMenuBar && !InAnySub)
+                    {
+                        // 모든 서브메뉴 즉시 닫기
+                        auto ForceClose = [](bool& Open, float& Timer,
+                                             const std::weak_ptr<CWidgetContainer>& SubW)
+                        {
+                            Open = false; Timer = 0.f;
+                            if (auto S = SubW.lock()) S->SetEnable(false);
+                        };
+                        ForceClose(mSubmenuOpen,        mSubmenuCloseTimer, mSubmenu);
+                        ForceClose(mSceneSubmenuOpen,   mSceneCloseTimer,   mSceneSubmenu);
+                        ForceClose(mPrefabSubmenuOpen,  mPrefabCloseTimer,  mPrefabSubmenu);
+                        ForceClose(mMaterialSubmenuOpen,mMaterialCloseTimer,mMaterialSubmenu);
+                    }
+                }
+            }
+        }
+    }
+
+    // ── Add Component 서브메뉴 닫기 ─────────────────────────────────────────
     if (mSubmenuOpen)
     {
-        auto AddCompBtn = mAddComponentButton.lock();
-        bool AnyHovered = AddCompBtn &&
-            (AddCompBtn->GetWidgetState() == EWidgetState::Hovered);
+        bool AnyActive = IsActive(mAddComponentButton);
+        if (!AnyActive)
+            for (auto& W : mComponentButtons)
+                if (IsActive(W)) { AnyActive = true; break; }
 
-        if (!AnyHovered)
+        if (AnyActive)
         {
-            for (auto& WeakBtn : mComponentButtons)
-            {
-                auto B = WeakBtn.lock();
-                if (B && B->GetWidgetState() == EWidgetState::Hovered)
-                {
-                    AnyHovered = true;
-                    break;
-                }
-            }
+            mSubmenuCloseTimer = 0.f;
         }
-
-        if (!AnyHovered)
+        else
         {
-            mSubmenuOpen = false;
-            if (auto S = mSubmenu.lock()) S->SetEnable(false);
+            mSubmenuCloseTimer += DeltaTime;
+            if (mSubmenuCloseTimer >= CLOSE_DELAY)
+            {
+                mSubmenuOpen = false;
+                mSubmenuCloseTimer = 0.f;
+                if (auto S = mSubmenu.lock()) S->SetEnable(false);
+            }
         }
     }
 
-    // Scene 서브메뉴 닫기 로직
+    // ── World 서브메뉴 닫기 ──────────────────────────────────────────────────
     if (mSceneSubmenuOpen)
     {
-        auto SceneBtn = mSceneButton.lock();
-        bool AnyHovered = SceneBtn && (SceneBtn->GetWidgetState() == EWidgetState::Hovered);
+        bool AnyActive = IsActive(mSceneButton);
+        if (!AnyActive)
+            for (auto& W : mSceneSubmenuButtons)
+                if (IsActive(W)) { AnyActive = true; break; }
 
-        if (!AnyHovered)
+        if (AnyActive)
         {
-            for (auto& WeakBtn : mSceneSubmenuButtons)
-            {
-                auto B = WeakBtn.lock();
-                if (B && B->GetWidgetState() == EWidgetState::Hovered) { AnyHovered = true; break; }
-            }
+            mSceneCloseTimer = 0.f;
         }
-
-        if (!AnyHovered)
+        else
         {
-            mSceneSubmenuOpen = false;
-            if (auto S = mSceneSubmenu.lock()) S->SetEnable(false);
+            mSceneCloseTimer += DeltaTime;
+            if (mSceneCloseTimer >= CLOSE_DELAY)
+            {
+                mSceneSubmenuOpen = false;
+                mSceneCloseTimer  = 0.f;
+                if (auto S = mSceneSubmenu.lock()) S->SetEnable(false);
+            }
         }
     }
 
-    // Prefab 서브메뉴 닫기 로직
+    // ── Prefab 서브메뉴 닫기 ────────────────────────────────────────────────
     if (mPrefabSubmenuOpen)
     {
-        auto PrefabBtn = mPrefabButton.lock();
-        bool AnyHovered = PrefabBtn &&
-            (PrefabBtn->GetWidgetState() == EWidgetState::Hovered);
+        bool AnyActive = IsActive(mPrefabButton);
+        if (!AnyActive)
+            for (auto& W : mPrefabSubmenuButtons)
+                if (IsActive(W)) { AnyActive = true; break; }
 
-        if (!AnyHovered)
+        if (AnyActive)
         {
-            for (auto& WeakBtn : mPrefabSubmenuButtons)
+            mPrefabCloseTimer = 0.f;
+        }
+        else
+        {
+            mPrefabCloseTimer += DeltaTime;
+            if (mPrefabCloseTimer >= CLOSE_DELAY)
             {
-                auto B = WeakBtn.lock();
-                if (B && B->GetWidgetState() == EWidgetState::Hovered)
-                {
-                    AnyHovered = true;
-                    break;
-                }
+                mPrefabSubmenuOpen = false;
+                mPrefabCloseTimer  = 0.f;
+                if (auto S = mPrefabSubmenu.lock()) S->SetEnable(false);
             }
         }
+    }
 
-        if (!AnyHovered)
+    // ── Material 서브메뉴 닫기 ──────────────────────────────────────────────
+    if (mMaterialSubmenuOpen)
+    {
+        bool AnyActive = IsActive(mMaterialButton);
+        if (!AnyActive)
         {
-            mPrefabSubmenuOpen = false;
-            if (auto S = mPrefabSubmenu.lock()) S->SetEnable(false);
+            if (auto Sub = mMaterialSubmenu.lock())
+                if (IsActive(Sub->FindWidget<CButton>("NewMaterialBtn")))
+                    AnyActive = true;
+        }
+
+        if (AnyActive)
+        {
+            mMaterialCloseTimer = 0.f;
+        }
+        else
+        {
+            mMaterialCloseTimer += DeltaTime;
+            if (mMaterialCloseTimer >= CLOSE_DELAY)
+            {
+                mMaterialSubmenuOpen = false;
+                mMaterialCloseTimer  = 0.f;
+                if (auto S = mMaterialSubmenu.lock()) S->SetEnable(false);
+            }
         }
     }
 }
@@ -334,18 +424,13 @@ void CEditorMenuBar::TrackComponent(const std::string& TypeName,
                                      const std::string& Parent)
 {
     mTrackedComponents.push_back({ TypeName, CompName, Parent });
+    RefreshInspector();
 }
 
-void CEditorMenuBar::ExecuteSpawnSlot(int Idx)
+void CEditorMenuBar::RefreshInspector()
 {
-    if (Idx < 0 || Idx >= MAX_PREFAB_SLOTS) return;
-    const std::string& Name = mPrefabSlots[Idx].PrefabName;
-    if (Name.empty()) return;
-
-    auto World = mWorld.lock();
-    if (!World) return;
-
-    CPrefabManager::GetInst()->SpawnPrefab(Name, World);
+    if (mOnActorCreated)
+        mOnActorCreated(mSelectedActor);
 }
 
 // ---- 컴포넌트 추가 콜백 ----
@@ -358,7 +443,10 @@ void CEditorMenuBar::OnEmptyActorClicked()
     std::string Name = "EmptyActor_" + std::to_string(mActorCount++);
     auto NewActor = World->CreateActor<CActor>(Name);
     mSelectedActor = NewActor;
-    mTrackedComponents.clear();  // 새 Actor이므로 추적 초기화
+    mTrackedComponents.clear();
+
+    if (mOnActorCreated)
+        mOnActorCreated(mSelectedActor);
 
     LOG_DEBUG("[MenuBar] Created %s", Name.c_str());
 }
@@ -376,6 +464,7 @@ void CEditorMenuBar::OnMeshComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CMeshComponent>("MeshComponent");
     TrackComponent("MeshComponent", "MeshComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added MeshComponent");
 }
 
@@ -385,6 +474,7 @@ void CEditorMenuBar::OnCameraComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CCameraComponent>("CameraComponent");
     TrackComponent("CameraComponent", "CameraComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added CameraComponent");
 }
 
@@ -394,6 +484,7 @@ void CEditorMenuBar::OnAnimation2DComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CAnimation2DComponent>("Animation2DComponent");
     TrackComponent("Animation2DComponent", "Animation2DComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added Animation2DComponent");
 }
 
@@ -403,6 +494,7 @@ void CEditorMenuBar::OnColliderBox2DClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CColliderBox2D>("ColliderBox2D");
     TrackComponent("ColliderBox2D", "ColliderBox2D");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added ColliderBox2D");
 }
 
@@ -412,6 +504,7 @@ void CEditorMenuBar::OnColliderSphere2DClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CColliderSphere2D>("ColliderSphere2D");
     TrackComponent("ColliderSphere2D", "ColliderSphere2D");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added ColliderSphere2D");
 }
 
@@ -421,6 +514,7 @@ void CEditorMenuBar::OnCharacterMovementClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CCharacterMovementComponent>("CharacterMovement");
     TrackComponent("CharacterMovement", "CharacterMovement");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added CharacterMovementComponent");
 }
 
@@ -430,6 +524,7 @@ void CEditorMenuBar::OnProjectileMovementClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CProjectileMovementComponent>("ProjectileMovement");
     TrackComponent("ProjectileMovement", "ProjectileMovement");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added ProjectileMovementComponent");
 }
 
@@ -439,6 +534,7 @@ void CEditorMenuBar::OnAIComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CAIComponent>("AIComponent");
     TrackComponent("AIComponent", "AIComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added AIComponent");
 }
 
@@ -448,6 +544,7 @@ void CEditorMenuBar::OnSoundComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CSoundComponent>("SoundComponent");
     TrackComponent("SoundComponent", "SoundComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added SoundComponent");
 }
 
@@ -457,6 +554,7 @@ void CEditorMenuBar::OnWidgetComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CWidgetComponent>("WidgetComponent");
     TrackComponent("WidgetComponent", "WidgetComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added WidgetComponent");
 }
 
@@ -466,6 +564,7 @@ void CEditorMenuBar::OnTileMapComponentClicked()
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
     Actor->CreateComponent<CTileMapComponent>("TileMapComponent");
     TrackComponent("TileMapComponent", "TileMapComponent");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
     LOG_DEBUG("[MenuBar] Added TileMapComponent");
 }
 
@@ -475,35 +574,6 @@ void CEditorMenuBar::OnPrefabHovered()
 {
     if (mPrefabSubmenuOpen) return;
     mPrefabSubmenuOpen = true;
-
-    // 현재 Prefab 목록으로 슬롯 갱신
-    auto Names = CPrefabManager::GetInst()->GetPrefabNames();
-
-    for (int i = 0; i < MAX_PREFAB_SLOTS; ++i)
-    {
-        auto& Slot = mPrefabSlots[i];
-        auto Btn   = Slot.Btn.lock();
-        auto Lbl   = Slot.Label.lock();
-        bool HasPrefab = (i < (int)Names.size());
-
-        Slot.PrefabName = HasPrefab ? Names[i] : "";
-
-        if (Btn) Btn->SetWidgetEnable(HasPrefab);
-
-        if (Lbl)
-        {
-            if (HasPrefab)
-            {
-                std::wstring WName(Names[i].begin(), Names[i].end());
-                Lbl->SetText(WName.c_str());
-            }
-            else
-            {
-                Lbl->SetText(TEXT("---"));
-            }
-        }
-    }
-
     if (auto S = mPrefabSubmenu.lock()) S->SetEnable(true);
 }
 
@@ -523,12 +593,21 @@ void CEditorMenuBar::OnSavePrefabClicked()
     CPrefabManager::GetInst()->SavePrefab(PrefabName, Data);
 }
 
-void CEditorMenuBar::OnSpawnPrefab0() { ExecuteSpawnSlot(0); }
-void CEditorMenuBar::OnSpawnPrefab1() { ExecuteSpawnSlot(1); }
-void CEditorMenuBar::OnSpawnPrefab2() { ExecuteSpawnSlot(2); }
-void CEditorMenuBar::OnSpawnPrefab3() { ExecuteSpawnSlot(3); }
-void CEditorMenuBar::OnSpawnPrefab4() { ExecuteSpawnSlot(4); }
-void CEditorMenuBar::OnSpawnPrefab5() { ExecuteSpawnSlot(5); }
+void CEditorMenuBar::OnLoadPrefabClicked()
+{
+    std::string PrefabDir = DialogUtil::GetExeDir() + "Asset\\Prefab\\";
+    std::string FullPath = DialogUtil::OpenFile(
+        "Prefab Files\0*.prefab\0All Files\0*.*\0", PrefabDir.c_str());
+    if (FullPath.empty()) return;
+
+    std::string PrefabName = DialogUtil::ExtractBaseName(FullPath);
+
+    auto World = mWorld.lock();
+    if (!World) return;
+
+    CPrefabManager::GetInst()->SpawnPrefab(PrefabName, World);
+    LOG_DEBUG("[MenuBar] Prefab spawned from file: %s", PrefabName.c_str());
+}
 
 // ---- 월드 저장/불러오기 콜백 ----
 
@@ -544,8 +623,14 @@ void CEditorMenuBar::OnSaveSceneClicked()
     auto World = mWorld.lock();
     if (!World) return;
 
-    CreateDirectoryA("World", nullptr);
-    std::string FilePath = "World/World_" + std::to_string(mSceneSaveCount++) + ".world";
+    std::string WorldDir = DialogUtil::GetExeDir() + "Asset\\World\\";
+    CreateDirectoryA((DialogUtil::GetExeDir() + "Asset\\").c_str(), nullptr);
+    CreateDirectoryA(WorldDir.c_str(), nullptr);
+
+    std::string FilePath = DialogUtil::SaveFile(
+        "World Files\0*.world\0All Files\0*.*\0", WorldDir.c_str(), "world");
+    if (FilePath.empty()) return;
+
     World->SaveScene(FilePath);
     LOG_DEBUG("[MenuBar] World saved: %s", FilePath.c_str());
 }
@@ -555,9 +640,42 @@ void CEditorMenuBar::OnLoadSceneClicked()
     auto World = mWorld.lock();
     if (!World) return;
 
-    std::string FilePath = "World/World_" + std::to_string(mSceneSaveCount > 0 ? mSceneSaveCount - 1 : 0) + ".world";
+    std::string WorldDir = DialogUtil::GetExeDir() + "Asset\\World\\";
+    std::string FilePath = DialogUtil::OpenFile(
+        "World Files\0*.world\0All Files\0*.*\0", WorldDir.c_str());
+    if (FilePath.empty()) return;
+
     if (World->LoadScene(FilePath))
         LOG_DEBUG("[MenuBar] World loaded: %s", FilePath.c_str());
     else
         LOG_ERROR("[MenuBar] World load failed: %s", FilePath.c_str());
+}
+
+// ---- Material 콜백 ----
+
+void CEditorMenuBar::OnMaterialHovered()
+{
+    if (auto S = mSubmenu.lock())         S->SetEnable(false); mSubmenuOpen = false;
+    if (auto S = mSceneSubmenu.lock())    S->SetEnable(false); mSceneSubmenuOpen = false;
+    if (auto S = mPrefabSubmenu.lock())   S->SetEnable(false); mPrefabSubmenuOpen = false;
+
+    mMaterialSubmenuOpen = true;
+    if (auto S = mMaterialSubmenu.lock()) S->SetEnable(true);
+}
+
+void CEditorMenuBar::OnNewMaterialClicked()
+{
+    if (auto S = mMaterialSubmenu.lock()) S->SetEnable(false);
+    mMaterialSubmenuOpen = false;
+
+    if (mOnOpenMaterialEditor)
+        mOnOpenMaterialEditor();
+}
+
+// ---- Anim Editor 콜백 ----
+
+void CEditorMenuBar::OnAnimEditorClicked()
+{
+    if (mOnOpenAnimEditor)
+        mOnOpenAnimEditor();
 }

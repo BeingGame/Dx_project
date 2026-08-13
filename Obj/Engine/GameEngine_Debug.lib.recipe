@@ -3,19 +3,22 @@
   <ProjectOutputs />
   <ContentFiles>
     <ContentFile>
-      <FullPath>C:\Users\assort_c5\Desktop\dx\Engine\Binary\Animation2D.cso</FullPath>
+      <FullPath>C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Animation2D.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\assort_c5\Desktop\dx\Engine\Binary\Collider.cso</FullPath>
+      <FullPath>C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Collider.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\assort_c5\Desktop\dx\Engine\Binary\Color2D.cso</FullPath>
+      <FullPath>C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Color2D.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\assort_c5\Desktop\dx\Engine\Binary\GlobalUI.cso</FullPath>
+      <FullPath>C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\GlobalUI.cso</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>C:\Users\assort_c5\Desktop\dx\Engine\Binary\Material.cso</FullPath>
+      <FullPath>C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Material.cso</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\TileMap.cso</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

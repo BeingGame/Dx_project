@@ -69,22 +69,22 @@ PS_OUTPUT_COLOR2D DefaultMaterialPS(VS_OUTPUT_TEX input)
     //    TextureColor.rgb = lerp(TextureColor.rgb, cbHitColor.rgb, cbHitIntensity);
     //}
    
-    output.Color.rgb = TextureColor.rgb; //* cbMatBaseColor.rgb;
-    output.Color.a = TextureColor.a; //* cbMatOpacity;
-    
+    output.Color.rgb = TextureColor.rgb * cbMatBaseColor.rgb;
+    output.Color.a = TextureColor.a * cbMatOpacity;
+
     //output.Color = float4(1.f, 0.f, 0.f, 1.f);
-    
+
     return output;
 }
 
 PS_OUTPUT_COLOR2D TexturePS(VS_OUTPUT_TEX input)
 {
     PS_OUTPUT_COLOR2D output = (PS_OUTPUT_COLOR2D) 0;
-    
+
     float4 TextureColor = tbTexture.Sample(sbSampler, input.UV);
-    
-    output.Color.rgb = TextureColor.rgb; //* cbMatBaseColor.rgb;
-    output.Color.a = TextureColor.a; //* cbMatOpacity;
+
+    output.Color.rgb = TextureColor.rgb * cbMatBaseColor.rgb;
+    output.Color.a = TextureColor.a * cbMatOpacity;
     
     return output;
 }

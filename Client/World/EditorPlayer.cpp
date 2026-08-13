@@ -45,6 +45,9 @@ bool CEditorPlayer::Init()
 		Input->AddBindKey("LeftClick", VK_LBUTTON);
 		Input->SetBindFunction("LeftClick", EInputType::Hold, this, &CEditorPlayer::LeftClick);
 
+		Input->AddBindKey("RightDrag", VK_RBUTTON);
+		Input->SetBindFunction("RightDrag", EInputType::Hold, this, &CEditorPlayer::RightDrag);
+
 		Input->AddBindKey("ChangeMode", '1');
 		Input->SetBindFunction("ChangeMode", EInputType::Press, this, &CEditorPlayer::ChangeMode);
 		Input->AddBindKey("ChangeTileType", '2');
@@ -139,6 +142,18 @@ void CEditorPlayer::MoveRight()
 void CEditorPlayer::MoveLeft()
 {
 	AddRelativePos(-CTimeManager::GetDeltaTime() * 500.f, 0.f, 0.f);
+}
+
+void CEditorPlayer::RightDrag()
+{
+	auto World = mWorld.lock();
+	if (!World) return;
+	auto Input = World->GetInput().lock();
+	if (!Input) return;
+	FVector2 Delta = Input->GetMouseMove();
+	if (Delta.x == 0.f && Delta.y == 0.f) return;
+	// screen Y+ = down, world Y+ = up → negate Y
+	AddRelativePos(Delta.x, -Delta.y, 0.f);
 }
 
 void CEditorPlayer::LeftClick()

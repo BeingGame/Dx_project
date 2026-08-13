@@ -22,6 +22,8 @@
 
 #include "LogManager.h"
 
+#include "DialogUtil.h"
+
 #include <fstream>
 
 CPrefabManager* CPrefabManager::mInstance = nullptr;
@@ -34,7 +36,9 @@ CPrefabManager::~CPrefabManager()
 
 bool CPrefabManager::Init()
 {
-    mPrefabDir = "Prefab/";
+    std::string AssetDir = DialogUtil::GetExeDir() + "Asset\\";
+    CreateDirectoryA(AssetDir.c_str(), nullptr);
+    mPrefabDir = AssetDir + "Prefab\\";
     CreateDirectoryA(mPrefabDir.c_str(), nullptr);
     RegisterComponents();
     return true;
@@ -93,7 +97,7 @@ void CPrefabManager::RegisterComponents()
 
 std::string CPrefabManager::GetPrefabFilePath(const std::string& PrefabName) const
 {
-    return mPrefabDir + PrefabName + ".prefab";
+    return mPrefabDir + PrefabName + ".prefab";  // mPrefabDir은 '\\'로 끝남
 }
 
 // ---- 저장 ----

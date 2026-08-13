@@ -50,6 +50,17 @@ public:
 		return mOpacity;
 	}
 
+	std::string GetShaderName() const;
+
+	const std::string& GetSamplerName() const { return mSampler; }
+
+	std::string GetTextureName(int Index = 0) const
+	{
+		if (Index >= 0 && Index < (int)mTextureArray.size() && mTextureArray[Index])
+			return mTextureArray[Index]->Name;
+		return "";
+	}
+
 	std::weak_ptr<class CRenderState> GetBlendState() const
 	{
 		return mRenderState;

@@ -17,10 +17,19 @@
 #include "CSVReader.h"
 
 #include "World/UIManager.h"
+#include "World/Input.h"
 #include "MainUI.h"
 #include "World/Button.h"
 
 #include "LogManager.h"
+
+#include "EditorMenuBar.h"
+#include "ContentUI.h"
+#include "InspectorUI.h"
+#include "MaterialEditorUI.h"
+#include "AnimEditorUI.h"
+#include "SpriteViewerUI.h"
+#include "windows.h"
 
 #include "RenderManager.h"
 #include "World/MouseWidget.h"
@@ -39,86 +48,111 @@ bool CMainWorld::Init()
 {
 	CWorld::Init();
 
-	auto SoundMgr = CAssetManager::GetInst()->GetSubManager<CSoundManager>(EAssetType::Sound);
+	// Asset\Anim\ 폴더의 모든 .anim2d 자동 로드
+	CAnimEditorUI::LoadAllAnims();
 
-	if (SoundMgr)
+	auto UIMgr = GetUIManager().lock();
+	if (UIMgr)
 	{
-		//SoundMgr->LoadSound("MainBGM", "BGM", true, "MainBgm.mp3");
-		//SoundMgr->Play("MainBGM");
+		auto MenuBarWeak = UIMgr->CreateWidgetContainer<CEditorMenuBar>("EditorMenuBar", 100);
+		auto Content     = UIMgr->CreateWidgetContainer<CContentUI>("ContentUI", 50);
+		auto Inspector   = UIMgr->CreateWidgetContainer<CInspectorUI>("InspectorUI", 50);
+		if (auto MB = MenuBarWeak.lock()) MB->SetWorld(GetThisPtr());
+		if (auto C = Content.lock())      C->SetWorld(GetThisPtr());
+		if (auto I = Inspector.lock())    I->SetWorld(GetThisPtr());
+
+		mContentPanel   = Content;
+		mInspectorPanel = Inspector;
+
+		auto MatEditorWeak = UIMgr->CreateWidgetContainer<CMaterialEditorUI>("MaterialEditorUI", 200);
+		mMaterialEditorPanel = MatEditorWeak;
+		if (auto ME = MatEditorWeak.lock()) ME->SetWorld(GetThisPtr());
+
+		auto AnimEditorWeak = UIMgr->CreateWidgetContainer<CAnimEditorUI>("AnimEditorUI", 75);
+		mAnimEditorPanel = AnimEditorWeak;
+		if (auto AnimEd = AnimEditorWeak.lock())
+		{
+			AnimEd->SetWorld(GetThisPtr());
+			AnimEd->SetEnable(false);
+		}
+
+		auto SpriteViewerWeak = UIMgr->CreateWidgetContainer<CSpriteViewerUI>("SpriteViewerUI", 60);
+		mSpriteViewerPanel = SpriteViewerWeak;
+		if (auto SV = SpriteViewerWeak.lock())
+		{
+			SV->SetWorld(GetThisPtr());
+			SV->SetEnable(false);
+		}
+		if (auto AnimEd = AnimEditorWeak.lock())
+			AnimEd->SetSpriteViewer(SpriteViewerWeak);
+
+		// MenuBar가 액터 생성/컴포넌트 추가 → Inspector 갱신
+		if (auto MB = MenuBarWeak.lock())
+		{
+			auto InspWeak = Inspector;
+			MB->SetOnActorCreated([InspWeak](std::weak_ptr<CActor> Actor)
+			{
+				if (auto Insp = InspWeak.lock())
+					Insp->SetTarget(Actor);
+			});
+
+			MB->SetOnOpenMaterialEditor([MatEditorWeak]()
+			{
+				if (auto MatEd = MatEditorWeak.lock())
+					MatEd->SetEnable(!MatEd->IsEnable());
+			});
+
+			MB->SetOnOpenAnimEditor([AnimEditorWeak]()
+			{
+				if (auto AnimEd = AnimEditorWeak.lock())
+					AnimEd->SetEnable(!AnimEd->IsEnable());
+			});
+
+			// Material Editor에서 저장/로드/Assign → Inspector 갱신
+			{
+				auto InspWeak2 = Inspector;
+				if (auto MatEd = MatEditorWeak.lock())
+				{
+					MatEd->SetOnMaterialUpdated([InspWeak2]()
+					{
+						if (auto Insp = InspWeak2.lock())
+							Insp->Rebuild();
+					});
+				}
+			}
+		}
+
+		// ContentUI에서 액터 선택 → Inspector 갱신 + MenuBar 선택 동기화
+		if (auto C = Content.lock())
+		{
+			auto InspWeak    = Inspector;
+			auto MBWeak      = MenuBarWeak;
+			auto MatEdWeak   = MatEditorWeak;
+			auto AnimEdWeak2 = AnimEditorWeak;
+			C->SetOnActorSelected([InspWeak, MBWeak, MatEdWeak, AnimEdWeak2](std::weak_ptr<CActor> Actor)
+			{
+				if (auto Insp = InspWeak.lock())
+					Insp->SetTarget(Actor);
+				if (auto MB = MBWeak.lock())
+					MB->SetSelectedActor(Actor);
+				if (auto MatEd = MatEdWeak.lock())
+					MatEd->SetSelectedActor(Actor);
+				if (auto AnimEd = AnimEdWeak2.lock())
+					AnimEd->SetTarget(Actor);
+			});
+		}
 	}
 
-	AddAnimation();
-
-	auto Player = CreateActor<CPlayer>("Player").lock();
-
-	if (Player)
+	// F12 : 에디터 패널 토글  (DIK_F12 = 0x58)
+	auto Input = GetInput().lock();
+	if (Input)
 	{
-		//Player->SetRadius(100.f);
-
-		mCameraList.push_back(Player->GetCamera());
+		Input->AddBindKey("ToggleEditorPanels", 0x58);
+		Input->SetBindFunction("ToggleEditorPanels", EInputType::Press,
+			this, &CMainWorld::ToggleEditorPanels);
 	}
 
-	auto Monster = CreateActor<CMonster>("Monster").lock();
-
-	if (Monster)
-	{
-		//Monster->SetRadius(100.f);
-
-		Monster->SetWorldPos(200.f, 200.f);
-		mCameraList.push_back(Monster->GetCamera());
-	}
-
-	Monster->SetPlayer(Player);
-	Player->AddMonster(Monster);
-
-	auto BlackHole = CreateActor<CBlackHole>("BlackHole").lock();
-
-	if (BlackHole)
-	{
-		BlackHole->SetWorldPos(-600.f, 0.f, 0.f);
-	}
-
-	auto Wall = CreateActor<COneWayWall>("Wall").lock();
-
-	if (Wall)
-	{
-		Wall->SetWorldPos(500.f, 0.f, 0.f);
-	}
-
-	auto BlockWall = CreateActor<CWall>("BlockWall").lock();
-
-	if (BlockWall)
-	{
-		BlockWall->SetWorldPos(-200.f, 200.f, 0.f);
-		BlockWall->SetWorldRotationZ(90.f);
-	}
-
-	//Monster = CreateActor<CMonster>("Monster").lock();
-
-	//if (Monster)
-	//{
-	//	//Monster->SetRadius(100.f);
-	//	Monster->SetWorldPos(200.f, -200.f);
-	//	Monster->SetPlayer(Player);
-	//	mCameraList.push_back(Monster->GetCamera());
-	//	Player->AddMonster(Monster);
-
-	//}
-
-	//Monster = CreateActor<CMonster>("Monster").lock();
-
-	//if (Monster)
-	//{
-	//	//Monster->SetRadius(100.f);
-	//	Monster->SetWorldPos(-200.f, 200.f);
-	//	Monster->SetPlayer(Player);
-	//	mCameraList.push_back(Monster->GetCamera());
-
-	//	Player->AddMonster(Monster);
-	//}
-
-
-	//충돌 
+	//충돌
 	//실습1
 	//물체를 이동시켜서 반사벡터를 이용해서 충돌 지점의 Normal 벡터를 이용해서 거울처럼 반사시킨다.
 
@@ -130,56 +164,32 @@ bool CMainWorld::Init()
 	//ex)오른쪽으로 이동할때만 통과할수 있는 벽
 
 
+	//auto TileMap = CreateActor<CTileMapActor>("TestTileMap").lock();
 
-	auto TestDataList = CSVReader::ReadData<FTestCSVData>(TEXT("TestCSV.csv"));
+	//if (TileMap)
+	//{
+	//	auto TileMapComp = TileMap->GetTileMapComp().lock();
 
-	for (const auto& TestData : TestDataList)
-	{
-		std::wstring str = L"Name : " + TestData.Name + L" Value1: " + std::to_wstring(TestData.Value1) + L" Value2: " + std::to_wstring(TestData.Value2) + L"\n";
+	//	if (TileMapComp)
+	//	{
+	//		TileMapComp->CreateTile(ETileShape::Rect, 10, 10, FVector2(100.f, 100.f), -1, true);
 
-		OutputDebugString(str.c_str());
-	}
+	//		TileMapComp->SetTileTexture(ETileTextureType::Back, "BackTexture", TEXT("MapBackGround.png"));
+	//		TileMapComp->SetTileTexture(ETileTextureType::Tile, "TileTexture", TEXT("Floors.png"));
 
-	auto UIMgr = GetUIManager().lock();
+	//		//스프라이트시트인 타일텍스처의 프레임을 지정해준다.
+	//		for (int i = 0; i < 5; ++i)
+	//		{
+	//			TileMapComp->AddTileFrame(0.f, i * 64.f, 64.f, 64.f + i * 64.f);
+	//		}
 
-	if (UIMgr)
-	{
-		auto MainUI = UIMgr->CreateWidgetContainer<CMainUI>("MainUI", 0).lock();
+	//		for (int i = 0; i < 5; ++i)
+	//		{
+	//			TileMapComp->SetTileFrame(i, i);
+	//		}
 
-		if (MainUI)
-		{
-			MainUI->SetPos(200.f, 200.f);
-			MainUI->SetOnFunc(Player.get(), &CPlayer::DebugMessage);
-			MainUI->SetOnFunc(Monster.get(), &CMonster::DebugMessage);
-		}
-	}
-
-	auto TileMap = CreateActor<CTileMapActor>("TestTileMap").lock();
-
-	if (TileMap)
-	{
-		auto TileMapComp = TileMap->GetTileMapComp().lock();
-
-		if (TileMapComp)
-		{
-			TileMapComp->CreateTile(ETileShape::Rect, 10, 10, FVector2(100.f, 100.f), -1, true);
-
-			TileMapComp->SetTileTexture(ETileTextureType::Back, "BackTexture", TEXT("MapBackGround.png"));
-			TileMapComp->SetTileTexture(ETileTextureType::Tile, "TileTexture", TEXT("Floors.png"));
-
-			//스프라이트시트인 타일텍스처의 프레임을 지정해준다.
-			for (int i = 0; i < 5; ++i)
-			{
-				TileMapComp->AddTileFrame(0.f, i * 64.f, 64.f, 64.f + i * 64.f);
-			}
-
-			for (int i = 0; i < 5; ++i)
-			{
-				TileMapComp->SetTileFrame(i, i);
-			}
-
-		}
-	}
+	//	}
+	//}
 
 
 
@@ -199,7 +209,7 @@ bool CMainWorld::Init()
 	Mouse->SetSize(32.f, 31.f);
 	Mouse->SetTexture("MouseNormal", TextureFileName);
 
-	Mouse->AddBrushFrame(TextureFileName.size(), 0.f, 0.f, 32.f, 31.f);
+	Mouse->AddBrushFrame((int)TextureFileName.size(), 0.f, 0.f, 32.f, 31.f);
 	Mouse->SetBrushAnimation(true);
 	Mouse->SetAnimationType(EAnimation2DTextureType::Frame);
 	Mouse->SetAnimationPlayTime(1.f);
@@ -336,6 +346,16 @@ void CMainWorld::AddAnimation()
 
 
 	}
+}
+
+void CMainWorld::ToggleEditorPanels()
+{
+	mEditorPanelsVisible = !mEditorPanelsVisible;
+
+	if (auto C = mContentPanel.lock())
+		C->SetEnable(mEditorPanelsVisible);
+	if (auto I = mInspectorPanel.lock())
+		I->SetEnable(mEditorPanelsVisible);
 }
 
 void CMainWorld::TestButtonHovered()

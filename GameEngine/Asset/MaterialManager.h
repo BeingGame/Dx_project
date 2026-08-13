@@ -21,5 +21,10 @@ public:
     bool CreateMaterial(const std::string& Name, const std::string& PixelShader, const std::string& SamplerName);
     std::shared_ptr<CMaterial> CreateMaterialInstance(const std::string& Name);
     std::weak_ptr<CMaterial> FindMaterial(const std::string& Name);
+    std::vector<std::string> GetAllMaterialNames() const;
+
+private:
+    void AutoLoadMaterials(const std::string& Dir);
+    void LoadMatFile(const std::string& FilePath);
 };
 
