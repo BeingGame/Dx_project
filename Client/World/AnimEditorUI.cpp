@@ -823,8 +823,7 @@ void CAnimEditorUI::LoadAnim()
         bCompHas = (AnimComp->GetAnimationMap().find(Info.Name) != AnimComp->GetAnimationMap().end());
 
     // 없으면 파일에 저장돼 있던 설정 그대로 붙인다.
-    // 예전에는 PlayTime/Loop를 1.f/true로 고정해서 넣는 바람에,
-    // Loop를 꺼서 저장한 공격 애니메이션도 무한 반복으로 붙었다.
+
     if (AnimComp && !bCompHas)
     {
         AnimComp->AddAnimation(Info.Name, Info.PlayTime, Info.PlayRate,
@@ -856,8 +855,7 @@ void CAnimEditorUI::LoadAnim()
     CompData.Selected = SeqIdx;
 
     // 프레임/텍스처/피벗은 파일에서 읽은 내용으로 항상 다시 맞춘다.
-    // 새로 추가할 때만 동기화하면, 이미 있는 시퀀스를 다시 불러왔을 때
-    // TextureName이 빈 채로 남아 스프라이트 뷰어가 텍스처를 못 찾는다.
+
     SyncFrames(mActiveComp, SeqIdx);
 
     // 불러온 시퀀스로 뷰어를 옮겨준다.
@@ -996,8 +994,7 @@ void CAnimEditorUI::Rebuild()
         int CompIdx = mActiveComp, SeqIdx = CompData.Selected;
         std::weak_ptr<CAnimation2DComponent> WeakComp = CompData.Comp;
 
-        // 총 재생 시간은 이제 프레임별 Dur(s)의 합이라 직접 못 고친다. 표시만 한다.
-        // (프레임 에디터를 펼치면 프레임마다 Dur(s)를 조절할 수 있다)
+       
         {
             float Total = 0.f;
             for (const auto& FrameData : CompData.Seqs[SeqIdx].Frames)
