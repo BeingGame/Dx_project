@@ -29,6 +29,31 @@ namespace DialogUtil
         return Wide;
     }
 
+    // UTF-16 wide 문자열 → ANSI(CP_ACP) 문자열 변환 (ToWide의 역변환)
+    inline std::string ToNarrow(const std::wstring& Wide)
+    {
+        if (Wide.empty()) return {};
+        int Len = WideCharToMultiByte(CP_ACP, 0, Wide.c_str(), -1, nullptr, 0, nullptr, nullptr);
+        if (Len <= 1) return {};
+        std::string Narrow(Len - 1, '\0');
+        WideCharToMultiByte(CP_ACP, 0, Wide.c_str(), -1, &Narrow[0], Len, nullptr, nullptr);
+        return Narrow;
+    }
+
+    // 절대경로를 exe 기준 상대경로로 바꿔준다. exe 폴더 밖이면 절대경로 그대로 반환.
+    inline std::string ToRelativePath(const std::string& FullPath)
+    {
+        std::string ExeDir = GetExeDir();
+
+        if (FullPath.size() > ExeDir.size() &&
+            _strnicmp(FullPath.c_str(), ExeDir.c_str(), ExeDir.size()) == 0)
+        {
+            return FullPath.substr(ExeDir.size());
+        }
+
+        return FullPath;
+    }
+
     // 전체 경로에서 확장자를 제거한 파일명만 추출
     inline std::string ExtractBaseName(const std::string& FullPath)
     {

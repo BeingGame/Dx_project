@@ -110,6 +110,24 @@ bool CEditorWorld::Init()
 					});
 				}
 			}
+
+			// Inspector에서 컴포넌트 제거 → MenuBar 프리팹 추적 목록 동기화
+			{
+				auto MBWeak2 = MenuBarWeak;
+				auto AnimEdWeak4 = AnimEditorWeak;
+				if (auto Insp = Inspector.lock())
+				{
+					Insp->SetOnComponentRemoved([MBWeak2, AnimEdWeak4](const std::string& CompName)
+					{
+						if (auto MB2 = MBWeak2.lock())
+							MB2->UntrackComponent(CompName);
+
+						// Anim Editor가 지워진 컴포넌트를 참조하고 있을 수 있으므로 갱신
+						if (auto AnimEd = AnimEdWeak4.lock())
+							AnimEd->RefreshTarget();
+					});
+				}
+			}
 		}
 
 		if (auto C = Content.lock())

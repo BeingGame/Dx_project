@@ -110,6 +110,9 @@ private:
 	float mMouseWheelDelta = 0.f;
 	static int sWheelAccum; // Window 입력 모드용 누적 휠 값
 
+	//에디터의 텍스트/숫자 입력 중에 키보드 바인딩 콜백을 막기 위한 플래그
+	bool mBindKeyBlocked = false;
+
 public:
 	void SetWorld(const std::weak_ptr<class CWorld> World)
 	{
@@ -122,6 +125,11 @@ public:
 	}
 
 	float GetMouseWheelDelta() const { return mMouseWheelDelta; }
+
+	//텍스트/숫자 입력 중 키보드 바인딩 실행을 막는다.
+	//GetKey 폴링과 마우스 바인딩은 계속 동작한다.
+	void SetBindKeyBlock(bool Block) { mBindKeyBlocked = Block; }
+	bool IsBindKeyBlocked() const { return mBindKeyBlocked; }
 
 	static void AddWheelDelta(int Delta) { sWheelAccum += Delta; }
 

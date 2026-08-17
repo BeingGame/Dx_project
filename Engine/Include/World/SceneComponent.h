@@ -24,6 +24,12 @@ public:
 		return mParent;
 	}
 
+	//자식 목록 조회 (컴포넌트 제거 시 자식 재부착에 사용)
+	const std::vector<std::weak_ptr<CSceneComponent>>& GetChildList() const
+	{
+		return mChildList;
+	}
+
 	int GetLayerOrder() const
 	{
 		return mRenderLayerOrder;

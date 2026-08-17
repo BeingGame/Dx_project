@@ -57,9 +57,26 @@ public:
 
 	void SetShader();
 
+	//---- 저장/복원 ----
+	//등록된 시퀀스 목록. 월드 저장과 애니메이션 에디터가 훑어본다.
+	const std::unordered_map<std::string, std::shared_ptr<CAnimation2DSequence>>& GetAnimationMap() const
+	{
+		return mAnimationMap;
+	}
+
+	//현재 재생 중인 시퀀스 이름 (없으면 빈 문자열)
+	std::string GetCurrentAnimationName() const;
+
+	virtual void Save(std::ofstream& File) const override;
+	virtual void Load(const std::unordered_map<std::string, std::string>& Props) override;
+
 private:
 	void RefreshTexture();
 
+	//소유 액터의 메시 컴포넌트를 찾아 UpdateComponent로 물린다.
+	//에디터에서 붙이거나 월드에서 불러온 컴포넌트는 아무도 짝을 지어주지 않아서,
+	//이게 없으면 애니메이션이 화면에 나오지 않는다.
+	bool BindUpdateComponentFromOwner();
 
 public:
 	virtual bool Init();

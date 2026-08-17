@@ -8,9 +8,14 @@ VS_OUTPUT_TEX AnimationVS(VS_INPUT_TEX input)
     float3 Pos = input.Pos;
     
     //정점의 크기를 ratio비율만큼 만들어준다.
-    //ex)-0.5 ~ 0.5 * ratio(0.3,0.3) = -0.15 ~ 0.15 
+    //ex)-0.5 ~ 0.5 * ratio(0.3,0.3) = -0.15 ~ 0.15
     Pos.xy *= cbAnimRatio.xy;
-    
+
+    //프레임별 위치 보정.
+    //C++에서 최대 프레임 크기로 나눠서 넘겨주므로 여기서는 그대로 더하기만 하면 된다.
+    //ratio를 곱한 뒤에 더해야 프레임 크기와 무관하게 같은 거리만큼 움직인다.
+    Pos.xy += cbAnimOffset.xy;
+
     output.Pos = mul(float4(Pos, 1.f), cbWVP);
     output.UV = ComputeAnimation2DUV(input.UV);
     

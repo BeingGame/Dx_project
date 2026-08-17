@@ -84,6 +84,9 @@ protected:
 	//액터가 사용하는 행렬과는 다른 행렬을 상수버퍼에 올려서 셰이더를 통해 렌더링한다.
 	static FMatrix mUIProjMat;
 
+	//생성되는 모든 위젯에 고유한 순번을 부여하기 위한 카운터
+	static unsigned long long mCreateSeqCounter;
+
 public:
 	static void CreateUIProjection(float Width, float Height)
 	{
@@ -131,8 +134,21 @@ protected:
 	//UI의 렌더링순서 값이 클수록 나중에 렌더링
 	int mZOrder = 0;
 
+	//위젯 생성 순번. ZOrder가 같은 위젯들의 정렬 순서를 고정하기 위한 타이브레이커.
+	//std::sort는 불안정 정렬이라 ZOrder만 비교하면 동일 ZOrder 위젯들의
+	//상대 순서가 매 프레임 뒤바뀌어 겹친 위젯이 깜빡인다.
+	unsigned long long mCreateSeq = 0;
+
 	//마우스가 현재 UI에 올라가있는지 확인한다.
 	bool mMouseOn = false;
+
+	//부모 컨테이너가 스크롤될 때 같이 밀려야 하는 위젯인지 여부.
+	//타이틀바/배경처럼 고정되어야 하는 위젯은 false로 둔다.
+	bool mScrollTarget = false;
+
+	//부모 컨테이너가 매 프레임 넣어주는 스크롤 이동량.
+	//mRenderPos 계산에 그대로 더해진다. (스크롤 대상이 아니면 항상 0)
+	FVector3 mScrollOffset;
 
 	FVector4 mWidgetColor = FVector4::White;
 
@@ -155,9 +171,42 @@ public:
 		return mPos;
 	}
 
+	const FVector3& GetRenderPos() const
+	{
+		return mRenderPos;
+	}
+
 	const FVector3& GetSize() const
 	{
 		return mSize;
+	}
+
+	//── 스크롤 연동 ────────────────────────────────────────────────────────
+	//부모 컨테이너의 스크롤을 따라 움직일 위젯으로 표시한다.
+	void SetScrollTarget(bool Target)
+	{
+		mScrollTarget = Target;
+
+		if (!Target)
+		{
+			mScrollOffset = FVector3();
+		}
+	}
+
+	bool IsScrollTarget() const
+	{
+		return mScrollTarget;
+	}
+
+	//부모 컨테이너 전용. 스크롤 이동량을 넣어준다.
+	void SetScrollOffset(const FVector3& Offset)
+	{
+		mScrollOffset = Offset;
+	}
+
+	const FVector3& GetScrollOffset() const
+	{
+		return mScrollOffset;
 	}
 
 	const FVector3& GetPivot() const
@@ -173,6 +222,11 @@ public:
 	int GetZOrder() const
 	{
 		return mZOrder;
+	}
+
+	unsigned long long GetCreateSeq() const
+	{
+		return mCreateSeq;
 	}
 
 	const FVector4& GetWidgetColor() const

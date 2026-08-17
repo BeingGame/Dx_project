@@ -34,6 +34,9 @@
     <Filter Include="소스 파일\Player\Skill\PlayerSkillComponent">
       <UniqueIdentifier>{edc079e7-1733-47a9-b853-f91ffb910cfe}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\Player\Component">
+      <UniqueIdentifier>{c8b21798-5836-4e1b-b82d-8dbb7e7e1060}</UniqueIdentifier>
+    </Filter>
     <Filter Include="소스 파일\Player\Status">
       <UniqueIdentifier>{f82d1835-3184-45ef-a19a-6c6117f78d2b}</UniqueIdentifier>
     </Filter>
@@ -90,6 +93,12 @@
     <ClCompile Include="World\Component\TurretSkillComp.cpp">
       <Filter>소스 파일\Player\Skill\PlayerSkillComponent</Filter>
     </ClCompile>
+    <ClCompile Include="World\Component\AnimStateComponent.cpp">
+      <Filter>소스 파일\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component\DirectionInputComponent.cpp">
+      <Filter>소스 파일\Player\Component</Filter>
+    </ClCompile>
     <ClCompile Include="World\Component\StatusComponent.cpp">
       <Filter>소스 파일\Player\Status</Filter>
     </ClCompile>
@@ -144,6 +153,27 @@
     <ClCompile Include="World\StartPlayer.cpp">
       <Filter>소스 파일\Player</Filter>
     </ClCompile>
+    <ClCompile Include="World\ContentUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\EditorMenuBar.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\PrefabManager.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\InspectorUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\AnimEditorUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\SpriteViewerUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="World\MaterialEditorUI.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -172,6 +202,12 @@
     </ClInclude>
     <ClInclude Include="World\Component\TurretSkillComp.h">
       <Filter>소스 파일\Player\Skill\PlayerSkillComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component\AnimStateComponent.h">
+      <Filter>소스 파일\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component\DirectionInputComponent.h">
+      <Filter>소스 파일\Player\Component</Filter>
     </ClInclude>
     <ClInclude Include="World\Component\StatusComponent.h">
       <Filter>소스 파일\Player\Status</Filter>
@@ -226,6 +262,30 @@
     </ClInclude>
     <ClInclude Include="World\StartPlayer.h">
       <Filter>소스 파일\Player</Filter>
+    </ClInclude>
+    <ClInclude Include="World\ContentUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\DialogUtil.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\EditorMenuBar.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\PrefabManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\InspectorUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\AnimEditorUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\SpriteViewerUI.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
+    <ClInclude Include="World\MaterialEditorUI.h">
+      <Filter>헤더 파일</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

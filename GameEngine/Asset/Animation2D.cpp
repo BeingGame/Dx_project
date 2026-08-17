@@ -73,12 +73,44 @@ void CAnimation2D::SetTextureFullPath(const std::string& Name, std::vector<const
 	}
 }
 
-void CAnimation2D::AddFrame(const FVector2& Start, const FVector2& Size, const FVector2& Offset)
+void CAnimation2D::ScaleTotalDuration(float TotalTime)
+{
+	if (mFrameArray.empty() || TotalTime <= 0.f)
+	{
+		return;
+	}
+
+	float Current = GetTotalDuration();
+
+	//기존 합이 0이면 비율을 알 수 없으므로 균등하게 나눠준다.
+	if (Current <= 0.f)
+	{
+		float Each = TotalTime / (float)mFrameArray.size();
+
+		for (auto& Frame : mFrameArray)
+			Frame.Duration = Each;
+
+		return;
+	}
+
+	float Scale = TotalTime / Current;
+
+	for (auto& Frame : mFrameArray)
+	{
+		Frame.Duration *= Scale;
+
+		if (Frame.Duration < 0.001f)
+			Frame.Duration = 0.001f;
+	}
+}
+
+void CAnimation2D::AddFrame(const FVector2& Start, const FVector2& Size, const FVector2& Offset, float Duration)
 {
 	FTextureFrame Frame;
 	Frame.Start = Start;
 	Frame.Size = Size;
 	Frame.Offset = Offset;
+	Frame.Duration = (Duration < 0.001f) ? 0.001f : Duration;
 
 	mFrameArray.push_back(Frame);
 }
@@ -178,6 +210,9 @@ void CAnimation2D::CalculateFrameRatio()
 			}
 		}
 	}
+
+	//Offset을 픽셀 단위로 환산할 때 기준이 되므로 보관해둔다.
+	mMaxFrameSize = MaxSize;
 
 	//maxsize가 따로 없다면 ratio계산을 하지 않는다.
 	if (MaxSize.x <= 0.f || MaxSize.y <= 0.f)

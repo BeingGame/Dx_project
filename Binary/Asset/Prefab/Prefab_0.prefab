@@ -1,0 +1,27 @@
+Tag=Actor
+PX=0 PY=0 PZ=0
+SX=1 SY=1 SZ=1
+RX=0 RY=0 RZ=0
+Count=2
+C0=CMeshComponent|MeshComponent|
+C1=CAnimation2DComponent|Animation2DComponent|
+[Comp:0]
+TypeName=CMeshComponent
+Name=MeshComponent
+Parent=
+RelPos=0 0 0
+RelScale=1 1 1
+RelRot=0 0 0
+Layer=1
+
+[Comp:1]
+TypeName=CAnimation2DComponent
+Name=Animation2DComponent
+SeqCount=5
+Seq0=BasicAttack|1|1|1|0|0
+Seq1=Idle|1|1|1|0|0
+Seq2=PlayerWalk|1|1|1|0|0
+Seq3=PlayerRunning|1|1|1|0|0
+Seq4=PlayerJump|1|1|1|0|0
+Current=PlayerJump
+

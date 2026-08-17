@@ -21,6 +21,10 @@ private:
 	static constexpr float HANDLE_SZ = 10.f;
 
 	int mStaticChildCount  = 0;
+
+	// Init 시점의 정적 위젯 목록.
+	// mChildList는 렌더/충돌에서 정렬되므로 개수로 잘라내면 안 된다.
+	std::vector<std::shared_ptr<class CWidget>> mStaticWidgets;
 	int mLastActorCount    = -1;
 	int mActiveCorner      = -1; // -1=없음 0=좌상 1=우상 2=좌하 3=우하
 
@@ -54,6 +58,8 @@ public:
 
 private:
 	void Rebuild();
+	// Rebuild 마무리 — 동적 항목을 스크롤 대상으로 표시하고 콘텐츠 길이를 알려준다.
+	void FinishLayout(float ContentEndY);
 	void OnEntryClicked(int Index);
 	void RefreshSelectionTints();
 };

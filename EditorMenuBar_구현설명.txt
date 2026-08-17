@@ -1,0 +1,931 @@
+================================================================================
+ 에디터 메뉴바(CEditorMenuBar) 구현 설명
+================================================================================
+ 대상 파일 : Client/World/EditorMenuBar.h
+             Client/World/EditorMenuBar.cpp
+ 연관 파일 : Client/World/EditorWorld.cpp   (콜백 배선)
+             Client/World/MainWorld.cpp     (동일 배선)
+             Client/World/PrefabManager.h   (프리팹 데이터 구조)
+ 작성일    : 2026-08-14
+================================================================================
+
+
+--------------------------------------------------------------------------------
+ [ 목차 ]
+--------------------------------------------------------------------------------
+ 0. 한눈에 보기
+ 1. 상태 변수 - 메뉴 하나당 3종 세트
+ 2. 레이아웃 상수
+ 3. 버튼 생성 헬퍼 - 버튼 + 텍스트를 겹쳐 놓는 방식
+ 4. Init() - 메뉴 조립
+ 5. Update() - 닫힘 처리 (핵심)
+ 6. 열기 콜백
+ 7. 액션 콜백
+ 8. 배선 - World 쪽
+ 9. 설계 요약
+10. 손볼 만한 지점
+
+
+================================================================================
+ 0. 한눈에 보기
+================================================================================
+
+CEditorMenuBar 는 CWidgetContainer 를 상속하며, UIManager 가 ZOrder 100 으로
+생성합니다. 화면 최상단 1280 x 40 영역을 차지합니다.
+
+  EditorWorld.cpp:39   auto MenuBarWeak = UIMgr->CreateWidgetContainer<CEditorMenuBar>("EditorMenuBar", 100);
+  MainWorld.cpp:57     (동일)
+
+엔진의 위젯 시스템(CWidgetContainer + CButton + CTextBlock) 위에 직접 만든
+retained 방식 드롭다운입니다. 즉시모드(ImGui) 방식이 아닙니다.
+
+위젯 트리는 평평(flat)합니다.
+
+  CEditorMenuBar (0,0, 1280x40)
+  |
+  +- "MenuBarBg"        CButton           ZOrder 0   <- 단순 배경(모든 상태 동일 색)
+  +- "EmptyActorBtn"    CButton           ZOrder 1  + "EmptyActorBtn_Lbl" CTextBlock ZOrder 2
+  +- "AddComponentBtn"  CButton           ZOrder 1  + Lbl
+  +- "SceneBtn"         CButton           ZOrder 1  + Lbl
+  +- "PrefabBtn"        CButton           ZOrder 1  + Lbl
+  +- "MaterialBtn"      CButton           ZOrder 1  + Lbl
+  +- "AnimEditorBtn"    CButton           ZOrder 1  + Lbl
+  |
+  +- "Submenu"          CWidgetContainer  ZOrder 2   (기본 Disable, 11행)
+  +- "SceneSubmenu"     CWidgetContainer  ZOrder 2   (기본 Disable,  2행)
+  +- "PrefabSubmenu"    CWidgetContainer  ZOrder 2   (기본 Disable,  2행)
+  +- "MaterialSubmenu"  CWidgetContainer  ZOrder 2   (기본 Disable,  1행)
+
+핵심 포인트 : 라벨 텍스트는 버튼의 "자식"이 아니라 "형제" 위젯입니다.
+같은 좌표/같은 크기의 CTextBlock 을 ZOrder 한 단계 높게 겹쳐 그립니다.
+
+
+ [ 메뉴 구성 표 ]
+
+  X 좌표 | 버튼            | 트리거   | 동작
+  -------+-----------------+----------+-------------------------------
+    10   | Empty Actor     | Clicked  | 즉시 액터 생성
+   140   | Add Component   | Hovered  | 11행 서브메뉴
+   300   | World           | Hovered  | Save / Load World
+   410   | Prefab          | Hovered  | Save / Load Prefab
+   520   | Material        | Hovered  | New Material Editor
+   630   | Anim Editor     | Clicked  | 패널 토글
+
+  => 드롭다운 부모는 전부 "호버"로 열리고,
+     클릭 액션 버튼(Empty Actor / Anim Editor)은 서브메뉴가 없습니다.
+
+
+================================================================================
+ 1. 상태 변수 - 메뉴 하나당 3종 세트
+================================================================================
+
+EditorMenuBar.h:16~46
+
+    // ---- 컴포넌트 추가 메뉴 ----
+    std::weak_ptr<class CButton> mAddComponentButton;
+    std::weak_ptr<class CWidgetContainer> mSubmenu;
+    std::vector<std::weak_ptr<class CButton>> mComponentButtons;
+
+    bool  mSubmenuOpen = false;
+    float mSubmenuCloseTimer = 0.f;
+    int   mActorCount  = 0;
+
+    // ---- 프리팹 메뉴 ----
+    std::weak_ptr<class CButton>          mPrefabButton;
+    std::weak_ptr<class CWidgetContainer> mPrefabSubmenu;
+    std::vector<std::weak_ptr<class CButton>> mPrefabSubmenuButtons;
+
+    bool  mPrefabSubmenuOpen = false;
+    float mPrefabCloseTimer  = 0.f;
+    int   mPrefabSaveCount   = 0;
+
+패턴이 보입니다. 드롭다운 메뉴 하나마다
+
+    (1) 부모 버튼           weak_ptr<CButton>
+    (2) 서브메뉴 컨테이너   weak_ptr<CWidgetContainer>
+    (3) 자식 버튼 배열      vector<weak_ptr<CButton>>
+    (4) 열림 플래그         bool
+    (5) 닫힘 타이머         float
+
+World / Material 메뉴도 똑같이 반복됩니다.
+소유권은 UIManager 에 있고 메뉴바는 전부 weak_ptr 로만 참조합니다.
+
+외부 통신용은 std::function 세 개뿐입니다.
+
+    std::function<void()> mOnOpenMaterialEditor;
+    std::function<void()> mOnOpenAnimEditor;
+    std::function<void(std::weak_ptr<class CActor>)> mOnActorCreated;
+
+그 외 프리팹 저장용 추적 배열과 선택 액터.
+
+    std::vector<FPrefabComponentEntry> mTrackedComponents;
+    std::weak_ptr<class CActor> mSelectedActor;
+
+
+================================================================================
+ 2. 레이아웃 상수
+================================================================================
+
+EditorMenuBar.cpp:28~32
+
+    static constexpr float BAR_H         = 40.f;   // 메뉴바 높이
+    static constexpr float BTN_Y         = 4.f;    // 상단 버튼 Y 오프셋
+    static constexpr float BTN_H         = 32.f;   // 상단 버튼 높이
+    static constexpr float SUBMENU_BTN_H = 32.f;   // 서브메뉴 한 줄 높이
+    static constexpr float SUBMENU_W     = 220.f;  // 서브메뉴 폭
+
+    BAR_H(40) - BTN_Y(4) - BTN_H(32) = 4
+    => 상단 버튼 위아래로 4px 여백이 남는 계산입니다.
+
+
+================================================================================
+ 3. 버튼 생성 헬퍼 - 버튼 + 텍스트를 겹쳐 놓는 방식
+================================================================================
+
+ [ 3-1. 상단 메뉴 버튼 ]  EditorMenuBar.cpp:46~75
+
+    static std::weak_ptr<CButton> MakeMenuButton(CWidgetContainer* Parent,
+        const std::string& Name, float X, float W, const wchar_t* Label)
+    {
+        auto Btn = Parent->CreateWidget<CButton>(Name, 1);      // ZOrder 1
+        auto B = Btn.lock();
+        if (B)
+        {
+            B->SetPos(X, BTN_Y);
+            B->SetSize(W, BTN_H);
+            B->SetTint(EWidgetState::Normal,  0.65f, 0.65f, 0.70f, 1.f);
+            B->SetTint(EWidgetState::Hovered, 0.85f, 0.85f, 1.00f, 1.f);
+            B->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
+            B->SetTint(EWidgetState::Release, 0.85f, 0.85f, 1.00f, 1.f);
+            B->SetTint(EWidgetState::Disable, 0.35f, 0.35f, 0.35f, 0.5f);
+        }
+
+        auto Text = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);  // ZOrder 2
+        if (auto T = Text.lock())
+        {
+            T->SetPos(X, BTN_Y);          // <- 버튼과 완전히 같은 좌표/크기
+            T->SetSize(W, BTN_H);
+            T->SetText(Label);
+            T->SetFontSize(14.f);
+            T->SetTextColor(FVector4::White);
+            T->SetAlignH(ETextAlignH::Center);
+            T->SetAlignV(ETextAlignV::Middle);
+        }
+
+        return Btn;   // 버튼만 반환 - 텍스트는 이후 건드릴 일이 없으므로 버림
+    }
+
+ 설명
+   - 엔진의 CButton 에 텍스트 기능이 없어서, 같은 사각형에 CTextBlock 을
+     ZOrder 한 단계 높게 덮어씌우는 방식으로 라벨을 만듭니다.
+   - 부모-자식이 아니라 "형제" 라는 점이 중요합니다.
+     버튼을 옮기면 라벨은 따라오지 않습니다.
+   - 5개 상태 틴트는 EWidgetState 를 그대로 따라갑니다.
+   - Release(뗀 직후)를 Hovered 와 같은 색으로 준 이유는 클릭을 놓았을 때
+     색이 튀지 않게 하려는 것이며, 뒤에 나오는 IsActive() 와 짝을 이룹니다.
+
+
+ [ 3-2. 서브메뉴 버튼 ]  EditorMenuBar.cpp:77~106
+
+    static std::weak_ptr<CButton> MakeSubmenuButton(CWidgetContainer* Parent,
+        const std::string& Name, int Row, const wchar_t* Label)
+    {
+        auto Btn = Parent->CreateWidget<CButton>(Name, 1);
+        auto B = Btn.lock();
+        if (B)
+        {
+            B->SetPos(0.f, Row * SUBMENU_BTN_H);      // <- 세로로 쌓기
+            B->SetSize(SUBMENU_W, SUBMENU_BTN_H);
+            B->SetTint(EWidgetState::Normal,  0.55f, 0.55f, 0.60f, 0.95f);
+            B->SetTint(EWidgetState::Hovered, 0.40f, 0.60f, 1.00f, 1.f);  // 파란 하이라이트
+            B->SetTint(EWidgetState::Clicked, 0.60f, 0.80f, 1.00f, 1.f);
+            B->SetTint(EWidgetState::Release, 0.40f, 0.60f, 1.00f, 1.f);
+            B->SetTint(EWidgetState::Disable, 0.30f, 0.30f, 0.30f, 0.5f);
+        }
+
+        auto Text = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);
+        if (auto T = Text.lock())
+        {
+            T->SetPos(0.f, Row * SUBMENU_BTN_H);
+            T->SetSize(SUBMENU_W, SUBMENU_BTN_H);
+            T->SetText(Label);
+            T->SetFontSize(14.f);
+            T->SetTextColor(FVector4::White);
+            T->SetAlignH(ETextAlignH::Center);
+            T->SetAlignV(ETextAlignV::Middle);
+        }
+
+        return Btn;
+    }
+
+ 설명
+   - X 대신 "행 인덱스(Row)" 를 받아 Y = Row * 32 로 세로 배치합니다.
+   - 좌표가 (0, Row*32) 인 이유는 "서브메뉴 컨테이너 기준 로컬 좌표" 이기
+     때문입니다. 컨테이너 자체를 (140, 40) 에 놓으면 자식들이 통째로 따라갑니다.
+
+
+================================================================================
+ 4. Init() - 메뉴 조립
+================================================================================
+
+ [ 4-1. 진입부 ]  EditorMenuBar.cpp:110~115
+
+    bool CEditorMenuBar::Init()
+    {
+        CWidgetContainer::Init();
+
+        SetPos(0.f, 0.f);
+        SetSize(1280.f, BAR_H);
+
+
+ [ 4-2. 배경 ]  EditorMenuBar.cpp:118~128
+
+    auto BgBtn = CreateWidget<CButton>("MenuBarBg", 0);   // ZOrder 0 = 맨 뒤
+    if (auto Bg = BgBtn.lock())
+    {
+        Bg->SetPos(0.f, 0.f);
+        Bg->SetSize(1280.f, BAR_H);
+        Bg->SetTint(EWidgetState::Normal,  0.20f, 0.20f, 0.22f, 0.95f);
+        Bg->SetTint(EWidgetState::Hovered, 0.20f, 0.20f, 0.22f, 0.95f);
+        Bg->SetTint(EWidgetState::Clicked, 0.20f, 0.20f, 0.22f, 0.95f);
+        Bg->SetTint(EWidgetState::Release, 0.20f, 0.20f, 0.22f, 0.95f);
+        Bg->SetTint(EWidgetState::Disable, 0.20f, 0.20f, 0.22f, 0.95f);
+    }
+
+ 설명
+   - 5개 상태를 "전부 같은 색" 으로 준 게 트릭입니다.
+   - CButton 을 단색 패널 대용으로 쓰되, 호버해도 색이 안 변하니 배경처럼 보입니다.
+   - 동시에 버튼이므로 마우스 입력을 흡수해서, 메뉴바 뒤쪽 씬이 클릭되는 것을 막습니다.
+
+
+ [ 4-3. 클릭형 버튼 (서브메뉴 없음) ]  EditorMenuBar.cpp:131~133
+
+    // 빈 액터 생성 버튼 (x=10)
+    mEmptyActorButton = MakeMenuButton(this, "EmptyActorBtn", 10.f, 120.f, TEXT("Empty Actor"));
+    if (auto B = mEmptyActorButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnEmptyActorClicked);
+
+    // Anim Editor 버튼 (x=630)   ... :240~242
+    mAnimEditorButton = MakeMenuButton(this, "AnimEditorBtn", 630.f, 100.f, TEXT("Anim Editor"));
+    if (auto B = mAnimEditorButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnAnimEditorClicked);
+
+
+ [ 4-4. 호버형 버튼 + 서브메뉴 : Add Component ]  EditorMenuBar.cpp:136~168
+
+    // 컴포넌트 추가 버튼 (x=140)
+    mAddComponentButton = MakeMenuButton(this, "AddComponentBtn", 140.f, 150.f, TEXT("Add Component"));
+    if (auto B = mAddComponentButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnAddComponentHovered);
+        //                    ^^^^^^^ Clicked 가 아니라 Hovered
+
+    // 컴포넌트 추가 서브메뉴
+    mSubmenu = CreateWidget<CWidgetContainer>("Submenu", 2);
+    auto Submenu = mSubmenu.lock();
+    if (Submenu)
+    {
+        Submenu->SetPos(140.f, BAR_H);                     // 부모 버튼 바로 아래
+        Submenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 11.f); // 11행
+        Submenu->SetEnable(false);                         // ★ 처음엔 꺼둠 = 닫힌 상태
+
+        auto AddCompBtn = [&](const std::string& Name, int Row, const wchar_t* Label,
+                              void(CEditorMenuBar::* Fn)())
+        {
+            auto Btn = MakeSubmenuButton(Submenu.get(), Name, Row, Label);
+            if (auto B = Btn.lock())
+                B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, Fn);
+            mComponentButtons.push_back(Btn);   // ★ 닫힘 판정에 쓸 목록에 등록
+        };
+
+        AddCompBtn("MeshComponent",        0,  TEXT("Mesh Component"),        &CEditorMenuBar::OnMeshComponentClicked);
+        AddCompBtn("CameraComponent",      1,  TEXT("Camera Component"),      &CEditorMenuBar::OnCameraComponentClicked);
+        AddCompBtn("Animation2DComponent", 2,  TEXT("Animation2D Component"), &CEditorMenuBar::OnAnimation2DComponentClicked);
+        AddCompBtn("ColliderBox2D",        3,  TEXT("Collider Box2D"),        &CEditorMenuBar::OnColliderBox2DClicked);
+        AddCompBtn("ColliderSphere2D",     4,  TEXT("Collider Sphere2D"),     &CEditorMenuBar::OnColliderSphere2DClicked);
+        AddCompBtn("CharacterMovement",    5,  TEXT("Character Movement"),    &CEditorMenuBar::OnCharacterMovementClicked);
+        AddCompBtn("ProjectileMovement",   6,  TEXT("Projectile Movement"),   &CEditorMenuBar::OnProjectileMovementClicked);
+        AddCompBtn("AIComponent",          7,  TEXT("AI Component"),          &CEditorMenuBar::OnAIComponentClicked);
+        AddCompBtn("SoundComponent",       8,  TEXT("Sound Component"),       &CEditorMenuBar::OnSoundComponentClicked);
+        AddCompBtn("WidgetComponent",      9,  TEXT("Widget Component"),      &CEditorMenuBar::OnWidgetComponentClicked);
+        AddCompBtn("TileMapComponent",     10, TEXT("TileMap Component"),     &CEditorMenuBar::OnTileMapComponentClicked);
+    }
+
+ 설명 - 이 코드의 뼈대 세 가지
+   (1) SetEnable(false)
+       이 엔진에서 Disable 된 컨테이너는 렌더도 입력도 통째로 스킵됩니다.
+       그래서 별도의 Visible 개념 없이 이것 하나로 열림/닫힘을 표현합니다.
+
+   (2) mComponentButtons.push_back(Btn)
+       나중에 Update() 에서 "서브메뉴 안 어딘가에 마우스가 있나?" 를
+       판정하려면 자식 버튼 목록이 필요합니다.
+
+   (3) AddCompBtn 람다가 void(CEditorMenuBar::*)() 멤버 함수 포인터를 받아
+       11줄의 반복을 한 줄씩으로 압축했습니다.
+
+
+ [ 4-5. World 메뉴 ]  EditorMenuBar.cpp:171~192
+
+    // ---- "World" 메뉴 (x=300) ----
+    mSceneButton = MakeMenuButton(this, "SceneBtn", 300.f, 100.f, TEXT("World"));
+    if (auto B = mSceneButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnSceneHovered);
+
+    mSceneSubmenu = CreateWidget<CWidgetContainer>("SceneSubmenu", 2);
+    auto SceneSub = mSceneSubmenu.lock();
+    if (SceneSub)
+    {
+        SceneSub->SetPos(300.f, BAR_H);
+        SceneSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
+        SceneSub->SetEnable(false);
+
+        auto SaveSceneBtn = MakeSubmenuButton(SceneSub.get(), "SaveSceneBtn", 0, TEXT("Save World"));
+        if (auto B = SaveSceneBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSaveSceneClicked);
+        mSceneSubmenuButtons.push_back(SaveSceneBtn);
+
+        auto LoadSceneBtn = MakeSubmenuButton(SceneSub.get(), "LoadSceneBtn", 1, TEXT("Load World"));
+        if (auto B = LoadSceneBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadSceneClicked);
+        mSceneSubmenuButtons.push_back(LoadSceneBtn);
+    }
+
+
+ [ 4-6. Prefab 메뉴 ]  EditorMenuBar.cpp:195~219
+
+    // ---- "Prefab" 메뉴 (x=410) ----
+    mPrefabButton = MakeMenuButton(this, "PrefabBtn", 410.f, 100.f, TEXT("Prefab"));
+    if (auto B = mPrefabButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnPrefabHovered);
+
+    mPrefabSubmenu = CreateWidget<CWidgetContainer>("PrefabSubmenu", 2);
+    auto PrefabSub = mPrefabSubmenu.lock();
+    if (PrefabSub)
+    {
+        PrefabSub->SetPos(410.f, BAR_H);
+        PrefabSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
+        PrefabSub->SetEnable(false);
+
+        // 0번 행: 프리팹 저장
+        auto SaveBtn = MakeSubmenuButton(PrefabSub.get(), "SavePrefabBtn", 0, TEXT("Save Prefab"));
+        if (auto B = SaveBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSavePrefabClicked);
+        mPrefabSubmenuButtons.push_back(SaveBtn);
+
+        // 1번 행: 파일 탐색기로 프리팹 불러오기/스폰
+        auto LoadPrefabBtn = MakeSubmenuButton(PrefabSub.get(), "LoadPrefabBtn", 1, TEXT("Load Prefab..."));
+        if (auto B = LoadPrefabBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadPrefabClicked);
+        mPrefabSubmenuButtons.push_back(LoadPrefabBtn);
+    }
+
+
+ [ 4-7. Material 메뉴 ]  EditorMenuBar.cpp:222~237
+
+    // ---- "Material" 메뉴 (x=520) ----
+    mMaterialButton = MakeMenuButton(this, "MaterialBtn", 520.f, 100.f, TEXT("Material"));
+    if (auto B = mMaterialButton.lock())
+        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnMaterialHovered);
+
+    mMaterialSubmenu = CreateWidget<CWidgetContainer>("MaterialSubmenu", 2);
+    auto MatSub = mMaterialSubmenu.lock();
+    if (MatSub)
+    {
+        MatSub->SetPos(520.f, BAR_H);
+        MatSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 1.f);
+        MatSub->SetEnable(false);
+
+        auto NewMatBtn = MakeSubmenuButton(MatSub.get(), "NewMaterialBtn", 0, TEXT("New Material Editor..."));
+        if (auto B = NewMatBtn.lock())
+            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnNewMaterialClicked);
+    }
+
+ 설명
+   - Material 만 예외적으로 자식 버튼을 배열에 담지 않습니다.
+     버튼이 하나뿐이라 나중에 FindWidget 으로 찾아 씁니다. (5-c 참조)
+
+
+================================================================================
+ 5. Update() - 닫힘 처리 (이 파일의 핵심)
+================================================================================
+
+ [ 5-a. 활성 판정 헬퍼 ]  EditorMenuBar.cpp:249~260
+
+    // Hovered, Clicked, Release 세 상태 모두 "활성" 으로 판단
+    static bool IsActive(const std::weak_ptr<CButton>& W)
+    {
+        auto B = W.lock();
+        if (!B) return false;
+        auto S = B->GetWidgetState();
+        return S == EWidgetState::Hovered
+            || S == EWidgetState::Clicked
+            || S == EWidgetState::Release;
+    }
+
+    static constexpr float CLOSE_DELAY = 0.08f; // 허용 갭 시간 (초)
+
+ 설명
+   - Hovered 만 보면, 클릭하는 순간 상태가 Clicked 로 바뀌면서 메뉴가
+     닫혀버립니다. 그래서 세 상태를 묶어 "마우스가 이 버튼 위에 있다" 로
+     취급합니다.
+
+
+ [ 5-b. 바깥 클릭 -> 즉시 닫기 ]  EditorMenuBar.cpp:266~313
+
+    // -- 서브메뉴 영역 밖 클릭 시 즉시 닫기 (표준 드롭다운 동작) --
+    if (mSubmenuOpen || mSceneSubmenuOpen || mPrefabSubmenuOpen || mMaterialSubmenuOpen)
+    {
+        if (auto World = mWorld.lock())
+        {
+            if (auto Input = World->GetInput().lock())
+            {
+                if (Input->GetMouseState(EMouseType::LButton, EInputType::Press))
+                {
+                    FVector2 MP = Input->GetMousePos();
+
+                    // 메뉴바 자체 영역 (Y < BAR_H)
+                    bool InMenuBar = (MP.y >= 0.f && MP.y < BAR_H);
+
+                    // 열린 서브메뉴 영역
+                    bool InAnySub = false;
+                    auto CheckSub = [&](const std::weak_ptr<CWidgetContainer>& SubW, float LocalX)
+                    {
+                        auto Sub = SubW.lock();
+                        if (!Sub || !Sub->IsEnable()) return;      // 닫힌 메뉴는 무시
+                        FVector3 SubSize = Sub->GetSize();
+                        if (MP.x >= LocalX && MP.x < LocalX + SubSize.x &&
+                            MP.y >= BAR_H  && MP.y < BAR_H  + SubSize.y)
+                            InAnySub = true;
+                    };
+                    CheckSub(mSubmenu,         140.f);
+                    CheckSub(mSceneSubmenu,    300.f);
+                    CheckSub(mPrefabSubmenu,   410.f);
+                    CheckSub(mMaterialSubmenu, 520.f);
+
+                    if (!InMenuBar && !InAnySub)
+                    {
+                        // 모든 서브메뉴 즉시 닫기
+                        auto ForceClose = [](bool& Open, float& Timer,
+                                             const std::weak_ptr<CWidgetContainer>& SubW)
+                        {
+                            Open = false; Timer = 0.f;
+                            if (auto S = SubW.lock()) S->SetEnable(false);
+                        };
+                        ForceClose(mSubmenuOpen,         mSubmenuCloseTimer,  mSubmenu);
+                        ForceClose(mSceneSubmenuOpen,    mSceneCloseTimer,    mSceneSubmenu);
+                        ForceClose(mPrefabSubmenuOpen,   mPrefabCloseTimer,   mPrefabSubmenu);
+                        ForceClose(mMaterialSubmenuOpen, mMaterialCloseTimer, mMaterialSubmenu);
+                    }
+                }
+            }
+        }
+    }
+
+ 설명
+   - 히트 테스트는 두 가지입니다.
+       InMenuBar : MP.y < 40 이면 메뉴바 위
+       InAnySub  : 열려 있는 각 서브메뉴의
+                   [X, X+Width] x [40, 40+Height] 사각형과 비교
+   - 둘 다 아니면 ForceClose 로 네 메뉴를 타이머 무시하고 전부 닫습니다.
+   - ForceClose 가 bool&, float& "참조" 를 받는 덕에 네 메뉴를 한 줄씩으로 닫습니다.
+   - 가장 바깥 if 로 하나도 안 열렸을 때는 입력 조회 자체를 건너뜁니다.
+
+
+ [ 5-c. 호버 이탈 -> 유예 타이머로 닫기 ]  EditorMenuBar.cpp:315~337
+
+    // -- Add Component 서브메뉴 닫기 --
+    if (mSubmenuOpen)
+    {
+        bool AnyActive = IsActive(mAddComponentButton);      // (1) 부모 버튼
+        if (!AnyActive)
+            for (auto& W : mComponentButtons)                // (2) 자식 버튼들
+                if (IsActive(W)) { AnyActive = true; break; }
+
+        if (AnyActive)
+        {
+            mSubmenuCloseTimer = 0.f;                        // 살아있음 -> 타이머 리셋
+        }
+        else
+        {
+            mSubmenuCloseTimer += DeltaTime;                 // 이탈 누적
+            if (mSubmenuCloseTimer >= CLOSE_DELAY)           // 0.08초 넘으면
+            {
+                mSubmenuOpen = false;
+                mSubmenuCloseTimer = 0.f;
+                if (auto S = mSubmenu.lock()) S->SetEnable(false);
+            }
+        }
+    }
+
+ 왜 즉시 닫지 않고 0.08초를 기다리나?
+   - 마우스가 "Add Component" 버튼(Y 4~36) 에서 서브메뉴 첫 행(Y 40~72) 으로
+     내려가는 동안, Y 36~40 구간에서는 어떤 버튼에도 안 걸립니다.
+   - 즉시 닫으면 그 한두 프레임에 메뉴가 사라져 클릭이 불가능해집니다.
+   - 80ms 유예가 그 틈을 덮습니다.
+
+ 부수 효과 - 메뉴 간 전환도 이 타이머가 알아서 처리
+   - World 위에서 Prefab 으로 마우스를 옮기면 Prefab 은 호버로 열리고,
+     World 는 0.08초 뒤 스스로 닫힙니다.
+   - 따라서 "다른 메뉴 닫기" 코드를 명시적으로 부를 필요가 없습니다.
+     (예외 : OnMaterialHovered() 만 직접 닫습니다. 6장 참조)
+
+ World / Prefab 메뉴도 완전히 동일한 패턴입니다. (:339~385)
+
+ Material 만 자식 버튼 배열이 없어서 FindWidget 으로 찾습니다. (:388~412)
+
+    bool AnyActive = IsActive(mMaterialButton);
+    if (!AnyActive)
+    {
+        if (auto Sub = mMaterialSubmenu.lock())
+            if (IsActive(Sub->FindWidget<CButton>("NewMaterialBtn")))
+                AnyActive = true;
+    }
+
+
+================================================================================
+ 6. 열기 콜백
+================================================================================
+
+EditorMenuBar.cpp:454~458 / 573~578 / 614~618 - 전부 3줄짜리입니다.
+
+    void CEditorMenuBar::OnAddComponentHovered()
+    {
+        if (mSubmenuOpen) return;                              // 이미 열림 -> 무시
+        mSubmenuOpen = true;
+        if (auto S = mSubmenu.lock()) S->SetEnable(true);
+    }
+
+    void CEditorMenuBar::OnPrefabHovered()
+    {
+        if (mPrefabSubmenuOpen) return;
+        mPrefabSubmenuOpen = true;
+        if (auto S = mPrefabSubmenu.lock()) S->SetEnable(true);
+    }
+
+    void CEditorMenuBar::OnSceneHovered()
+    {
+        if (mSceneSubmenuOpen) return;
+        mSceneSubmenuOpen = true;
+        if (auto S = mSceneSubmenu.lock()) S->SetEnable(true);
+    }
+
+ 설명
+   - Hovered 이벤트는 마우스가 위에 있는 동안 매 프레임 들어올 수 있어서,
+     if (mXxxOpen) return 가드로 중복 실행을 막습니다.
+
+
+Material 만 예외적으로 나머지를 직접 닫습니다. EditorMenuBar.cpp:656~664
+
+    void CEditorMenuBar::OnMaterialHovered()
+    {
+        if (auto S = mSubmenu.lock())         S->SetEnable(false); mSubmenuOpen = false;
+        if (auto S = mSceneSubmenu.lock())    S->SetEnable(false); mSceneSubmenuOpen = false;
+        if (auto S = mPrefabSubmenu.lock())   S->SetEnable(false); mPrefabSubmenuOpen = false;
+
+        mMaterialSubmenuOpen = true;
+        if (auto S = mMaterialSubmenu.lock()) S->SetEnable(true);
+    }
+
+ [주의] mSubmenuOpen = false; 는 if 에 속하지 않습니다 (세미콜론 뒤 별개 문장).
+        여기서는 결과가 우연히 같아 버그는 아니지만, 줄을 나누는 편이 안전합니다.
+
+
+================================================================================
+ 7. 액션 콜백
+================================================================================
+
+ [ 7-1. 액터 생성 ]  EditorMenuBar.cpp:438~452
+
+    void CEditorMenuBar::OnEmptyActorClicked()
+    {
+        auto World = mWorld.lock();
+        if (!World) return;
+
+        std::string Name = "EmptyActor_" + std::to_string(mActorCount++);
+        auto NewActor = World->CreateActor<CActor>(Name);
+        mSelectedActor = NewActor;          // 만들자마자 선택 상태로
+        mTrackedComponents.clear();         // 프리팹 기록 초기화
+
+        if (mOnActorCreated)
+            mOnActorCreated(mSelectedActor); // Inspector / AnimEditor 갱신
+
+        LOG_DEBUG("[MenuBar] Created %s", Name.c_str());
+    }
+
+
+ [ 7-2. 컴포넌트 추가 (11개 전부 동일 틀) ]  EditorMenuBar.cpp:461~569
+
+    void CEditorMenuBar::OnMeshComponentClicked()
+    {
+        auto Actor = mSelectedActor.lock();
+        if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
+        Actor->CreateComponent<CMeshComponent>("MeshComponent");
+        TrackComponent("MeshComponent", "MeshComponent");    // 프리팹 저장용 기록
+        if (mOnActorCreated) mOnActorCreated(mSelectedActor); // Inspector 갱신
+        LOG_DEBUG("[MenuBar] Added MeshComponent");
+    }
+
+ 나머지 10개는 타입/문자열만 바뀐 채 그대로 반복됩니다.
+
+    CMeshComponent                 "MeshComponent"
+    CCameraComponent               "CameraComponent"
+    CAnimation2DComponent          "Animation2DComponent"
+    CColliderBox2D                 "ColliderBox2D"
+    CColliderSphere2D              "ColliderSphere2D"
+    CCharacterMovementComponent    "CharacterMovement"
+    CProjectileMovementComponent   "ProjectileMovement"
+    CAIComponent                   "AIComponent"
+    CSoundComponent                "SoundComponent"
+    CWidgetComponent               "WidgetComponent"
+    CTileMapComponent              "TileMapComponent"
+
+ 기록 헬퍼  EditorMenuBar.cpp:422~434
+
+    void CEditorMenuBar::TrackComponent(const std::string& TypeName,
+                                        const std::string& CompName,
+                                        const std::string& Parent)
+    {
+        mTrackedComponents.push_back({ TypeName, CompName, Parent });
+        RefreshInspector();
+    }
+
+    void CEditorMenuBar::RefreshInspector()
+    {
+        if (mOnActorCreated)
+            mOnActorCreated(mSelectedActor);
+    }
+
+ [주의] TrackComponent() 가 이미 RefreshInspector() 를 부르는데,
+        호출부에서도 mOnActorCreated 를 또 부릅니다.
+        => Inspector 가 매번 두 번 재구축됩니다. 11곳 전부 그렇습니다.
+
+
+ [ 7-3. 프리팹 저장 ]  EditorMenuBar.cpp:580~594
+
+    void CEditorMenuBar::OnSavePrefabClicked()
+    {
+        auto Actor = mSelectedActor.lock();
+        if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
+
+        FPrefabData Data;
+        Data.ActorTag   = Actor->GetActorTag();
+        Data.WorldPos   = Actor->GetWorldPos();
+        Data.WorldScale = Actor->GetWorldScale();
+        Data.WorldRot   = Actor->GetWorldRot();
+        Data.Components = mTrackedComponents;    // ★ UI 로 추가한 것만
+
+        std::string PrefabName = "Prefab_" + std::to_string(mPrefabSaveCount++);
+        CPrefabManager::GetInst()->SavePrefab(PrefabName, Data);
+    }
+
+ 설명
+   - 트랜스폼은 액터에서 직접 읽지만, 컴포넌트 목록은 액터를 순회하지 않고
+     mTrackedComponents 를 그대로 씁니다.
+   - 이것이 10장 1번 문제의 원인입니다.
+
+ 참고 - 데이터 구조  PrefabManager.h:5~19
+
+    struct FPrefabComponentEntry
+    {
+        std::string TypeName;  // "MeshComponent", "ColliderBox2D" 등
+        std::string Name;      // 컴포넌트 이름
+        std::string Parent;    // 부모 컴포넌트 이름 ("" = 자동 루트)
+    };
+
+    struct FPrefabData
+    {
+        std::string ActorTag = "Actor";
+        FVector3    WorldPos;
+        FVector3    WorldScale = FVector3(1.f, 1.f, 1.f);
+        FVector3    WorldRot;
+        std::vector<FPrefabComponentEntry> Components;
+    };
+
+
+ [ 7-4. 파일 대화상자 계열 ]  EditorMenuBar.cpp:596~652
+
+    void CEditorMenuBar::OnLoadPrefabClicked()
+    {
+        std::string PrefabDir = DialogUtil::GetExeDir() + "Asset\\Prefab\\";
+        std::string FullPath = DialogUtil::OpenFile(
+            "Prefab Files\0*.prefab\0All Files\0*.*\0", PrefabDir.c_str());
+        if (FullPath.empty()) return;                        // 취소 시 조용히 종료
+
+        std::string PrefabName = DialogUtil::ExtractBaseName(FullPath);
+
+        auto World = mWorld.lock();
+        if (!World) return;
+
+        CPrefabManager::GetInst()->SpawnPrefab(PrefabName, World);
+        LOG_DEBUG("[MenuBar] Prefab spawned from file: %s", PrefabName.c_str());
+    }
+
+    void CEditorMenuBar::OnSaveSceneClicked()
+    {
+        auto World = mWorld.lock();
+        if (!World) return;
+
+        std::string WorldDir = DialogUtil::GetExeDir() + "Asset\\World\\";
+        CreateDirectoryA((DialogUtil::GetExeDir() + "Asset\\").c_str(), nullptr);
+        CreateDirectoryA(WorldDir.c_str(), nullptr);         // 폴더 없으면 생성
+
+        std::string FilePath = DialogUtil::SaveFile(
+            "World Files\0*.world\0All Files\0*.*\0", WorldDir.c_str(), "world");
+        if (FilePath.empty()) return;
+
+        World->SaveScene(FilePath);
+        LOG_DEBUG("[MenuBar] World saved: %s", FilePath.c_str());
+    }
+
+    void CEditorMenuBar::OnLoadSceneClicked()
+    {
+        auto World = mWorld.lock();
+        if (!World) return;
+
+        std::string WorldDir = DialogUtil::GetExeDir() + "Asset\\World\\";
+        std::string FilePath = DialogUtil::OpenFile(
+            "World Files\0*.world\0All Files\0*.*\0", WorldDir.c_str());
+        if (FilePath.empty()) return;
+
+        if (World->LoadScene(FilePath))
+            LOG_DEBUG("[MenuBar] World loaded: %s", FilePath.c_str());
+        else
+            LOG_ERROR("[MenuBar] World load failed: %s", FilePath.c_str());
+    }
+
+ 설명
+   - 필터 문자열의 \0 구분은 Win32 OPENFILENAME 규약 그대로입니다.
+   - Prefab 은 "경로 대신 베이스 이름만" 뽑아 매니저에 넘깁니다
+     (매니저가 경로를 다시 조립).
+   - World 는 "전체 경로를 그대로" 넘깁니다.
+     => 두 계층의 규약이 다르므로 혼동하지 않도록 주의.
+
+
+ [ 7-5. 패널 토글 - 위임 ]  EditorMenuBar.cpp:666~681
+
+    void CEditorMenuBar::OnNewMaterialClicked()
+    {
+        if (auto S = mMaterialSubmenu.lock()) S->SetEnable(false);  // 메뉴 먼저 닫고
+        mMaterialSubmenuOpen = false;
+
+        if (mOnOpenMaterialEditor)
+            mOnOpenMaterialEditor();
+    }
+
+    void CEditorMenuBar::OnAnimEditorClicked()
+    {
+        if (mOnOpenAnimEditor)
+            mOnOpenAnimEditor();
+    }
+
+ 설명
+   - 메뉴바는 CMaterialEditorUI 를 include 조차 하지 않습니다.
+   - 무엇을 열지는 전적으로 World 가 결정합니다.
+
+
+================================================================================
+ 8. 배선 - World 쪽
+================================================================================
+
+ [ 8-1. 정방향 : 메뉴바 -> 패널 ]  EditorWorld.cpp:72~99
+
+    if (auto MB = MenuBarWeak.lock())
+    {
+        auto InspWeak = Inspector;
+        auto AnimEdWeak3 = AnimEditorWeak;
+        MB->SetOnActorCreated([InspWeak, AnimEdWeak3](std::weak_ptr<CActor> Actor)
+        {
+            if (auto Insp = InspWeak.lock())
+                Insp->SetTarget(Actor);
+            if (auto AnimEd = AnimEdWeak3.lock())
+                AnimEd->SetTarget(Actor);
+        });
+
+        MB->SetOnOpenMaterialEditor([MatEditorWeak]()
+        {
+            if (auto MatEd = MatEditorWeak.lock())
+                MatEd->SetEnable(!MatEd->IsEnable());       // 토글
+        });
+
+        MB->SetOnOpenAnimEditor([AnimEditorWeak]()
+        {
+            if (auto AnimEd = AnimEditorWeak.lock())
+            {
+                bool WasEnabled = AnimEd->IsEnable();
+                AnimEd->SetEnable(!WasEnabled);
+                if (!WasEnabled)
+                    AnimEd->RefreshTarget();                // 열 때만 갱신
+            }
+        });
+    }
+
+
+ [ 8-2. 역방향 : ContentUI -> 메뉴바 선택 동기화 ]  EditorWorld.cpp:115~132
+
+    if (auto C = Content.lock())
+    {
+        auto InspWeak    = Inspector;
+        auto MBWeak      = MenuBarWeak;
+        auto MatEdWeak2  = MatEditorWeak;
+        auto AnimEdWeak2 = AnimEditorWeak;
+        C->SetOnActorSelected([InspWeak, MBWeak, MatEdWeak2, AnimEdWeak2](std::weak_ptr<CActor> Actor)
+        {
+            if (auto Insp = InspWeak.lock())      Insp->SetTarget(Actor);
+            if (auto MB = MBWeak.lock())          MB->SetSelectedActor(Actor);  // ★
+            if (auto MatEd = MatEdWeak2.lock())   MatEd->SetSelectedActor(Actor);
+            if (auto AnimEd = AnimEdWeak2.lock()) AnimEd->SetTarget(Actor);
+        });
+    }
+
+ 설명
+   - 캡처는 전부 weak_ptr 이고 콜백 안에서 lock() 을 확인하므로,
+     패널이 먼저 파괴돼도 댕글링 포인터가 발생하지 않습니다.
+
+
+================================================================================
+ 9. 설계 요약 - 이 구현의 세 가지 축
+================================================================================
+
+ (1) SetEnable() 하나로 열림/닫힘
+     별도 Visible 상태 없이 "컨테이너 활성화 = 표시 여부" 로 통일.
+     Disable 된 컨테이너는 렌더와 입력 처리에서 통째로 빠짐.
+
+ (2) CLOSE_DELAY(0.08초) 유예 타이머
+     호버 갭(버튼 -> 서브메뉴 이동 중 빈 구간)을 흡수하고,
+     덤으로 메뉴 간 전환까지 자동 처리.
+
+ (3) std::function 3개로만 외부 통신
+     메뉴바가 Inspector / MaterialEditor / AnimEditor 헤더를 알지 못함.
+     배선은 전적으로 World 가 담당 -> 결합도 낮음.
+
+
+ [ 상태 전이 요약 ]
+
+   [닫힘]  --부모 버튼 Hovered-->  [열림]
+                                     |
+                                     |-- 부모/자식 버튼에서 마우스 이탈
+                                     |   0.08초 경과              --> [닫힘]
+                                     |
+                                     |-- 메뉴바/서브메뉴 밖 좌클릭 --> [닫힘] (즉시)
+                                     |
+                                     +-- 자식 버튼 Clicked
+                                         (Material 은 직접 닫음,
+                                          나머지는 타이머로 닫힘)
+
+
+================================================================================
+ 10. 손볼 만한 지점
+================================================================================
+
+ [1] mTrackedComponents 가 액터 전환 시 초기화되지 않음   (기능 버그)
+
+     SetSelectedActor() (EditorMenuBar.h:67) 는 포인터만 바꾸고,
+     clear() 는 OnEmptyActorClicked() (:446) 에만 있습니다.
+
+     증상 A : ContentUI 로 다른 액터를 고른 뒤 Save Prefab 을 누르면
+              이전 액터의 컴포넌트 목록이 그대로 저장됩니다.
+     증상 B : 프리팹으로 로드된 액터나 코드로 만든 액터는 추적 기록이
+              비어 있어 컴포넌트 없이 저장됩니다.
+
+     해결 방향 : SetSelectedActor() 에서 mTrackedComponents 를 비우거나,
+                 저장 시 액터의 실제 컴포넌트 트리를 순회해 목록을 만들 것.
+
+
+ [2] Inspector 이중 갱신                                   (성능/중복)
+
+     TrackComponent() 안의 RefreshInspector() 와
+     호출부의 mOnActorCreated() 가 같은 일을 두 번 합니다.
+     11개 컴포넌트 콜백 전부 해당됩니다.
+
+     해결 방향 : 호출부의 mOnActorCreated 호출을 제거
+                 (TrackComponent 가 이미 처리하므로).
+
+
+ [3] 좌표 하드코딩 중복                                    (유지보수 위험)
+
+     Init()   :  140 / 300 / 410 / 520
+     Update() :  CheckSub(mSubmenu, 140.f) ... (:291~294)
+
+     두 곳에 따로 적혀 있어, 메뉴를 옮기면 바깥 클릭 히트 테스트가
+     조용히 어긋납니다.
+
+     해결 방향 : constexpr 상수 또는 서브메뉴 컨테이너의 GetPos() 를 사용.
+
+
+ [4] SetSize(1280.f, ...) 고정                             (해상도 대응)
+
+     Init() 에서 폭을 1280 으로 하드코딩합니다 (:115, :122).
+     해상도가 바뀌면 메뉴바 배경이 화면을 다 덮지 못합니다.
+
+     해결 방향 : 엔진의 해상도 값(디바이스 뷰포트)에서 폭을 가져올 것.
+
+
+ [5] OnMaterialHovered() 의 서식                           (가독성)
+
+     if (auto S = mSubmenu.lock()) S->SetEnable(false); mSubmenuOpen = false;
+                                                        ^^^^^^^^^^^^^^^^^^^^
+     이 부분은 if 에 속하지 않습니다. 현재는 결과가 같아 동작 문제는
+     없지만, 줄을 나누어 오해의 소지를 없애는 편이 좋습니다.
+
+================================================================================
+ 문서 끝
+================================================================================

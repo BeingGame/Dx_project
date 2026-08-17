@@ -1,0 +1,18 @@
+ANIM2D 1
+AnimName PlayerRunning
+TextureType SpriteSheet
+TextureName ÇÁ¸®½ºÆ®_³´
+TextureRelPath Asset\Texture\Player\ÇÁ¸®½ºÆ®_³´.png
+PlayTime 1
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 207.87 133.51
+Frames 6
+408.357 2781.16 383 300 0 0
+808.326 2778.48 383 300 0 0
+1197.56 2783.84 383 300 0 0
+1610.95 2783.84 383 300 0 0
+2008.23 2786.53 383 300 0 0
+2408.2 2791.9 383 300 0 0

@@ -134,6 +134,9 @@ struct FTextureFrame
 	//피벗 위치 오프셋
 	FVector2 Offset = FVector2(0.f, 0.f);
 
+	//이 프레임이 화면에 머무는 시간(초).
+	//시퀀스의 PlayTime은 이 값들의 합으로 나온다.
+	float Duration = 0.1f;
 };
 
 struct FTileFrame

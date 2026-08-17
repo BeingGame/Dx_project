@@ -399,14 +399,11 @@ bool CMaterial::Init(const std::string& PixelShader, const std::string& SamplerN
 
 void CMaterial::SetMaterial()
 {
-	//머티리얼 사용시에 셰이더와 상수버퍼를 레지스터에 등록한다.
-	auto Shader = mShader.lock();
-
-	if (Shader)
-	{
-		Shader->SetShader();
-	}
-
+	//셰이더는 여기서 바인딩하지 않는다.
+	//CMeshComponent::Render가 자기 셰이더를 먼저 바인딩하는데, 그 뒤에 이 함수가
+	//머티리얼의 셰이더로 다시 덮어쓰면 인스펙터에서 고른 Shader가 무시된다.
+	//(드로우 직전 마지막 바인딩이 이기므로 항상 머티리얼 쪽이 이겼다)
+	//셰이더 주인은 컴포넌트 하나로 통일한다.
 	mCBufferMaterial->UpdateBuffer();
 
 	//머티리얼에 등록된 텍스처들을 레지스터에 등록한다.
@@ -441,14 +438,11 @@ void CMaterial::SetMaterial()
 
 void CMaterial::SetMaterial(int TextureIndex)
 {
-	//머티리얼 사용시에 셰이더와 상수버퍼를 레지스터에 등록한다.
-	auto Shader = mShader.lock();
-
-	if (Shader)
-	{
-		Shader->SetShader();
-	}
-
+	//셰이더는 여기서 바인딩하지 않는다.
+	//CMeshComponent::Render가 자기 셰이더를 먼저 바인딩하는데, 그 뒤에 이 함수가
+	//머티리얼의 셰이더로 다시 덮어쓰면 인스펙터에서 고른 Shader가 무시된다.
+	//(드로우 직전 마지막 바인딩이 이기므로 항상 머티리얼 쪽이 이겼다)
+	//셰이더 주인은 컴포넌트 하나로 통일한다.
 	mCBufferMaterial->UpdateBuffer();
 
 	//머티리얼에 등록된 텍스처들을 레지스터에 등록한다.

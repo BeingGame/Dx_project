@@ -20,6 +20,7 @@ private:
 	static constexpr float ROW_H    = 20.f;
 
 	static constexpr float HANDLE_SZ = 10.f;
+	static constexpr float DEL_BTN_W = 18.f;   // 컴포넌트 헤더 우측 [X] 버튼 폭
 
 	int mStaticChildCount = 0;
 	int mActiveCorner     = -1;
@@ -50,6 +51,7 @@ private:
 	struct FInspProp
 	{
 		std::weak_ptr<class CTextBlock> ValueLabel;
+		std::weak_ptr<class CButton>    ValueBtn;   // 값 영역 — 더블클릭하면 직접 입력
 		std::weak_ptr<class CButton>    MinusBtn;
 		std::weak_ptr<class CButton>    PlusBtn;
 		float Step          = 1.f;
@@ -84,8 +86,10 @@ private:
 	struct FInspCompEntry
 	{
 		void*                           CompKey   = nullptr;
+		std::weak_ptr<class CComponent>	CompRef;    // 삭제 대상 컴포넌트
 		std::weak_ptr<class CButton>    HeaderBtn;
 		std::weak_ptr<class CTextBlock> HeaderLbl;
+		std::weak_ptr<class CButton>    DeleteBtn;  // [X] 제거 버튼
 		bool                            bExpanded = false;
 		std::vector<FInspProp>          Props;
 		std::vector<FInspAction>        Actions;
@@ -96,9 +100,31 @@ private:
 	std::map<void*, bool>       mExpandState;
 	std::map<void*, bool>       mDropdownOpen;   // DropKey 기준
 
+	// 컴포넌트 제거 시 외부 통지 (인자: 제거된 컴포넌트 이름)
+	std::function<void(const std::string&)> mOnComponentRemoved;
+
+	// ── 값 직접 입력 (더블클릭 → 타이핑 → Enter) ────────────────────────────
+	static constexpr float DOUBLE_CLICK_SEC = 0.35f;  // 더블클릭 인정 간격
+	static constexpr int   EDIT_BUF_MAX     = 15;     // 입력 최대 길이
+
+	bool  mKeysRegistered = false;   // 숫자 키 바인딩 등록 여부 (최초 Update에서 1회)
+	float mTimeAccum      = 0.f;     // 더블클릭 판정용 누적 시간
+	void* mLastClickKey   = nullptr; // 직전에 클릭된 값 버튼
+	float mLastClickTime  = -10.f;
+
+	bool        mEditActive  = false;
+	int         mEditCompIdx = -1;   // mCompEntries 인덱스
+	int         mEditPropIdx = -1;   // Entry.Props 인덱스
+	std::string mEditBuffer;         // 타이핑 중인 문자열
+
 public:
 	void SetTarget(std::weak_ptr<class CActor> Actor);
 	void Rebuild();
+
+	void SetOnComponentRemoved(std::function<void(const std::string&)> Fn)
+	{
+		mOnComponentRemoved = std::move(Fn);
+	}
 
 public:
 	virtual bool Init();
@@ -107,7 +133,34 @@ public:
 
 private:
 	void UpdateAllRowWidths(float NewWidth);
+
+	// Rebuild 마무리 — 동적 행을 스크롤 대상으로 표시하고 콘텐츠 길이를 알려준다.
+	void FinishLayout(float ContentEndY);
+
+	// 액터 컴포넌트를 펼쳤을 때의 속성 행들 (Animation2DComponent 등)
+	void AddActorCompProps(float& Y,
+	                       const std::shared_ptr<class CActorComponent>& Comp,
+	                       FInspCompEntry& Entry);
+
+	// 씬 컴포넌트 중 콜라이더 전용 속성 행들
+	void AddColliderProps(float& Y,
+	                      const std::shared_ptr<class CSceneComponent>& Comp,
+	                      FInspCompEntry& Entry);
 	std::weak_ptr<class CTextBlock> AddRow(float Y, const wchar_t* Text, float FontSize = 13.f);
+
+	// 컴포넌트 헤더 우측에 [X] 제거 버튼을 만든다.
+	std::weak_ptr<class CButton> AddDeleteButton(float Y, float PanelW, int I);
+
+	// 삭제 버튼 클릭을 처리한다. 실제로 제거했으면 true (호출부는 즉시 Rebuild 후 반환할 것)
+	bool HandleDeleteButtons();
+
+	// ── 값 직접 입력 ────────────────────────────────────────────────────────
+	void RegisterEditKeys();        // 숫자/기호 키를 인풋에 등록 (최초 1회)
+	void HandleValueEditInput();    // 편집 중 키 입력 처리
+	void DetectValueDoubleClick();  // 값 영역 더블클릭 감지 → 편집 시작
+	void BeginEdit(int CompIdx, int PropIdx);
+	void CommitEdit();              // Enter — 버퍼를 파싱해 Setter 호출
+	void CancelEdit();              // Esc / 바깥 클릭 / Rebuild
 	void AddPropRow(float& Y,
 	                const wchar_t* Label,
 	                float Step,

@@ -1,0 +1,18 @@
+ANIM2D 1
+AnimName PlayerWalk
+TextureType SpriteSheet
+TextureName ÇÁ¸®½ºÆ®_³´
+TextureRelPath Asset\Texture\Player\ÇÁ¸®½ºÆ®_³´.png
+PlayTime 0.857143
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 207.87 133.51
+Frames 6
+404.207 2459.91 383 300 0 0 0.142857
+802.135 2459.9 383 300 0 0 0.142857
+1208.9 2459.91 383 300 0 0 0.142857
+1606.83 2459.9 383 300 0 0 0.142857
+2001.81 2459.9 383 300 0 0 0.142857
+2408.58 2459.9 383 300 0 0 0.142857

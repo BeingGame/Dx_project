@@ -1,38 +1,2280 @@
 ﻿  main.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\main.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WorldManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\PrefabManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'main.cpp'을(를) 컴파일하는 중)
+  
   BlackHole.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\BlackHole.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/BlackHole.cpp'을(를) 컴파일하는 중)
+  
   Bullet.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Bullet.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Bullet.cpp'을(를) 컴파일하는 중)
+  
   Chaser.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Chaser.cpp'을(를) 컴파일하는 중)
+  
   SkillComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/SkillComponent.cpp'을(를) 컴파일하는 중)
+  
   StatusComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/StatusComponent.cpp'을(를) 컴파일하는 중)
+  
   TurretSkillComp.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Component\TurretSkillComp.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Component/TurretSkillComp.cpp'을(를) 컴파일하는 중)
+  
   EditorPlayer.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorPlayer.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Tile.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TileMapComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\PathManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorPlayer.cpp'을(를) 컴파일하는 중)
+  
   ContentUI.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\ContentUI.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\ContentUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TitleBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ContentUI.cpp'을(를) 컴파일하는 중)
+  
   EditorMenuBar.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorMenuBar.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorMenuBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\PrefabManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DSequence.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Animation2D.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SoundComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Sound.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TileMapComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Tile.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\DialogUtil.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorMenuBar.cpp'을(를) 컴파일하는 중)
+  
   PrefabManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\PrefabManager.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\PrefabManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DSequence.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Animation2D.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SoundComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Sound.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TileMapComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Tile.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\DialogUtil.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/PrefabManager.cpp'을(를) 컴파일하는 중)
+  
   EditorWidget.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorWidget.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Tile.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorWidget.cpp(34,22): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorWidget.cpp(37,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorWidget.cpp(75,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorWidget.cpp(34,1): error C1057: 매크로 확장에서 예기치 않은 파일의 끝이 나타났습니다.
   InspectorUI.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\InspectorUI.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\InspectorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TitleBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Material.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\AssetSubManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Mesh.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\MaterialManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\RenderState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\DialogUtil.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/InspectorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\InspectorUI.cpp(221,27): error C2059: 구문 오류: '?'
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\InspectorUI.cpp(783,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
   AnimEditorUI.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TitleBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DSequence.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Animation2D.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\AssetSubManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Texture.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\DialogUtil.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/AnimEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(80,75): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(114,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(659,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(667,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(747,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(1321,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.cpp(80,1): error C1057: 매크로 확장에서 예기치 않은 파일의 끝이 나타났습니다.
   SpriteViewerUI.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SpriteViewerUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.cpp(129,48): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.cpp(662,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.cpp(129,1): error C1057: 매크로 확장에서 예기치 않은 파일의 끝이 나타났습니다.
   MaterialEditorUI.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TitleBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Material.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\MaterialManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\AssetSubManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\DialogUtil.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Engine.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MaterialEditorUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.cpp(66,66): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.cpp(123,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.cpp(137,1): error C2001: 문자열 리터럴 내 줄 바꿈
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.cpp(66,1): error C1057: 매크로 확장에서 예기치 않은 파일의 끝이 나타났습니다.
   EditorWorld.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorWorld.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TileMapComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Tile.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorMenuBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\PrefabManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\ContentUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\InspectorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/EditorWorld.cpp'을(를) 컴파일하는 중)
+  
   GlobalCollision.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CollisionInfoManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/GlobalCollision.cpp'을(를) 컴파일하는 중)
+  
   StatusInterface.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Interface/StatusInterface.cpp'을(를) 컴파일하는 중)
+  
   MainUI.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MainUI.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\ProgressBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TitleBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\NumberWidget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainUI.cpp'을(를) 컴파일하는 중)
+  
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
   MainWorld.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MainWorld.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\AssetSubManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Animation2D.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\SoundManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Sound.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\CSVReader.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\PathManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Button.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\EditorMenuBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\PrefabManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\ContentUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\InspectorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MaterialEditorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\AnimEditorUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SpriteViewerUI.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\RenderManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MouseWidget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Image.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TileMapComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Tile.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TileMapRender.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MainWorld.cpp'을(를) 컴파일하는 중)
+  
   Monster.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Monster.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DSequence.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Animation2D.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SoundComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Sound.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MonsterAttackState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MonsterMoveState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Monster.cpp'을(를) 컴파일하는 중)
+  
   MonsterAttackState.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MonsterAttackState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\BlackBoard.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterAttackState.cpp'을(를) 컴파일하는 중)
+  
   MonsterMoveState.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\MonsterMoveState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIState.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\AIComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\BlackBoard.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/MonsterMoveState.cpp'을(를) 컴파일하는 중)
+  
   OneWayWall.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\OneWayWall.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/OneWayWall.cpp'을(를) 컴파일하는 중)
+  
   Player.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.cpp(1,1): warning C4828: The file contains a character starting at offset 0x493c that is not valid in the current source character set (codepage 949).
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\CameraManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Animation2DSequence.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Animation2D.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\ProgressBar.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Player.cpp'을(를) 컴파일하는 중)
+  
   ReflectBullet.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\ReflectBullet.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/ReflectBullet.cpp'을(를) 컴파일하는 중)
+  
   Shield.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Shield.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Shield.cpp'을(를) 컴파일하는 중)
+  
   SlowArea.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\SlowArea.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Player.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/SlowArea.cpp'을(를) 컴파일하는 중)
+  
   StartPlayer.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WorldManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Input.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartPlayer.cpp'을(를) 컴파일하는 중)
+  
   StartWidget.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\TextBlock.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Font.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\Asset.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWidget.cpp'을(를) 컴파일하는 중)
+  
   StartWorld.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\UIManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/StartWorld.cpp'을(를) 컴파일하는 중)
+  
   Turret.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Client\World\Turret.cpp(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\World.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\TimeManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\WidgetContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Widget.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\LogManager.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Logger.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Turret.cpp'을(를) 컴파일하는 중)
+  
   Wall.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Actor.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Object.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineInfo.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Macro.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Matrix.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector2.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\EngineMath.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Math\Vector3.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Enums.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Structs.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\SceneComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Component.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\MeshComponent.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\Asset\CBufferContainer.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Include\World\Collider.h(1,1): warning C4819: 현재 코드 페이지(949)에서 표시할 수 없는 문자가 파일에 들어 있습니다. 데이터가 손실되지 않게 하려면 해당 파일을 유니코드 형식으로 저장하십시오.
+  (소스 파일 'World/Wall.cpp'을(를) 컴파일하는 중)
+  
   코드를 생성하고 있습니다...
-  Client.vcxproj -> C:\Users\assort_c5\Desktop\Dx_project\Binary\Client_Debug.exe

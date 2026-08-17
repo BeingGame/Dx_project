@@ -153,14 +153,15 @@ void CSceneComponent::DetachFromParent()
 
 			if (!iter->owner_before(weak_from_this()) && !weak_from_this().owner_before(*iter))
 			{
-				iter = Parent->mChildList.erase(iter);
+				Parent->mChildList.erase(iter);
 				break;
 			}
-
-			//이후 부모를 nullptr로 변경한다.
-			mParent.reset();
 		}
 	}
+
+	//부모에서 떨어졌으므로 부모를 비워준다.
+	//(찾았을 때 break로 빠져나가므로 반복문 안에서 처리하면 정작 제거된 경우에 리셋되지 않는다)
+	mParent.reset();
 }
 
 void CSceneComponent::NormalizeRot(FVector3& Rotation)

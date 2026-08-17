@@ -1,4 +1,4 @@
-#include "EditorMenuBar.h"
+﻿#include "EditorMenuBar.h"
 #include "PrefabManager.h"
 
 #include "World/Button.h"
@@ -10,6 +10,8 @@
 #include "World/MeshComponent.h"
 #include "World/CameraComponent.h"
 #include "World/Animation2DComponent.h"
+#include "Component/DirectionInputComponent.h"
+#include "Component/AnimStateComponent.h"
 #include "World/ColliderBox2D.h"
 #include "World/ColliderSphere2D.h"
 #include "World/CharacterMovementComponent.h"
@@ -143,7 +145,7 @@ bool CEditorMenuBar::Init()
     if (Submenu)
     {
         Submenu->SetPos(140.f, BAR_H);
-        Submenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 11.f);
+        Submenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 13.f);
         Submenu->SetEnable(false);
 
         auto AddCompBtn = [&](const std::string& Name, int Row, const wchar_t* Label, void(CEditorMenuBar::* Fn)())
@@ -165,6 +167,8 @@ bool CEditorMenuBar::Init()
         AddCompBtn("SoundComponent",       8,  TEXT("Sound Component"),        &CEditorMenuBar::OnSoundComponentClicked);
         AddCompBtn("WidgetComponent",      9,  TEXT("Widget Component"),       &CEditorMenuBar::OnWidgetComponentClicked);
         AddCompBtn("TileMapComponent",     10, TEXT("TileMap Component"),      &CEditorMenuBar::OnTileMapComponentClicked);
+        AddCompBtn("DirectionInput",       11, TEXT("Direction Input"),        &CEditorMenuBar::OnDirectionInputComponentClicked);
+        AddCompBtn("AnimState",            12, TEXT("Anim State"),             &CEditorMenuBar::OnAnimStateComponentClicked);
     }
 
     // ---- "World" 메뉴 (x=300) ----
@@ -263,7 +267,7 @@ void CEditorMenuBar::Update(float DeltaTime)
 {
     CWidgetContainer::Update(DeltaTime);
 
-    // ── 서브메뉴 영역 밖 클릭 시 즉시 닫기 (표준 드롭다운 동작) ──────────────
+    // ── 서브메뉴 영역 밖 클릭 시 즉시 닫기  ──────────────
     if (mSubmenuOpen || mSceneSubmenuOpen || mPrefabSubmenuOpen || mMaterialSubmenuOpen)
     {
         if (auto World = mWorld.lock())
@@ -433,6 +437,19 @@ void CEditorMenuBar::RefreshInspector()
         mOnActorCreated(mSelectedActor);
 }
 
+void CEditorMenuBar::UntrackComponent(const std::string& CompName)
+{
+    for (auto It = mTrackedComponents.begin(); It != mTrackedComponents.end(); ++It)
+    {
+        if (It->Name != CompName)
+            continue;
+
+        mTrackedComponents.erase(It);
+        LOG_DEBUG("[MenuBar] Untracked component: %s", CompName.c_str());
+        return;
+    }
+}
+
 // ---- 컴포넌트 추가 콜백 ----
 
 void CEditorMenuBar::OnEmptyActorClicked()
@@ -568,6 +585,26 @@ void CEditorMenuBar::OnTileMapComponentClicked()
     LOG_DEBUG("[MenuBar] Added TileMapComponent");
 }
 
+void CEditorMenuBar::OnDirectionInputComponentClicked()
+{
+    auto Actor = mSelectedActor.lock();
+    if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
+    Actor->CreateComponent<CDirectionInputComponent>("DirectionInput");
+    TrackComponent("DirectionInput", "DirectionInput");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
+    LOG_DEBUG("[MenuBar] Added DirectionInputComponent");
+}
+
+void CEditorMenuBar::OnAnimStateComponentClicked()
+{
+    auto Actor = mSelectedActor.lock();
+    if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
+    Actor->CreateComponent<CAnimStateComponent>("AnimState");
+    TrackComponent("AnimState", "AnimState");
+    if (mOnActorCreated) mOnActorCreated(mSelectedActor);
+    LOG_DEBUG("[MenuBar] Added AnimStateComponent");
+}
+
 // ---- 프리팹 콜백 ----
 
 void CEditorMenuBar::OnPrefabHovered()
@@ -582,15 +619,36 @@ void CEditorMenuBar::OnSavePrefabClicked()
     auto Actor = mSelectedActor.lock();
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
 
+    // 액터를 직접 훑어서 구성을 만든다.
+    // mTrackedComponents는 이 세션에서 메뉴바로 추가한 것만 담고 있어서,
+    // 월드에서 불러왔거나 프리팹으로 스폰한 액터를 저장하면 비어 있었다.
     FPrefabData Data;
-    Data.ActorTag   = Actor->GetActorTag();
-    Data.WorldPos   = Actor->GetWorldPos();
-    Data.WorldScale = Actor->GetWorldScale();
-    Data.WorldRot   = Actor->GetWorldRot();
-    Data.Components = mTrackedComponents;
+    CPrefabManager::BuildPrefabData(Actor, Data);
 
-    std::string PrefabName = "Prefab_" + std::to_string(mPrefabSaveCount++);
-    CPrefabManager::GetInst()->SavePrefab(PrefabName, Data);
+    if (Data.Components.empty())
+    {
+        LOG_DEBUG("[MenuBar] Actor has no components to save.");
+        return;
+    }
+
+    // 파일명을 직접 정하게 한다.
+    // 예전에는 "Prefab_" + 카운터로 자동 생성했는데, 카운터가 실행할 때마다 0으로
+    // 돌아가서 다시 켜고 저장하면 Prefab_0을 말없이 덮어썼다.
+    std::string Dir = DialogUtil::GetExeDir() + "Asset\\Prefab\\";
+    CreateDirectoryA((DialogUtil::GetExeDir() + "Asset\\").c_str(), nullptr);
+    CreateDirectoryA(Dir.c_str(), nullptr);
+
+    std::string Path = DialogUtil::SaveFile(
+        "Prefab Files\0*.prefab\0All Files\0*.*\0", Dir.c_str(), "prefab");
+    if (Path.empty()) return;
+
+    // 프리팹은 항상 Asset\Prefab\ 아래에서 관리되므로 파일명만 취한다.
+    // (SpawnPrefab / GetPrefabNames가 그 폴더를 기준으로 동작한다)
+    std::string PrefabName = DialogUtil::ExtractBaseName(Path);
+    if (PrefabName.empty()) return;
+
+    // Actor를 같이 넘겨야 각 컴포넌트의 내부 상태(애니메이션 시퀀스 등)까지 저장된다.
+    CPrefabManager::GetInst()->SavePrefab(PrefabName, Data, Actor);
 }
 
 void CEditorMenuBar::OnLoadPrefabClicked()
@@ -600,13 +658,26 @@ void CEditorMenuBar::OnLoadPrefabClicked()
         "Prefab Files\0*.prefab\0All Files\0*.*\0", PrefabDir.c_str());
     if (FullPath.empty()) return;
 
-    std::string PrefabName = DialogUtil::ExtractBaseName(FullPath);
-
     auto World = mWorld.lock();
     if (!World) return;
 
-    CPrefabManager::GetInst()->SpawnPrefab(PrefabName, World);
-    LOG_DEBUG("[MenuBar] Prefab spawned from file: %s", PrefabName.c_str());
+    // 고른 파일의 전체 경로로 연다.
+    // 이름만 넘기면 Asset\Prefab\ 안에서 다시 찾기 때문에,
+    // 다이얼로그로 다른 폴더의 파일을 고르면 "not found"로 조용히 실패했다.
+    auto Spawned = CPrefabManager::GetInst()->SpawnPrefabFromFile(FullPath, World);
+
+    if (Spawned.expired())
+    {
+        LOG_ERROR("[MenuBar] Prefab spawn failed: %s", FullPath.c_str());
+        return;
+    }
+
+    // 스폰한 액터를 바로 선택 상태로 만들어 인스펙터/애님 에디터가 따라오게 한다.
+    mSelectedActor = Spawned;
+    if (mOnActorCreated)
+        mOnActorCreated(mSelectedActor);
+
+    LOG_DEBUG("[MenuBar] Prefab spawned from file: %s", FullPath.c_str());
 }
 
 // ---- 월드 저장/불러오기 콜백 ----

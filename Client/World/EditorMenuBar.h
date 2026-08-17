@@ -29,7 +29,6 @@ protected:
 
     bool  mPrefabSubmenuOpen = false;
     float mPrefabCloseTimer  = 0.f;
-    int   mPrefabSaveCount   = 0;
 
     // ---- 씬 메뉴 ----
     std::weak_ptr<class CButton>          mSceneButton;
@@ -66,6 +65,9 @@ public:
     void SetOnActorCreated(std::function<void(std::weak_ptr<class CActor>)> Fn) { mOnActorCreated = std::move(Fn); }
     void SetSelectedActor(std::weak_ptr<class CActor> Actor) { mSelectedActor = Actor; }
 
+    // Inspector에서 컴포넌트가 제거되면 프리팹 추적 목록에서도 지워준다.
+    void UntrackComponent(const std::string& CompName);
+
 public:
     // 컴포넌트 추가 콜백
     void OnEmptyActorClicked();
@@ -82,6 +84,8 @@ public:
     void OnSoundComponentClicked();
     void OnWidgetComponentClicked();
     void OnTileMapComponentClicked();
+    void OnDirectionInputComponentClicked();
+    void OnAnimStateComponentClicked();
 
     // Prefab 콜백
     void OnPrefabHovered();

@@ -936,6 +936,185 @@ std::string CActor::GetParentName(const std::shared_ptr<CSceneComponent>& Comp) 
 	return Parent ? Parent->GetName() : "";
 }
 
+//---- 컴포넌트 제거 ----
+
+bool CActor::RemoveSceneComponent(std::shared_ptr<CSceneComponent> Comp)
+{
+	if (!Comp)
+	{
+		return false;
+	}
+
+	//내 액터가 실제로 소유한 컴포넌트인지 확인한다.
+	size_t Size = mSceneCompList.size();
+	size_t Index = Size;
+
+	for (size_t i = 0; i < Size; ++i)
+	{
+		if (mSceneCompList[i] == Comp)
+		{
+			Index = i;
+			break;
+		}
+	}
+
+	if (Index == Size)
+	{
+		LOG_WARNING("[Actor] %s: RemoveSceneComponent 실패 - 소유하지 않은 컴포넌트 %s",
+			mName.c_str(), Comp->GetName().c_str());
+		return false;
+	}
+
+	//DetachFromParent가 자식 목록을 변경하므로 미리 복사해둔다.
+	std::vector<std::shared_ptr<CSceneComponent>> Children;
+
+	for (const auto& ChildWeak : Comp->GetChildList())
+	{
+		auto Child = ChildWeak.lock();
+
+		if (Child)
+		{
+			Children.push_back(Child);
+		}
+	}
+
+	auto Root = mRoot.lock();
+	bool IsRoot = (Root == Comp);
+
+	//DetachFromParent가 부모 링크를 끊으므로 미리 확보해둔다.
+	auto OldParent = Comp->GetParent().lock();
+
+	//대상을 계층에서 떼어낸다.
+	Comp->DetachFromParent();
+
+	if (IsRoot)
+	{
+		//루트가 제거되면 첫 번째 자식을 새 루트로 승격시킨다.
+		if (Children.empty())
+		{
+			mRoot.reset();
+		}
+		else
+		{
+			auto NewRoot = Children[0];
+			NewRoot->DetachFromParent();
+			mRoot = NewRoot;
+
+			//나머지 자식은 새 루트 밑으로 옮긴다.
+			for (size_t i = 1; i < Children.size(); ++i)
+			{
+				Children[i]->DetachFromParent();
+				NewRoot->AddChild(Children[i]);
+			}
+		}
+	}
+	else
+	{
+		//자식들을 제거 대상의 부모(없으면 루트)로 재부착한다.
+		auto NewParent = OldParent;
+
+		if (!NewParent)
+		{
+			NewParent = mRoot.lock();
+		}
+
+		for (auto& Child : Children)
+		{
+			Child->DetachFromParent();
+
+			if (NewParent)
+			{
+				NewParent->AddChild(Child);
+			}
+		}
+	}
+
+	//Destroy를 먼저 호출해 콜라이더 충돌 종료 처리 등을 진행시킨다.
+	Comp->Destroy();
+
+	//shared_ptr을 리스트에서 제거하면 실제로 소멸된다.
+	//렌더매니저/월드콜리전은 weak_ptr로만 들고 있어 만료된 항목을 스스로 정리한다.
+	mSceneCompList.erase(mSceneCompList.begin() + Index);
+
+	UpdateTransform();
+
+	LOG_DEBUG("[Actor] %s: SceneComponent 제거 - %s", mName.c_str(), Comp->GetName().c_str());
+
+	return true;
+}
+
+bool CActor::RemoveActorComponent(std::shared_ptr<CActorComponent> Comp)
+{
+	if (!Comp)
+	{
+		return false;
+	}
+
+	size_t Size = mActorCompList.size();
+
+	for (size_t i = 0; i < Size; ++i)
+	{
+		if (mActorCompList[i] != Comp)
+		{
+			continue;
+		}
+
+		Comp->Destroy();
+		mActorCompList.erase(mActorCompList.begin() + i);
+
+		LOG_DEBUG("[Actor] %s: ActorComponent 제거 - %s", mName.c_str(), Comp->GetName().c_str());
+
+		return true;
+	}
+
+	LOG_WARNING("[Actor] %s: RemoveActorComponent 실패 - 소유하지 않은 컴포넌트 %s",
+		mName.c_str(), Comp->GetName().c_str());
+
+	return false;
+}
+
+bool CActor::RemoveComponent(std::shared_ptr<CComponent> Comp)
+{
+	if (!Comp)
+	{
+		return false;
+	}
+
+	if (Comp->GetCompType() == EComponentType::Scene)
+	{
+		return RemoveSceneComponent(std::dynamic_pointer_cast<CSceneComponent>(Comp));
+	}
+
+	return RemoveActorComponent(std::dynamic_pointer_cast<CActorComponent>(Comp));
+}
+
+bool CActor::RemoveComponent(const std::string& Name)
+{
+	size_t SceneSize = mSceneCompList.size();
+
+	for (size_t i = 0; i < SceneSize; ++i)
+	{
+		if (mSceneCompList[i]->GetName() == Name)
+		{
+			return RemoveSceneComponent(mSceneCompList[i]);
+		}
+	}
+
+	size_t ActorSize = mActorCompList.size();
+
+	for (size_t i = 0; i < ActorSize; ++i)
+	{
+		if (mActorCompList[i]->GetName() == Name)
+		{
+			return RemoveActorComponent(mActorCompList[i]);
+		}
+	}
+
+	LOG_WARNING("[Actor] %s: RemoveComponent 실패 - %s 를 찾지 못함", mName.c_str(), Name.c_str());
+
+	return false;
+}
+
 void CActor::SaveScene(std::ofstream& File, int ActorIdx) const
 {
 	FVector3 Pos   = GetWorldPos();

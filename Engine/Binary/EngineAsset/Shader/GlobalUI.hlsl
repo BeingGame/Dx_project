@@ -18,30 +18,14 @@ cbuffer CBUIDefault : register(b10)
 float2 UpdateAnimationUV(float2 UV)
 {
     float2 Result = UV;
-    
-    if(cbBrushAnimationEnable == 0)
+
+    // 단일 return 경로로 유지해야 X4000(초기화되지 않은 변수 사용) 경고가 발생하지 않는다.
+    if (cbBrushAnimationEnable != 0)
     {
-        return Result;
+        Result.x = (UV.x == 0.f) ? cbBrushLTUV.x : cbBrushRBUV.x;
+        Result.y = (UV.y == 0.f) ? cbBrushLTUV.y : cbBrushRBUV.y;
     }
-    
-    if(UV.x == 0.f)
-    {
-        Result.x = cbBrushLTUV.x;
-    }
-    else
-    {
-        Result.x = cbBrushRBUV.x;
-    }
-    
-    if (UV.y == 0.f)
-    {
-        Result.y = cbBrushLTUV.y;
-    }
-    else
-    {
-        Result.y = cbBrushRBUV.y;
-    }
-    
+
     return Result;
 }
 

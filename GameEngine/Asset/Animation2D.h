@@ -26,14 +26,27 @@ public:
 protected:
 	std::weak_ptr<class CTexture> mTexture;
 
-	EAnimation2DTextureType mTextureType;
+	//초기화를 빼먹으면 쓰레기값이 들어가고, 셰이더가
+	//cbAnimation2DTextureType != 0(SpriteSheet)으로 보고 UV 자르기를 건너뛴다.
+	//그러면 프레임이 아니라 스프라이트 시트 전체가 그려진다.
+	EAnimation2DTextureType mTextureType = EAnimation2DTextureType::SpriteSheet;
 
 	std::vector<FTextureFrame> mFrameArray;
+
+	//시퀀스에서 가장 큰 프레임의 크기(텍셀). CalculateFrameRatio에서 갱신된다.
+	//정점의 1.0(쿼드 전체 폭)이 이 크기에 대응하므로,
+	//픽셀 단위 값을 정규화 좌표로 바꿀 때 기준이 된다.
+	FVector2 mMaxFrameSize = FVector2(0.f, 0.f);
 
 public:
 	EAnimation2DTextureType GetType() const
 	{
 		return mTextureType;
+	}
+
+	const FVector2& GetMaxFrameSize() const
+	{
+		return mMaxFrameSize;
 	}
 
 	const std::weak_ptr<class CTexture>& GetTexture() const
@@ -73,8 +86,35 @@ public:
 	void SetTextureFullPath(const std::string& Name, std::vector<const TCHAR*> FullPath);
 
 
+	//---- 프레임별 재생 시간 ----
+	//시퀀스의 총 재생 시간 = 모든 프레임 Duration의 합
+	float GetTotalDuration() const
+	{
+		float Total = 0.f;
+
+		for (const auto& Frame : mFrameArray)
+			Total += Frame.Duration;
+
+		return Total;
+	}
+
+	void SetFrameDuration(int Index, float Duration)
+	{
+		if (Index < 0 || Index >= (int)mFrameArray.size())
+			return;
+
+		//0이면 프레임이 절대 안 넘어가므로 하한을 둔다.
+		mFrameArray[Index].Duration = (Duration < 0.001f) ? 0.001f : Duration;
+	}
+
+	//총 재생 시간이 TotalTime이 되도록 모든 프레임을 같은 비율로 늘리고 줄인다.
+	//프레임 사이의 완급(비율)은 그대로 유지된다.
+	//프레임별 시간이 없던 시절의 SetPlayTime 호출부들이 이 경로로 들어온다.
+	void ScaleTotalDuration(float TotalTime);
+
 	//애니메이션에 프레임을 등록하는 함수
-	void AddFrame(const FVector2& Start, const FVector2& Size, const FVector2& Offset = FVector2(0.f,0.f));
+	void AddFrame(const FVector2& Start, const FVector2& Size, const FVector2& Offset = FVector2(0.f,0.f),
+		float Duration = 0.1f);
 	void AddFrame(float StartX, float StartY, float SizeX, float SizeY, float OffsetX = 0.f, float OffsetY = 0.f);
 	//한번에 여러개의 프레임을 등록하는 함수
 	void AddFrame(int Count,const FVector2& Start, const FVector2& Size, const FVector2& Offset = FVector2(0.f, 0.f));

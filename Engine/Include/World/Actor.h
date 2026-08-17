@@ -299,6 +299,23 @@ public:
 		return std::dynamic_pointer_cast<T>(Component);
 	}
 
+public:
+	//---- 컴포넌트 제거 ----
+	//씬 컴포넌트를 제거한다.
+	//제거 대상의 자식들은 대상의 부모(루트가 제거되는 경우엔 승격된 새 루트)로 재부착된다.
+	//루트를 제거하면 첫 번째 자식이 새 루트로 승격되고, 자식이 없으면 루트는 비워진다.
+	//리스트에서 erase한 뒤에도 대상이 유효해야 하므로 값으로 받는다.
+	bool RemoveSceneComponent(std::shared_ptr<CSceneComponent> Comp);
+
+	//액터 컴포넌트를 제거한다.
+	bool RemoveActorComponent(std::shared_ptr<CActorComponent> Comp);
+
+	//타입에 상관없이 제거한다. (씬/액터 자동 판별)
+	bool RemoveComponent(std::shared_ptr<CComponent> Comp);
+
+	//이름으로 제거한다. 씬 컴포넌트를 먼저 탐색한다.
+	bool RemoveComponent(const std::string& Name);
+
 	//임시코드
 protected:
 	//원충돌을 위한 radius

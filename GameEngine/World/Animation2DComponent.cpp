@@ -1,5 +1,6 @@
 #include "Animation2DComponent.h"
 #include "MeshComponent.h"
+#include "Actor.h"
 
 #include "../Asset/AssetManager.h"
 #include "../Asset/Animation2D.h"
@@ -364,7 +365,19 @@ void CAnimation2DComponent::SetShader()
 	{
 		const FTextureFrame& TexFrame = Anim->GetFrame(Frame);
 		mCBufferAnim2D->SetAnimRatio(TexFrame.Ratio);
-		mCBufferAnim2D->SetAnimOffset(TexFrame.Offset);
+
+		//Offset은 에디터에서 텍셀(픽셀) 단위로 입력한다.
+		//셰이더의 정점은 -0.5~0.5 정규화 좌표이고, 그 폭 1.0이 시퀀스 최대 프레임
+		//크기에 대응하므로 최대 크기로 나눠서 넘겨준다.
+		//Y는 부호를 뒤집는다. 텍스처 좌표는 아래로 증가하지만 월드 Y는 위로 증가하므로,
+		//그대로 넘기면 에디터에서 +를 눌렀을 때 스프라이트가 위로 올라간다.
+		const FVector2& MaxSize = Anim->GetMaxFrameSize();
+
+		FVector2 NormalizedOffset;
+		NormalizedOffset.x = (MaxSize.x > 0.f) ?  TexFrame.Offset.x / MaxSize.x : 0.f;
+		NormalizedOffset.y = (MaxSize.y > 0.f) ? -TexFrame.Offset.y / MaxSize.y : 0.f;
+
+		mCBufferAnim2D->SetAnimOffset(NormalizedOffset);
 
 		//스프라이트 애니메이션일때 추가될 조건문
 		if (Anim->GetType() == EAnimation2DTextureType::SpriteSheet)
@@ -431,12 +444,168 @@ bool CAnimation2DComponent::Init()
 	return true;
 }
 
+// ── 저장 / 복원 ───────────────────────────────────────────────────────────────
+
+std::string CAnimation2DComponent::GetCurrentAnimationName() const
+{
+	if (!mCurrentAnimation)
+	{
+		return std::string();
+	}
+
+	return mCurrentAnimation->GetName();
+}
+
+bool CAnimation2DComponent::BindUpdateComponentFromOwner()
+{
+	auto Owner = mOwner.lock();
+
+	if (!Owner)
+	{
+		return false;
+	}
+
+	//씬 컴포넌트 중 첫 번째 메시를 짝으로 삼는다.
+	//메시 하나당 애니메이션 컴포넌트 하나이므로, 여러 개를 쓰려면
+	//SetUpdateComponent로 직접 지정해야 한다.
+	for (const auto& Comp : Owner->GetSceneCompList())
+	{
+		auto MeshComp = std::dynamic_pointer_cast<CMeshComponent>(Comp);
+
+		if (!MeshComp)
+		{
+			continue;
+		}
+
+		std::weak_ptr<CMeshComponent> WeakMesh = MeshComp;
+		SetUpdateComponent(WeakMesh);
+
+		return true;
+	}
+
+	return false;
+}
+
+void CAnimation2DComponent::Save(std::ofstream& File) const
+{
+	CActorComponent::Save(File);
+
+	//프레임 데이터는 .anim2d 에셋에 있고 시작할 때 전부 등록되므로
+	//여기에는 "어떤 애니메이션을 어떤 재생 설정으로 쓰는가"만 적는다.
+	File << "SeqCount=" << mAnimationMap.size() << "\n";
+
+	int Index = 0;
+
+	for (const auto& Pair : mAnimationMap)
+	{
+		const auto& Seq = Pair.second;
+
+		File << "Seq" << Index++ << "="
+			<< Pair.first            << "|"
+			<< Seq->GetPlayTime()    << "|"
+			<< Seq->GetPlayRate()    << "|"
+			<< (Seq->GetLoop()     ? 1 : 0) << "|"
+			<< (Seq->GetReverse()  ? 1 : 0) << "|"
+			<< (Seq->GetSymmetry() ? 1 : 0) << "\n";
+	}
+
+	File << "Current=" << GetCurrentAnimationName() << "\n";
+}
+
+void CAnimation2DComponent::Load(const std::unordered_map<std::string, std::string>& Props)
+{
+	CActorComponent::Load(Props);
+
+	int SeqCount = 0;
+
+	if (auto It = Props.find("SeqCount"); It != Props.end())
+	{
+		try { SeqCount = std::stoi(It->second); }
+		catch (...) { SeqCount = 0; }
+	}
+
+	for (int i = 0; i < SeqCount; ++i)
+	{
+		auto It = Props.find("Seq" + std::to_string(i));
+
+		if (It == Props.end())
+		{
+			continue;
+		}
+
+		//Name|PlayTime|PlayRate|Loop|Reverse|Symmetry
+		std::vector<std::string> Fields;
+		{
+			const std::string& Line = It->second;
+			size_t Start = 0;
+
+			while (true)
+			{
+				size_t Bar = Line.find('|', Start);
+
+				if (Bar == std::string::npos)
+				{
+					Fields.push_back(Line.substr(Start));
+					break;
+				}
+
+				Fields.push_back(Line.substr(Start, Bar - Start));
+				Start = Bar + 1;
+			}
+		}
+
+		if (Fields.size() < 6 || Fields[0].empty())
+		{
+			continue;
+		}
+
+		float PlayTime = 1.f, PlayRate = 1.f;
+
+		try
+		{
+			PlayTime = std::stof(Fields[1]);
+			PlayRate = std::stof(Fields[2]);
+		}
+		catch (...)
+		{
+			//숫자가 깨졌으면 기본값으로 둔다.
+		}
+
+		AddAnimation(Fields[0], PlayTime, PlayRate,
+			Fields[3] == "1", Fields[4] == "1", Fields[5] == "1");
+	}
+
+	//현재 시퀀스 복원.
+	//ChangeAnimation은 메시가 아직 안 물려 있으면 그냥 빠져나가므로 직접 지정한다.
+	if (auto It = Props.find("Current"); It != Props.end() && !It->second.empty())
+	{
+		auto Found = mAnimationMap.find(It->second);
+
+		if (Found != mAnimationMap.end())
+		{
+			mCurrentAnimation = Found->second;
+		}
+	}
+
+	//씬 컴포넌트가 먼저 복원되므로 여기서 메시를 찾을 수 있다.
+	BindUpdateComponentFromOwner();
+	RefreshTexture();
+}
+
 void CAnimation2DComponent::Update(float DeltaTime)
 {
 	CActorComponent::Update(DeltaTime);
 
 	//현재 애니메이션이 활성화되어있는지 확인한다.
 	//활성화 되어 있지 않으면 다시 활성화를 해주고, 시간에 따라서 활성화된 프레임을 변경해준다.
+
+	//에디터에서 붙였거나 월드에서 불러온 컴포넌트는 짝지어진 메시가 없다.
+	//(SetUpdateComponent를 직접 부르는 건 Player/Monster 같은 하드코딩 액터뿐)
+	//그대로 두면 애니메이션이 화면에 나오지 않으므로 여기서 스스로 찾아 붙는다.
+	if (mUpdateComponent.expired())
+	{
+		BindUpdateComponentFromOwner();
+	}
 
 	if (mCurrentAnimation)
 	{

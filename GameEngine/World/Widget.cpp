@@ -16,12 +16,18 @@
 #include "Collision.h"
 
 FMatrix CWidget::mUIProjMat;
+unsigned long long CWidget::mCreateSeqCounter = 0;
 
 CWidget::CWidget()
-{}
+{
+	mCreateSeq = ++mCreateSeqCounter;
+}
 
 CWidget::CWidget(const CWidget& src)
 {
+	//복제본은 원본과 같은 순번을 쓰면 안 된다. (동률 → 정렬 흔들림)
+	mCreateSeq = ++mCreateSeqCounter;
+
 	mEnable = src.mEnable;
 	mAlive = src.mAlive;
 	mWorld = src.mWorld;
@@ -37,6 +43,8 @@ CWidget::CWidget(const CWidget& src)
 	mZOrder = src.mZOrder;
 	mMouseOn = src.mMouseOn;
 	mWidgetColor = src.mWidgetColor;
+	mScrollTarget = src.mScrollTarget;
+	mScrollOffset = src.mScrollOffset;
 
 	mCBufferTransform = std::shared_ptr<CCBufferTransform>(src.mCBufferTransform->Clone());
 	mCBufferTransform->Init();
@@ -108,13 +116,14 @@ void CWidget::Render()
 {
 	auto Parent = mParent.lock();
 
+	//mScrollOffset은 스크롤 대상 위젯에만 부모가 채워준다. 그 외에는 항상 0이다.
 	if (Parent)
 	{
-		mRenderPos = Parent->mRenderPos + mPos;
+		mRenderPos = Parent->mRenderPos + mPos + mScrollOffset;
 	}
 	else
 	{
-		mRenderPos = mPos;
+		mRenderPos = mPos + mScrollOffset;
 	}
 
 	mCBufferUIDefault->SetWidgetColor(mWidgetColor);
@@ -134,11 +143,11 @@ bool CWidget::CollisionMouse(std::weak_ptr<CWidget>& Result, const FVector2& Mou
 
 	if (Parent)
 	{
-		mRenderPos = Parent->mRenderPos + mPos;
+		mRenderPos = Parent->mRenderPos + mPos + mScrollOffset;
 	}
 	else
 	{
-		mRenderPos = mPos;
+		mRenderPos = mPos + mScrollOffset;
 	}
 
 	FVector3 HitPoint, Normal, LocalMousePos;
@@ -423,10 +432,24 @@ void CWidget::RenderBrush(const FUIBrush& Brush, const FVector3& RenderPos, cons
 
 bool CWidget::SortRender(const std::shared_ptr<class CWidget>& Src, const std::shared_ptr<class CWidget>& Dest)
 {
-	return Src->GetZOrder() < Dest->GetZOrder();
+	//ZOrder가 같으면 생성 순번으로 순서를 고정한다.
+	//타이브레이커가 없으면 불안정 정렬 때문에 매 프레임 순서가 뒤바뀌어
+	//같은 ZOrder로 겹쳐놓은 위젯(타이틀 바 위의 버튼 등)이 깜빡인다.
+	if (Src->GetZOrder() != Dest->GetZOrder())
+	{
+		return Src->GetZOrder() < Dest->GetZOrder();
+	}
+
+	return Src->GetCreateSeq() < Dest->GetCreateSeq();
 }
 
 bool CWidget::SortCollision(const std::shared_ptr<class CWidget>& Src, const std::shared_ptr<class CWidget>& Dest)
 {
-	return Src->GetZOrder() > Dest->GetZOrder();
+	//렌더 순서의 정확한 역순이어야 나중에 그려진(위에 보이는) 위젯이 먼저 히트된다.
+	if (Src->GetZOrder() != Dest->GetZOrder())
+	{
+		return Src->GetZOrder() > Dest->GetZOrder();
+	}
+
+	return Src->GetCreateSeq() > Dest->GetCreateSeq();
 }

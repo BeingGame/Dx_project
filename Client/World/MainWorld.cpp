@@ -120,6 +120,19 @@ bool CMainWorld::Init()
 					});
 				}
 			}
+
+			// Inspector에서 컴포넌트 제거 → MenuBar 프리팹 추적 목록 동기화
+			{
+				auto MBWeak2 = MenuBarWeak;
+				if (auto Insp = Inspector.lock())
+				{
+					Insp->SetOnComponentRemoved([MBWeak2](const std::string& CompName)
+					{
+						if (auto MB2 = MBWeak2.lock())
+							MB2->UntrackComponent(CompName);
+					});
+				}
+			}
 		}
 
 		// ContentUI에서 액터 선택 → Inspector 갱신 + MenuBar 선택 동기화

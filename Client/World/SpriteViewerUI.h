@@ -45,9 +45,14 @@ private:
     bool     mResizing      = false;
     int      mResizeCorner  = -1;   // 0=TL 1=TR 2=BL 3=BR
 
-    // 피벗 세로선 (픽셀, 프레임 로컬 좌표 — 애니메이션 전체에서 동일)
-    float    mPivotX         = 0.f;
-    bool     mPivotDragging  = false;
+    // 피벗 기준선 (픽셀, 선택 프레임의 Start 기준 상대 좌표)
+    // X는 캔버스를 세로로 가르는 선, Y는 가로로 가르는 선.
+    // 값의 주인은 시퀀스(FSeqData)이고 여기 있는 건 사본이다.
+    // 바뀌면 mOnPivotChanged로 애님 에디터에 돌려준다.
+    float    mPivotX          = 0.f;
+    float    mPivotY          = 0.f;
+    bool     mPivotXDragging  = false;
+    bool     mPivotYDragging  = false;
 
     // 캔버스 패닝 (우클릭 드래그)
     bool     mCanvasPanning  = false;
@@ -76,10 +81,6 @@ private:
     std::weak_ptr<class CTextBlock> mInfoLbl;
     std::weak_ptr<class CButton>    mAddBtn, mDelBtn;
 
-    // 동적 위젯 핸들 (RebuildFrameOverlays에서 생성)
-    struct FFrameBtn { std::weak_ptr<class CButton> Btn; };
-    std::vector<FFrameBtn> mFrameBtns;
-
     // 핸들 히트 영역 (위젯 경계 대신 수치로 보관 → 아웃라인 표현과 분리)
     struct FHitRect { float x = 0, y = 0, w = 0, h = 0; bool valid = false; };
     std::array<FHitRect, 4> mHandleHitRects;
@@ -89,6 +90,7 @@ private:
     std::function<void(int)>                     mOnFrameSelected;
     std::function<void(int)>                     mOnFrameDeleted;
     std::function<void(FVector2, FVector2)>      mOnFrameAdded;
+    std::function<void(float, float)>            mOnPivotChanged;
 
 public:
     CSpriteViewerUI();
@@ -100,10 +102,17 @@ public:
     void SetFrames(const std::vector<FFrameRect>& Frames, int Selected = -1);
     void SelectFrame(int fi);
 
+    // 시퀀스가 들고 있는 피벗 값을 뷰어에 밀어넣는다. (시퀀스를 바꿀 때마다 호출)
+    void SetPivot(float PivotX, float PivotY);
+
+    float GetPivotX() const { return mPivotX; }
+    float GetPivotY() const { return mPivotY; }
+
     void SetOnFrameChanged (std::function<void(int, FVector2, FVector2)> Fn) { mOnFrameChanged  = Fn; }
     void SetOnFrameSelected(std::function<void(int)> Fn)                     { mOnFrameSelected = Fn; }
     void SetOnFrameDeleted (std::function<void(int)> Fn)                     { mOnFrameDeleted  = Fn; }
     void SetOnFrameAdded   (std::function<void(FVector2, FVector2)> Fn)      { mOnFrameAdded    = Fn; }
+    void SetOnPivotChanged (std::function<void(float, float)> Fn)            { mOnPivotChanged  = Fn; }
 
     virtual bool Init() override;
     virtual void Update(float DeltaTime) override;
@@ -116,23 +125,24 @@ private:
     void UpdateZoomLabel();
     void UpdateInfoLabel();
 
-    // 패널 로컬 좌표 → 텍스처 픽셀 좌표
+    // 패널 로컬 좌표 → 텍스처 픽셀 좌표 (FrameDisp*의 역변환)
     FVector2 PanelToTex(FVector2 PanelLocalPos) const;
 
+    // 텍스처 픽셀 좌표 → 패널 로컬 좌표. fi번 프레임 박스가 화면에서 차지하는 사각형.
     float FrameDispX(int fi) const;
     float FrameDispY(int fi) const;
     float FrameDispW(int fi) const;
     float FrameDispH(int fi) const;
 
     // 스크린 좌표 기준 히트 테스트
-    bool HitTestFrame (int fi, FVector2 mouseScreen) const;
-    bool HitTestHandle(int c,  FVector2 mouseScreen) const;
+    bool HitTestFrame (int fi,     FVector2 mouseScreen) const;
+    bool HitTestHandle(int Corner, FVector2 mouseScreen) const; // 0=TL 1=TR 2=BL 3=BR
     bool IsInCanvas   (FVector2 mouseScreen) const;
 
-    std::weak_ptr<class CButton>    MakeBtn(const std::string& N,
+    std::weak_ptr<class CButton>    MakeBtn(const std::string& Name,
         float X, float Y, float W, float H,
         float R, float G, float B, float A = 1.f, int Z = 10);
-    std::weak_ptr<class CTextBlock> MakeLbl(const std::string& N,
+    std::weak_ptr<class CTextBlock> MakeLbl(const std::string& Name,
         float X, float Y, float W, float H, const wchar_t* Text,
         float FontSize = 12.f, ETextAlignH AlignH = ETextAlignH::Left, int Z = 11);
 

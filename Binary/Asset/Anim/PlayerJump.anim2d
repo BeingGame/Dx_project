@@ -1,0 +1,20 @@
+ANIM2D 1
+AnimName PlayerJump
+TextureType SpriteSheet
+TextureName ÇÁ¸®½ºÆ®_³´
+TextureRelPath Asset\Texture\Player\ÇÁ¸®½ºÆ®_³´.png
+PlayTime 1
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 207.87 133.51
+Frames 8
+3.66983 3408.1 383 300 0 0
+406.323 3392 383 300 0 0
+806.292 3378.58 383 300 0 0
+1208.95 3386.63 383 300 0 0
+1608.91 3392 383 300 0 0
+2003.51 3405.42 383 300 0 0
+2406.17 3416.16 383 300 0 0
+2406.17 3416.16 383 300 0 0

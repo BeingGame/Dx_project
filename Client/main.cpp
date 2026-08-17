@@ -26,6 +26,8 @@
 // Component types for scene save/load
 #include "World/Component/StatusComponent.h"
 #include "World/Component/TurretSkillComp.h"
+#include "World/Component/DirectionInputComponent.h"
+#include "World/Component/AnimStateComponent.h"
 
 #include "World/World.h"
 
@@ -75,6 +77,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	// Register client component types
 	CWorld::RegisterComponentType<CStatusComponent>("CStatusComponent");
 	CWorld::RegisterComponentType<CTurretSkillComp>("CTurretSkillComp");
+	CWorld::RegisterComponentType<CDirectionInputComponent>("CDirectionInputComponent");
+	CWorld::RegisterComponentType<CAnimStateComponent>("CAnimStateComponent");
 
 	CWorldManager::GetInst()->CreateWorld<CMainWorld>(false);
 

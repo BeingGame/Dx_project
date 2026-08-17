@@ -9,14 +9,27 @@ WorldPos=0 0 0
 WorldScale=1 1 1
 WorldRot=0 0 0
 SceneCompCount=1
-ActorCompCount=0
+ActorCompCount=1
 
 [SceneComp:0:0]
-TypeName=CCameraComponent
-Name=CameraComponent
+TypeName=CMeshComponent
+Name=MeshComponent
 Parent=
 RelPos=0 0 0
 RelScale=1 1 1
 RelRot=0 0 0
-Layer=0
+Layer=1
+
+[ActorComp:0:0]
+TypeName=CAnimation2DComponent
+Name=Animation2DComponent
+SeqCount=7
+Seq0=BasicAttack|1|1|1|0|0
+Seq1=PlayerHit|1|1|1|0|0
+Seq2=Idle|1|1|1|0|0
+Seq3=PlayerWalk|1|1|1|0|0
+Seq4=PlayerRunning|1|1|1|0|0
+Seq5=PlayerDown|1|1|1|0|0
+Seq6=PlayerJump|1|1|1|0|0
+Current=PlayerDown
 

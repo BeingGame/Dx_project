@@ -5,6 +5,7 @@
 #include <functional>
 #include <vector>
 #include <string>
+#include <map>
 
 // CreateAnimation() 호출 시 같이 Register()하면 에디터 "Add" 목록에 표시됨
 struct CAnimRegistry
@@ -16,6 +17,37 @@ struct CAnimRegistry
         sNames.push_back(Name);
     }
     static const std::vector<std::string>& GetAll() { return sNames; }
+
+    // 애니메이션 이름 → 피벗 기준선 (텍셀).
+    // 피벗은 CAnimation2D가 들고 있지 않고 에디터 전용 값이라, .anim2d에서 읽은 값을
+    // 여기 보관했다가 SyncFrames가 시퀀스로 다시 꺼내간다.
+    inline static std::map<std::string, FVector2> sPivots;
+
+    static void SetPivot(const std::string& Name, float PivotX, float PivotY)
+    {
+        sPivots[Name] = FVector2(PivotX, PivotY);
+    }
+
+    static FVector2 GetPivot(const std::string& Name)
+    {
+        auto It = sPivots.find(Name);
+        return (It != sPivots.end()) ? It->second : FVector2(0.f, 0.f);
+    }
+};
+
+// .anim2d 한 개를 읽었을 때 나오는 시퀀스 설정.
+// 불러오기에서 컴포넌트에 붙일 때 파일에 저장된 값을 그대로 쓰기 위해 돌려받는다.
+struct FLoadedAnimInfo
+{
+    std::string Name;
+    float PlayTime = 1.f;
+    float PlayRate = 1.f;
+    bool  Loop     = true;
+    bool  Reverse  = false;
+    bool  Symmetry = false;
+    float PivotX   = 0.f;
+    float PivotY   = 0.f;
+    int   FrameCount = 0;
 };
 
 class CAnimEditorUI : public CWidgetContainer
@@ -52,6 +84,8 @@ private:
         FVector2 Start  = { 0.f, 0.f };
         FVector2 Size   = { 32.f, 32.f };
         FVector2 Offset = { 0.f, 0.f };
+        // 이 프레임이 머무는 시간(초). 시퀀스 총 재생 시간은 이 값들의 합이다.
+        float    Duration = 0.1f;
     };
 
     struct FSeqData
@@ -62,6 +96,12 @@ private:
         bool  Loop     = true;
         bool  Reverse  = false;
         bool  Symmetry = false;
+        // 피벗 기준선 (텍셀, 선택 프레임의 Start 기준 상대 좌표)
+        // 스프라이트 뷰어의 청록 세로선 / 자홍 가로선이 이 값이다.
+        // 시퀀스마다 따로 가지며 .anim2d에 같이 저장된다.
+        float PivotX = 0.f;
+        float PivotY = 0.f;
+
         // 프레임 데이터 (CAnimation2D 미러)
         std::vector<FFrameData>   Frames;
         int                       SelectedFrame = -1;
@@ -91,7 +131,9 @@ private:
     {
         std::weak_ptr<CButton>    Minus, Plus;
         std::weak_ptr<CTextBlock> Lbl;
+        std::weak_ptr<CButton>    ValBtn;   // 값 영역 — 더블클릭하면 직접 입력
         float Step;
+        int   Decimals = 1;                // 표시 소수 자릿수 (재생 시간은 0.01초 단위라 3이 필요)
         std::function<float()>     Get;
         std::function<void(float)> Set;
     };
@@ -113,6 +155,7 @@ private:
 
     std::weak_ptr<CButton>    mAddToggleBtn;
     std::weak_ptr<CTextBlock> mFrameCountText;
+    std::weak_ptr<CTextBlock> mPlayTimeText;   // 프레임 Duration 합계 표시 (읽기 전용)
 
     // 프레임 에디터 위젯
     std::weak_ptr<CButton>    mToggleFrameBtn;
@@ -132,6 +175,20 @@ private:
     std::weak_ptr<class CSpriteViewerUI> mSpriteViewer;
     std::weak_ptr<CButton>               mOpenViewerBtn;
 
+    // ── 값 직접 입력 (더블클릭 → 타이핑 → Enter) ────────────────────────────
+    static constexpr float DOUBLE_CLICK_SEC = 0.35f;  // 더블클릭 인정 간격
+    static constexpr int   EDIT_BUF_MAX     = 15;     // 입력 최대 길이
+
+    bool  mKeysRegistered = false;   // 숫자 키 바인딩 등록 여부 (최초 Update에서 1회)
+    float mTimeAccum      = 0.f;     // 더블클릭 판정용 누적 시간
+    void* mLastClickKey   = nullptr; // 직전에 클릭된 값 버튼
+    float mLastClickTime  = -10.f;
+
+    bool        mEditActive = false;
+    int         mEditList   = -1;    // 0 = mPropBtns, 1 = mFramePropBtns
+    int         mEditIdx    = -1;    // 해당 목록 내 인덱스
+    std::string mEditBuffer;         // 타이핑 중인 문자열
+
 public:
     void SetTarget(std::weak_ptr<class CActor> Actor);
     void RefreshTarget() { SetTarget(mTarget); }
@@ -145,17 +202,35 @@ public:
 private:
     void AddSeq(int CompIdx, const std::string& AnimName);
     void PlaySeq(int CompIdx, int SeqIdx);
-    void SyncFrames(int ci, int si);
-    void ApplyFrames(int ci, int si);
+    void SyncFrames(int CompIdx, int SeqIdx);
+    void ApplyFrames(int CompIdx, int SeqIdx);
     void CreateNewAnim();
-    void SetAnimTexture(int ci, int si);
-    void SaveAnim(int ci, int si);
+    void SetAnimTexture(int CompIdx, int SeqIdx);
+    void SaveAnim(int CompIdx, int SeqIdx);
     void LoadAnim();
-    void UpdateHandles(float nw, float nh);
-    void OpenSpriteViewer(int ci, int si); // SpriteViewerUI 열고 콜백 연결
-    void SyncSpriteViewer(int ci, int si); // 현재 프레임 데이터를 SpriteViewer에 동기화
+    void UpdateHandles(float NewW, float NewH);
 
-    static void LoadAnimFromFile(const std::string& Path); // 파싱 + CAnimation2D 생성
+    //Rebuild 마무리 — 동적 위젯을 스크롤 대상으로 표시하고 콘텐츠 길이를 알려준다.
+    void FinishLayout(float ContentEndY);
+    void OpenSpriteViewer(int CompIdx, int SeqIdx); // SpriteViewerUI 열고 콜백 연결
+    void SyncSpriteViewer(int CompIdx, int SeqIdx); // 현재 프레임 데이터를 SpriteViewer에 동기화
+
+    // 뷰어가 열려 있으면 지금 선택된 시퀀스로 다시 붙여준다.
+    // 시퀀스가 바뀌거나 텍스처를 갈아끼운 뒤에 부른다.
+    void RefreshSpriteViewer();
+
+    // ── 값 직접 입력 ────────────────────────────────────────────────────────
+    void       RegisterEditKeys();       // 숫자/기호 키를 인풋에 등록 (최초 1회)
+    void       HandleValueEditInput();   // 편집 중 키 입력 처리
+    void       DetectValueDoubleClick(); // 값 영역 더블클릭 감지 → 편집 시작
+    void       BeginEdit(int ListIdx, int RowIdx);
+    void       CommitEdit();             // Enter — 버퍼를 파싱해 Set 호출
+    void       CancelEdit();             // Esc / 바깥 클릭 / Rebuild
+    void       RefreshEditLabel();       // 편집 중인 행에 버퍼 + 캐럿 표시
+    FPropBtn*  GetEditProp();            // 편집 대상 행 (없으면 nullptr)
+
+    // 파싱 + CAnimation2D 생성. OutInfo를 주면 읽어낸 시퀀스 설정을 채워준다.
+    static bool LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo = nullptr);
 
 public:
     static void LoadAllAnims(); // Asset\Anim\ 폴더 전체 자동 로드
@@ -171,5 +246,5 @@ public:
     void AddToggleRow(float& Y, const wchar_t* Label,
         std::function<bool()> Get, std::function<void(bool)> Set);
     void AddFramePropRow(float& Y, const wchar_t* Label, float Step,
-        std::function<float()> Get, std::function<void(float)> Set);
+        std::function<float()> Get, std::function<void(float)> Set, int Decimals = 1);
 };

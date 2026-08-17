@@ -1,0 +1,16 @@
+ANIM2D 1
+AnimName Idle
+TextureType Frame
+TextureName ÇÁ¸®½ºÆ®_³´
+TextureRelPath Asset\Texture\Player\ÇÁ¸®½ºÆ®_³´.png
+PlayTime 1
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 207.87 133.507
+Frames 4
+2 26.8435 383 300 0 0
+406 26.8435 383 300 0 0
+808 26.8435 383 300 0 0
+1210 26.8435 383 300 0 0

@@ -397,7 +397,13 @@ std::weak_ptr<CWidgetContainer> CUIManager::GetWidget(const std::string& Name)
 
 bool CUIManager::SortRender(const std::shared_ptr<class CWidget>& Src, const std::shared_ptr<class CWidget>& Dest)
 {
-	return Src->GetZOrder() < Dest->GetZOrder();
+	//ZOrder 동률일 때 생성 순번으로 순서를 고정 (불안정 정렬로 인한 깜빡임 방지)
+	if (Src->GetZOrder() != Dest->GetZOrder())
+	{
+		return Src->GetZOrder() < Dest->GetZOrder();
+	}
+
+	return Src->GetCreateSeq() < Dest->GetCreateSeq();
 }
 
 bool CUIManager::SortWorldRender(const std::weak_ptr<class CWidget>& Src, const std::weak_ptr<class CWidget>& Dest)
@@ -407,7 +413,13 @@ bool CUIManager::SortWorldRender(const std::weak_ptr<class CWidget>& Src, const 
 
 bool CUIManager::SortCollision(const std::shared_ptr<class CWidget>& Src, const std::shared_ptr<class CWidget>& Dest)
 {
-	return Src->GetZOrder() > Dest->GetZOrder();
+	//렌더 순서의 정확한 역순
+	if (Src->GetZOrder() != Dest->GetZOrder())
+	{
+		return Src->GetZOrder() > Dest->GetZOrder();
+	}
+
+	return Src->GetCreateSeq() > Dest->GetCreateSeq();
 }
 
 bool CUIManager::SortWorldCollision(const std::weak_ptr<class CWidget>& Src, const std::weak_ptr<class CWidget>& Dest)

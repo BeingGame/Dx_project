@@ -121,8 +121,16 @@ public:
 		return mFrame;
 	}
 
+	//총 재생 시간은 프레임별 Duration의 합이다. (저장된 값이 아니라 매번 더해서 낸다)
 	float GetPlayTime() const
 	{
+		auto Anim = mAnimation.lock();
+
+		if (Anim && Anim->GetFrameCount() > 0)
+		{
+			return Anim->GetTotalDuration();
+		}
+
 		return mPlayTime;
 	}
 
@@ -150,30 +158,24 @@ public:
 	{
 		mAnimation = Animation;
 
-		//애니메이션마다 프레임이 다를수 있기 때문에
-		//FrameTime을 갱신해준다.
-
-		auto Anim = mAnimation.lock();
-
-		if (Anim)
-		{
-			mFrameTime = mPlayTime / Anim->GetFrameCount();
-		}
-
+		//프레임 시간은 이제 프레임마다 따로 들고 있으므로 여기서 계산할 게 없다.
+		//(Update가 매 틱 현재 프레임의 Duration을 읽어간다)
 	}
 
+	//총 재생 시간을 Time으로 맞춘다.
+	//프레임별 Duration을 같은 비율로 늘리고 줄이므로 완급은 그대로 유지된다.
+	//프레임별 시간이 없던 시절의 호출부(Player, Monster, .anim2d 로드 등)가
+	//그대로 동작하도록 남겨둔 진입점이다.
 	void SetPlayTime(float Time)
 	{
 		mPlayTime = Time;
 
-		//애니메이션 실행시간이 변경되면 FrameTime을 갱신한다.
 		auto Anim = mAnimation.lock();
 
-		if (Anim)
+		if (Anim && Anim->GetFrameCount() > 0)
 		{
-			mFrameTime = mPlayTime / Anim->GetFrameCount();
+			Anim->ScaleTotalDuration(Time);
 		}
-
 	}
 
 	void SetPlayRate(float Rate)

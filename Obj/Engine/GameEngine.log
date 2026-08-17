@@ -1,119 +1,195 @@
-﻿  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Animation2D.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Collider.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Color2D.cso
-C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\EngineAsset\Shader\GlobalUI.hlsl(25,5): warning X4000: use of potentially uninitialized variable (UpdateAnimationUV)
-  
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\GlobalUI.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\Material.cso
-  compilation object save succeeded; see C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\TileMap.cso
-  Animation2D.cpp
+﻿  Animation2D.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Animation2D.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   AnimationManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\AnimationManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Asset.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Asset.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   AssetManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\AssetManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   AssetSubManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\AssetSubManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBuffer.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBuffer.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferAnimation2D.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferAnimation2D.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferCollider.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferCollider.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferData.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferData.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferMaterial.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferMaterial.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferPalette.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferPalette.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferTileMap.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferTileMap.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferTransform.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferTransform.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CBufferUIDefault.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\CBufferUIDefault.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Font.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Font.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   FontCollection.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\FontCollection.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   FontManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\FontManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   GraphicShader.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\GraphicShader.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Material.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Material.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   MaterialManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\MaterialManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
   Mesh.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Mesh.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   MeshManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\MeshManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   PathManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\PathManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Shader.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Shader.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderAnimation2D.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderAnimation2D.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderColor2D.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderColor2D.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderFrame.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderFrame.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderMaterial.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderMaterial.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderTexture.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderTexture.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderTileMap.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderTileMap.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ShaderUIDefault.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\ShaderUIDefault.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Sound.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Sound.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   SoundManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\SoundManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Texture.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\Texture.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   TextureManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Asset\TextureManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   BlendState.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\BlendState.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CSVReader.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\CSVReader.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   DepthStencilState.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\DepthStencilState.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Device.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Device.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
   Engine.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Engine.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Logger.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Logger.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   LogManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\LogManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Matrix.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Math\Matrix.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Vector2.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Math\Vector2.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Vector3.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Math\Vector3.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Vector4.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Math\Vector4.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Object.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\Object.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   RenderManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\RenderManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   RenderState.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\RenderState.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   TimeManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\TimeManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Actor.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Actor.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ActorComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\ActorComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   AIComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\AIComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   AIState.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\AIState.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Animation2DComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Animation2DComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Animation2DSequence.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Animation2DSequence.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   BlackBoard.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\BlackBoard.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Button.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Button.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CameraComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\CameraComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
   CameraManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\CameraManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CharacterMovementComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\CharacterMovementComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Collider.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Collider.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ColliderBox2D.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\ColliderBox2D.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ColliderSphere2D.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\ColliderSphere2D.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Collision.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Collision.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CollisionInfoManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\CollisionInfoManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CollisionQuadTree.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\CollisionQuadTree.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   CollisionQuadTreeNode.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\CollisionQuadTreeNode.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Component.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Component.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Image.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Image.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Input.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Input.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   MeshComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\MeshComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   MouseWidget.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\MouseWidget.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   MovementComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\MovementComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   NumberWidget.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\NumberWidget.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ProgressBar.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\ProgressBar.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   ProjectileMovementComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\ProjectileMovementComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   SceneComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\SceneComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   SoundComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\SoundComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   코드를 생성하고 있습니다...
   컴파일하고 있습니다...
   TextBlock.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\TextBlock.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Tile.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Tile.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   TileMapActor.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\TileMapActor.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   TileMapComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\TileMapComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   TileMapRender.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\TileMapRender.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   TitleBar.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\TitleBar.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   UIManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\UIManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   Widget.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\Widget.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   WidgetComponent.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\WidgetComponent.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   WidgetContainer.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\WidgetContainer.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   World.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\World.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   WorldCollision.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\WorldCollision.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   WorldManager.cpp
+C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\GameEngine\World\WorldManager.cpp(1,1): error C1041: 프로그램 데이터베이스 'C:\Users\ADMIN\Desktop\Don't Starve_DX11\Don-t-Starve_DX11\Dx_project\Engine\Binary\GameEngine_Debug.pdb'을(를) 열 수 없습니다. 여러 CL.EXE에서 동일한 .PDB 파일에 쓰는 경우 /FS를 사용하십시오.
   코드를 생성하고 있습니다...
-  GameEngine.vcxproj -> C:\Users\assort_c5\Desktop\Dx_project\Engine\Binary\GameEngine_Debug.lib
-  0 File(s) copied
-  File not found - *.inl
-  0 File(s) copied
-  File not found - *.hpp
-  0 File(s) copied
-  File not found - *.cs
-  0 File(s) copied
-  0 File(s) copied

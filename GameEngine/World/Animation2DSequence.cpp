@@ -43,10 +43,29 @@ void CAnimation2DSequence::Update(float DeltaTime)
     {
         return;
     }
-    
+
+    int FrameCount = GetFrameCount();
+
+    if (FrameCount <= 0)
+    {
+        return;
+    }
+
     if (!mEnd)
     {
         auto Anim = mAnimation.lock();
+
+        //머무는 시간은 프레임마다 따로 정해진다. (FTextureFrame::Duration)
+        //시퀀스 전체 재생 시간은 이 값들의 합이다.
+        if (mFrame >= 0 && mFrame < FrameCount)
+        {
+            mFrameTime = Anim->GetFrame(mFrame).Duration;
+        }
+
+        if (mFrameTime < 0.001f)
+        {
+            mFrameTime = 0.001f;
+        }
 
         mTime += DeltaTime * mPlayRate;
 

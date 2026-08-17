@@ -85,6 +85,12 @@ bool CContentUI::Init()
 	mHandleBR = MakeHandle("HandleBR", PANEL_W - HANDLE_SZ, PANEL_H - HANDLE_SZ);
 
 	mStaticChildCount = (int)mChildList.size();
+	mStaticWidgets = mChildList;
+
+	// 액터 목록이 패널보다 길어지면 휠로 스크롤할 수 있게 한다.
+	EnableScroll(true);
+	SetScrollArea(TITLE_H, PANEL_H);
+	SetScrollStep(ENTRY_H);
 
 	return true;
 }
@@ -202,24 +208,25 @@ void CContentUI::Update(float DeltaTime)
 
 void CContentUI::Rebuild()
 {
-	if ((int)mChildList.size() > mStaticChildCount)
+	// mChildList는 렌더/충돌에서 정렬되므로 개수로 자르면 정적 위젯이 날아갈 수 있다.
+	// Init 시점 스냅샷으로 되돌린 뒤 다시 채운다.
+	if (!mStaticWidgets.empty())
+		mChildList = mStaticWidgets;
+	else if ((int)mChildList.size() > mStaticChildCount)
 		mChildList.resize(mStaticChildCount);
 	mEntries.clear();
 
 	auto World = mWorld.lock();
-	if (!World) return;
+	if (!World) { FinishLayout(TITLE_H + 2.f); return; }
 
 	const auto& ActorMap = World->GetActorList();
 
 	float CurW  = GetSize().x;
-	float CurH  = GetSize().y;
 	float Y     = TITLE_H + 2.f;
 	int   Index = 0;
 
 	for (auto& [Name, ActorPtr] : ActorMap)
 	{
-		if (Y + ENTRY_H > CurH) break;
-
 		std::string BtnName = "ContentEntry_" + std::to_string(Index);
 		std::string LblName = "ContentLbl_"   + std::to_string(Index);
 
@@ -258,7 +265,23 @@ void CContentUI::Rebuild()
 		++Index;
 	}
 
+	FinishLayout(Y);
+
 	RefreshSelectionTints();
+}
+
+// Rebuild 직후에만 호출된다. (아직 정렬되지 않아 인덱스를 믿을 수 있다)
+void CContentUI::FinishLayout(float ContentEndY)
+{
+	size_t StaticCount = mStaticWidgets.empty()
+		? (size_t)mStaticChildCount
+		: mStaticWidgets.size();
+
+	for (size_t i = StaticCount; i < mChildList.size(); ++i)
+		mChildList[i]->SetScrollTarget(true);
+
+	SetScrollArea(TITLE_H, GetSize().y);
+	SetScrollContentEnd(ContentEndY + 4.f);
 }
 
 void CContentUI::OnEntryClicked(int Index)

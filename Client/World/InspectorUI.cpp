@@ -7,6 +7,9 @@
 #include "World/SceneComponent.h"
 #include "World/ActorComponent.h"
 #include "World/MeshComponent.h"
+#include "World/Animation2DComponent.h"
+#include "World/ColliderBox2D.h"
+#include "World/ColliderSphere2D.h"
 #include "Asset/Material.h"
 #include "Asset/AssetManager.h"
 #include "Asset/MeshManager.h"
@@ -15,6 +18,8 @@
 #include "World/Input.h"
 #include "World/World.h"
 #include "DialogUtil.h"
+
+#include <cstdio>   // sprintf_s (값 직접 입력 버퍼 초기화)
 
 CInspectorUI::CInspectorUI()
 {}
@@ -115,6 +120,12 @@ bool CInspectorUI::Init()
 	mHandleBL = MakeHandle("InspHandleBL", 0.f,              PANEL_H - HANDLE_SZ);
 	mHandleBR = MakeHandle("InspHandleBR", PANEL_W - HANDLE_SZ, PANEL_H - HANDLE_SZ);
 
+	// 컴포넌트 목록이 패널보다 길어지면 휠로 스크롤할 수 있게 한다.
+	// (상단 고정 행 아래부터 패널 끝까지가 스크롤 영역)
+	EnableScroll(true);
+	SetScrollArea(mComponentsStartY - 2.f, PANEL_H);
+	SetScrollStep(ROW_H + 2.f);
+
 	return true;
 }
 
@@ -136,6 +147,40 @@ std::weak_ptr<CTextBlock> CInspectorUI::AddRow(float Y, const wchar_t* Text, flo
 		Row->SetAlignV(ETextAlignV::Middle);
 	}
 	return Row;
+}
+
+// ── AddDeleteButton: 컴포넌트 헤더 우측 [X] 버튼 ────────────────────────────
+std::weak_ptr<CButton> CInspectorUI::AddDeleteButton(float Y, float PanelW, int I)
+{
+	float X = PanelW - DEL_BTN_W - 2.f;
+
+	auto DelBtn = CreateWidget<CButton>("ICX_" + std::to_string(I), 5).lock();
+	if (DelBtn)
+	{
+		DelBtn->SetPos(X, Y);
+		DelBtn->SetSize(DEL_BTN_W, ROW_H);
+		DelBtn->SetTint(EWidgetState::Normal,  0.42f, 0.16f, 0.18f, 1.f);
+		DelBtn->SetTint(EWidgetState::Hovered, 0.72f, 0.22f, 0.24f, 1.f);
+		DelBtn->SetTint(EWidgetState::Clicked, 0.92f, 0.32f, 0.34f, 1.f);
+		DelBtn->SetTint(EWidgetState::Release, 0.72f, 0.22f, 0.24f, 1.f);
+		DelBtn->SetTint(EWidgetState::Disable, 0.24f, 0.16f, 0.16f, 1.f);
+		mDynamicRows.push_back(DelBtn);
+	}
+
+	auto DelLbl = CreateWidget<CTextBlock>("ICXL_" + std::to_string(I), 6).lock();
+	if (DelLbl)
+	{
+		DelLbl->SetPos(X, Y);
+		DelLbl->SetSize(DEL_BTN_W, ROW_H);
+		DelLbl->SetText(TEXT("X"));
+		DelLbl->SetFontSize(12.f);
+		DelLbl->SetTextColor(FVector4::White);
+		DelLbl->SetAlignH(ETextAlignH::Center);
+		DelLbl->SetAlignV(ETextAlignV::Middle);
+		mDynamicRows.push_back(DelLbl);
+	}
+
+	return DelBtn;
 }
 
 // ── AddSectionHeader: 얇은 구분선 레이블 ─────────────────────────────────────
@@ -426,6 +471,22 @@ void CInspectorUI::AddPropRow(float& Y,
 		mDynamicRows.push_back(MinLbl);
 	}
 
+	// 값 표시 배경 — 더블클릭하면 직접 입력 모드로 들어간다.
+	// (CTextBlock은 마우스를 먹지 않으므로 아래 ZOrder 2에 깔아도 클릭을 받는다)
+	auto ValBtn = CreateWidget<CButton>("IPVB_" + std::to_string(I), 2).lock();
+	if (ValBtn)
+	{
+		ValBtn->SetPos(74.f, Y);
+		ValBtn->SetSize(66.f, ROW_H - 2.f);
+		ValBtn->SetTint(EWidgetState::Normal,  0.17f, 0.17f, 0.21f, 1.f);
+		ValBtn->SetTint(EWidgetState::Hovered, 0.24f, 0.26f, 0.34f, 1.f);
+		ValBtn->SetTint(EWidgetState::Clicked, 0.30f, 0.34f, 0.44f, 1.f);
+		ValBtn->SetTint(EWidgetState::Release, 0.24f, 0.26f, 0.34f, 1.f);
+		ValBtn->SetTint(EWidgetState::Disable, 0.14f, 0.14f, 0.18f, 1.f);
+		mDynamicRows.push_back(ValBtn);
+		Prop.ValueBtn = ValBtn;
+	}
+
 	// 값 표시
 	float InitVal = Prop.Getter ? Prop.Getter() : 0.f;
 	TCHAR ValBuf[32] = {};
@@ -485,6 +546,9 @@ void CInspectorUI::SetTarget(std::weak_ptr<CActor> Actor)
 
 void CInspectorUI::Rebuild()
 {
+	// 편집 중이던 행의 위젯/인덱스가 모두 무효가 되므로 먼저 편집을 끝낸다.
+	CancelEdit();
+
 	// 이전에 추가된 모든 동적 위젯 제거 (정렬 순서 무관하게 안전)
 	for (auto& Row : mDynamicRows)
 		RemoveChild(Row);
@@ -502,6 +566,7 @@ void CInspectorUI::Rebuild()
 		if (auto T = mPosText.lock())       T->SetText(TEXT("Pos: -"));
 		if (auto T = mRotText.lock())       T->SetText(TEXT("Rot: -"));
 		if (auto T = mScaleText.lock())     T->SetText(TEXT("Scale: -"));
+		FinishLayout(mComponentsStartY);
 		return;
 	}
 
@@ -541,12 +606,12 @@ void CInspectorUI::Rebuild()
 
 		int I = mDynIdx++;
 
-		// 헤더 버튼 (클릭 가능한 배경)
+		// 헤더 버튼 (클릭 가능한 배경) — 우측 [X] 버튼 자리를 비워둔다.
 		auto HBtn = CreateWidget<CButton>("ICH_" + std::to_string(I), 3).lock();
 		if (HBtn)
 		{
 			HBtn->SetPos(2.f, Y);
-			HBtn->SetSize(PanelW - 4.f, ROW_H);
+			HBtn->SetSize(PanelW - 6.f - DEL_BTN_W, ROW_H);
 			HBtn->SetTint(EWidgetState::Normal,  0.17f, 0.21f, 0.30f, 1.f);
 			HBtn->SetTint(EWidgetState::Hovered, 0.24f, 0.34f, 0.50f, 1.f);
 			HBtn->SetTint(EWidgetState::Clicked, 0.30f, 0.42f, 0.62f, 1.f);
@@ -567,7 +632,7 @@ void CInspectorUI::Rebuild()
 		if (HLbl)
 		{
 			HLbl->SetPos(8.f, Y);
-			HLbl->SetSize(PanelW - 12.f, ROW_H);
+			HLbl->SetSize(PanelW - 14.f - DEL_BTN_W, ROW_H);
 			HLbl->SetText(HBuf);
 			HLbl->SetFontSize(12.f);
 			HLbl->SetTextColor(FVector4(0.88f, 0.92f, 1.f, 1.f));
@@ -575,12 +640,17 @@ void CInspectorUI::Rebuild()
 			HLbl->SetAlignV(ETextAlignV::Middle);
 			mDynamicRows.push_back(HLbl);
 		}
+
+		auto DelBtn = AddDeleteButton(Y, PanelW, I);
+
 		Y += ROW_H + 2.f;
 
 		FInspCompEntry Entry;
 		Entry.CompKey   = Comp.get();
+		Entry.CompRef   = std::static_pointer_cast<CComponent>(Comp);
 		Entry.HeaderBtn = HBtn;
 		Entry.HeaderLbl = HLbl;
+		Entry.DeleteBtn = DelBtn;
 		Entry.bExpanded = bExpanded;
 
 		if (bExpanded)
@@ -632,7 +702,17 @@ void CInspectorUI::Rebuild()
 
 					void* DDKey = (void*)((char*)MeshComp.get() + 1); // MeshComp마다 고유 키
 					AddDropdownRow(Y, TEXT("Mesh"), DDKey, std::move(MeshNames),
-						[MCW]() -> std::string { auto MC = MCW.lock(); return MC ? MC->GetMeshName() : ""; },
+						// GetMeshName()은 "Mesh_TexRect"처럼 매니저 내부 접두사가 붙은 이름을 준다.
+						// 목록 항목은 접두사가 빠진 형태라 그대로 쓰면 현재 값이 매칭되지 않는다.
+						[MCW]() -> std::string {
+							auto MC = MCW.lock();
+							if (!MC) return "";
+							std::string Name = MC->GetMeshName();
+							static const std::string Prefix = "Mesh_";
+							if (Name.size() > Prefix.size() && Name.compare(0, Prefix.size(), Prefix) == 0)
+								Name = Name.substr(Prefix.size());
+							return Name;
+						},
 						[MCW](const std::string& Name) { auto MC = MCW.lock(); if (MC) MC->SetMesh(Name); },
 						Entry);
 				}
@@ -686,10 +766,11 @@ void CInspectorUI::Rebuild()
 							auto NewMat = MatMgr2->CreateMaterialInstance(Name);
 							if (NewMat)
 							{
+								// 머티리얼만 갈아끼운다. Shader는 건드리지 않는다.
+								// 예전에는 머티리얼의 셰이더로 덮어써서, Mat을 고르면
+								// Shader가 Animation2D → Material로 되돌아가고
+								// 애니메이션이 시트 전체로 풀려버렸다.
 								MC->SetMaterialSlot(0, NewMat);
-								const std::string& ShaderName = NewMat->GetShaderName();
-								if (!ShaderName.empty())
-									MC->SetShader(ShaderName);
 							}
 						},
 						Entry);
@@ -700,6 +781,12 @@ void CInspectorUI::Rebuild()
 				{
 					AddSectionHeader(Y, TEXT("Mat Props"));
 
+					// 알파는 Opac 하나만 쓴다.
+					// 셰이더가 색을 이렇게 합치기 때문이다.
+					//   output.Color.rgb = TextureColor.rgb * cbMatBaseColor.rgb;
+					//   output.Color.a   = TextureColor.a   * cbMatOpacity;
+					// BaseColor의 w는 어느 셰이더도 읽지 않아서, 예전에 있던 ColA 행은
+					// 값만 저장되고 화면은 전혀 변하지 않았다. 그래서 없앴다.
 					AddPropRow(Y, TEXT("Opac"), 0.05f,
 						[MCW]() -> float {
 							auto MC = MCW.lock(); if (!MC) return 1.f;
@@ -754,51 +841,480 @@ void CInspectorUI::Rebuild()
 						},
 						Entry);
 
-					AddPropRow(Y, TEXT("ColA"), 0.05f,
-						[MCW]() -> float {
-							auto MC = MCW.lock(); if (!MC) return 1.f;
-							auto Mat = MC->GetMaterial(0); return Mat ? Mat->GetBaseColor().w : 1.f;
-						},
-						[MCW](float V) {
-							auto MC = MCW.lock(); if (!MC) return;
-							auto Mat = MC->GetMaterial(0); if (!Mat) return;
-							float Cl = V < 0.f ? 0.f : (V > 1.f ? 1.f : V);
-							const FVector4& C = Mat->GetBaseColor();
-							MC->SetBaseColor(0, C.x, C.y, C.z, Cl);
-						},
-						Entry);
 				}
 			}
+
+			// ── 콜라이더 전용 속성 ────────────────────────────────────
+			AddColliderProps(Y, Comp, Entry);
 		}
 
 		mCompEntries.push_back(std::move(Entry));
 	}
 
-	// ── 액터 컴포넌트 (이름만 표시, 확장 불가) ───────────────────────────────
+	// ── 액터 컴포넌트 (씬 컴포넌트와 동일하게 펼칠 수 있다) ──────────────────
 	for (const auto& Comp : Actor->GetActorCompList())
 	{
 		if (!Comp) continue;
 
+		bool bExpanded = false;
+		auto It = mExpandState.find(Comp.get());
+		if (It != mExpandState.end()) bExpanded = It->second;
+
 		int I = mDynIdx++;
+
+		// 헤더 버튼 (클릭 가능한 배경) — 우측 [X] 버튼 자리를 비워둔다.
+		auto HBtn = CreateWidget<CButton>("ICAH_" + std::to_string(I), 3).lock();
+		if (HBtn)
+		{
+			HBtn->SetPos(2.f, Y);
+			HBtn->SetSize(PanelW - 6.f - DEL_BTN_W, ROW_H);
+			HBtn->SetTint(EWidgetState::Normal,  0.20f, 0.18f, 0.24f, 1.f);
+			HBtn->SetTint(EWidgetState::Hovered, 0.30f, 0.26f, 0.38f, 1.f);
+			HBtn->SetTint(EWidgetState::Clicked, 0.38f, 0.32f, 0.48f, 1.f);
+			HBtn->SetTint(EWidgetState::Release, 0.30f, 0.26f, 0.38f, 1.f);
+			HBtn->SetTint(EWidgetState::Disable, 0.14f, 0.14f, 0.18f, 1.f);
+			mDynamicRows.push_back(HBtn);
+		}
+
 		std::string CompName = Comp->GetName();
 		std::string CompType = Comp->GetTypeName();
 		std::wstring WName(CompName.begin(), CompName.end());
 		std::wstring WType(CompType.begin(), CompType.end());
 		TCHAR ABuf[128] = {};
-		wsprintf(ABuf, TEXT("[A] %s (%s)"), WName.c_str(), WType.c_str());
+		wsprintf(ABuf, bExpanded ? TEXT("v [A] %s (%s)") : TEXT("> [A] %s (%s)"),
+			WName.c_str(), WType.c_str());
 
-		if (auto Row = CreateWidget<CTextBlock>("ICA_" + std::to_string(I), 3).lock())
+		auto HLbl = CreateWidget<CTextBlock>("ICAHL_" + std::to_string(I), 4).lock();
+		if (HLbl)
 		{
-			Row->SetPos(8.f, Y);
-			Row->SetSize(PanelW - 12.f, ROW_H);
-			Row->SetText(ABuf);
-			Row->SetFontSize(12.f);
-			Row->SetTextColor(FVector4(0.72f, 0.72f, 0.72f, 1.f));
-			Row->SetAlignH(ETextAlignH::Left);
-			Row->SetAlignV(ETextAlignV::Middle);
-			mDynamicRows.push_back(Row);
+			HLbl->SetPos(8.f, Y);
+			HLbl->SetSize(PanelW - 14.f - DEL_BTN_W, ROW_H);
+			HLbl->SetText(ABuf);
+			HLbl->SetFontSize(12.f);
+			HLbl->SetTextColor(FVector4(0.86f, 0.80f, 0.94f, 1.f));
+			HLbl->SetAlignH(ETextAlignH::Left);
+			HLbl->SetAlignV(ETextAlignV::Middle);
+			mDynamicRows.push_back(HLbl);
 		}
+
+		auto DelBtn = AddDeleteButton(Y, PanelW, I);
+
 		Y += ROW_H + 2.f;
+
+		FInspCompEntry Entry;
+		Entry.CompKey   = Comp.get();
+		Entry.CompRef   = std::static_pointer_cast<CComponent>(Comp);
+		Entry.HeaderBtn = HBtn;
+		Entry.HeaderLbl = HLbl;
+		Entry.DeleteBtn = DelBtn;
+		Entry.bExpanded = bExpanded;
+
+		if (bExpanded)
+			AddActorCompProps(Y, Comp, Entry);
+
+		mCompEntries.push_back(std::move(Entry));
+	}
+
+	FinishLayout(Y);
+}
+
+// ── 콜라이더 속성 ────────────────────────────────────────────────────────────
+
+void CInspectorUI::AddColliderProps(float& Y,
+                                    const std::shared_ptr<CSceneComponent>& Comp,
+                                    FInspCompEntry& Entry)
+{
+	auto Collider = std::dynamic_pointer_cast<CCollider>(Comp);
+	if (!Collider) return;
+
+	AddSectionHeader(Y, TEXT("Collider"));
+
+	if (auto Box = std::dynamic_pointer_cast<CColliderBox2D>(Comp))
+	{
+		std::weak_ptr<CColliderBox2D> BW = Box;
+
+		// Halfsize를 들고 있으므로 표시는 전체 크기로 환산한다.
+		AddPropRow(Y, TEXT("Size.W"), 1.f,
+			[BW]() -> float { auto B = BW.lock(); return B ? B->GetInfo().Halfsize.x * 2.f : 0.f; },
+			[BW](float V) {
+				auto B = BW.lock(); if (!B) return;
+				B->SetBoxSize(V < 1.f ? 1.f : V, B->GetInfo().Halfsize.y * 2.f);
+			},
+			Entry);
+
+		AddPropRow(Y, TEXT("Size.H"), 1.f,
+			[BW]() -> float { auto B = BW.lock(); return B ? B->GetInfo().Halfsize.y * 2.f : 0.f; },
+			[BW](float V) {
+				auto B = BW.lock(); if (!B) return;
+				B->SetBoxSize(B->GetInfo().Halfsize.x * 2.f, V < 1.f ? 1.f : V);
+			},
+			Entry);
+	}
+	else if (auto Sphere = std::dynamic_pointer_cast<CColliderSphere2D>(Comp))
+	{
+		std::weak_ptr<CColliderSphere2D> SW = Sphere;
+
+		AddPropRow(Y, TEXT("Radius"), 1.f,
+			[SW]() -> float { auto S = SW.lock(); return S ? S->GetInfo().Radius : 0.f; },
+			[SW](float V) { auto S = SW.lock(); if (S) S->SetRadius(V < 1.f ? 1.f : V); },
+			Entry);
+	}
+
+	// 디버그 외곽선 표시 토글 (두 종류 공통)
+	std::weak_ptr<CCollider> CW = Collider;
+
+	AddActionRow(Y, TEXT("Debug"), TEXT("Toggle"),
+		[CW]() { auto C = CW.lock(); if (C) C->SetDebugDraw(!C->GetDebugDraw()); },
+		[CW]() -> std::string {
+			auto C = CW.lock();
+			return C ? (C->GetDebugDraw() ? "ON" : "OFF") : "-";
+		},
+		Entry);
+}
+
+// ── 액터 컴포넌트별 속성 ─────────────────────────────────────────────────────
+// 지금은 Animation2DComponent만 다룬다. 다른 타입은 헤더만 펼쳐지고 내용이 비어 있다.
+void CInspectorUI::AddActorCompProps(float& Y,
+                                     const std::shared_ptr<CActorComponent>& Comp,
+                                     FInspCompEntry& Entry)
+{
+	auto AnimComp = std::dynamic_pointer_cast<CAnimation2DComponent>(Comp);
+	if (!AnimComp) return;
+
+	std::weak_ptr<CAnimation2DComponent> ACW = AnimComp;
+
+	AddSectionHeader(Y, TEXT("Animation"));
+
+	// 현재 시퀀스 — 드롭다운으로 갈아탈 수 있다.
+	{
+		std::vector<std::string> SeqNames;
+		for (const auto& Pair : AnimComp->GetAnimationMap())
+			SeqNames.push_back(Pair.first);
+
+		if (SeqNames.empty()) SeqNames.push_back("(none)");
+
+		void* DDKey = (void*)((char*)AnimComp.get() + 1);
+		AddDropdownRow(Y, TEXT("Seq"), DDKey, std::move(SeqNames),
+			[ACW]() -> std::string {
+				auto AC = ACW.lock();
+				if (!AC) return "(none)";
+				std::string Cur = AC->GetCurrentAnimationName();
+				return Cur.empty() ? "(none)" : Cur;
+			},
+			[ACW](const std::string& Name) {
+				auto AC = ACW.lock();
+				if (AC && Name != "(none)") AC->ChangeAnimation(Name);
+			},
+			Entry);
+	}
+
+	// 재생 중인 프레임 — 표시 전용. 클릭해도 아무 일 없다.
+	AddActionRow(Y, TEXT("Frame"), TEXT("-"),
+		nullptr,
+		[ACW]() -> std::string {
+			auto AC = ACW.lock();
+			if (!AC) return "-";
+
+			auto It = AC->GetAnimationMap().find(AC->GetCurrentAnimationName());
+			if (It == AC->GetAnimationMap().end()) return "-";
+
+			return std::to_string(AC->GetAnimationFrame() + 1) + " / "
+			     + std::to_string(It->second->GetFrameCount());
+		},
+		Entry);
+
+	// 현재 시퀀스를 집어오는 헬퍼. 시퀀스가 없으면 nullptr.
+	auto GetSeq = [](const std::weak_ptr<CAnimation2DComponent>& Weak)
+		-> std::shared_ptr<CAnimation2DSequence>
+	{
+		auto AC = Weak.lock();
+		if (!AC) return nullptr;
+
+		auto It = AC->GetAnimationMap().find(AC->GetCurrentAnimationName());
+		return (It != AC->GetAnimationMap().end()) ? It->second : nullptr;
+	};
+
+	AddPropRow(Y, TEXT("PlayTime"), 0.05f,
+		[ACW, GetSeq]() -> float { auto S = GetSeq(ACW); return S ? S->GetPlayTime() : 1.f; },
+		[ACW, GetSeq](float V) {
+			auto AC = ACW.lock(); if (!AC) return;
+			AC->SetPlayTime(AC->GetCurrentAnimationName(), V < 0.05f ? 0.05f : V);
+		},
+		Entry);
+
+	AddPropRow(Y, TEXT("PlayRate"), 0.1f,
+		[ACW, GetSeq]() -> float { auto S = GetSeq(ACW); return S ? S->GetPlayRate() : 1.f; },
+		[ACW, GetSeq](float V) {
+			auto AC = ACW.lock(); if (!AC) return;
+			AC->SetPlayRate(AC->GetCurrentAnimationName(), V < 0.05f ? 0.05f : V);
+		},
+		Entry);
+
+	// ON/OFF 세 개 — 누르면 뒤집힌다.
+	auto AddFlagRow = [&](const wchar_t* Label,
+	                      bool (CAnimation2DSequence::*Get)() const,
+	                      void (CAnimation2DComponent::*Set)(const std::string&, bool))
+	{
+		AddActionRow(Y, Label, TEXT("Toggle"),
+			[ACW, GetSeq, Get, Set]() {
+				auto AC = ACW.lock(); if (!AC) return;
+				auto S = GetSeq(ACW);  if (!S)  return;
+				(AC.get()->*Set)(AC->GetCurrentAnimationName(), !(S.get()->*Get)());
+			},
+			[ACW, GetSeq, Get]() -> std::string {
+				auto S = GetSeq(ACW);
+				return S ? ((S.get()->*Get)() ? "ON" : "OFF") : "-";
+			},
+			Entry);
+	};
+
+	AddFlagRow(TEXT("Loop"),     &CAnimation2DSequence::GetLoop,     &CAnimation2DComponent::SetLoop);
+	AddFlagRow(TEXT("Reverse"),  &CAnimation2DSequence::GetReverse,  &CAnimation2DComponent::SetReverse);
+	AddFlagRow(TEXT("Symmetry"), &CAnimation2DSequence::GetSymmetry, &CAnimation2DComponent::SetSymmetry);
+}
+
+// 동적으로 만든 컴포넌트 행들만 스크롤 대상으로 표시한다.
+// (이름/트랜스폼 같은 상단 고정 행과 리사이즈 핸들은 제자리에 남는다)
+void CInspectorUI::FinishLayout(float ContentEndY)
+{
+	for (auto& Row : mDynamicRows)
+	{
+		if (Row)
+		{
+			Row->SetScrollTarget(true);
+		}
+	}
+
+	// 패널 크기가 바뀌어도 Rebuild를 거치므로 여기서 같이 갱신한다.
+	SetScrollArea(mComponentsStartY - 2.f, GetSize().y);
+	SetScrollContentEnd(ContentEndY + 4.f);
+}
+
+// ── 삭제 버튼 처리 ───────────────────────────────────────────────────────────
+// 제거에 성공하면 true. 호출부는 즉시 Rebuild 후 반환해야 한다.
+// (Rebuild가 mCompEntries를 통째로 갈아엎으므로 순회를 계속하면 안 된다.)
+bool CInspectorUI::HandleDeleteButtons()
+{
+	for (auto& Entry : mCompEntries)
+	{
+		auto DelBtn = Entry.DeleteBtn.lock();
+		if (!DelBtn) continue;
+		if (DelBtn->GetWidgetState() != EWidgetState::Release) continue;
+
+		auto Actor = mTarget.lock();
+		auto Comp  = Entry.CompRef.lock();
+		if (!Actor || !Comp) return false;
+
+		std::string RemovedName = Comp->GetName();
+
+		if (!Actor->RemoveComponent(Comp))
+			return false;
+
+		// 이 컴포넌트에 딸린 UI 상태를 정리한다.
+		mExpandState.erase(Entry.CompKey);
+		for (auto& DD : Entry.Dropdowns)
+			mDropdownOpen.erase(DD.DropKey);
+
+		if (mOnComponentRemoved)
+			mOnComponentRemoved(RemovedName);
+
+		return true;
+	}
+
+	return false;
+}
+
+// ── 값 직접 입력 (더블클릭 → 타이핑 → Enter) ────────────────────────────────
+
+// 인풋은 등록된 키만 GetKey로 조회할 수 있으므로 사용할 키를 미리 바인딩한다.
+// SetWorld가 Init 이후에 호출되므로 Init이 아니라 첫 Update에서 처리한다.
+void CInspectorUI::RegisterEditKeys()
+{
+	if (mKeysRegistered) return;
+
+	auto World = mWorld.lock();
+	if (!World) return;
+
+	auto Input = World->GetInput().lock();
+	if (!Input) return;
+
+	for (int d = 0; d < 10; ++d)
+	{
+		Input->AddBindKey("InspNum" + std::to_string(d), (unsigned char)('0' + d));
+		Input->AddBindKey("InspPad" + std::to_string(d), (unsigned char)(VK_NUMPAD0 + d));
+	}
+
+	Input->AddBindKey("InspDot",      VK_OEM_PERIOD);
+	Input->AddBindKey("InspPadDot",   VK_DECIMAL);
+	Input->AddBindKey("InspMinus",    VK_OEM_MINUS);
+	Input->AddBindKey("InspPadMinus", VK_SUBTRACT);
+	Input->AddBindKey("InspBack",     VK_BACK);
+	Input->AddBindKey("InspEnter",    VK_RETURN);
+	Input->AddBindKey("InspEsc",      VK_ESCAPE);
+
+	mKeysRegistered = true;
+}
+
+void CInspectorUI::BeginEdit(int CompIdx, int PropIdx)
+{
+	if (CompIdx < 0 || CompIdx >= (int)mCompEntries.size()) return;
+
+	auto& Entry = mCompEntries[CompIdx];
+	if (PropIdx < 0 || PropIdx >= (int)Entry.Props.size()) return;
+
+	mEditActive  = true;
+	mEditCompIdx = CompIdx;
+	mEditPropIdx = PropIdx;
+
+	// 현재 값을 초기 문자열로 채워준다. (바로 Enter를 치면 값이 유지된다)
+	auto& Prop = Entry.Props[PropIdx];
+	char Buf[32] = {};
+	sprintf_s(Buf, 32, "%.2f", Prop.Getter ? Prop.Getter() : 0.f);
+	mEditBuffer = Buf;
+
+	// 타이핑하는 숫자키가 스킬/타일모드 등 기존 바인딩을 같이 발동시키지 않게 막는다.
+	if (auto World = mWorld.lock())
+		if (auto Input = World->GetInput().lock())
+			Input->SetBindKeyBlock(true);
+}
+
+void CInspectorUI::CancelEdit()
+{
+	mEditActive  = false;
+	mEditCompIdx = -1;
+	mEditPropIdx = -1;
+	mEditBuffer.clear();
+
+	if (auto World = mWorld.lock())
+		if (auto Input = World->GetInput().lock())
+			Input->SetBindKeyBlock(false);
+}
+
+void CInspectorUI::CommitEdit()
+{
+	if (!mEditActive) return;
+
+	if (mEditCompIdx >= 0 && mEditCompIdx < (int)mCompEntries.size())
+	{
+		auto& Entry = mCompEntries[mEditCompIdx];
+
+		if (mEditPropIdx >= 0 && mEditPropIdx < (int)Entry.Props.size())
+		{
+			auto& Prop = Entry.Props[mEditPropIdx];
+
+			// "-" 나 "." 만 남은 미완성 입력은 무시한다.
+			if (Prop.Setter && !mEditBuffer.empty() && mEditBuffer != "-" && mEditBuffer != ".")
+			{
+				try
+				{
+					Prop.Setter(std::stof(mEditBuffer));
+				}
+				catch (...)
+				{
+					// 파싱 실패 시 값을 건드리지 않는다.
+				}
+			}
+		}
+	}
+
+	CancelEdit();
+}
+
+void CInspectorUI::HandleValueEditInput()
+{
+	if (!mEditActive) return;
+
+	auto World = mWorld.lock();
+	if (!World) { CancelEdit(); return; }
+
+	auto Input = World->GetInput().lock();
+	if (!Input) { CancelEdit(); return; }
+
+	// 편집 중인 값 영역 밖을 클릭하면 취소한다.
+	if (Input->GetMouseState(EMouseType::LButton, EInputType::Press))
+	{
+		std::shared_ptr<CButton> EditBtn;
+
+		if (mEditCompIdx >= 0 && mEditCompIdx < (int)mCompEntries.size())
+		{
+			auto& Entry = mCompEntries[mEditCompIdx];
+			if (mEditPropIdx >= 0 && mEditPropIdx < (int)Entry.Props.size())
+				EditBtn = Entry.Props[mEditPropIdx].ValueBtn.lock();
+		}
+
+		EWidgetState::Type S = EditBtn ? EditBtn->GetWidgetState() : EWidgetState::Normal;
+
+		if (S != EWidgetState::Hovered && S != EWidgetState::Clicked && S != EWidgetState::Release)
+		{
+			CancelEdit();
+			return;
+		}
+	}
+
+	// 확정 / 취소
+	if (Input->GetKey(VK_RETURN, EInputType::Press)) { CommitEdit(); return; }
+	if (Input->GetKey(VK_ESCAPE, EInputType::Press)) { CancelEdit(); return; }
+
+	// 한 글자 지우기
+	if (Input->GetKey(VK_BACK, EInputType::Press) && !mEditBuffer.empty())
+		mEditBuffer.pop_back();
+
+	// 숫자 (상단 숫자열 + 넘패드)
+	for (int d = 0; d < 10; ++d)
+	{
+		bool bPressed = Input->GetKey((unsigned char)('0' + d), EInputType::Press)
+		             || Input->GetKey((unsigned char)(VK_NUMPAD0 + d), EInputType::Press);
+
+		if (bPressed && (int)mEditBuffer.size() < EDIT_BUF_MAX)
+			mEditBuffer.push_back((char)('0' + d));
+	}
+
+	// 소수점 — 하나만 허용
+	if (Input->GetKey(VK_OEM_PERIOD, EInputType::Press) || Input->GetKey(VK_DECIMAL, EInputType::Press))
+	{
+		if (mEditBuffer.find('.') == std::string::npos && (int)mEditBuffer.size() < EDIT_BUF_MAX)
+			mEditBuffer.push_back('.');
+	}
+
+	// 부호 — 맨 앞에서만, 누를 때마다 토글
+	if (Input->GetKey(VK_OEM_MINUS, EInputType::Press) || Input->GetKey(VK_SUBTRACT, EInputType::Press))
+	{
+		if (!mEditBuffer.empty() && mEditBuffer[0] == '-')
+			mEditBuffer.erase(mEditBuffer.begin());
+		else
+			mEditBuffer.insert(mEditBuffer.begin(), '-');
+	}
+}
+
+void CInspectorUI::DetectValueDoubleClick()
+{
+	for (int ci = 0; ci < (int)mCompEntries.size(); ++ci)
+	{
+		auto& Entry = mCompEntries[ci];
+		if (!Entry.bExpanded) continue;
+
+		for (int pi = 0; pi < (int)Entry.Props.size(); ++pi)
+		{
+			auto Btn = Entry.Props[pi].ValueBtn.lock();
+			if (!Btn) continue;
+			if (Btn->GetWidgetState() != EWidgetState::Release) continue;
+
+			void* ClickKey = Btn.get();
+
+			// 같은 버튼을 짧은 간격으로 두 번 → 편집 시작
+			if (mLastClickKey == ClickKey && (mTimeAccum - mLastClickTime) <= DOUBLE_CLICK_SEC)
+			{
+				BeginEdit(ci, pi);
+				mLastClickKey = nullptr;
+			}
+			else
+			{
+				mLastClickKey  = ClickKey;
+				mLastClickTime = mTimeAccum;
+			}
+
+			return;
+		}
 	}
 }
 
@@ -806,6 +1322,9 @@ void CInspectorUI::Rebuild()
 void CInspectorUI::Update(float DeltaTime)
 {
 	CWidgetContainer::Update(DeltaTime);
+
+	mTimeAccum += DeltaTime;
+	RegisterEditKeys();
 
 	auto World = mWorld.lock();
 	if (!World) return;
@@ -858,6 +1377,8 @@ void CInspectorUI::Update(float DeltaTime)
 			if (auto H2 = mHandleBL.lock()) H2->SetPos(0.f,           nh - HANDLE_SZ);
 			if (auto H2 = mHandleBR.lock()) H2->SetPos(nw - HANDLE_SZ, nh - HANDLE_SZ);
 			UpdateAllRowWidths(nw);
+			// 리사이즈는 Rebuild를 거치지 않으므로 스크롤 영역을 직접 갱신한다.
+			SetScrollArea(mComponentsStartY - 2.f, nh);
 		}
 	}
 
@@ -876,6 +1397,10 @@ void CInspectorUI::Update(float DeltaTime)
 			if (auto T = mScaleText.lock()) { swprintf_s(Buf, 128, L"Scl: %.2f %.2f",  Scale.x, Scale.y); T->SetText(Buf); }
 		}
 	}
+
+	// ── 값 직접 입력: 편집 중 키 처리 → 새 더블클릭 감지 순서 ───────────────
+	HandleValueEditInput();
+	DetectValueDoubleClick();
 
 	// ── 액션 버튼 폴링 (사이클 / 탐색) ─────────────────────────────────────
 	for (auto& Entry : mCompEntries)
@@ -950,6 +1475,9 @@ void CInspectorUI::Update(float DeltaTime)
 		if (bDDRebuild) { Rebuild(); return; }
 	}
 
+	// ── 컴포넌트 [X] 클릭 → 액터에서 제거 ───────────────────────────────────
+	if (HandleDeleteButtons()) { Rebuild(); return; }
+
 	// ── 컴포넌트 헤더 클릭 → 펼치기/접기 토글 ──────────────────────────────
 	bool bNeedRebuild = false;
 	for (auto& Entry : mCompEntries)
@@ -970,11 +1498,28 @@ void CInspectorUI::Update(float DeltaTime)
 	if (bNeedRebuild) { Rebuild(); return; }
 
 	// ── 속성 +/- 버튼 인터랙션 ──────────────────────────────────────────────
-	for (auto& Entry : mCompEntries)
+	for (int ci = 0; ci < (int)mCompEntries.size(); ++ci)
 	{
+		auto& Entry = mCompEntries[ci];
 		if (!Entry.bExpanded) continue;
-		for (auto& Prop : Entry.Props)
+
+		for (int pi = 0; pi < (int)Entry.Props.size(); ++pi)
 		{
+			auto& Prop = Entry.Props[pi];
+
+			// 편집 중인 행은 +/- 와 실시간 표시를 건너뛰고 입력 버퍼를 보여준다.
+			if (mEditActive && ci == mEditCompIdx && pi == mEditPropIdx)
+			{
+				if (auto V = Prop.ValueLabel.lock())
+				{
+					std::wstring WBuf(mEditBuffer.begin(), mEditBuffer.end());
+					WBuf += L"_";   // 캐럿
+					V->SetText(WBuf.c_str());
+					V->SetTextColor(FVector4(0.55f, 1.f, 0.65f, 1.f));
+				}
+				continue;
+			}
+
 			if (!Prop.Getter || !Prop.Setter) continue;
 
 			// 감소
@@ -1031,6 +1576,7 @@ void CInspectorUI::Update(float DeltaTime)
 				TCHAR Buf[32] = {};
 				swprintf_s(Buf, 32, L"%.2f", Prop.Getter());
 				V->SetText(Buf);
+				V->SetTextColor(FVector4(0.88f, 0.92f, 1.f, 1.f));
 			}
 		}
 	}

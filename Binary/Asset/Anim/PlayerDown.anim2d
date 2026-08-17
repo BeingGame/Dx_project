@@ -1,0 +1,15 @@
+ANIM2D 1
+AnimName PlayerDown
+TextureType SpriteSheet
+TextureName ÇÁ¸®½ºÆ®_³´
+TextureRelPath Asset\Texture\Player\ÇÁ¸®½ºÆ®_³´.png
+PlayTime 1
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 207.87 133.51
+Frames 3
+1591.45 4660.93 383 300 0 0
+1983.48 4646.2 383 300 0 0
+2387.3 4660.93 383 300 0 0

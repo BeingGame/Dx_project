@@ -609,6 +609,21 @@ void CInput::UpdateBindKey(float DeltaTime)
 
 	for (; iter != iterEnd; ++iter)
 	{
+		//에디터에서 값을 타이핑하는 중에는 키보드 바인딩 콜백을 건너뛴다.
+		//(숫자키가 스킬/타일모드 등에 이미 바인딩되어 있어 같이 발동되는 것을 막는다)
+		//마우스 바인딩은 편집을 끝내는 클릭 처리를 위해 그대로 둔다.
+		if (mBindKeyBlocked)
+		{
+			unsigned char BindKey = iter->second->Key->Key;
+
+			if (BindKey != DIK_MOUSELBUTTON &&
+				BindKey != DIK_MOUSERBUTTON &&
+				BindKey != DIK_MOUSEWHEELBUTTON)
+			{
+				continue;
+			}
+		}
+
 		//먼저 Press
 		//키가 눌렸을때 설정된 시스템키를 포함해서 키가 눌리면 콜백함수를 호출한다.
 		//Press는 프레임이 워낙 빨라 확인용도로는 보통 사용하지 않는다.
