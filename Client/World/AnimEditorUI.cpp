@@ -26,9 +26,45 @@ namespace
     //
     //   LoadTexture("프리스트_낫")  → 맵 키 "Texture_프리스트_낫", GetName() = "Texture_프리스트_낫"
     //   FindTexture("프리스트_낫")        → "Texture_프리스트_낫"        ✓
-    //   FindTexture(Tex->GetName())       → "Texture_Texture_프리스트_낫" ✗
+    //   FindTexture(Texture->GetName())       → "Texture_Texture_프리스트_낫" ✗
     //
     // 그래서 GetName() 결과를 조회용 이름으로 쓰려면 접두사를 떼야 한다.
+    // .anim2d 파일이 어떤 AnimName을 담고 있는지만 훑어본다.
+    // 파일이 없거나 형식이 아니면 빈 문자열.
+    std::string PeekAnimName(const std::string& Path)
+    {
+        std::ifstream File(Path);
+
+        if (!File)
+        {
+            return {};
+        }
+
+        std::string Line;
+
+        while (std::getline(File, Line))
+        {
+            std::istringstream LineStream(Line);
+            std::string Key;
+            LineStream >> Key;
+
+            if (Key == "AnimName")
+            {
+                std::string Name;
+                LineStream >> Name;
+                return Name;
+            }
+        }
+
+        return {};
+    }
+
+    // 같은 파일을 가리키는 경로인지. (윈도우라 대소문자는 무시한다)
+    bool IsSamePath(const std::string& PathA, const std::string& PathB)
+    {
+        return !PathA.empty() && !PathB.empty() && _stricmp(PathA.c_str(), PathB.c_str()) == 0;
+    }
+
     std::string StripTexturePrefix(const std::string& Name)
     {
         static const std::string Prefix = "Texture_";
@@ -61,44 +97,44 @@ CAnimEditorUI::~CAnimEditorUI()
 
 // 버튼 하나를 만든다.
 // 넘긴 색이 기본색이고, 호버/클릭 색은 여기서 +0.15 / +0.25로 자동 계산한다.
-std::weak_ptr<CButton> CAnimEditorUI::MakeBtn(const std::string& Name,
-    float X, float Y, float W, float H, float R, float G, float B)
+std::weak_ptr<CButton> CAnimEditorUI::MakeButton(const std::string& Name,
+    float X, float Y, float Width, float Height, float Red, float Green, float Blue)
 {
-    auto Btn = CreateWidget<CButton>(Name, 3).lock();
-    if (Btn)
+    auto Button = CreateWidget<CButton>(Name, 3).lock();
+    if (Button)
     {
-        Btn->SetPos(X, Y);
-        Btn->SetSize(W, H);
-        float HR = min(R + .15f, 1.f), HG = min(G + .15f, 1.f), HB = min(B + .15f, 1.f);
-        float CR = min(R + .25f, 1.f), CG = min(G + .25f, 1.f), CB = min(B + .25f, 1.f);
-        Btn->SetTint(EWidgetState::Normal,  R,  G,  B,  1.f);
-        Btn->SetTint(EWidgetState::Hovered, HR, HG, HB, 1.f);
-        Btn->SetTint(EWidgetState::Clicked, CR, CG, CB, 1.f);
-        Btn->SetTint(EWidgetState::Release, HR, HG, HB, 1.f);
-        Btn->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.15f, 0.5f);
+        Button->SetPos(X, Y);
+        Button->SetSize(Width, Height);
+        float HoverRed = min(Red + .15f, 1.f), HoverGreen = min(Green + .15f, 1.f), HoverBlue = min(Blue + .15f, 1.f);
+        float ClickRed = min(Red + .25f, 1.f), ClickGreen = min(Green + .25f, 1.f), ClickBlue = min(Blue + .25f, 1.f);
+        Button->SetTint(EWidgetState::Normal,  Red,  Green,  Blue,  1.f);
+        Button->SetTint(EWidgetState::Hovered, HoverRed, HoverGreen, HoverBlue, 1.f);
+        Button->SetTint(EWidgetState::Clicked, ClickRed, ClickGreen, ClickBlue, 1.f);
+        Button->SetTint(EWidgetState::Release, HoverRed, HoverGreen, HoverBlue, 1.f);
+        Button->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.15f, 0.5f);
     }
-    return Btn;
+    return Button;
 }
 
 // 글자 라벨 하나를 만든다.
 // 글자색은 회백색으로 고정이므로, 다른 색이 필요한 값 라벨은
 // 이 함수를 쓰지 않고 CreateWidget<CTextBlock>을 직접 부른다.
-std::weak_ptr<CTextBlock> CAnimEditorUI::MakeLbl(const std::string& Name,
-    float X, float Y, float W, float H, const wchar_t* Text,
+std::weak_ptr<CTextBlock> CAnimEditorUI::MakeLabel(const std::string& Name,
+    float X, float Y, float Width, float Height, const wchar_t* Text,
     float FontSize, ETextAlignH AlignH)
 {
-    auto Lbl = CreateWidget<CTextBlock>(Name, 4).lock();
-    if (Lbl)
+    auto Label = CreateWidget<CTextBlock>(Name, 4).lock();
+    if (Label)
     {
-        Lbl->SetPos(X, Y);
-        Lbl->SetSize(W, H);
-        Lbl->SetText(Text);
-        Lbl->SetFontSize(FontSize);
-        Lbl->SetTextColor(FVector4(0.88f, 0.88f, 0.92f, 1.f));
-        Lbl->SetAlignH(AlignH);
-        Lbl->SetAlignV(ETextAlignV::Middle);
+        Label->SetPos(X, Y);
+        Label->SetSize(Width, Height);
+        Label->SetText(Text);
+        Label->SetFontSize(FontSize);
+        Label->SetTextColor(FVector4(0.88f, 0.88f, 0.92f, 1.f));
+        Label->SetAlignH(AlignH);
+        Label->SetAlignV(ETextAlignV::Middle);
     }
-    return Lbl;
+    return Label;
 }
 
 // ── Prop Row (시퀀스 속성) ────────────────────────────────────────────────────
@@ -119,92 +155,176 @@ std::weak_ptr<CTextBlock> CAnimEditorUI::MakeLbl(const std::string& Name,
 //
 // Y     : 참조로 받아서 행 높이만큼 밀어준다. 호출부는 Y를 계속 재사용하면 된다.
 // Step  : +/- 버튼 한 번에 움직일 양
-// Get   : 표시할 값을 읽어오는 함수
-// Set   : 바뀐 값을 써넣는 함수 (범위 제한도 여기서 한다)
+// Getter   : 표시할 값을 읽어오는 함수
+// Setter   : 바뀐 값을 써넣는 함수 (범위 제한도 여기서 한다)
 //
-// Get/Set을 콜백으로 받는 이유는, 이 행이 어떤 데이터를 편집하는지 몰라도 되게
-// 하기 위해서다. Update()는 mPropBtns를 돌면서 Get/Set만 호출한다.
+// Getter/Setter를 콜백으로 받는 이유는, 이 행이 어떤 데이터를 편집하는지 몰라도 되게
+// 하기 위해서다. Update()는 mPropButtons를 돌면서 Getter/Setter만 호출한다.
 void CAnimEditorUI::AddPropRow(float& Y, const wchar_t* Label, float Step,
-    std::function<float()> Get, std::function<void(float)> Set)
+    std::function<float()> Getter, std::function<void(float)> Setter)
 {
     int WidgetIdx = mDynIdx++;
     float PanelW = GetSize().x;
 
-    MakeLbl("AnimPropLabel_" + std::to_string(WidgetIdx), 6.f, Y, 72.f, ROW_H, Label, 11.f);
+    MakeLabel("AnimPropLabel_" + std::to_string(WidgetIdx), 6.f, Y, 72.f, ROW_H, Label, 11.f);
 
-    auto MinBtn = MakeBtn("AnimPropMinusButton_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.22f, 0.28f);
-    MakeLbl("AnimPropMinusLabel_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("-"), 12.f, ETextAlignH::Center);
+    auto MinButton = MakeButton("AnimPropMinusButton_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.22f, 0.28f);
+    MakeLabel("AnimPropMinusLabel_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("-"), 12.f, ETextAlignH::Center);
 
     // 값 표시 배경 — 더블클릭하면 직접 입력 모드로 들어간다.
     // (CTextBlock은 마우스를 먹지 않으므로 위에 겹쳐 있어도 이 버튼이 클릭을 받는다)
-    auto ValBtn = MakeBtn("AnimPropValueButton_" + std::to_string(WidgetIdx), 104.f, Y + 1.f, PanelW - 140.f, ROW_H - 2.f,
+    auto ValButton = MakeButton("AnimPropValueButton_" + std::to_string(WidgetIdx), 104.f, Y + 1.f, PanelW - 140.f, ROW_H - 2.f,
         0.15f, 0.15f, 0.19f);
 
-    TCHAR ValBuf[32];
-    swprintf_s(ValBuf, 32, L"%.2f", Get ? Get() : 0.f);
-    auto ValLbl = CreateWidget<CTextBlock>("AnimPropValueLabel_" + std::to_string(WidgetIdx), 4).lock();
-    if (ValLbl)
+    TCHAR ValueBuffer[32];
+    swprintf_s(ValueBuffer, 32, L"%.2f", Getter ? Getter() : 0.f);
+    auto ValLabel = CreateWidget<CTextBlock>("AnimPropValueLabel_" + std::to_string(WidgetIdx), 4).lock();
+    if (ValLabel)
     {
-        ValLbl->SetPos(104.f, Y);
-        ValLbl->SetSize(PanelW - 140.f, ROW_H);
-        ValLbl->SetText(ValBuf);
-        ValLbl->SetFontSize(11.f);
-        ValLbl->SetTextColor(FVector4(0.9f, 0.95f, 1.f, 1.f));
-        ValLbl->SetAlignH(ETextAlignH::Center);
-        ValLbl->SetAlignV(ETextAlignV::Middle);
+        ValLabel->SetPos(104.f, Y);
+        ValLabel->SetSize(PanelW - 140.f, ROW_H);
+        ValLabel->SetText(ValueBuffer);
+        ValLabel->SetFontSize(11.f);
+        ValLabel->SetTextColor(FVector4(0.9f, 0.95f, 1.f, 1.f));
+        ValLabel->SetAlignH(ETextAlignH::Center);
+        ValLabel->SetAlignV(ETextAlignV::Middle);
     }
 
-    auto PlusBtn = MakeBtn("AnimPropPlusButton_" + std::to_string(WidgetIdx), PanelW - 34.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.22f, 0.28f);
-    MakeLbl("AnimPropPlusLabel_" + std::to_string(WidgetIdx), PanelW - 34.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("+"), 12.f, ETextAlignH::Center);
+    auto PlusButton = MakeButton("AnimPropPlusButton_" + std::to_string(WidgetIdx), PanelW - 34.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.22f, 0.28f);
+    MakeLabel("AnimPropPlusLabel_" + std::to_string(WidgetIdx), PanelW - 34.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("+"), 12.f, ETextAlignH::Center);
 
-    mPropBtns.push_back({ MinBtn, PlusBtn, ValLbl, ValBtn, Step, 2, Get, Set });
+    mPropButtons.push_back({ MinButton, PlusButton, ValLabel, ValButton, Step, 2, Getter, Setter });
     Y += ROW_H + 2.f;
 }
 
-// ── Frame Prop Row (프레임 속성, mFramePropBtns) ───────────────────────────────
+// ── Frame Prop Row (프레임 속성, mFramePropButtons) ───────────────────────────────
 //
 // 구조는 AddPropRow와 완전히 같고 다른 점은 세 가지뿐이다.
-//   1. mPropBtns가 아니라 mFramePropBtns에 담긴다.
+//   1. mPropButtons가 아니라 mFramePropButtons에 담긴다.
 //      값이 바뀌면 Update()가 ApplyFrames()로 CAnimation2D에 즉시 반영하고
 //      SpriteViewer에도 동기화한다. 시퀀스 속성에는 그 과정이 없다.
 //   2. 초록 계열 색을 쓴다. (Start.X / Size.PanelW / Offset.Y …)
 //   3. 소수점 한 자리로 표시한다. (시퀀스 속성은 두 자리)
 void CAnimEditorUI::AddFramePropRow(float& Y, const wchar_t* Label, float Step,
-    std::function<float()> Get, std::function<void(float)> Set, int Decimals)
+    std::function<float()> Getter, std::function<void(float)> Setter,
+    std::function<void(float, bool)> SetAll, int Decimals)
 {
     int WidgetIdx = mDynIdx++;
     float PanelW = GetSize().x;
 
-    MakeLbl("FramePropLabel_" + std::to_string(WidgetIdx), 6.f, Y, 72.f, ROW_H, Label, 11.f);
+    // SetAll을 준 행에는 오른쪽 끝에 "All" 체크 버튼이 붙는다. 그만큼 자리를 비워둔다.
+    const float AllW   = SetAll ? 30.f : 0.f;
+    const float PlusX  = PanelW - 34.f - AllW;
+    const float ValX   = 100.f;
+    const float ValW   = PlusX - ValX - 2.f;
 
-    auto MinBtn = MakeBtn("FramePropMinusButton_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.25f, 0.22f);
-    MakeLbl("FramePropMinusLabel_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("-"), 12.f, ETextAlignH::Center);
+    MakeLabel("FramePropLabel_" + std::to_string(WidgetIdx), 6.f, Y, 70.f, ROW_H, Label, 11.f);
+
+    auto MinButton = MakeButton("FramePropMinusButton_" + std::to_string(WidgetIdx), 76.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.25f, 0.22f);
+    MakeLabel("FramePropMinusLabel_" + std::to_string(WidgetIdx), 76.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("-"), 12.f, ETextAlignH::Center);
 
     // 값 표시 배경 — 더블클릭하면 직접 입력 모드로 들어간다.
-    auto ValBtn = MakeBtn("FramePropValueButton_" + std::to_string(WidgetIdx), 104.f, Y + 1.f, PanelW - 140.f, ROW_H - 2.f,
+    auto ValButton = MakeButton("FramePropValueButton_" + std::to_string(WidgetIdx), ValX, Y + 1.f, ValW, ROW_H - 2.f,
         0.15f, 0.18f, 0.15f);
 
-    TCHAR ValBuf[32];
-    TCHAR ValFmt[8];
-    swprintf_s(ValFmt, 8, L"%%.%df", Decimals);
-    swprintf_s(ValBuf, 32, ValFmt, Get ? Get() : 0.f);
-    auto ValLbl = CreateWidget<CTextBlock>("FramePropValueLabel_" + std::to_string(WidgetIdx), 4).lock();
-    if (ValLbl)
+    TCHAR ValueBuffer[32];
+    TCHAR ValueFormat[8];
+    swprintf_s(ValueFormat, 8, L"%%.%df", Decimals);
+    swprintf_s(ValueBuffer, 32, ValueFormat, Getter ? Getter() : 0.f);
+    auto ValLabel = CreateWidget<CTextBlock>("FramePropValueLabel_" + std::to_string(WidgetIdx), 4).lock();
+    if (ValLabel)
     {
-        ValLbl->SetPos(104.f, Y);
-        ValLbl->SetSize(PanelW - 140.f, ROW_H);
-        ValLbl->SetText(ValBuf);
-        ValLbl->SetFontSize(11.f);
-        ValLbl->SetTextColor(FVector4(0.85f, 1.f, 0.85f, 1.f));
-        ValLbl->SetAlignH(ETextAlignH::Center);
-        ValLbl->SetAlignV(ETextAlignV::Middle);
+        ValLabel->SetPos(ValX, Y);
+        ValLabel->SetSize(ValW, ROW_H);
+        ValLabel->SetText(ValueBuffer);
+        ValLabel->SetFontSize(11.f);
+        ValLabel->SetTextColor(FVector4(0.85f, 1.f, 0.85f, 1.f));
+        ValLabel->SetAlignH(ETextAlignH::Center);
+        ValLabel->SetAlignV(ETextAlignV::Middle);
     }
 
-    auto PlusBtn = MakeBtn("FramePropPlusButton_" + std::to_string(WidgetIdx), PanelW - 34.f, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.25f, 0.22f);
-    MakeLbl("FramePropPlusLabel_" + std::to_string(WidgetIdx), PanelW - 34.f, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("+"), 12.f, ETextAlignH::Center);
+    auto PlusButton = MakeButton("FramePropPlusButton_" + std::to_string(WidgetIdx), PlusX, Y + 1.f, 22.f, ROW_H - 2.f, 0.22f, 0.25f, 0.22f);
+    MakeLabel("FramePropPlusLabel_" + std::to_string(WidgetIdx), PlusX, Y + 1.f, 22.f, ROW_H - 2.f, TEXT("+"), 12.f, ETextAlignH::Center);
 
-    mFramePropBtns.push_back({ MinBtn, PlusBtn, ValLbl, ValBtn, Step, Decimals, Get, Set });
+    FPropButton Row{ MinButton, PlusButton, ValLabel, ValButton, Step, Decimals, Getter, Setter };
+
+    // ── All 체크 버튼 ──
+    // 켜져 있으면 이 행의 값 변경이 시퀀스의 모든 프레임에 들어간다.
+    if (SetAll)
+    {
+        int AllIdx = (int)mFramePropButtons.size();
+        bool bOn   = (AllIdx < FRAME_PROP_MAX) && mFramePropAll[AllIdx];
+
+        float AllX = PanelW - AllW - 4.f;
+
+        auto AllButton = MakeButton("FramePropAllButton_" + std::to_string(WidgetIdx), AllX, Y + 1.f, AllW, ROW_H - 2.f,
+            bOn ? 0.16f : 0.20f, bOn ? 0.40f : 0.20f, bOn ? 0.16f : 0.24f);
+
+        auto AllLabel = MakeLabel("FramePropAllLabel_" + std::to_string(WidgetIdx), AllX, Y + 1.f, AllW, ROW_H - 2.f,
+            TEXT("All"), 9.f, ETextAlignH::Center);
+
+        if (auto Label = AllLabel.lock())
+            Label->SetTextColor(bOn ? FVector4(0.6f, 1.f, 0.6f, 1.f) : FVector4(0.55f, 0.55f, 0.6f, 1.f));
+
+        Row.SetAll = SetAll;
+        Row.AllButton = AllButton;
+        Row.AllLabel = AllLabel;
+        Row.AllIdx = AllIdx;
+    }
+
+    mFramePropButtons.push_back(std::move(Row));
     Y += ROW_H + 2.f;
+}
+
+// 프레임의 실수 값 하나를 편집하는 행.
+// Getter/Setter/SetAll 세 벌을 매번 손으로 쓰지 않도록, "그 값을 참조로 꺼내주는 함수"
+// 하나만 받아서 셋 다 여기서 만들어준다.
+void CAnimEditorUI::AddFrameFieldRow(float& Y, const wchar_t* Label, float Step,
+    std::function<float&(FFrameData&)> Field, float MinValue, int Decimals)
+{
+    const int CompIdx  = mActiveComp;
+    const int SeqIdx   = (CompIdx >= 0 && CompIdx < (int)mComps.size()) ? mComps[CompIdx].Selected : -1;
+    const int FrameIdx = (SeqIdx  >= 0 && SeqIdx  < (int)mComps[CompIdx].Seqs.size())
+                       ? mComps[CompIdx].Seqs[SeqIdx].SelectedFrame : -1;
+
+    // 프레임 목록은 매번 다시 찾는다. (프레임 추가/삭제로 벡터가 바뀔 수 있다)
+    auto GetFrames = [this, CompIdx, SeqIdx]() -> std::vector<FFrameData>*
+    {
+        if (CompIdx < 0 || CompIdx >= (int)mComps.size())                 return nullptr;
+        if (SeqIdx  < 0 || SeqIdx  >= (int)mComps[CompIdx].Seqs.size())   return nullptr;
+        return &mComps[CompIdx].Seqs[SeqIdx].Frames;
+    };
+
+    auto Clamp = [MinValue](float Value) { return Value < MinValue ? MinValue : Value; };
+
+    AddFramePropRow(Y, Label, Step,
+        // 표시 — 선택된 프레임의 값
+        [GetFrames, Field, FrameIdx]() -> float
+        {
+            auto* Frames = GetFrames();
+            if (!Frames || FrameIdx < 0 || FrameIdx >= (int)Frames->size()) return 0.f;
+            return Field((*Frames)[FrameIdx]);
+        },
+        // 쓰기 — 선택된 프레임만
+        [GetFrames, Field, Clamp, FrameIdx](float Value)
+        {
+            auto* Frames = GetFrames();
+            if (!Frames || FrameIdx < 0 || FrameIdx >= (int)Frames->size()) return;
+            Field((*Frames)[FrameIdx]) = Clamp(Value);
+        },
+        // 쓰기 — 모든 프레임. bDelta면 각 프레임에 그만큼 더한다.
+        [GetFrames, Field, Clamp](float Value, bool bDelta)
+        {
+            auto* Frames = GetFrames();
+            if (!Frames) return;
+
+            for (auto& Frame : *Frames)
+            {
+                float& FieldRef = Field(Frame);
+                FieldRef = Clamp(bDelta ? FieldRef + Value : Value);
+            }
+        },
+        Decimals);
 }
 
 // ── 토글 행 ──────────────────────────────────────────────────────────────────
@@ -215,30 +335,30 @@ void CAnimEditorUI::AddFramePropRow(float& Y, const wchar_t* Label, float Step,
 //   ToggleRowButton      — 누르면 뒤집히는 버튼. 켜지면 초록, 꺼지면 회색
 //   ToggleRowButtonLabel — 그 위의 "ON" / "OFF" 글자
 //
-// +/- 가 없으므로 Step도 없고, Get/Set이 float이 아니라 bool을 다룬다.
+// +/- 가 없으므로 Step도 없고, Getter/Setter가 float이 아니라 bool을 다룬다.
 void CAnimEditorUI::AddToggleRow(float& Y, const wchar_t* Label,
-    std::function<bool()> Get, std::function<void(bool)> Set)
+    std::function<bool()> Getter, std::function<void(bool)> Setter)
 {
     int WidgetIdx = mDynIdx++;
-    MakeLbl("ToggleRowLabel_" + std::to_string(WidgetIdx), 6.f, Y, 72.f, ROW_H, Label, 11.f);
+    MakeLabel("ToggleRowLabel_" + std::to_string(WidgetIdx), 6.f, Y, 72.f, ROW_H, Label, 11.f);
 
-    bool bOn = Get ? Get() : false;
-    auto Btn = MakeBtn("ToggleRowButton_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 60.f, ROW_H - 2.f,
+    bool bOn = Getter ? Getter() : false;
+    auto ToggleButton = MakeButton("ToggleRowButton_" + std::to_string(WidgetIdx), 80.f, Y + 1.f, 60.f, ROW_H - 2.f,
         bOn ? 0.12f : 0.22f, bOn ? 0.38f : 0.22f, bOn ? 0.12f : 0.28f);
 
-    auto Lbl = CreateWidget<CTextBlock>("ToggleRowButtonLabel_" + std::to_string(WidgetIdx), 5).lock();
-    if (Lbl)
+    auto ButtonLabel = CreateWidget<CTextBlock>("ToggleRowButtonLabel_" + std::to_string(WidgetIdx), 5).lock();
+    if (ButtonLabel)
     {
-        Lbl->SetPos(80.f, Y + 1.f);
-        Lbl->SetSize(60.f, ROW_H - 2.f);
-        Lbl->SetText(bOn ? TEXT("ON") : TEXT("OFF"));
-        Lbl->SetFontSize(11.f);
-        Lbl->SetTextColor(FVector4::White);
-        Lbl->SetAlignH(ETextAlignH::Center);
-        Lbl->SetAlignV(ETextAlignV::Middle);
+        ButtonLabel->SetPos(80.f, Y + 1.f);
+        ButtonLabel->SetSize(60.f, ROW_H - 2.f);
+        ButtonLabel->SetText(bOn ? TEXT("ON") : TEXT("OFF"));
+        ButtonLabel->SetFontSize(11.f);
+        ButtonLabel->SetTextColor(FVector4::White);
+        ButtonLabel->SetAlignH(ETextAlignH::Center);
+        ButtonLabel->SetAlignV(ETextAlignV::Middle);
     }
 
-    mToggleBtns.push_back({ Btn, Lbl, Get, Set });
+    mToggleButtons.push_back({ ToggleButton, ButtonLabel, Getter, Setter });
     Y += ROW_H + 2.f;
 }
 
@@ -257,56 +377,56 @@ bool CAnimEditorUI::Init()
     SetScrollArea(TITLE_H, PANEL_H);
     SetScrollStep(ROW_H + 2.f);
 
-    auto Bg = CreateWidget<CButton>("PanelBackground", 0).lock();
-    if (Bg)
+    auto Background = CreateWidget<CButton>("PanelBackground", 0).lock();
+    if (Background)
     {
-        Bg->SetPos(0.f, 0.f);
-        Bg->SetSize(PANEL_W, PANEL_H);
-        Bg->SetTint(EWidgetState::Normal,  0.11f, 0.11f, 0.15f, 0.95f);
-        Bg->SetTint(EWidgetState::Hovered, 0.11f, 0.11f, 0.15f, 0.95f);
-        Bg->SetTint(EWidgetState::Clicked, 0.11f, 0.11f, 0.15f, 0.95f);
-        Bg->SetTint(EWidgetState::Release, 0.11f, 0.11f, 0.15f, 0.95f);
-        Bg->SetTint(EWidgetState::Disable, 0.11f, 0.11f, 0.15f, 0.95f);
-        mBackground = Bg;
+        Background->SetPos(0.f, 0.f);
+        Background->SetSize(PANEL_W, PANEL_H);
+        Background->SetTint(EWidgetState::Normal,  0.11f, 0.11f, 0.15f, 0.95f);
+        Background->SetTint(EWidgetState::Hovered, 0.11f, 0.11f, 0.15f, 0.95f);
+        Background->SetTint(EWidgetState::Clicked, 0.11f, 0.11f, 0.15f, 0.95f);
+        Background->SetTint(EWidgetState::Release, 0.11f, 0.11f, 0.15f, 0.95f);
+        Background->SetTint(EWidgetState::Disable, 0.11f, 0.11f, 0.15f, 0.95f);
+        mBackground = Background;
     }
 
-    auto TB = CreateWidget<CTitleBar>("PanelTitleBar", 1).lock();
-    if (TB)
+    auto TitleBar = CreateWidget<CTitleBar>("PanelTitleBar", 1).lock();
+    if (TitleBar)
     {
-        TB->SetPos(0.f, 0.f);
-        TB->SetSize(PANEL_W, TITLE_H);
-        TB->SetTint(0.18f, 0.18f, 0.28f, 1.f);
-        TB->SetUpdateWidget(GetThisPtr<CWidget>());
-        mTitleBarWidget = TB;
+        TitleBar->SetPos(0.f, 0.f);
+        TitleBar->SetSize(PANEL_W, TITLE_H);
+        TitleBar->SetTint(0.18f, 0.18f, 0.28f, 1.f);
+        TitleBar->SetUpdateWidget(GetThisPtr<CWidget>());
+        mTitleBarWidget = TitleBar;
     }
 
-    auto TT = CreateWidget<CTextBlock>("PanelTitleLabel", 2).lock();
-    if (TT)
+    auto TitleText = CreateWidget<CTextBlock>("PanelTitleLabel", 2).lock();
+    if (TitleText)
     {
-        TT->SetPos(0.f, 0.f);
-        TT->SetSize(PANEL_W, TITLE_H);
-        TT->SetText(TEXT("Animation Editor"));
-        TT->SetFontSize(14.f);
-        TT->SetTextColor(FVector4::White);
-        TT->SetAlignH(ETextAlignH::Center);
-        TT->SetAlignV(ETextAlignV::Middle);
-        mTitleText = TT;
+        TitleText->SetPos(0.f, 0.f);
+        TitleText->SetSize(PANEL_W, TITLE_H);
+        TitleText->SetText(TEXT("Animation Editor"));
+        TitleText->SetFontSize(14.f);
+        TitleText->SetTextColor(FVector4::White);
+        TitleText->SetAlignH(ETextAlignH::Center);
+        TitleText->SetAlignV(ETextAlignV::Middle);
+        mTitleText = TitleText;
     }
 
-    auto MakeHandle = [&](const std::string& N, float X, float Y2) -> std::weak_ptr<CButton>
+    auto MakeHandle = [&](const std::string& Name, float X, float PosY) -> std::weak_ptr<CButton>
     {
-        auto H = CreateWidget<CButton>(N, 10).lock();
-        if (H)
+        auto Handle = CreateWidget<CButton>(Name, 10).lock();
+        if (Handle)
         {
-            H->SetPos(X, Y2);
-            H->SetSize(HANDLE_SZ, HANDLE_SZ);
-            H->SetTint(EWidgetState::Normal,  0.40f, 0.40f, 0.50f, 0.85f);
-            H->SetTint(EWidgetState::Hovered, 0.70f, 0.90f, 1.00f, 1.f);
-            H->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
-            H->SetTint(EWidgetState::Release, 1.00f, 1.00f, 1.00f, 1.f);
-            H->SetTint(EWidgetState::Disable, 0.25f, 0.25f, 0.25f, 0.5f);
+            Handle->SetPos(X, PosY);
+            Handle->SetSize(HANDLE_SZ, HANDLE_SZ);
+            Handle->SetTint(EWidgetState::Normal,  0.40f, 0.40f, 0.50f, 0.85f);
+            Handle->SetTint(EWidgetState::Hovered, 0.70f, 0.90f, 1.00f, 1.f);
+            Handle->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
+            Handle->SetTint(EWidgetState::Release, 1.00f, 1.00f, 1.00f, 1.f);
+            Handle->SetTint(EWidgetState::Disable, 0.25f, 0.25f, 0.25f, 0.5f);
         }
-        return H;
+        return Handle;
     };
     mHandleTL = MakeHandle("ResizeHandleTopLeft", 0.f,               0.f);
     mHandleTR = MakeHandle("ResizeHandleTopRight", PANEL_W - HANDLE_SZ, 0.f);
@@ -328,10 +448,10 @@ void CAnimEditorUI::SyncFrames(int CompIdx, int SeqIdx)
     auto& Seq = mComps[CompIdx].Seqs[SeqIdx];
     Seq.Frames.clear();
 
-    auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-    if (!AnimMgr) return;
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (!AnimManager) return;
 
-    auto Anim = AnimMgr->FindAnimation(Seq.Name).lock();
+    auto Anim = AnimManager->FindAnimation(Seq.Name).lock();
     if (!Anim) return;
 
     Seq.TextureType = Anim->GetType();
@@ -341,17 +461,32 @@ void CAnimEditorUI::SyncFrames(int CompIdx, int SeqIdx)
     Seq.PivotX = Pivot.x;
     Seq.PivotY = Pivot.y;
 
-    if (auto Tex = Anim->GetTexture().lock())
+    // 재생 설정도 .anim2d에 저장된 값이 원본이다.
+    // 시퀀스에서 읽어오면 안 된다. 액션 상태 컴포넌트가 상태를 바꿀 때마다
+    // Loop와 Symmetry를 덮어쓰기 때문이다. (Symmetry는 바라보는 방향마다 뒤집힌다)
+    // 그 값을 그대로 저장하면 런타임 상태가 파일에 박혀버린다.
+    if (Anim->HasPlaySettings())
+    {
+        Seq.PlayRate = Anim->GetPlayRate();
+        Seq.Loop     = Anim->GetLoop();
+        Seq.Reverse  = Anim->GetReverse();
+        Seq.Symmetry = Anim->GetSymmetry();
+    }
+
+    // 총 재생 시간은 프레임별 시간의 합이다. (저장된 값이 아니라 매번 더해서 낸다)
+    Seq.PlayTime = Anim->GetTotalDuration();
+
+    if (auto Texture = Anim->GetTexture().lock())
     {
         // 조회용 이름으로 쓰이므로 접두사를 뗀 형태로 보관한다.
-        Seq.TextureName = StripTexturePrefix(Tex->GetName());
+        Seq.TextureName = StripTexturePrefix(Texture->GetName());
 
         // 텍스처 경로도 같이 복구한다.
         // 이걸 빼먹으면 [불러오기 → 수정 → 저장] 시 TextureRelPath가 빈 줄로 기록되고,
         // 다음 실행에서 SetTexture(이름) 폴백으로 넘어간다.
         // 그 함수는 이미 로드된 텍스처를 찾기만 할 뿐 파일을 읽지 않으므로
         // 아무도 그 텍스처를 안 올렸으면 영영 비어 있게 된다.
-        if (const FTextureInfo* Info = Tex->GetTexture(0))
+        if (const FTextureInfo* Info = Texture->GetTexture(0))
         {
             if (!Info->FullPath.empty())
                 Seq.TextureRelPath = DialogUtil::ToRelativePath(DialogUtil::ToNarrow(Info->FullPath));
@@ -361,12 +496,12 @@ void CAnimEditorUI::SyncFrames(int CompIdx, int SeqIdx)
     int Count = Anim->GetFrameCount();
     for (int i = 0; i < Count; ++i)
     {
-        const FTextureFrame& TF = Anim->GetFrame(i);
+        const FTextureFrame& SourceFrame = Anim->GetFrame(i);
         FFrameData FrameData;
-        FrameData.Start    = TF.Start;
-        FrameData.Size     = TF.Size;
-        FrameData.Offset   = TF.Offset;
-        FrameData.Duration = TF.Duration;
+        FrameData.Start    = SourceFrame.Start;
+        FrameData.Size     = SourceFrame.Size;
+        FrameData.Offset   = SourceFrame.Offset;
+        FrameData.Duration = SourceFrame.Duration;
         Seq.Frames.push_back(FrameData);
     }
     Seq.SelectedFrame = Seq.Frames.empty() ? -1 : 0;
@@ -379,10 +514,10 @@ void CAnimEditorUI::ApplyFrames(int CompIdx, int SeqIdx)
 
     auto& Seq = mComps[CompIdx].Seqs[SeqIdx];
 
-    auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-    if (!AnimMgr) return;
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (!AnimManager) return;
 
-    auto Anim = AnimMgr->FindAnimation(Seq.Name).lock();
+    auto Anim = AnimManager->FindAnimation(Seq.Name).lock();
     if (!Anim) return;
 
     Anim->ClearFrame();
@@ -460,6 +595,26 @@ void CAnimEditorUI::AddSeq(int CompIdx, const std::string& AnimName)
     FSeqData Seq;
     Seq.Name = AnimName;
 
+    // .anim2d에 저장된 설정 그대로 붙인다.
+    // 기본값(PlayTime 1초)으로 붙이면 AddAnimation -> SetPlayTime -> ScaleTotalDuration이
+    // 돌면서 에셋의 프레임별 재생 시간이 전부 1초에 맞춰 늘어나거나 줄어든다.
+    if (auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D))
+    {
+        if (auto Anim = AnimManager->FindAnimation(AnimName).lock())
+        {
+            if (Anim->GetFrameCount() > 0)
+                Seq.PlayTime = Anim->GetTotalDuration();
+
+            if (Anim->HasPlaySettings())
+            {
+                Seq.PlayRate = Anim->GetPlayRate();
+                Seq.Loop     = Anim->GetLoop();
+                Seq.Reverse  = Anim->GetReverse();
+                Seq.Symmetry = Anim->GetSymmetry();
+            }
+        }
+    }
+
     if (auto AnimComp = CompData.Comp.lock())
         AnimComp->AddAnimation(AnimName, Seq.PlayTime, Seq.PlayRate, Seq.Loop, Seq.Reverse, Seq.Symmetry);
 
@@ -527,11 +682,11 @@ void CAnimEditorUI::CreateNewAnim()
     std::string AnimName = DialogUtil::ExtractBaseName(Path);
     if (AnimName.empty()) return;
 
-    auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-    if (!AnimMgr) return;
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (!AnimManager) return;
 
-    if (!AnimMgr->FindAnimation(AnimName).lock())
-        AnimMgr->CreateAnimation(AnimName);
+    if (!AnimManager->FindAnimation(AnimName).lock())
+        AnimManager->CreateAnimation(AnimName);
 
     CAnimRegistry::Register(AnimName);
 
@@ -579,10 +734,10 @@ void CAnimEditorUI::SetAnimTexture(int CompIdx, int SeqIdx)
     // exe 기준 상대경로 저장 (Save/Load 재사용 위해. 폴더 밖이면 절대경로 그대로)
     Seq.TextureRelPath = DialogUtil::ToRelativePath(Path);
 
-    auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-    if (!AnimMgr) return;
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (!AnimManager) return;
 
-    auto Anim = AnimMgr->FindAnimation(Seq.Name).lock();
+    auto Anim = AnimManager->FindAnimation(Seq.Name).lock();
     if (!Anim) return;
 
     std::wstring WPath = DialogUtil::ToWide(Path);
@@ -607,9 +762,60 @@ void CAnimEditorUI::SaveAnim(int CompIdx, int SeqIdx)
     CreateDirectoryA((DialogUtil::GetExeDir() + "Asset\\").c_str(), nullptr);
     CreateDirectoryA(Dir.c_str(), nullptr);
 
+    // 이 애니메이션이 실제로 들어 있던 파일을 기본값으로 열어준다.
+    // 그래야 "덮어쓰기"가 자연스럽게 원래 파일을 향한다.
+    std::string Suggested = CAnimRegistry::GetSourceFile(Seq.Name);
+
+    if (Suggested.empty())
+    {
+        Suggested = Dir + Seq.Name + ".anim2d";
+    }
+
     std::string Path = DialogUtil::SaveFile(
-        "Anim Files\0*.anim2d\0All Files\0*.*\0", Dir.c_str(), "anim2d");
+        "Anim Files\0*.anim2d\0All Files\0*.*\0", Dir.c_str(), "anim2d", Suggested.c_str());
     if (Path.empty()) return;
+
+    // ── 이름 충돌 검사 ────────────────────────────────────────────────────────
+    // 애니메이션은 파일 이름이 아니라 파일 안의 AnimName으로 구분된다.
+    // 그래서 파일 이름만 바꿔 저장해도 AnimName은 그대로 따라가고,
+    // 같은 이름이 두 파일에 생기면 다음 실행에서 폴더를 읽을 때
+    // 어느 쪽이 살아남을지 알 수 없게 된다. (저장했는데 옛날 데이터가 나오는 원인)
+    {
+        const std::string ExistingName = PeekAnimName(Path);
+
+        // (1) 다른 애니메이션이 들어 있는 파일에 덮어쓰려는 경우
+        if (!ExistingName.empty() && ExistingName != Seq.Name)
+        {
+            std::wstring Message = L"이 파일에는 '" + DialogUtil::ToWide(ExistingName) + L"' 이(가) 들어 있습니다.\n"
+                               L"여기에 '" + DialogUtil::ToWide(Seq.Name) + L"' 을(를) 저장하면 같은 이름이 두 파일에 생겨서,\n"
+                               L"다음 실행에서 어느 쪽이 쓰일지 알 수 없게 됩니다.\n\n"
+                               L"원래 파일에 덮어쓰거나 새 이름의 파일을 골라주세요.";
+
+            DialogUtil::Alert(Message.c_str(), L"저장 취소");
+
+            LOG_ERROR("[AnimEditor] Save canceled: '%s' already holds anim '%s' (saving '%s')",
+                Path.c_str(), ExistingName.c_str(), Seq.Name.c_str());
+            return;
+        }
+
+        // (2) 이 애니메이션이 이미 다른 파일에 저장돼 있는 경우
+        const std::string& Prev = CAnimRegistry::GetSourceFile(Seq.Name);
+
+        if (!Prev.empty() && !IsSamePath(Prev, Path))
+        {
+            std::wstring Message = L"'" + DialogUtil::ToWide(Seq.Name) + L"' 은(는) 이미 아래 파일에 저장돼 있습니다.\n\n"
+                               + DialogUtil::ToWide(Prev) + L"\n\n"
+                               L"다른 파일로 또 저장하면 같은 이름이 두 개가 되어\n"
+                               L"다음 실행에서 방금 저장한 쪽이 무시될 수 있습니다.\n"
+                               L"위 파일에 덮어써 주세요. (백업은 Asset 폴더 바깥에 두세요)";
+
+            DialogUtil::Alert(Message.c_str(), L"저장 취소");
+
+            LOG_ERROR("[AnimEditor] Save canceled: anim '%s' already lives in '%s' (tried '%s')",
+                Seq.Name.c_str(), Prev.c_str(), Path.c_str());
+            return;
+        }
+    }
 
     std::ofstream File(Path);
     if (!File) return;
@@ -639,12 +845,27 @@ void CAnimEditorUI::SaveAnim(int CompIdx, int SeqIdx)
              << FrameData.Offset.x << " " << FrameData.Offset.y << " "
              << FrameData.Duration << "\n";
 
+    // 이제 이 애니메이션의 출처는 방금 저장한 파일이다.
+    CAnimRegistry::SetSourceFile(Seq.Name, Path);
+
+    // 방금 저장한 설정을 에셋에도 반영해둔다.
+    // 이게 없으면 액터를 다시 고르는 순간 SyncFrames가 에셋의 예전 값을 다시 끌어와서,
+    // 저장은 됐는데 화면은 옛날 값으로 돌아간 것처럼 보인다.
+    if (auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D))
+    {
+        if (auto Anim = AnimManager->FindAnimation(Seq.Name).lock())
+            Anim->SetPlaySettings(Seq.PlayRate, Seq.Loop, Seq.Reverse, Seq.Symmetry);
+    }
+
+    CAnimRegistry::SetPivot(Seq.Name, Seq.PivotX, Seq.PivotY);
+
     LOG_DEBUG("[AnimEditor] Saved: %s", Path.c_str());
 }
 
 // ── 공통 파싱: 파일 하나를 읽어 CAnimation2D 생성 + CAnimRegistry 등록 ──────
 
-bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo)
+bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo,
+                                     bool bSkipDuplicateName)
 {
     std::ifstream File(Path);
     if (!File) return false;
@@ -660,34 +881,34 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
     while (std::getline(File, Line))
     {
         if (Line.empty() || Line[0] == '#') continue;
-        std::istringstream SS(Line);
-        std::string Key; SS >> Key;
+        std::istringstream LineStream(Line);
+        std::string Key; LineStream >> Key;
 
         if      (Key == "ANIM2D")        { /* 버전 */ }
-        else if (Key == "AnimName")       SS >> AnimName;
-        else if (Key == "TextureType")    { std::string TypeStr; SS >> TypeStr; TextureType = (TypeStr == "Frame") ? EAnimation2DTextureType::Frame : EAnimation2DTextureType::SpriteSheet; }
-        else if (Key == "TextureName")    SS >> TextureName;
-        else if (Key == "TextureRelPath") std::getline(SS >> std::ws, TextureRelPath);
-        else if (Key == "PlayTime")       SS >> PlayTime;
-        else if (Key == "PlayRate")       SS >> PlayRate;
-        else if (Key == "Loop")           { int Flag; SS >> Flag; Loop     = (Flag != 0); }
-        else if (Key == "Reverse")        { int Flag; SS >> Flag; Reverse  = (Flag != 0); }
-        else if (Key == "Symmetry")       { int Flag; SS >> Flag; Symmetry = (Flag != 0); }
-        else if (Key == "Pivot")          SS >> PivotX >> PivotY;
+        else if (Key == "AnimName")       LineStream >> AnimName;
+        else if (Key == "TextureType")    { std::string TypeStr; LineStream >> TypeStr; TextureType = (TypeStr == "Frame") ? EAnimation2DTextureType::Frame : EAnimation2DTextureType::SpriteSheet; }
+        else if (Key == "TextureName")    LineStream >> TextureName;
+        else if (Key == "TextureRelPath") std::getline(LineStream >> std::ws, TextureRelPath);
+        else if (Key == "PlayTime")       LineStream >> PlayTime;
+        else if (Key == "PlayRate")       LineStream >> PlayRate;
+        else if (Key == "Loop")           { int Flag; LineStream >> Flag; Loop     = (Flag != 0); }
+        else if (Key == "Reverse")        { int Flag; LineStream >> Flag; Reverse  = (Flag != 0); }
+        else if (Key == "Symmetry")       { int Flag; LineStream >> Flag; Symmetry = (Flag != 0); }
+        else if (Key == "Pivot")          LineStream >> PivotX >> PivotY;
         else if (Key == "Frames")
         {
-            int Count = 0; SS >> Count;
+            int Count = 0; LineStream >> Count;
             for (int i = 0; i < Count; ++i)
             {
                 std::string FLine;
                 while (std::getline(File, FLine) && FLine.empty()) {}
                 FFrameData FrameData;
-                std::istringstream FSS(FLine);
-                FSS >> FrameData.Start.x >> FrameData.Start.y >> FrameData.Size.x >> FrameData.Size.y >> FrameData.Offset.x >> FrameData.Offset.y;
+                std::istringstream FrameStream(FLine);
+                FrameStream >> FrameData.Start.x >> FrameData.Start.y >> FrameData.Size.x >> FrameData.Size.y >> FrameData.Offset.x >> FrameData.Offset.y;
 
                 //7번째 숫자가 프레임별 재생 시간.
                 //없는 예전 파일은 음수로 표시해두고 아래에서 PlayTime을 균등 분배한다.
-                if (!(FSS >> FrameData.Duration))
+                if (!(FrameStream >> FrameData.Duration))
                     FrameData.Duration = -1.f;
 
                 Frames.push_back(FrameData);
@@ -696,6 +917,29 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
     }
 
     if (AnimName.empty()) return false;
+
+    // 같은 AnimName을 주장하는 .anim2d가 두 개 있으면, 폴더를 통째로 읽을 때
+    // 나중에 읽힌 쪽이 앞의 것을 통째로 덮어쓴다. (프레임까지 전부)
+    // 그러면 에디터에서 저장을 해도 다시 켜면 다른 파일의 내용이 나온다.
+    // 조용히 덮어쓰지 말고 먼저 자리를 잡은 파일을 살리고, 무엇과 부딪혔는지 남긴다.
+    {
+        const std::string& Prev = CAnimRegistry::GetSourceFile(AnimName);
+
+        if (!Prev.empty() && Prev != Path)
+        {
+            if (bSkipDuplicateName)
+            {
+                LOG_ERROR("[AnimEditor] AnimName '%s' 중복 - '%s' 를 건너뜁니다. (이미 '%s' 가 사용 중)",
+                    AnimName.c_str(), Path.c_str(), Prev.c_str());
+                return false;
+            }
+
+            LOG_WARNING("[AnimEditor] AnimName '%s' 를 '%s' 의 내용으로 덮어씁니다. (이전: '%s')",
+                AnimName.c_str(), Path.c_str(), Prev.c_str());
+        }
+
+        CAnimRegistry::SetSourceFile(AnimName, Path);
+    }
 
     //프레임별 재생 시간이 없는 예전 파일이면 PlayTime을 균등 분배한다.
     //(그래야 예전과 똑같은 속도로 재생된다)
@@ -711,16 +955,21 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
         }
     }
 
-    auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-    if (!AnimMgr) return false;
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (!AnimManager) return false;
 
-    if (!AnimMgr->FindAnimation(AnimName).lock())
-        AnimMgr->CreateAnimation(AnimName);
+    if (!AnimManager->FindAnimation(AnimName).lock())
+        AnimManager->CreateAnimation(AnimName);
 
-    auto Anim = AnimMgr->FindAnimation(AnimName).lock();
+    auto Anim = AnimManager->FindAnimation(AnimName).lock();
     if (!Anim) return false;
 
     Anim->SetAnimationTextureType(TextureType);
+
+    // 파일에 적힌 한글은 저장한 PC의 코드페이지를 따른다.
+    // exe 경로(CP_ACP)와 이어붙이기 전에 이 PC 기준으로 맞춰둔다.
+    TextureName    = DialogUtil::ToAcp(TextureName);
+    TextureRelPath = DialogUtil::ToAcp(TextureRelPath);
 
     // TextureRelPath 우선, 없으면 TextureName 폴백
     if (!TextureRelPath.empty())
@@ -728,6 +977,10 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
         std::string FullPath = DialogUtil::GetExeDir() + TextureRelPath;
         std::wstring WPath = DialogUtil::ToWide(FullPath);
         Anim->SetTextureFullPath(TextureName, WPath.c_str());
+
+        //텍스처가 안 붙으면 재생할 때 빈 텍스처를 만지게 되므로 여기서 남겨둔다.
+        if (Anim->GetTexture().expired())
+            LOG_ERROR("[AnimEditor] Texture load failed: %s", FullPath.c_str());
     }
     else if (!TextureName.empty())
     {
@@ -737,6 +990,12 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
     Anim->ClearFrame();
     for (auto& FrameData : Frames)
         Anim->AddFrame(FrameData.Start, FrameData.Size, FrameData.Offset, FrameData.Duration);
+
+    // 재생 설정도 에셋에 남겨둔다.
+    // 예전에는 OutInfo로만 돌려줘서, 시작할 때 폴더를 통째로 읽는 LoadAllAnims는
+    // 이 값을 그냥 버렸다. 그러면 월드에 적혀 있던 예전 PlayRate/Loop가 대신 쓰여서
+    // 애님 에디터에서 고쳐 저장해도 다시 켜면 원래대로 보였다.
+    Anim->SetPlaySettings(PlayRate, Loop, Reverse, Symmetry);
 
     CAnimRegistry::Register(AnimName);
 
@@ -775,8 +1034,11 @@ void CAnimEditorUI::LoadAllAnims()
     do
     {
         if (FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
-        LoadAnimFromFile(Dir + FindData.cFileName);
-        ++Count;
+
+        // 이름이 겹치는 파일은 건너뛴다. 폴더를 읽는 순서에 따라
+        // 어느 쪽이 살아남을지 달라지는 게 제일 곤란하다.
+        if (LoadAnimFromFile(Dir + FindData.cFileName, nullptr, true))
+            ++Count;
     } while (FindNextFileA(hFind, &FindData));
 
     FindClose(hFind);
@@ -867,7 +1129,7 @@ void CAnimEditorUI::LoadAnim()
 
 void CAnimEditorUI::UpdateHandles(float NewW, float NewH)
 {
-    if (auto Bg = mBackground.lock())      Bg->SetSize(NewW, NewH);
+    if (auto Background = mBackground.lock())      Background->SetSize(NewW, NewH);
     if (auto Bar = mTitleBarWidget.lock()) Bar->SetSize(NewW, TITLE_H);
     if (auto Title = mTitleText.lock())    Title->SetSize(NewW, TITLE_H);
 
@@ -890,15 +1152,15 @@ void CAnimEditorUI::Rebuild()
     else if ((int)mChildList.size() > mStaticChildCount)
         mChildList.resize(mStaticChildCount);
 
-    mTabBtns.clear(); mSeqBtns.clear();
-    mPropBtns.clear(); mToggleBtns.clear();
-    mRegBtns.clear(); mFramePropBtns.clear();
-    mAddToggleBtn = {}; mFrameCountText = {}; mPlayTimeText = {};
-    mToggleFrameBtn = {}; mFramePrevBtn = {}; mFrameNextBtn = {};
-    mFrameIdxLbl = {}; mAddFrameBtn = {}; mDelFrameBtn = {}; mClearFramesBtn = {};
-    mSetTextureBtn = {}; mTypeToggleBtn = {};
-    mSaveAnimBtn = {}; mLoadAnimBtn = {}; mNewAnimBtn = {};
-    mOpenViewerBtn = {};
+    mTabButtons.clear(); mSeqButtons.clear();
+    mPropButtons.clear(); mToggleButtons.clear();
+    mRegButtons.clear(); mFramePropButtons.clear();
+    mAddToggleButton = {}; mFrameCountText = {}; mPlayTimeText = {};
+    mToggleFrameButton = {}; mFramePrevButton = {}; mFrameNextButton = {};
+    mFrameIdxLabel = {}; mAddFrameButton = {}; mDelFrameButton = {}; mClearFramesButton = {};
+    mSetTextureButton = {}; mTypeToggleButton = {};
+    mSaveAnimButton = {}; mLoadAnimButton = {}; mNewAnimButton = {};
+    mOpenViewerButton = {};
 
     float PanelW = GetSize().x;
     float LayoutH = GetSize().y;
@@ -916,24 +1178,24 @@ void CAnimEditorUI::Rebuild()
         std::string ActorName = "(none)";
         if (auto TargetActor = mTarget.lock()) ActorName = TargetActor->GetName();
         std::wstring WName(ActorName.begin(), ActorName.end());
-        TCHAR Buf[128]; wsprintf(Buf, TEXT("Actor: %s"), WName.c_str());
-        MakeLbl("ActorNameLabel_" + std::to_string(mDynIdx++), 6.f, Y, PanelW - 8.f, ROW_H, Buf, 11.f);
+        TCHAR TextBuffer[128]; wsprintf(TextBuffer, TEXT("Actor: %s"), WName.c_str());
+        MakeLabel("ActorNameLabel_" + std::to_string(mDynIdx++), 6.f, Y, PanelW - 8.f, ROW_H, TextBuffer, 11.f);
         Y += ROW_H + 2.f;
     }
 
     // ── 새 애니메이션 만들기 버튼 (항상 표시) ─────────────────────────────────
     {
-        auto NewBtn = MakeBtn("NewAnimButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
+        auto NewButton = MakeButton("NewAnimButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
             0.28f, 0.22f, 0.10f);
-        MakeLbl("NewAnimButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
+        MakeLabel("NewAnimButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
             TEXT("새 애니메이션 만들기"), 11.f, ETextAlignH::Center);
-        mNewAnimBtn = NewBtn;
+        mNewAnimButton = NewButton;
         Y += ROW_H + 4.f;
     }
 
     if (mComps.empty())
     {
-        MakeLbl("NoAnimCompLabel_" + std::to_string(mDynIdx++), 6.f, Y, PanelW - 8.f, ROW_H,
+        MakeLabel("NoAnimCompLabel_" + std::to_string(mDynIdx++), 6.f, Y, PanelW - 8.f, ROW_H,
             TEXT("AnimComp 없음 - 에셋만 생성됨"), 10.f);
         FinishLayout(Y + ROW_H);
         return;
@@ -947,13 +1209,13 @@ void CAnimEditorUI::Rebuild()
         {
             std::wstring WName(mComps[i].CompName.begin(), mComps[i].CompName.end());
             bool bActive = (i == mActiveComp);
-            auto Btn = MakeBtn("CompTabButton_" + std::to_string(mDynIdx), TabX, Y, TabW - 2.f, 22.f,
+            auto Button = MakeButton("CompTabButton_" + std::to_string(mDynIdx), TabX, Y, TabW - 2.f, 22.f,
                 bActive ? 0.22f : 0.16f,
                 bActive ? 0.38f : 0.22f,
                 bActive ? 0.55f : 0.28f);
-            MakeLbl("CompTabButtonLabel_" + std::to_string(mDynIdx++), TabX, Y, TabW - 2.f, 22.f,
+            MakeLabel("CompTabButtonLabel_" + std::to_string(mDynIdx++), TabX, Y, TabW - 2.f, 22.f,
                 WName.c_str(), 9.f, ETextAlignH::Center);
-            mTabBtns.push_back({ Btn, i });
+            mTabButtons.push_back({ Button, i });
             TabX += TabW;
         }
         Y += 26.f;
@@ -963,7 +1225,7 @@ void CAnimEditorUI::Rebuild()
     auto& CompData = mComps[mActiveComp];
 
     // ── 시퀀스 목록 ───────────────────────────────────────────────────────────
-    MakeLbl("SequenceHeaderLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, 14.f,
+    MakeLabel("SequenceHeaderLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, 14.f,
         TEXT("- Sequences -"), 10.f);
     Y += 16.f;
 
@@ -973,13 +1235,13 @@ void CAnimEditorUI::Rebuild()
         if (Y + ROW_H > MaxSeqY) break;
         std::wstring WName(CompData.Seqs[i].Name.begin(), CompData.Seqs[i].Name.end());
         bool bSel = (i == CompData.Selected);
-        auto Btn = MakeBtn("SequenceButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
+        auto Button = MakeButton("SequenceButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
             bSel ? 0.18f : 0.14f,
             bSel ? 0.38f : 0.20f,
             bSel ? 0.65f : 0.26f);
-        MakeLbl("SequenceButtonLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 12.f, ROW_H,
+        MakeLabel("SequenceButtonLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 12.f, ROW_H,
             WName.c_str(), 11.f);
-        mSeqBtns.push_back({ Btn, i });
+        mSeqButtons.push_back({ Button, i });
         Y += ROW_H + 2.f;
     }
 
@@ -987,7 +1249,7 @@ void CAnimEditorUI::Rebuild()
     if (CompData.Selected >= 0 && CompData.Selected < (int)CompData.Seqs.size())
     {
         Y += 4.f;
-        MakeLbl("PropertiesHeaderLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, 14.f,
+        MakeLabel("PropertiesHeaderLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, 14.f,
             TEXT("- Properties -"), 10.f);
         Y += 16.f;
 
@@ -1000,14 +1262,14 @@ void CAnimEditorUI::Rebuild()
             for (const auto& FrameData : CompData.Seqs[SeqIdx].Frames)
                 Total += FrameData.Duration;
 
-            TCHAR TotalBuf[32];
-            swprintf_s(TotalBuf, 32, L"%.2f s", Total);
+            TCHAR TotalBuffer[32];
+            swprintf_s(TotalBuffer, 32, L"%.2f s", Total);
 
-            MakeLbl("PlayTimeLabel_" + std::to_string(mDynIdx++), 6.f, Y, 72.f, ROW_H,
+            MakeLabel("PlayTimeLabel_" + std::to_string(mDynIdx++), 6.f, Y, 72.f, ROW_H,
                 TEXT("PlayTime"), 11.f);
 
-            mPlayTimeText = MakeLbl("PlayTimeValue_" + std::to_string(mDynIdx++),
-                104.f, Y, PanelW - 140.f, ROW_H, TotalBuf, 11.f, ETextAlignH::Center);
+            mPlayTimeText = MakeLabel("PlayTimeValue_" + std::to_string(mDynIdx++),
+                104.f, Y, PanelW - 140.f, ROW_H, TotalBuffer, 11.f, ETextAlignH::Center);
 
             Y += ROW_H + 2.f;
         }
@@ -1084,16 +1346,17 @@ void CAnimEditorUI::Rebuild()
         if (Y + ROW_H < LayoutH - 10.f)
         {
             auto& Seq = CompData.Seqs[CompData.Selected];
-            std::wstring TexW = Seq.TextureName.empty()
-                ? L"(없음)" : std::wstring(Seq.TextureName.begin(), Seq.TextureName.end());
-            TCHAR TexBuf[128];
-            swprintf_s(TexBuf, 128, L"Tex: %s", TexW.c_str());
+            //한글 텍스처 이름은 바이트를 그대로 넓히면 깨진다. 코드페이지를 거쳐야 한다.
+            std::wstring WideTextureName = Seq.TextureName.empty()
+                ? L"(없음)" : DialogUtil::ToWide(Seq.TextureName);
+            TCHAR TextureBuffer[128];
+            swprintf_s(TextureBuffer, 128, L"Tex: %s", WideTextureName.c_str());
             float LabelW = PanelW * 0.55f - 4.f;
-            MakeLbl("TextureNameLabel_" + std::to_string(mDynIdx++), 6.f, Y, LabelW, ROW_H, TexBuf, 9.f);
-            float BX = 6.f + LabelW;
-            auto TexBtn = MakeBtn("SetTextureButton_" + std::to_string(mDynIdx), BX, Y + 1.f, PanelW - BX - 6.f, ROW_H - 2.f, 0.18f, 0.20f, 0.38f);
-            MakeLbl("SetTextureButtonLabel_" + std::to_string(mDynIdx++), BX, Y + 1.f, PanelW - BX - 6.f, ROW_H - 2.f, TEXT("Set Texture"), 9.f, ETextAlignH::Center);
-            mSetTextureBtn = TexBtn;
+            MakeLabel("TextureNameLabel_" + std::to_string(mDynIdx++), 6.f, Y, LabelW, ROW_H, TextureBuffer, 9.f);
+            float ButtonX = 6.f + LabelW;
+            auto TexButton = MakeButton("SetTextureButton_" + std::to_string(mDynIdx), ButtonX, Y + 1.f, PanelW - ButtonX - 6.f, ROW_H - 2.f, 0.18f, 0.20f, 0.38f);
+            MakeLabel("SetTextureButtonLabel_" + std::to_string(mDynIdx++), ButtonX, Y + 1.f, PanelW - ButtonX - 6.f, ROW_H - 2.f, TEXT("Set Texture"), 9.f, ETextAlignH::Center);
+            mSetTextureButton = TexButton;
             Y += ROW_H + 2.f;
         }
 
@@ -1102,23 +1365,23 @@ void CAnimEditorUI::Rebuild()
         {
             auto& Seq = CompData.Seqs[CompData.Selected];
             bool bFrame = (Seq.TextureType == EAnimation2DTextureType::Frame);
-            MakeLbl("TextureTypeLabel_" + std::to_string(mDynIdx++), 6.f, Y, 52.f, ROW_H, TEXT("Type:"), 11.f);
-            auto TypeBtn = MakeBtn("TextureTypeButton_" + std::to_string(mDynIdx), 60.f, Y + 1.f, PanelW - 68.f, ROW_H - 2.f,
+            MakeLabel("TextureTypeLabel_" + std::to_string(mDynIdx++), 6.f, Y, 52.f, ROW_H, TEXT("Type:"), 11.f);
+            auto TypeButton = MakeButton("TextureTypeButton_" + std::to_string(mDynIdx), 60.f, Y + 1.f, PanelW - 68.f, ROW_H - 2.f,
                 bFrame ? 0.30f : 0.18f, 0.20f, bFrame ? 0.18f : 0.30f);
-            MakeLbl("TextureTypeButtonLabel_" + std::to_string(mDynIdx++), 60.f, Y + 1.f, PanelW - 68.f, ROW_H - 2.f,
+            MakeLabel("TextureTypeButtonLabel_" + std::to_string(mDynIdx++), 60.f, Y + 1.f, PanelW - 68.f, ROW_H - 2.f,
                 bFrame ? TEXT("Frame") : TEXT("SpriteSheet"), 11.f, ETextAlignH::Center);
-            mTypeToggleBtn = TypeBtn;
+            mTypeToggleButton = TypeButton;
             Y += ROW_H + 4.f;
         }
 
         // ── Sprite Viewer 열기 ────────────────────────────────────────────────
         if (Y + ROW_H < LayoutH - 10.f)
         {
-            auto ViewBtn = MakeBtn("OpenSpriteViewerButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
+            auto ViewButton = MakeButton("OpenSpriteViewerButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
                 0.14f, 0.28f, 0.20f);
-            MakeLbl("OpenSpriteViewerLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
+            MakeLabel("OpenSpriteViewerLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
                 TEXT("Open Sprite Viewer"), 11.f, ETextAlignH::Center);
-            mOpenViewerBtn = ViewBtn;
+            mOpenViewerButton = ViewButton;
             Y += ROW_H + 4.f;
         }
 
@@ -1126,15 +1389,15 @@ void CAnimEditorUI::Rebuild()
         if (Y + ROW_H < LayoutH - 10.f)
         {
             auto& Seq = CompData.Seqs[CompData.Selected];
-            TCHAR FrTogBuf[64];
-            swprintf_s(FrTogBuf, 64, L"%s Frames (%d)",
+            TCHAR FrameToggleBuffer[64];
+            swprintf_s(FrameToggleBuffer, 64, L"%s Frames (%d)",
                 mShowFrameEditor ? L"▼" : L"▶", (int)Seq.Frames.size());
 
-            auto TogBtn = MakeBtn("FrameEditorToggleButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
+            auto TogButton = MakeButton("FrameEditorToggleButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
                 0.16f, 0.26f, 0.35f);
-            MakeLbl("FrameEditorToggleLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
-                FrTogBuf, 11.f, ETextAlignH::Center);
-            mToggleFrameBtn = TogBtn;
+            MakeLabel("FrameEditorToggleLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
+                FrameToggleBuffer, 11.f, ETextAlignH::Center);
+            mToggleFrameButton = TogButton;
             Y += ROW_H + 4.f;
         }
 
@@ -1147,129 +1410,70 @@ void CAnimEditorUI::Rebuild()
 
             // 프레임 인덱스 내비게이션 [< 프레임 X/N >]
             {
-                auto PrevBtn = MakeBtn("FramePrevButton_" + std::to_string(mDynIdx), 4.f, Y, 24.f, ROW_H, 0.20f, 0.20f, 0.28f);
-                MakeLbl("FramePrevButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, 24.f, ROW_H, TEXT("<"), 12.f, ETextAlignH::Center);
-                mFramePrevBtn = PrevBtn;
+                auto PrevButton = MakeButton("FramePrevButton_" + std::to_string(mDynIdx), 4.f, Y, 24.f, ROW_H, 0.20f, 0.20f, 0.28f);
+                MakeLabel("FramePrevButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, 24.f, ROW_H, TEXT("<"), 12.f, ETextAlignH::Center);
+                mFramePrevButton = PrevButton;
 
-                TCHAR FrBuf[64];
+                TCHAR FrameBuffer[64];
                 if (FrameCount > 0)
-                    swprintf_s(FrBuf, 64, L"Frame %d / %d", SelFrame + 1, FrameCount);
+                    swprintf_s(FrameBuffer, 64, L"Frame %d / %d", SelFrame + 1, FrameCount);
                 else
-                    wcscpy_s(FrBuf, 64, L"(no frames)");
-                mFrameIdxLbl = MakeLbl("FrameIndexLabel_" + std::to_string(mDynIdx++),
-                    30.f, Y, PanelW - 60.f, ROW_H, FrBuf, 10.f, ETextAlignH::Center);
+                    wcscpy_s(FrameBuffer, 64, L"(no frames)");
+                mFrameIdxLabel = MakeLabel("FrameIndexLabel_" + std::to_string(mDynIdx++),
+                    30.f, Y, PanelW - 60.f, ROW_H, FrameBuffer, 10.f, ETextAlignH::Center);
 
-                auto NextBtn = MakeBtn("FrameNextButton_" + std::to_string(mDynIdx), PanelW - 28.f, Y, 24.f, ROW_H, 0.20f, 0.20f, 0.28f);
-                MakeLbl("FrameNextButtonLabel_" + std::to_string(mDynIdx++), PanelW - 28.f, Y, 24.f, ROW_H, TEXT(">"), 12.f, ETextAlignH::Center);
-                mFrameNextBtn = NextBtn;
+                auto NextButton = MakeButton("FrameNextButton_" + std::to_string(mDynIdx), PanelW - 28.f, Y, 24.f, ROW_H, 0.20f, 0.20f, 0.28f);
+                MakeLabel("FrameNextButtonLabel_" + std::to_string(mDynIdx++), PanelW - 28.f, Y, 24.f, ROW_H, TEXT(">"), 12.f, ETextAlignH::Center);
+                mFrameNextButton = NextButton;
                 Y += ROW_H + 2.f;
             }
 
             // 선택된 프레임 속성
             if (SelFrame >= 0 && SelFrame < FrameCount && Y + 6 * (ROW_H + 2.f) < LayoutH)
             {
-                int CompIdx = mActiveComp, SeqIdx = CompData.Selected, FrameIdx = SelFrame;
+                AddFrameFieldRow(Y, TEXT("Start.X"), 1.f,
+                    [](FFrameData& Frame) -> float& { return Frame.Start.x; }, -100000.f);
 
-                AddFramePropRow(Y, TEXT("Start.X"), 1.f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Start.x;
-                        return 0.f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Start.x = Value;
-                    });
+                AddFrameFieldRow(Y, TEXT("Start.Y"), 1.f,
+                    [](FFrameData& Frame) -> float& { return Frame.Start.y; }, -100000.f);
 
-                AddFramePropRow(Y, TEXT("Start.Y"), 1.f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Start.y;
-                        return 0.f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Start.y = Value;
-                    });
+                AddFrameFieldRow(Y, TEXT("Size.W"), 1.f,
+                    [](FFrameData& Frame) -> float& { return Frame.Size.x; }, 1.f);
 
-                AddFramePropRow(Y, TEXT("Size.PanelW"), 1.f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Size.x;
-                        return 32.f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Size.x = max(1.f, Value);
-                    });
+                AddFrameFieldRow(Y, TEXT("Size.H"), 1.f,
+                    [](FFrameData& Frame) -> float& { return Frame.Size.y; }, 1.f);
 
-                AddFramePropRow(Y, TEXT("Size.LayoutH"), 1.f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Size.y;
-                        return 32.f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Size.y = max(1.f, Value);
-                    });
+                AddFrameFieldRow(Y, TEXT("Offset.X"), 0.5f,
+                    [](FFrameData& Frame) -> float& { return Frame.Offset.x; }, -100000.f);
 
-                AddFramePropRow(Y, TEXT("Offset.X"), 0.5f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Offset.x;
-                        return 0.f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Offset.x = Value;
-                    });
-
-                AddFramePropRow(Y, TEXT("Offset.Y"), 0.5f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Offset.y;
-                        return 0.f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Offset.y = Value;
-                    });
+                AddFrameFieldRow(Y, TEXT("Offset.Y"), 0.5f,
+                    [](FFrameData& Frame) -> float& { return Frame.Offset.y; }, -100000.f);
 
                 // 이 프레임이 머무는 시간(초). 시퀀스 총 재생 시간은 이 값들의 합이다.
                 // 0.01초 단위로 조절하므로 소수 셋째 자리까지 보여준다.
-                AddFramePropRow(Y, TEXT("Dur(s)"), 0.01f,
-                    [this, CompIdx, SeqIdx, FrameIdx]() -> float {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            return mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Duration;
-                        return 0.1f;
-                    },
-                    [this, CompIdx, SeqIdx, FrameIdx](float Value) {
-                        if (CompIdx<(int)mComps.size()&&SeqIdx<(int)mComps[CompIdx].Seqs.size()&&FrameIdx<(int)mComps[CompIdx].Seqs[SeqIdx].Frames.size())
-                            mComps[CompIdx].Seqs[SeqIdx].Frames[FrameIdx].Duration = max(0.001f, Value);
-                    },
-                    3);
+                AddFrameFieldRow(Y, TEXT("Dur(s)"), 0.01f,
+                    [](FFrameData& Frame) -> float& { return Frame.Duration; }, 0.001f, 3);
             }
 
             // 추가 / 삭제 / 전체 삭제 버튼 (3열)
             if (Y + ROW_H < LayoutH - 10.f)
             {
-                float BtnW = (PanelW - 16.f) / 3.f;
+                float ButtonW = (PanelW - 16.f) / 3.f;
 
-                auto AddFBtn = MakeBtn("AddFrameButton_" + std::to_string(mDynIdx), 4.f, Y, BtnW, ROW_H, 0.14f, 0.30f, 0.14f);
-                MakeLbl("AddFrameButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, BtnW, ROW_H, TEXT("+ Frame"), 10.f, ETextAlignH::Center);
-                mAddFrameBtn = AddFBtn;
+                auto AddFButton = MakeButton("AddFrameButton_" + std::to_string(mDynIdx), 4.f, Y, ButtonW, ROW_H, 0.14f, 0.30f, 0.14f);
+                MakeLabel("AddFrameButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, ButtonW, ROW_H, TEXT("+ Frame"), 10.f, ETextAlignH::Center);
+                mAddFrameButton = AddFButton;
 
-                float DelBtnX = 4.f + BtnW + 4.f;
+                float DelButtonX = 4.f + ButtonW + 4.f;
                 bool bCanDel = !Seq.Frames.empty() && SelFrame >= 0 && SelFrame < FrameCount;
-                auto DelFBtn = MakeBtn("DeleteFrameButton_" + std::to_string(mDynIdx), DelBtnX, Y, BtnW, ROW_H, bCanDel ? 0.35f : 0.20f, 0.14f, 0.14f);
-                MakeLbl("DeleteFrameButtonLabel_" + std::to_string(mDynIdx++), DelBtnX, Y, BtnW, ROW_H, TEXT("- Del"), 10.f, ETextAlignH::Center);
-                mDelFrameBtn = DelFBtn;
+                auto DelFButton = MakeButton("DeleteFrameButton_" + std::to_string(mDynIdx), DelButtonX, Y, ButtonW, ROW_H, bCanDel ? 0.35f : 0.20f, 0.14f, 0.14f);
+                MakeLabel("DeleteFrameButtonLabel_" + std::to_string(mDynIdx++), DelButtonX, Y, ButtonW, ROW_H, TEXT("- Del"), 10.f, ETextAlignH::Center);
+                mDelFrameButton = DelFButton;
 
-                float ClearBtnX = DelBtnX + BtnW + 4.f;
-                auto ClrBtn = MakeBtn("ClearFramesButton_" + std::to_string(mDynIdx), ClearBtnX, Y, BtnW, ROW_H, 0.25f, 0.10f, 0.10f);
-                MakeLbl("ClearFramesButtonLabel_" + std::to_string(mDynIdx++), ClearBtnX, Y, BtnW, ROW_H, TEXT("Clear"), 10.f, ETextAlignH::Center);
-                mClearFramesBtn = ClrBtn;
+                float ClearButtonX = DelButtonX + ButtonW + 4.f;
+                auto ClrButton = MakeButton("ClearFramesButton_" + std::to_string(mDynIdx), ClearButtonX, Y, ButtonW, ROW_H, 0.25f, 0.10f, 0.10f);
+                MakeLabel("ClearFramesButtonLabel_" + std::to_string(mDynIdx++), ClearButtonX, Y, ButtonW, ROW_H, TEXT("Clear"), 10.f, ETextAlignH::Center);
+                mClearFramesButton = ClrButton;
                 Y += ROW_H + 4.f;
             }
         }
@@ -1278,14 +1482,14 @@ void CAnimEditorUI::Rebuild()
         if (Y + ROW_H < LayoutH - 4.f)
         {
             float HalfW = (PanelW - 12.f) / 2.f;
-            auto SaveBtn = MakeBtn("SaveAnimButton_" + std::to_string(mDynIdx), 4.f, Y, HalfW, ROW_H, 0.16f, 0.30f, 0.16f);
-            MakeLbl("SaveAnimButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, HalfW, ROW_H, TEXT("Save Anim"), 10.f, ETextAlignH::Center);
-            mSaveAnimBtn = SaveBtn;
+            auto SaveButton = MakeButton("SaveAnimButton_" + std::to_string(mDynIdx), 4.f, Y, HalfW, ROW_H, 0.16f, 0.30f, 0.16f);
+            MakeLabel("SaveAnimButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, HalfW, ROW_H, TEXT("Save Anim"), 10.f, ETextAlignH::Center);
+            mSaveAnimButton = SaveButton;
 
-            float LoadBtnX = 4.f + HalfW + 4.f;
-            auto LoadBtn = MakeBtn("LoadAnimButton_" + std::to_string(mDynIdx), LoadBtnX, Y, HalfW, ROW_H, 0.16f, 0.22f, 0.35f);
-            MakeLbl("LoadAnimButtonLabel_" + std::to_string(mDynIdx++), LoadBtnX, Y, HalfW, ROW_H, TEXT("Load Anim"), 10.f, ETextAlignH::Center);
-            mLoadAnimBtn = LoadBtn;
+            float LoadButtonX = 4.f + HalfW + 4.f;
+            auto LoadButton = MakeButton("LoadAnimButton_" + std::to_string(mDynIdx), LoadButtonX, Y, HalfW, ROW_H, 0.16f, 0.22f, 0.35f);
+            MakeLabel("LoadAnimButtonLabel_" + std::to_string(mDynIdx++), LoadButtonX, Y, HalfW, ROW_H, TEXT("Load Anim"), 10.f, ETextAlignH::Center);
+            mLoadAnimButton = LoadButton;
             Y += ROW_H + 4.f;
         }
     }
@@ -1293,12 +1497,12 @@ void CAnimEditorUI::Rebuild()
     // ── Add Animation 토글 버튼 ───────────────────────────────────────────────
     if (Y + ROW_H < LayoutH - 10.f)
     {
-        auto AddBtn = MakeBtn("AddAnimToggleButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
+        auto AddButton = MakeButton("AddAnimToggleButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
             0.14f, 0.30f, 0.14f);
-        MakeLbl("AddAnimToggleLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
+        MakeLabel("AddAnimToggleLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
             mShowRegistry ? TEXT("▲ 닫기") : TEXT("+ 애니메이션 추가"),
             11.f, ETextAlignH::Center);
-        mAddToggleBtn = AddBtn;
+        mAddToggleButton = AddButton;
         Y += ROW_H + 4.f;
     }
 
@@ -1309,15 +1513,15 @@ void CAnimEditorUI::Rebuild()
         {
             if (Y + ROW_H > LayoutH - 6.f) break;
             std::wstring WName(AnimName.begin(), AnimName.end());
-            auto Btn = MakeBtn("RegistryItemButton_" + std::to_string(mDynIdx), 8.f, Y, PanelW - 16.f, ROW_H, 0.14f, 0.22f, 0.32f);
-            MakeLbl("RegistryItemLabel_" + std::to_string(mDynIdx++), 12.f, Y, PanelW - 20.f, ROW_H, WName.c_str(), 10.f);
-            mRegBtns.push_back({ Btn, AnimName });
+            auto Button = MakeButton("RegistryItemButton_" + std::to_string(mDynIdx), 8.f, Y, PanelW - 16.f, ROW_H, 0.14f, 0.22f, 0.32f);
+            MakeLabel("RegistryItemLabel_" + std::to_string(mDynIdx++), 12.f, Y, PanelW - 20.f, ROW_H, WName.c_str(), 10.f);
+            mRegButtons.push_back({ Button, AnimName });
             Y += ROW_H + 2.f;
         }
 
         if (CAnimRegistry::GetAll().empty())
         {
-            MakeLbl("RegistryEmptyLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 16.f, ROW_H,
+            MakeLabel("RegistryEmptyLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 16.f, ROW_H,
                 TEXT("(등록된 애니메이션 없음)"), 10.f);
             Y += ROW_H + 2.f;
         }
@@ -1360,10 +1564,10 @@ void CAnimEditorUI::RegisterEditKeys()
     auto Input = World->GetInput().lock();
     if (!Input) return;
 
-    for (int d = 0; d < 10; ++d)
+    for (int Digit = 0; Digit < 10; ++Digit)
     {
-        Input->AddBindKey("AnimNum" + std::to_string(d), (unsigned char)('0' + d));
-        Input->AddBindKey("AnimPad" + std::to_string(d), (unsigned char)(VK_NUMPAD0 + d));
+        Input->AddBindKey("AnimNum" + std::to_string(Digit), (unsigned char)('0' + Digit));
+        Input->AddBindKey("AnimPad" + std::to_string(Digit), (unsigned char)(VK_NUMPAD0 + Digit));
     }
 
     Input->AddBindKey("AnimDot",      VK_OEM_PERIOD);
@@ -1377,13 +1581,13 @@ void CAnimEditorUI::RegisterEditKeys()
     mKeysRegistered = true;
 }
 
-CAnimEditorUI::FPropBtn* CAnimEditorUI::GetEditProp()
+CAnimEditorUI::FPropButton* CAnimEditorUI::GetEditProp()
 {
     if (!mEditActive) return nullptr;
 
-    std::vector<FPropBtn>* List = nullptr;
-    if (mEditList == 0)      List = &mPropBtns;
-    else if (mEditList == 1) List = &mFramePropBtns;
+    std::vector<FPropButton>* List = nullptr;
+    if (mEditList == 0)      List = &mPropButtons;
+    else if (mEditList == 1) List = &mFramePropButtons;
     if (!List) return nullptr;
 
     if (mEditIdx < 0 || mEditIdx >= (int)List->size()) return nullptr;
@@ -1395,20 +1599,20 @@ void CAnimEditorUI::RefreshEditLabel()
     auto* Prop = GetEditProp();
     if (!Prop) return;
 
-    auto Lbl = Prop->Lbl.lock();
-    if (!Lbl) return;
+    auto Label = Prop->Label.lock();
+    if (!Label) return;
 
-    std::wstring WBuf(mEditBuffer.begin(), mEditBuffer.end());
-    WBuf += L"_";   // 캐럿
-    Lbl->SetText(WBuf.c_str());
-    Lbl->SetTextColor(FVector4(0.55f, 1.f, 0.65f, 1.f));
+    std::wstring WideBuffer(mEditBuffer.begin(), mEditBuffer.end());
+    WideBuffer += L"_";   // 캐럿
+    Label->SetText(WideBuffer.c_str());
+    Label->SetTextColor(FVector4(0.55f, 1.f, 0.65f, 1.f));
 }
 
 void CAnimEditorUI::BeginEdit(int ListIdx, int RowIdx)
 {
-    std::vector<FPropBtn>* List = nullptr;
-    if (ListIdx == 0)      List = &mPropBtns;
-    else if (ListIdx == 1) List = &mFramePropBtns;
+    std::vector<FPropButton>* List = nullptr;
+    if (ListIdx == 0)      List = &mPropButtons;
+    else if (ListIdx == 1) List = &mFramePropButtons;
     if (!List) return;
 
     if (RowIdx < 0 || RowIdx >= (int)List->size()) return;
@@ -1422,12 +1626,12 @@ void CAnimEditorUI::BeginEdit(int ListIdx, int RowIdx)
 
     // 현재 값을 초기 문자열로 채워준다. (바로 Enter를 치면 값이 유지된다)
     auto& Prop = (*List)[RowIdx];
-    char Buf[32] = {};
-    float Cur = Prop.Get ? Prop.Get() : 0.f;
+    char TextBuffer[32] = {};
+    float CurrentValue = Prop.Getter ? Prop.Getter() : 0.f;
     // 포맷 문자열은 리터럴로 넘긴다 (비리터럴 포맷은 C4774 경고 대상)
-    if (ListIdx == 0) sprintf_s(Buf, 32, "%.2f", Cur);
-    else              sprintf_s(Buf, 32, "%.1f", Cur);
-    mEditBuffer = Buf;
+    if (ListIdx == 0) sprintf_s(TextBuffer, 32, "%.2f", CurrentValue);
+    else              sprintf_s(TextBuffer, 32, "%.1f", CurrentValue);
+    mEditBuffer = TextBuffer;
 
     // 타이핑하는 숫자키가 스킬/타일모드 등 기존 바인딩을 같이 발동시키지 않게 막는다.
     if (auto World = mWorld.lock())
@@ -1442,14 +1646,14 @@ void CAnimEditorUI::CancelEdit()
     // 편집 중이던 행을 실제 값 표시로 되돌린다.
     if (auto* Prop = GetEditProp())
     {
-        if (auto Lbl = Prop->Lbl.lock())
+        if (auto Label = Prop->Label.lock())
         {
-            TCHAR Buf[32];
-            float Cur = Prop->Get ? Prop->Get() : 0.f;
-            if (mEditList == 0) swprintf_s(Buf, 32, L"%.2f", Cur);
-            else                swprintf_s(Buf, 32, L"%.1f", Cur);
-            Lbl->SetText(Buf);
-            Lbl->SetTextColor(mEditList == 0
+            TCHAR TextBuffer[32];
+            float CurrentValue = Prop->Getter ? Prop->Getter() : 0.f;
+            if (mEditList == 0) swprintf_s(TextBuffer, 32, L"%.2f", CurrentValue);
+            else                swprintf_s(TextBuffer, 32, L"%.1f", CurrentValue);
+            Label->SetText(TextBuffer);
+            Label->SetTextColor(mEditList == 0
                 ? FVector4(0.9f, 0.95f, 1.f, 1.f)
                 : FVector4(0.85f, 1.f, 0.85f, 1.f));
         }
@@ -1475,11 +1679,19 @@ void CAnimEditorUI::CommitEdit()
     if (auto* Prop = GetEditProp())
     {
         // "-" 나 "." 만 남은 미완성 입력은 무시한다.
-        if (Prop->Set && !mEditBuffer.empty() && mEditBuffer != "-" && mEditBuffer != ".")
+        if (Prop->Setter && !mEditBuffer.empty() && mEditBuffer != "-" && mEditBuffer != ".")
         {
+            // All이 켜진 행이면 모든 프레임을 방금 친 값으로 맞춘다.
+            bool bAll = Prop->SetAll && Prop->AllIdx >= 0 && Prop->AllIdx < FRAME_PROP_MAX
+                     && mFramePropAll[Prop->AllIdx];
+
             try
             {
-                Prop->Set(std::stof(mEditBuffer));
+                float Value = std::stof(mEditBuffer);
+
+                if (bAll) Prop->SetAll(Value, false);
+                else      Prop->Setter(Value);
+
                 Applied = true;
             }
             catch (...)
@@ -1517,13 +1729,13 @@ void CAnimEditorUI::HandleValueEditInput()
     // 편집 중인 값 영역 밖을 클릭하면 취소한다.
     if (Input->GetMouseState(EMouseType::LButton, EInputType::Press))
     {
-        std::shared_ptr<CButton> EditBtn;
+        std::shared_ptr<CButton> EditButton;
         if (auto* Prop = GetEditProp())
-            EditBtn = Prop->ValBtn.lock();
+            EditButton = Prop->ValButton.lock();
 
-        EWidgetState::Type S = EditBtn ? EditBtn->GetWidgetState() : EWidgetState::Normal;
+        EWidgetState::Type State = EditButton ? EditButton->GetWidgetState() : EWidgetState::Normal;
 
-        if (S != EWidgetState::Hovered && S != EWidgetState::Clicked && S != EWidgetState::Release)
+        if (State != EWidgetState::Hovered && State != EWidgetState::Clicked && State != EWidgetState::Release)
         {
             CancelEdit();
             return;
@@ -1539,13 +1751,13 @@ void CAnimEditorUI::HandleValueEditInput()
         mEditBuffer.pop_back();
 
     // 숫자 (상단 숫자열 + 넘패드)
-    for (int d = 0; d < 10; ++d)
+    for (int Digit = 0; Digit < 10; ++Digit)
     {
-        bool bPressed = Input->GetKey((unsigned char)('0' + d), EInputType::Press)
-                     || Input->GetKey((unsigned char)(VK_NUMPAD0 + d), EInputType::Press);
+        bool bPressed = Input->GetKey((unsigned char)('0' + Digit), EInputType::Press)
+                     || Input->GetKey((unsigned char)(VK_NUMPAD0 + Digit), EInputType::Press);
 
         if (bPressed && (int)mEditBuffer.size() < EDIT_BUF_MAX)
-            mEditBuffer.push_back((char)('0' + d));
+            mEditBuffer.push_back((char)('0' + Digit));
     }
 
     // 소수점 — 하나만 허용
@@ -1567,24 +1779,24 @@ void CAnimEditorUI::HandleValueEditInput()
 
 void CAnimEditorUI::DetectValueDoubleClick()
 {
-    std::vector<FPropBtn>* Lists[2] = { &mPropBtns, &mFramePropBtns };
+    std::vector<FPropButton>* Lists[2] = { &mPropButtons, &mFramePropButtons };
 
-    for (int li = 0; li < 2; ++li)
+    for (int ListIdx = 0; ListIdx < 2; ++ListIdx)
     {
-        auto& List = *Lists[li];
+        auto& List = *Lists[ListIdx];
 
         for (int i = 0; i < (int)List.size(); ++i)
         {
-            auto Btn = List[i].ValBtn.lock();
-            if (!Btn) continue;
-            if (Btn->GetWidgetState() != EWidgetState::Release) continue;
+            auto Button = List[i].ValButton.lock();
+            if (!Button) continue;
+            if (Button->GetWidgetState() != EWidgetState::Release) continue;
 
-            void* ClickKey = Btn.get();
+            void* ClickKey = Button.get();
 
             // 같은 버튼을 짧은 간격으로 두 번 → 편집 시작
             if (mLastClickKey == ClickKey && (mTimeAccum - mLastClickTime) <= DOUBLE_CLICK_SEC)
             {
-                BeginEdit(li, i);
+                BeginEdit(ListIdx, i);
                 mLastClickKey = nullptr;
             }
             else
@@ -1639,32 +1851,32 @@ void CAnimEditorUI::Update(float DeltaTime)
         bool Held    = Input->GetMouseState(EMouseType::LButton, EInputType::Hold);
         bool Release = Input->GetMouseState(EMouseType::LButton, EInputType::Release);
 
-        FVector3 PP = GetPos(), PS = GetSize();
-        float W = PS.x, H = PS.y;
-        float CX[4] = { PP.x, PP.x + W - HANDLE_SZ, PP.x, PP.x + W - HANDLE_SZ };
-        float CY[4] = { PP.y, PP.y, PP.y + H - HANDLE_SZ, PP.y + H - HANDLE_SZ };
+        FVector3 PanelPos = GetPos(), PanelSize = GetSize();
+        float PanelWidth = PanelSize.x, PanelHeight = PanelSize.y;
+        float CornerX[4] = { PanelPos.x, PanelPos.x + PanelWidth - HANDLE_SZ, PanelPos.x, PanelPos.x + PanelWidth - HANDLE_SZ };
+        float CornerY[4] = { PanelPos.y, PanelPos.y, PanelPos.y + PanelHeight - HANDLE_SZ, PanelPos.y + PanelHeight - HANDLE_SZ };
 
         if (mActiveCorner == -1 && Press)
             for (int i = 0; i < 4; ++i)
-                if (Mouse.x >= CX[i] && Mouse.x < CX[i] + HANDLE_SZ &&
-                    Mouse.y >= CY[i] && Mouse.y < CY[i] + HANDLE_SZ)
+                if (Mouse.x >= CornerX[i] && Mouse.x < CornerX[i] + HANDLE_SZ &&
+                    Mouse.y >= CornerY[i] && Mouse.y < CornerY[i] + HANDLE_SZ)
                 { mActiveCorner = i; break; }
 
         if (mActiveCorner >= 0 && Release) mActiveCorner = -1;
 
         if (mActiveCorner >= 0 && Held && (Delta.x != 0.f || Delta.y != 0.f))
         {
-            float nx = PP.x, ny = PP.y, nw = W, nh = H;
+            float NewX = PanelPos.x, NewY = PanelPos.y, NewWidth = PanelWidth, NewHeight = PanelHeight;
             switch (mActiveCorner)
             {
-            case 0: nx += Delta.x; ny += Delta.y; nw -= Delta.x; nh -= Delta.y; break;
-            case 1:                ny += Delta.y; nw += Delta.x; nh -= Delta.y; break;
-            case 2: nx += Delta.x;                nw -= Delta.x; nh += Delta.y; break;
-            case 3:                                nw += Delta.x; nh += Delta.y; break;
+            case 0: NewX += Delta.x; NewY += Delta.y; NewWidth -= Delta.x; NewHeight -= Delta.y; break;
+            case 1:                NewY += Delta.y; NewWidth += Delta.x; NewHeight -= Delta.y; break;
+            case 2: NewX += Delta.x;                NewWidth -= Delta.x; NewHeight += Delta.y; break;
+            case 3:                                NewWidth += Delta.x; NewHeight += Delta.y; break;
             }
-            nw = max(nw, 220.f); nh = max(nh, 200.f);
-            SetPos(nx, ny); SetSize(nw, nh);
-            UpdateHandles(nw, nh);
+            NewWidth = max(NewWidth, 220.f); NewHeight = max(NewHeight, 200.f);
+            SetPos(NewX, NewY); SetSize(NewWidth, NewHeight);
+            UpdateHandles(NewWidth, NewHeight);
             Rebuild();
             return;
         }
@@ -1684,9 +1896,9 @@ void CAnimEditorUI::Update(float DeltaTime)
     if (mEditActive) return;
 
     // ── 탭 버튼 ──────────────────────────────────────────────────────────────
-    for (auto& Tab : mTabBtns)
+    for (auto& Tab : mTabButtons)
     {
-        if (auto Btn = Tab.Btn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+        if (auto Button = Tab.Button.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
         {
             mActiveComp = Tab.Idx;
             Rebuild();
@@ -1695,9 +1907,9 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 시퀀스 버튼 (클릭 → 재생) ────────────────────────────────────────────
-    for (auto& SeqEntry : mSeqBtns)
+    for (auto& SeqEntry : mSeqButtons)
     {
-        if (auto Btn = SeqEntry.Btn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+        if (auto Button = SeqEntry.Button.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
         {
             PlaySeq(mActiveComp, SeqEntry.Idx);
             return;
@@ -1707,22 +1919,22 @@ void CAnimEditorUI::Update(float DeltaTime)
     // ── 시퀀스 속성 증감 (PlayTime / PlayRate / Pivot) ───────────────────────
     bool AnySeqPropChanged = false;
 
-    for (auto& Prop : mPropBtns)
+    for (auto& Prop : mPropButtons)
     {
         bool Changed = false;
 
-        if (auto Btn = Prop.Minus.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
-        { Prop.Set(Prop.Get() - Prop.Step); Changed = true; }
+        if (auto Button = Prop.Minus.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
+        { Prop.Setter(Prop.Getter() - Prop.Step); Changed = true; }
 
-        if (auto Btn = Prop.Plus.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
-        { Prop.Set(Prop.Get() + Prop.Step); Changed = true; }
+        if (auto Button = Prop.Plus.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
+        { Prop.Setter(Prop.Getter() + Prop.Step); Changed = true; }
 
         if (Changed)
         {
-            if (auto Lbl = Prop.Lbl.lock())
+            if (auto Label = Prop.Label.lock())
             {
-                TCHAR Buf[32]; swprintf_s(Buf, 32, L"%.2f", Prop.Get());
-                Lbl->SetText(Buf);
+                TCHAR TextBuffer[32]; swprintf_s(TextBuffer, 32, L"%.2f", Prop.Getter());
+                Label->SetText(TextBuffer);
             }
             AnySeqPropChanged = true;
         }
@@ -1737,16 +1949,16 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 토글 (Loop / Reverse / Symmetry) ────────────────────────────────────
-    for (auto& Toggle : mToggleBtns)
+    for (auto& Toggle : mToggleButtons)
     {
-        if (auto Btn = Toggle.Btn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+        if (auto Button = Toggle.Button.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
         {
-            bool NewVal = !Toggle.Get();
-            Toggle.Set(NewVal);
+            bool NewVal = !Toggle.Getter();
+            Toggle.Setter(NewVal);
 
-            if (auto Lbl = Toggle.Lbl.lock()) Lbl->SetText(NewVal ? TEXT("ON") : TEXT("OFF"));
+            if (auto Label = Toggle.Label.lock()) Label->SetText(NewVal ? TEXT("ON") : TEXT("OFF"));
 
-            Btn->SetTint(EWidgetState::Normal,
+            Button->SetTint(EWidgetState::Normal,
                 NewVal ? 0.12f : 0.22f,
                 NewVal ? 0.38f : 0.22f,
                 NewVal ? 0.12f : 0.28f, 1.f);
@@ -1754,7 +1966,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 프레임 에디터 토글 ────────────────────────────────────────────────────
-    if (auto Btn = mToggleFrameBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mToggleFrameButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         mShowFrameEditor = !mShowFrameEditor;
         Rebuild();
@@ -1762,7 +1974,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 프레임 Prev / Next ────────────────────────────────────────────────────
-    if (auto Btn = mFramePrevBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mFramePrevButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1779,7 +1991,7 @@ void CAnimEditorUI::Update(float DeltaTime)
             }
         }
     }
-    if (auto Btn = mFrameNextBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mFrameNextButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1797,26 +2009,59 @@ void CAnimEditorUI::Update(float DeltaTime)
         }
     }
 
+    // ── 프레임 속성 All 체크 ────────────────────────────────────────────────
+    // 켜두면 아래 +/- 와 직접 입력이 선택 프레임 하나가 아니라 모든 프레임에 들어간다.
+    for (auto& Prop : mFramePropButtons)
+    {
+        auto Button = Prop.AllButton.lock();
+
+        if (!Button || Button->GetWidgetState() != EWidgetState::Release) continue;
+        if (Prop.AllIdx < 0 || Prop.AllIdx >= FRAME_PROP_MAX)       continue;
+
+        bool bOn = !mFramePropAll[Prop.AllIdx];
+        mFramePropAll[Prop.AllIdx] = bOn;
+
+        Button->SetTint(EWidgetState::Normal,
+            bOn ? 0.16f : 0.20f,
+            bOn ? 0.40f : 0.20f,
+            bOn ? 0.16f : 0.24f, 1.f);
+
+        if (auto Label = Prop.AllLabel.lock())
+            Label->SetTextColor(bOn ? FVector4(0.6f, 1.f, 0.6f, 1.f) : FVector4(0.55f, 0.55f, 0.6f, 1.f));
+    }
+
     // ── 프레임 속성 +/- (변경 즉시 CAnimation2D에 적용) ─────────────────────
     {
         bool AnyChanged = false;
-        for (auto& Prop : mFramePropBtns)
+        for (auto& Prop : mFramePropButtons)
         {
             bool Changed = false;
 
-            if (auto Btn = Prop.Minus.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
-            { Prop.Set(Prop.Get() - Prop.Step); Changed = true; }
+            // All이 켜져 있으면 모든 프레임을 Step만큼 같이 밀어준다.
+            bool bAll = Prop.SetAll && Prop.AllIdx >= 0 && Prop.AllIdx < FRAME_PROP_MAX
+                     && mFramePropAll[Prop.AllIdx];
 
-            if (auto Btn = Prop.Plus.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
-            { Prop.Set(Prop.Get() + Prop.Step); Changed = true; }
+            if (auto Button = Prop.Minus.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
+            {
+                if (bAll) Prop.SetAll(-Prop.Step, true);
+                else      Prop.Setter(Prop.Getter() - Prop.Step);
+                Changed = true;
+            }
+
+            if (auto Button = Prop.Plus.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
+            {
+                if (bAll) Prop.SetAll(Prop.Step, true);
+                else      Prop.Setter(Prop.Getter() + Prop.Step);
+                Changed = true;
+            }
 
             if (Changed)
             {
-                if (auto Lbl = Prop.Lbl.lock())
+                if (auto Label = Prop.Label.lock())
                 {
-                    TCHAR Fmt[8]; swprintf_s(Fmt, 8, L"%%.%df", Prop.Decimals);
-                    TCHAR Buf[32]; swprintf_s(Buf, 32, Fmt, Prop.Get());
-                    Lbl->SetText(Buf);
+                    TCHAR Format[8]; swprintf_s(Format, 8, L"%%.%df", Prop.Decimals);
+                    TCHAR TextBuffer[32]; swprintf_s(TextBuffer, 32, Format, Prop.Getter());
+                    Label->SetText(TextBuffer);
                 }
                 AnyChanged = true;
             }
@@ -1830,21 +2075,21 @@ void CAnimEditorUI::Update(float DeltaTime)
                 SyncSpriteViewer(mActiveComp, CompData.Selected);
 
                 // Dur(s)를 만졌으면 총 재생 시간 표시도 따라가야 한다.
-                if (auto TotalLbl = mPlayTimeText.lock())
+                if (auto TotalLabel = mPlayTimeText.lock())
                 {
                     float Total = 0.f;
                     for (const auto& FrameData : CompData.Seqs[CompData.Selected].Frames)
                         Total += FrameData.Duration;
 
-                    TCHAR Buf[32]; swprintf_s(Buf, 32, L"%.2f s", Total);
-                    TotalLbl->SetText(Buf);
+                    TCHAR TextBuffer[32]; swprintf_s(TextBuffer, 32, L"%.2f s", Total);
+                    TotalLabel->SetText(TextBuffer);
                 }
             }
         }
     }
 
     // ── 프레임 추가 ──────────────────────────────────────────────────────────
-    if (auto Btn = mAddFrameBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mAddFrameButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1852,11 +2097,25 @@ void CAnimEditorUI::Update(float DeltaTime)
             if (CompData.Selected >= 0 && CompData.Selected < (int)CompData.Seqs.size())
             {
                 auto& Seq = CompData.Seqs[CompData.Selected];
+
+                // 선택한 프레임을 복사해서 그 "바로 뒤"에 끼워 넣는다.
+                // 맨 뒤에 붙이면 중간에 한 장을 더 넣고 싶을 때 매번 옮겨야 해서,
+                // 지금 보고 있는 자리에서 늘어나도록 insert를 쓴다.
+                // 선택이 없거나 비어 있으면 맨 뒤가 곧 끼워 넣을 자리다.
                 FFrameData NewFrame;
+                int InsertAt = (int)Seq.Frames.size();
+
                 if (!Seq.Frames.empty() && Seq.SelectedFrame >= 0 && Seq.SelectedFrame < (int)Seq.Frames.size())
+                {
                     NewFrame = Seq.Frames[Seq.SelectedFrame]; // 현재 프레임 복사
-                Seq.Frames.push_back(NewFrame);
-                Seq.SelectedFrame = (int)Seq.Frames.size() - 1;
+                    InsertAt = Seq.SelectedFrame + 1;
+                }
+
+                Seq.Frames.insert(Seq.Frames.begin() + InsertAt, NewFrame);
+
+                // 방금 끼워 넣은 프레임을 그대로 선택해 둔다. (이어서 바로 편집할 수 있게)
+                Seq.SelectedFrame = InsertAt;
+
                 ApplyFrames(mActiveComp, CompData.Selected);
                 SyncSpriteViewer(mActiveComp, CompData.Selected);
                 Rebuild(); return;
@@ -1865,7 +2124,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 선택 프레임 삭제 ─────────────────────────────────────────────────────
-    if (auto Btn = mDelFrameBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mDelFrameButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1891,7 +2150,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 전체 프레임 삭제 ─────────────────────────────────────────────────────
-    if (auto Btn = mClearFramesBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mClearFramesButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1908,14 +2167,14 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 새 애니메이션 만들기 ──────────────────────────────────────────────────
-    if (auto Btn = mNewAnimBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mNewAnimButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         CreateNewAnim();
         return;
     }
 
     // ── 텍스처 설정 ───────────────────────────────────────────────────────────
-    if (auto Btn = mSetTextureBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mSetTextureButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1926,7 +2185,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── TextureType 토글 ──────────────────────────────────────────────────────
-    if (auto Btn = mTypeToggleBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mTypeToggleButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1938,8 +2197,8 @@ void CAnimEditorUI::Update(float DeltaTime)
                     ? EAnimation2DTextureType::SpriteSheet
                     : EAnimation2DTextureType::Frame;
 
-                auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-                if (AnimMgr) AnimMgr->SetAnimationTextureType(Seq.Name, Seq.TextureType);
+                auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+                if (AnimManager) AnimManager->SetAnimationTextureType(Seq.Name, Seq.TextureType);
 
                 Rebuild(); return;
             }
@@ -1947,7 +2206,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── Add Animation 토글 ────────────────────────────────────────────────────
-    if (auto Btn = mAddToggleBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mAddToggleButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         mShowRegistry = !mShowRegistry;
         Rebuild();
@@ -1955,9 +2214,9 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 레지스트리에서 선택 ───────────────────────────────────────────────────
-    for (auto& RegEntry : mRegBtns)
+    for (auto& RegEntry : mRegButtons)
     {
-        if (auto Btn = RegEntry.Btn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+        if (auto Button = RegEntry.Button.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
         {
             AddSeq(mActiveComp, RegEntry.Name);
             return;
@@ -1965,7 +2224,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── Sprite Viewer 열기 ────────────────────────────────────────────────────
-    if (auto Btn = mOpenViewerBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mOpenViewerButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1976,7 +2235,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 애니메이션 저장 ──────────────────────────────────────────────────────
-    if (auto Btn = mSaveAnimBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mSaveAnimButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mActiveComp < (int)mComps.size())
         {
@@ -1986,7 +2245,7 @@ void CAnimEditorUI::Update(float DeltaTime)
     }
 
     // ── 애니메이션 불러오기 ──────────────────────────────────────────────────
-    if (auto Btn = mLoadAnimBtn.lock(); Btn && Btn->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mLoadAnimButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         LoadAnim();
         return;
@@ -2001,21 +2260,21 @@ void CAnimEditorUI::Update(float DeltaTime)
         auto& CompData = mComps[mActiveComp];
         if (CompData.Selected >= 0 && CompData.Selected < (int)CompData.Seqs.size())
         {
-            if (auto IdxLbl = mFrameIdxLbl.lock())
+            if (auto IdxLabel = mFrameIdxLabel.lock())
             {
                 auto& Seq       = CompData.Seqs[CompData.Selected];
                 int   FrameCount = (int)Seq.Frames.size();
                 int   SelFrame   = Seq.SelectedFrame;
 
-                TCHAR Buf[64];
+                TCHAR TextBuffer[64];
                 if (FrameCount <= 0)
-                    wcscpy_s(Buf, 64, L"(no frames)");
+                    wcscpy_s(TextBuffer, 64, L"(no frames)");
                 else if (SelFrame < 0 || SelFrame >= FrameCount)
-                    swprintf_s(Buf, 64, L"Frame - / %d", FrameCount);
+                    swprintf_s(TextBuffer, 64, L"Frame - / %d", FrameCount);
                 else
-                    swprintf_s(Buf, 64, L"Frame %d / %d", SelFrame + 1, FrameCount);
+                    swprintf_s(TextBuffer, 64, L"Frame %d / %d", SelFrame + 1, FrameCount);
 
-                IdxLbl->SetText(Buf);
+                IdxLabel->SetText(TextBuffer);
             }
         }
     }
@@ -2058,16 +2317,16 @@ void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
     // 흰 사각형만 나오므로, 여기서 끝까지 되살려본다.
     FVector2 TexSize = { 256.f, 256.f };
 
-    auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
-    if (AnimMgr)
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (AnimManager)
     {
-        auto Anim = AnimMgr->FindAnimation(Seq.Name).lock();
+        auto Anim = AnimManager->FindAnimation(Seq.Name).lock();
         if (Anim)
         {
-            auto Tex = Anim->GetTexture().lock();
+            auto Texture = Anim->GetTexture().lock();
 
             // 아직 안 올라와 있으면 저장해둔 경로로 다시 로드한다.
-            if (!Tex && !Seq.TextureRelPath.empty())
+            if (!Texture && !Seq.TextureRelPath.empty())
             {
                 std::string TexName = Seq.TextureName.empty()
                     ? DialogUtil::ExtractBaseName(Seq.TextureRelPath)
@@ -2075,18 +2334,18 @@ void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
 
                 std::string FullPath = DialogUtil::GetExeDir() + Seq.TextureRelPath;
                 Anim->SetTextureFullPath(TexName, DialogUtil::ToWide(FullPath).c_str());
-                Tex = Anim->GetTexture().lock();
+                Texture = Anim->GetTexture().lock();
 
                 LOG_DEBUG("[AnimEditor] Texture reloaded for viewer: %s", FullPath.c_str());
             }
 
-            if (Tex)
+            if (Texture)
             {
                 // 이름이 비어 있으면 여기서 채워준다. (없으면 뷰어가 텍스처를 못 찾는다)
                 if (Seq.TextureName.empty())
-                    Seq.TextureName = StripTexturePrefix(Tex->GetName());
+                    Seq.TextureName = StripTexturePrefix(Texture->GetName());
 
-                auto Info = Tex->GetTexture(0);
+                auto Info = Texture->GetTexture(0);
                 if (Info && Info->Width > 0)
                     TexSize = { (float)Info->Width, (float)Info->Height };
             }
@@ -2156,8 +2415,16 @@ void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
         FFrameData NewFrame;
         NewFrame.Start = Start;
         NewFrame.Size  = Size;
-        Seq.Frames.push_back(NewFrame);
-        Seq.SelectedFrame = (int)Seq.Frames.size() - 1;
+
+        // 뷰어에서 새로 끌어 만든 칸도 "+ Frame"과 똑같이 선택한 프레임 바로 뒤에 끼워 넣는다.
+        int InsertAt = (int)Seq.Frames.size();
+
+        if (Seq.SelectedFrame >= 0 && Seq.SelectedFrame < (int)Seq.Frames.size())
+            InsertAt = Seq.SelectedFrame + 1;
+
+        Seq.Frames.insert(Seq.Frames.begin() + InsertAt, NewFrame);
+        Seq.SelectedFrame = InsertAt;
+
         ApplyFrames(CompIdx, SeqIdx);
         Rebuild();
         // SpriteViewer에 다시 동기화

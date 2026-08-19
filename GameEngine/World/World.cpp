@@ -86,6 +86,8 @@ bool CWorld::Init()
 	if (!sEngineTypesRegistered)
 	{
 		sEngineTypesRegistered = true;
+		//빈 루트로 쓰는 순수 씬 컴포넌트. 저장된 액터를 되살리려면 이것도 필요하다.
+		RegisterComponentType<CSceneComponent>("CSceneComponent");
 		RegisterComponentType<CMeshComponent>("CMeshComponent");
 		RegisterComponentType<CCameraComponent>("CCameraComponent");
 		RegisterComponentType<CAnimation2DComponent>("CAnimation2DComponent");

@@ -51,116 +51,123 @@ bool CMainWorld::Init()
 	// Asset\Anim\ 폴더의 모든 .anim2d 자동 로드
 	CAnimEditorUI::LoadAllAnims();
 
-	auto UIMgr = GetUIManager().lock();
-	if (UIMgr)
+	auto UIManager = GetUIManager().lock();
+	if (UIManager)
 	{
-		auto MenuBarWeak = UIMgr->CreateWidgetContainer<CEditorMenuBar>("EditorMenuBar", 100);
-		auto Content     = UIMgr->CreateWidgetContainer<CContentUI>("ContentUI", 50);
-		auto Inspector   = UIMgr->CreateWidgetContainer<CInspectorUI>("InspectorUI", 50);
-		if (auto MB = MenuBarWeak.lock()) MB->SetWorld(GetThisPtr());
-		if (auto C = Content.lock())      C->SetWorld(GetThisPtr());
-		if (auto I = Inspector.lock())    I->SetWorld(GetThisPtr());
+		auto MenuBarWeak = UIManager->CreateWidgetContainer<CEditorMenuBar>("EditorMenuBar", 100);
+		auto ContentWeak     = UIManager->CreateWidgetContainer<CContentUI>("ContentUI", 50);
+		auto InspectorWeak   = UIManager->CreateWidgetContainer<CInspectorUI>("InspectorUI", 50);
+		if (auto MenuBar = MenuBarWeak.lock()) MenuBar->SetWorld(GetThisPtr());
+		if (auto Content = ContentWeak.lock())      Content->SetWorld(GetThisPtr());
+		if (auto Inspector = InspectorWeak.lock())    Inspector->SetWorld(GetThisPtr());
 
-		mContentPanel   = Content;
-		mInspectorPanel = Inspector;
+		mContentPanel   = ContentWeak;
+		mInspectorPanel = InspectorWeak;
 
-		auto MatEditorWeak = UIMgr->CreateWidgetContainer<CMaterialEditorUI>("MaterialEditorUI", 200);
-		mMaterialEditorPanel = MatEditorWeak;
-		if (auto ME = MatEditorWeak.lock()) ME->SetWorld(GetThisPtr());
+		auto MaterialEditorWeak = UIManager->CreateWidgetContainer<CMaterialEditorUI>("MaterialEditorUI", 200);
+		mMaterialEditorPanel = MaterialEditorWeak;
+		if (auto MaterialEditor = MaterialEditorWeak.lock()) MaterialEditor->SetWorld(GetThisPtr());
 
-		auto AnimEditorWeak = UIMgr->CreateWidgetContainer<CAnimEditorUI>("AnimEditorUI", 75);
+		auto AnimEditorWeak = UIManager->CreateWidgetContainer<CAnimEditorUI>("AnimEditorUI", 75);
 		mAnimEditorPanel = AnimEditorWeak;
-		if (auto AnimEd = AnimEditorWeak.lock())
+		if (auto AnimEditor = AnimEditorWeak.lock())
 		{
-			AnimEd->SetWorld(GetThisPtr());
-			AnimEd->SetEnable(false);
+			AnimEditor->SetWorld(GetThisPtr());
+			AnimEditor->SetEnable(false);
 		}
 
-		auto SpriteViewerWeak = UIMgr->CreateWidgetContainer<CSpriteViewerUI>("SpriteViewerUI", 60);
+		auto SpriteViewerWeak = UIManager->CreateWidgetContainer<CSpriteViewerUI>("SpriteViewerUI", 60);
 		mSpriteViewerPanel = SpriteViewerWeak;
-		if (auto SV = SpriteViewerWeak.lock())
+		if (auto SpriteViewer = SpriteViewerWeak.lock())
 		{
-			SV->SetWorld(GetThisPtr());
-			SV->SetEnable(false);
+			SpriteViewer->SetWorld(GetThisPtr());
+			SpriteViewer->SetEnable(false);
 		}
-		if (auto AnimEd = AnimEditorWeak.lock())
-			AnimEd->SetSpriteViewer(SpriteViewerWeak);
+		if (auto AnimEditor = AnimEditorWeak.lock())
+			AnimEditor->SetSpriteViewer(SpriteViewerWeak);
 
-		// MenuBar가 액터 생성/컴포넌트 추가 → Inspector 갱신
-		if (auto MB = MenuBarWeak.lock())
+		// MenuBar가 액터 생성/컴포넌트 추가 → InspectorWeak 갱신
+		if (auto MenuBar = MenuBarWeak.lock())
 		{
-			auto InspWeak = Inspector;
-			MB->SetOnActorCreated([InspWeak](std::weak_ptr<CActor> Actor)
+			auto InspectorForCreate = InspectorWeak;
+			MenuBar->SetOnActorCreated([InspectorForCreate](std::weak_ptr<CActor> Actor)
 			{
-				if (auto Insp = InspWeak.lock())
-					Insp->SetTarget(Actor);
+				if (auto Inspector = InspectorForCreate.lock())
+					Inspector->SetTarget(Actor);
 			});
 
-			MB->SetOnOpenMaterialEditor([MatEditorWeak]()
+			MenuBar->SetOnOpenMaterialEditor([MaterialEditorWeak]()
 			{
-				if (auto MatEd = MatEditorWeak.lock())
-					MatEd->SetEnable(!MatEd->IsEnable());
+				if (auto MaterialEditor = MaterialEditorWeak.lock())
+					MaterialEditor->SetEnable(!MaterialEditor->IsEnable());
 			});
 
-			MB->SetOnOpenAnimEditor([AnimEditorWeak]()
+			MenuBar->SetOnOpenAnimEditor([AnimEditorWeak]()
 			{
-				if (auto AnimEd = AnimEditorWeak.lock())
-					AnimEd->SetEnable(!AnimEd->IsEnable());
+				if (auto AnimEditor = AnimEditorWeak.lock())
+					AnimEditor->SetEnable(!AnimEditor->IsEnable());
 			});
 
-			// Material Editor에서 저장/로드/Assign → Inspector 갱신
+			// Material Editor에서 저장/로드/Assign → InspectorWeak 갱신
 			{
-				auto InspWeak2 = Inspector;
-				if (auto MatEd = MatEditorWeak.lock())
+				auto InspectorForMaterial = InspectorWeak;
+				if (auto MaterialEditor = MaterialEditorWeak.lock())
 				{
-					MatEd->SetOnMaterialUpdated([InspWeak2]()
+					MaterialEditor->SetOnMaterialUpdated([InspectorForMaterial]()
 					{
-						if (auto Insp = InspWeak2.lock())
-							Insp->Rebuild();
+						if (auto Inspector = InspectorForMaterial.lock())
+							Inspector->Rebuild();
 					});
 				}
 			}
 
 			// Inspector에서 컴포넌트 제거 → MenuBar 프리팹 추적 목록 동기화
 			{
-				auto MBWeak2 = MenuBarWeak;
-				if (auto Insp = Inspector.lock())
+				auto MenuBarForRemove = MenuBarWeak;
+				if (auto Inspector = InspectorWeak.lock())
 				{
-					Insp->SetOnComponentRemoved([MBWeak2](const std::string& CompName)
+					Inspector->SetOnComponentRemoved([MenuBarForRemove](const std::string& CompName)
 					{
-						if (auto MB2 = MBWeak2.lock())
-							MB2->UntrackComponent(CompName);
+						if (auto MenuBar = MenuBarForRemove.lock())
+							MenuBar->UntrackComponent(CompName);
 					});
 				}
 			}
 		}
 
-		// ContentUI에서 액터 선택 → Inspector 갱신 + MenuBar 선택 동기화
-		if (auto C = Content.lock())
+		// ContentUI에서 액터 선택 → InspectorWeak 갱신 + MenuBar 선택 동기화
+		if (auto Content = ContentWeak.lock())
 		{
-			auto InspWeak    = Inspector;
-			auto MBWeak      = MenuBarWeak;
-			auto MatEdWeak   = MatEditorWeak;
-			auto AnimEdWeak2 = AnimEditorWeak;
-			C->SetOnActorSelected([InspWeak, MBWeak, MatEdWeak, AnimEdWeak2](std::weak_ptr<CActor> Actor)
+			auto InspectorForSelect    = InspectorWeak;
+			auto MenuBarForSelect      = MenuBarWeak;
+			auto MaterialEditorForSelect   = MaterialEditorWeak;
+			auto AnimEditorForSelect = AnimEditorWeak;
+			Content->SetOnActorSelected([InspectorForSelect, MenuBarForSelect, MaterialEditorForSelect, AnimEditorForSelect](std::weak_ptr<CActor> Actor)
 			{
-				if (auto Insp = InspWeak.lock())
-					Insp->SetTarget(Actor);
-				if (auto MB = MBWeak.lock())
-					MB->SetSelectedActor(Actor);
-				if (auto MatEd = MatEdWeak.lock())
-					MatEd->SetSelectedActor(Actor);
-				if (auto AnimEd = AnimEdWeak2.lock())
-					AnimEd->SetTarget(Actor);
+				if (auto Inspector = InspectorForSelect.lock())
+					Inspector->SetTarget(Actor);
+				if (auto MenuBar = MenuBarForSelect.lock())
+					MenuBar->SetSelectedActor(Actor);
+				if (auto MaterialEditor = MaterialEditorForSelect.lock())
+					MaterialEditor->SetSelectedActor(Actor);
+				if (auto AnimEditor = AnimEditorForSelect.lock())
+					AnimEditor->SetTarget(Actor);
 			});
 		}
 	}
 
-	// F12 : 에디터 패널 토글  (DIK_F12 = 0x58)
+	// F11 : 에디터 패널 토글
+	//
+	// AddBindKey는 VK 코드를 받는다. DIK 코드를 넘기면 안 된다.
+	// (DIK_F12가 0x58이라 그대로 넘겼더니 VK 0x58 = 'X'로 잡혀서
+	//  공격키를 누를 때마다 패널이 사라졌다 나타났다 했다)
+	//
+	// F12는 쓰면 안 된다. 윈도우가 디버거 브레이크용으로 잡아둔 키라
+	// 디버거를 붙이고 돌리는 중에 누르면 ntdll에서 멈춰버린다.
 	auto Input = GetInput().lock();
 	if (Input)
 	{
-		Input->AddBindKey("ToggleEditorPanels", 0x58);
+		Input->AddBindKey("ToggleEditorPanels", VK_F11);
 		Input->SetBindFunction("ToggleEditorPanels", EInputType::Press,
 			this, &CMainWorld::ToggleEditorPanels);
 	}
@@ -239,9 +246,9 @@ bool CMainWorld::Init()
 
 void CMainWorld::ChangeCamera()
 {
-	auto CameraMgr = GetCameraManager().lock();
+	auto CameraManager = GetCameraManager().lock();
 
-	if (CameraMgr)
+	if (CameraManager)
 	{
 		auto iter = mCameraList.begin();
 		auto iterEnd = mCameraList.end();
@@ -262,19 +269,19 @@ void CMainWorld::ChangeCamera()
 			mCameraIndex = 0;
 		}
 
-		CameraMgr->ChangeMainCamera(mCameraList[mCameraIndex++]);
+		CameraManager->ChangeMainCamera(mCameraList[mCameraIndex++]);
 	}
 }
 
 void CMainWorld::AddAnimation()
 {
-	auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+	auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
 
-	if (AnimMgr)
+	if (AnimManager)
 	{
-		AnimMgr->CreateAnimation("PlayerIdleFrame");
+		AnimManager->CreateAnimation("PlayerIdleFrame");
 
-		auto Anim = AnimMgr->FindAnimation("PlayerIdleFrame").lock();
+		auto Anim = AnimManager->FindAnimation("PlayerIdleFrame").lock();
 
 		Anim->SetAnimationTextureType(EAnimation2DTextureType::Frame);
 
@@ -292,9 +299,9 @@ void CMainWorld::AddAnimation()
 		//0,1
 		Anim->AddFrame(6, FVector2(0.f, 0.f), FVector2(1.f, 1.f));
 
-		AnimMgr->CreateAnimation("PlayerIdle");
+		AnimManager->CreateAnimation("PlayerIdle");
 
-		Anim = AnimMgr->FindAnimation("PlayerIdle").lock();
+		Anim = AnimManager->FindAnimation("PlayerIdle").lock();
 
 		Anim->SetAnimationTextureType(EAnimation2DTextureType::SpriteSheet);
 		Anim->SetTexture("PlayerSheet", TEXT("Player/Player.png"));
@@ -312,9 +319,9 @@ void CMainWorld::AddAnimation()
 
 		//Anim->CalculateFrameRatio();
 
-		AnimMgr->CreateAnimation("PlayerIdleRatio");
+		AnimManager->CreateAnimation("PlayerIdleRatio");
 
-		Anim = AnimMgr->FindAnimation("PlayerIdleRatio").lock();
+		Anim = AnimManager->FindAnimation("PlayerIdleRatio").lock();
 
 		Anim->SetAnimationTextureType(EAnimation2DTextureType::SpriteSheet);
 		Anim->SetTexture("PlayerSheet", TEXT("Player/Player.png"));
@@ -334,9 +341,9 @@ void CMainWorld::AddAnimation()
 
 		//233,4 : originPos 307, 98 : TargetPos size 35,30
 
-		AnimMgr->CreateAnimation("TinyMove");
+		AnimManager->CreateAnimation("TinyMove");
 
-		Anim = AnimMgr->FindAnimation("TinyMove").lock();
+		Anim = AnimManager->FindAnimation("TinyMove").lock();
 
 
 		Anim->SetAnimationTextureType(EAnimation2DTextureType::SpriteSheet);
@@ -365,10 +372,10 @@ void CMainWorld::ToggleEditorPanels()
 {
 	mEditorPanelsVisible = !mEditorPanelsVisible;
 
-	if (auto C = mContentPanel.lock())
-		C->SetEnable(mEditorPanelsVisible);
-	if (auto I = mInspectorPanel.lock())
-		I->SetEnable(mEditorPanelsVisible);
+	if (auto Content = mContentPanel.lock())
+		Content->SetEnable(mEditorPanelsVisible);
+	if (auto Inspector = mInspectorPanel.lock())
+		Inspector->SetEnable(mEditorPanelsVisible);
 }
 
 void CMainWorld::TestButtonHovered()

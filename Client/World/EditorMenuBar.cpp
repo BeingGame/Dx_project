@@ -11,7 +11,8 @@
 #include "World/CameraComponent.h"
 #include "World/Animation2DComponent.h"
 #include "Component/DirectionInputComponent.h"
-#include "Component/AnimStateComponent.h"
+#include "Component/ActionStateComponent.h"
+#include "Component/HeightComponent.h"
 #include "World/ColliderBox2D.h"
 #include "World/ColliderSphere2D.h"
 #include "World/CharacterMovementComponent.h"
@@ -46,65 +47,65 @@ CEditorMenuBar::~CEditorMenuBar()
 // ---- 헬퍼 함수 ----
 
 static std::weak_ptr<CButton> MakeMenuButton(CWidgetContainer* Parent,
-    const std::string& Name, float X, float W, const wchar_t* Label)
+    const std::string& Name, float X, float Width, const wchar_t* Label)
 {
-    auto Btn = Parent->CreateWidget<CButton>(Name, 1);
-    auto B = Btn.lock();
-    if (B)
+    auto ButtonWeak = Parent->CreateWidget<CButton>(Name, 1);
+    auto Button = ButtonWeak.lock();
+    if (Button)
     {
-        B->SetPos(X, BTN_Y);
-        B->SetSize(W, BTN_H);
-        B->SetTint(EWidgetState::Normal,  0.65f, 0.65f, 0.70f, 1.f);
-        B->SetTint(EWidgetState::Hovered, 0.85f, 0.85f, 1.00f, 1.f);
-        B->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
-        B->SetTint(EWidgetState::Release, 0.85f, 0.85f, 1.00f, 1.f);
-        B->SetTint(EWidgetState::Disable, 0.35f, 0.35f, 0.35f, 0.5f);
+        Button->SetPos(X, BTN_Y);
+        Button->SetSize(Width, BTN_H);
+        Button->SetTint(EWidgetState::Normal,  0.65f, 0.65f, 0.70f, 1.f);
+        Button->SetTint(EWidgetState::Hovered, 0.85f, 0.85f, 1.00f, 1.f);
+        Button->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
+        Button->SetTint(EWidgetState::Release, 0.85f, 0.85f, 1.00f, 1.f);
+        Button->SetTint(EWidgetState::Disable, 0.35f, 0.35f, 0.35f, 0.5f);
     }
 
-    auto Text = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);
-    if (auto T = Text.lock())
+    auto TextWeak = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);
+    if (auto Text = TextWeak.lock())
     {
-        T->SetPos(X, BTN_Y);
-        T->SetSize(W, BTN_H);
-        T->SetText(Label);
-        T->SetFontSize(14.f);
-        T->SetTextColor(FVector4::White);
-        T->SetAlignH(ETextAlignH::Center);
-        T->SetAlignV(ETextAlignV::Middle);
+        Text->SetPos(X, BTN_Y);
+        Text->SetSize(Width, BTN_H);
+        Text->SetText(Label);
+        Text->SetFontSize(14.f);
+        Text->SetTextColor(FVector4::White);
+        Text->SetAlignH(ETextAlignH::Center);
+        Text->SetAlignV(ETextAlignV::Middle);
     }
 
-    return Btn;
+    return ButtonWeak;
 }
 
 static std::weak_ptr<CButton> MakeSubmenuButton(CWidgetContainer* Parent,
     const std::string& Name, int Row, const wchar_t* Label)
 {
-    auto Btn = Parent->CreateWidget<CButton>(Name, 1);
-    auto B = Btn.lock();
-    if (B)
+    auto ButtonWeak = Parent->CreateWidget<CButton>(Name, 1);
+    auto Button = ButtonWeak.lock();
+    if (Button)
     {
-        B->SetPos(0.f, Row * SUBMENU_BTN_H);
-        B->SetSize(SUBMENU_W, SUBMENU_BTN_H);
-        B->SetTint(EWidgetState::Normal,  0.55f, 0.55f, 0.60f, 0.95f);
-        B->SetTint(EWidgetState::Hovered, 0.40f, 0.60f, 1.00f, 1.f);
-        B->SetTint(EWidgetState::Clicked, 0.60f, 0.80f, 1.00f, 1.f);
-        B->SetTint(EWidgetState::Release, 0.40f, 0.60f, 1.00f, 1.f);
-        B->SetTint(EWidgetState::Disable, 0.30f, 0.30f, 0.30f, 0.5f);
+        Button->SetPos(0.f, Row * SUBMENU_BTN_H);
+        Button->SetSize(SUBMENU_W, SUBMENU_BTN_H);
+        Button->SetTint(EWidgetState::Normal,  0.55f, 0.55f, 0.60f, 0.95f);
+        Button->SetTint(EWidgetState::Hovered, 0.40f, 0.60f, 1.00f, 1.f);
+        Button->SetTint(EWidgetState::Clicked, 0.60f, 0.80f, 1.00f, 1.f);
+        Button->SetTint(EWidgetState::Release, 0.40f, 0.60f, 1.00f, 1.f);
+        Button->SetTint(EWidgetState::Disable, 0.30f, 0.30f, 0.30f, 0.5f);
     }
 
-    auto Text = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);
-    if (auto T = Text.lock())
+    auto TextWeak = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);
+    if (auto Text = TextWeak.lock())
     {
-        T->SetPos(0.f, Row * SUBMENU_BTN_H);
-        T->SetSize(SUBMENU_W, SUBMENU_BTN_H);
-        T->SetText(Label);
-        T->SetFontSize(14.f);
-        T->SetTextColor(FVector4::White);
-        T->SetAlignH(ETextAlignH::Center);
-        T->SetAlignV(ETextAlignV::Middle);
+        Text->SetPos(0.f, Row * SUBMENU_BTN_H);
+        Text->SetSize(SUBMENU_W, SUBMENU_BTN_H);
+        Text->SetText(Label);
+        Text->SetFontSize(14.f);
+        Text->SetTextColor(FVector4::White);
+        Text->SetAlignH(ETextAlignH::Center);
+        Text->SetAlignV(ETextAlignV::Middle);
     }
 
-    return Btn;
+    return ButtonWeak;
 }
 
 // ---- 초기화 ----
@@ -117,27 +118,27 @@ bool CEditorMenuBar::Init()
     SetSize(1280.f, BAR_H);
 
     // 배경
-    auto BgBtn = CreateWidget<CButton>("MenuBarBg", 0);
-    if (auto Bg = BgBtn.lock())
+    auto BackgroundButton = CreateWidget<CButton>("MenuBarBg", 0);
+    if (auto Background = BackgroundButton.lock())
     {
-        Bg->SetPos(0.f, 0.f);
-        Bg->SetSize(1280.f, BAR_H);
-        Bg->SetTint(EWidgetState::Normal,  0.20f, 0.20f, 0.22f, 0.95f);
-        Bg->SetTint(EWidgetState::Hovered, 0.20f, 0.20f, 0.22f, 0.95f);
-        Bg->SetTint(EWidgetState::Clicked, 0.20f, 0.20f, 0.22f, 0.95f);
-        Bg->SetTint(EWidgetState::Release, 0.20f, 0.20f, 0.22f, 0.95f);
-        Bg->SetTint(EWidgetState::Disable, 0.20f, 0.20f, 0.22f, 0.95f);
+        Background->SetPos(0.f, 0.f);
+        Background->SetSize(1280.f, BAR_H);
+        Background->SetTint(EWidgetState::Normal,  0.20f, 0.20f, 0.22f, 0.95f);
+        Background->SetTint(EWidgetState::Hovered, 0.20f, 0.20f, 0.22f, 0.95f);
+        Background->SetTint(EWidgetState::Clicked, 0.20f, 0.20f, 0.22f, 0.95f);
+        Background->SetTint(EWidgetState::Release, 0.20f, 0.20f, 0.22f, 0.95f);
+        Background->SetTint(EWidgetState::Disable, 0.20f, 0.20f, 0.22f, 0.95f);
     }
 
     // 빈 액터 생성 버튼 (x=10)
     mEmptyActorButton = MakeMenuButton(this, "EmptyActorBtn", 10.f, 120.f, TEXT("Empty Actor"));
-    if (auto B = mEmptyActorButton.lock())
-        B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnEmptyActorClicked);
+    if (auto Button = mEmptyActorButton.lock())
+        Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnEmptyActorClicked);
 
     // 컴포넌트 추가 버튼 (x=140)
     mAddComponentButton = MakeMenuButton(this, "AddComponentBtn", 140.f, 150.f, TEXT("Add Component"));
-    if (auto B = mAddComponentButton.lock())
-        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnAddComponentHovered);
+    if (auto Button = mAddComponentButton.lock())
+        Button->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnAddComponentHovered);
 
     // 컴포넌트 추가 서브메뉴
     mSubmenu = CreateWidget<CWidgetContainer>("Submenu", 2);
@@ -148,102 +149,103 @@ bool CEditorMenuBar::Init()
         Submenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 13.f);
         Submenu->SetEnable(false);
 
-        auto AddCompBtn = [&](const std::string& Name, int Row, const wchar_t* Label, void(CEditorMenuBar::* Fn)())
+        auto AddComponentButton = [&](const std::string& Name, int Row, const wchar_t* Label, void(CEditorMenuBar::* ClickFunc)())
         {
-            auto Btn = MakeSubmenuButton(Submenu.get(), Name, Row, Label);
-            if (auto B = Btn.lock())
-                B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, Fn);
-            mComponentButtons.push_back(Btn);
+            auto ButtonWeak = MakeSubmenuButton(Submenu.get(), Name, Row, Label);
+            if (auto Button = ButtonWeak.lock())
+                Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, ClickFunc);
+            mComponentButtons.push_back(ButtonWeak);
         };
 
-        AddCompBtn("MeshComponent",        0,  TEXT("Mesh Component"),        &CEditorMenuBar::OnMeshComponentClicked);
-        AddCompBtn("CameraComponent",      1,  TEXT("Camera Component"),       &CEditorMenuBar::OnCameraComponentClicked);
-        AddCompBtn("Animation2DComponent", 2,  TEXT("Animation2D Component"),  &CEditorMenuBar::OnAnimation2DComponentClicked);
-        AddCompBtn("ColliderBox2D",        3,  TEXT("Collider Box2D"),         &CEditorMenuBar::OnColliderBox2DClicked);
-        AddCompBtn("ColliderSphere2D",     4,  TEXT("Collider Sphere2D"),      &CEditorMenuBar::OnColliderSphere2DClicked);
-        AddCompBtn("CharacterMovement",    5,  TEXT("Character Movement"),     &CEditorMenuBar::OnCharacterMovementClicked);
-        AddCompBtn("ProjectileMovement",   6,  TEXT("Projectile Movement"),    &CEditorMenuBar::OnProjectileMovementClicked);
-        AddCompBtn("AIComponent",          7,  TEXT("AI Component"),           &CEditorMenuBar::OnAIComponentClicked);
-        AddCompBtn("SoundComponent",       8,  TEXT("Sound Component"),        &CEditorMenuBar::OnSoundComponentClicked);
-        AddCompBtn("WidgetComponent",      9,  TEXT("Widget Component"),       &CEditorMenuBar::OnWidgetComponentClicked);
-        AddCompBtn("TileMapComponent",     10, TEXT("TileMap Component"),      &CEditorMenuBar::OnTileMapComponentClicked);
-        AddCompBtn("DirectionInput",       11, TEXT("Direction Input"),        &CEditorMenuBar::OnDirectionInputComponentClicked);
-        AddCompBtn("AnimState",            12, TEXT("Anim State"),             &CEditorMenuBar::OnAnimStateComponentClicked);
+        AddComponentButton("MeshComponent",        0,  TEXT("Mesh Component"),        &CEditorMenuBar::OnMeshComponentClicked);
+        AddComponentButton("CameraComponent",      1,  TEXT("Camera Component"),       &CEditorMenuBar::OnCameraComponentClicked);
+        AddComponentButton("Animation2DComponent", 2,  TEXT("Animation2D Component"),  &CEditorMenuBar::OnAnimation2DComponentClicked);
+        AddComponentButton("ColliderBox2D",        3,  TEXT("Collider Box2D"),         &CEditorMenuBar::OnColliderBox2DClicked);
+        AddComponentButton("ColliderSphere2D",     4,  TEXT("Collider Sphere2D"),      &CEditorMenuBar::OnColliderSphere2DClicked);
+        AddComponentButton("CharacterMovement",    5,  TEXT("Character Movement"),     &CEditorMenuBar::OnCharacterMovementClicked);
+        AddComponentButton("ProjectileMovement",   6,  TEXT("Projectile Movement"),    &CEditorMenuBar::OnProjectileMovementClicked);
+        AddComponentButton("AIComponent",          7,  TEXT("AI Component"),           &CEditorMenuBar::OnAIComponentClicked);
+        AddComponentButton("SoundComponent",       8,  TEXT("Sound Component"),        &CEditorMenuBar::OnSoundComponentClicked);
+        AddComponentButton("WidgetComponent",      9,  TEXT("Widget Component"),       &CEditorMenuBar::OnWidgetComponentClicked);
+        AddComponentButton("TileMapComponent",     10, TEXT("TileMap Component"),      &CEditorMenuBar::OnTileMapComponentClicked);
+        AddComponentButton("DirectionInput",       11, TEXT("Direction Input"),        &CEditorMenuBar::OnDirectionInputComponentClicked);
+        AddComponentButton("ActionState",          12, TEXT("Action State"),           &CEditorMenuBar::OnActionStateComponentClicked);
+        AddComponentButton("Height",               13, TEXT("Height (Jump/Fall)"),     &CEditorMenuBar::OnHeightComponentClicked);
     }
 
     // ---- "World" 메뉴 (x=300) ----
     mSceneButton = MakeMenuButton(this, "SceneBtn", 300.f, 100.f, TEXT("World"));
-    if (auto B = mSceneButton.lock())
-        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnSceneHovered);
+    if (auto Button = mSceneButton.lock())
+        Button->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnSceneHovered);
 
     mSceneSubmenu = CreateWidget<CWidgetContainer>("SceneSubmenu", 2);
-    auto SceneSub = mSceneSubmenu.lock();
-    if (SceneSub)
+    auto WorldSubmenu = mSceneSubmenu.lock();
+    if (WorldSubmenu)
     {
-        SceneSub->SetPos(300.f, BAR_H);
-        SceneSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
-        SceneSub->SetEnable(false);
+        WorldSubmenu->SetPos(300.f, BAR_H);
+        WorldSubmenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
+        WorldSubmenu->SetEnable(false);
 
-        auto SaveSceneBtn = MakeSubmenuButton(SceneSub.get(), "SaveSceneBtn", 0, TEXT("Save World"));
-        if (auto B = SaveSceneBtn.lock())
-            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSaveSceneClicked);
-        mSceneSubmenuButtons.push_back(SaveSceneBtn);
+        auto SaveWorldButton = MakeSubmenuButton(WorldSubmenu.get(), "SaveSceneBtn", 0, TEXT("Save World"));
+        if (auto Button = SaveWorldButton.lock())
+            Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSaveSceneClicked);
+        mSceneSubmenuButtons.push_back(SaveWorldButton);
 
-        auto LoadSceneBtn = MakeSubmenuButton(SceneSub.get(), "LoadSceneBtn", 1, TEXT("Load World"));
-        if (auto B = LoadSceneBtn.lock())
-            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadSceneClicked);
-        mSceneSubmenuButtons.push_back(LoadSceneBtn);
+        auto LoadWorldButton = MakeSubmenuButton(WorldSubmenu.get(), "LoadSceneBtn", 1, TEXT("Load World"));
+        if (auto Button = LoadWorldButton.lock())
+            Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadSceneClicked);
+        mSceneSubmenuButtons.push_back(LoadWorldButton);
     }
 
     // ---- "Prefab" 메뉴 (x=410) ----
     mPrefabButton = MakeMenuButton(this, "PrefabBtn", 410.f, 100.f, TEXT("Prefab"));
-    if (auto B = mPrefabButton.lock())
-        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnPrefabHovered);
+    if (auto Button = mPrefabButton.lock())
+        Button->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnPrefabHovered);
 
     // Prefab 서브메뉴
     mPrefabSubmenu = CreateWidget<CWidgetContainer>("PrefabSubmenu", 2);
-    auto PrefabSub = mPrefabSubmenu.lock();
-    if (PrefabSub)
+    auto PrefabSubmenu = mPrefabSubmenu.lock();
+    if (PrefabSubmenu)
     {
-        PrefabSub->SetPos(410.f, BAR_H);
-        PrefabSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
-        PrefabSub->SetEnable(false);
+        PrefabSubmenu->SetPos(410.f, BAR_H);
+        PrefabSubmenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 2.f);
+        PrefabSubmenu->SetEnable(false);
 
         // 0번 행: 프리팹 저장
-        auto SaveBtn = MakeSubmenuButton(PrefabSub.get(), "SavePrefabBtn", 0, TEXT("Save Prefab"));
-        if (auto B = SaveBtn.lock())
-            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSavePrefabClicked);
-        mPrefabSubmenuButtons.push_back(SaveBtn);
+        auto SavePrefabButton = MakeSubmenuButton(PrefabSubmenu.get(), "SavePrefabBtn", 0, TEXT("Save Prefab"));
+        if (auto Button = SavePrefabButton.lock())
+            Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnSavePrefabClicked);
+        mPrefabSubmenuButtons.push_back(SavePrefabButton);
 
         // 1번 행: 파일 탐색기로 프리팹 불러오기/스폰
-        auto LoadPrefabBtn = MakeSubmenuButton(PrefabSub.get(), "LoadPrefabBtn", 1, TEXT("Load Prefab..."));
-        if (auto B = LoadPrefabBtn.lock())
-            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadPrefabClicked);
-        mPrefabSubmenuButtons.push_back(LoadPrefabBtn);
+        auto LoadPrefabButton = MakeSubmenuButton(PrefabSubmenu.get(), "LoadPrefabBtn", 1, TEXT("Load Prefab..."));
+        if (auto Button = LoadPrefabButton.lock())
+            Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnLoadPrefabClicked);
+        mPrefabSubmenuButtons.push_back(LoadPrefabButton);
     }
 
     // ---- "Material" 메뉴 (x=520) ----
     mMaterialButton = MakeMenuButton(this, "MaterialBtn", 520.f, 100.f, TEXT("Material"));
-    if (auto B = mMaterialButton.lock())
-        B->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnMaterialHovered);
+    if (auto Button = mMaterialButton.lock())
+        Button->SetWidgetEventFunc(EWidgetEventState::Hovered, this, &CEditorMenuBar::OnMaterialHovered);
 
     mMaterialSubmenu = CreateWidget<CWidgetContainer>("MaterialSubmenu", 2);
-    auto MatSub = mMaterialSubmenu.lock();
-    if (MatSub)
+    auto MaterialSubmenu = mMaterialSubmenu.lock();
+    if (MaterialSubmenu)
     {
-        MatSub->SetPos(520.f, BAR_H);
-        MatSub->SetSize(SUBMENU_W, SUBMENU_BTN_H * 1.f);
-        MatSub->SetEnable(false);
+        MaterialSubmenu->SetPos(520.f, BAR_H);
+        MaterialSubmenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 1.f);
+        MaterialSubmenu->SetEnable(false);
 
-        auto NewMatBtn = MakeSubmenuButton(MatSub.get(), "NewMaterialBtn", 0, TEXT("New Material Editor..."));
-        if (auto B = NewMatBtn.lock())
-            B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnNewMaterialClicked);
+        auto NewMaterialButton = MakeSubmenuButton(MaterialSubmenu.get(), "NewMaterialBtn", 0, TEXT("New Material Editor..."));
+        if (auto Button = NewMaterialButton.lock())
+            Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnNewMaterialClicked);
     }
 
     // ---- "Anim Editor" 버튼 (x=630) ----
     mAnimEditorButton = MakeMenuButton(this, "AnimEditorBtn", 630.f, 100.f, TEXT("Anim Editor"));
-    if (auto B = mAnimEditorButton.lock())
-        B->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnAnimEditorClicked);
+    if (auto Button = mAnimEditorButton.lock())
+        Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, &CEditorMenuBar::OnAnimEditorClicked);
 
     return true;
 }
@@ -251,14 +253,14 @@ bool CEditorMenuBar::Init()
 // ---- 업데이트 ----
 
 // Hovered, Clicked, Release 세 상태 모두 "활성" 으로 판단
-static bool IsActive(const std::weak_ptr<CButton>& W)
+static bool IsActive(const std::weak_ptr<CButton>& ButtonWeak)
 {
-    auto B = W.lock();
-    if (!B) return false;
-    auto S = B->GetWidgetState();
-    return S == EWidgetState::Hovered
-        || S == EWidgetState::Clicked
-        || S == EWidgetState::Release;
+    auto Button = ButtonWeak.lock();
+    if (!Button) return false;
+    auto State = Button->GetWidgetState();
+    return State == EWidgetState::Hovered
+        || State == EWidgetState::Clicked
+        || State == EWidgetState::Release;
 }
 
 static constexpr float CLOSE_DELAY = 0.08f; // 허용 갭 시간 (초)
@@ -276,20 +278,20 @@ void CEditorMenuBar::Update(float DeltaTime)
             {
                 if (Input->GetMouseState(EMouseType::LButton, EInputType::Press))
                 {
-                    FVector2 MP = Input->GetMousePos();
+                    FVector2 MousePos = Input->GetMousePos();
 
                     // 메뉴바 자체 영역 (Y < BAR_H)
-                    bool InMenuBar = (MP.y >= 0.f && MP.y < BAR_H);
+                    bool InMenuBar = (MousePos.y >= 0.f && MousePos.y < BAR_H);
 
                     // 열린 서브메뉴 영역
                     bool InAnySub = false;
-                    auto CheckSub = [&](const std::weak_ptr<CWidgetContainer>& SubW, float LocalX)
+                    auto CheckSub = [&](const std::weak_ptr<CWidgetContainer>& SubmenuWeak, float LocalX)
                     {
-                        auto Sub = SubW.lock();
-                        if (!Sub || !Sub->IsEnable()) return;
-                        FVector3 SubSize = Sub->GetSize();
-                        if (MP.x >= LocalX && MP.x < LocalX + SubSize.x &&
-                            MP.y >= BAR_H  && MP.y < BAR_H  + SubSize.y)
+                        auto Submenu = SubmenuWeak.lock();
+                        if (!Submenu || !Submenu->IsEnable()) return;
+                        FVector3 SubmenuSize = Submenu->GetSize();
+                        if (MousePos.x >= LocalX && MousePos.x < LocalX + SubmenuSize.x &&
+                            MousePos.y >= BAR_H  && MousePos.y < BAR_H  + SubmenuSize.y)
                             InAnySub = true;
                     };
                     CheckSub(mSubmenu,         140.f);
@@ -301,10 +303,10 @@ void CEditorMenuBar::Update(float DeltaTime)
                     {
                         // 모든 서브메뉴 즉시 닫기
                         auto ForceClose = [](bool& Open, float& Timer,
-                                             const std::weak_ptr<CWidgetContainer>& SubW)
+                                             const std::weak_ptr<CWidgetContainer>& SubmenuWeak)
                         {
                             Open = false; Timer = 0.f;
-                            if (auto S = SubW.lock()) S->SetEnable(false);
+                            if (auto Submenu = SubmenuWeak.lock()) Submenu->SetEnable(false);
                         };
                         ForceClose(mSubmenuOpen,        mSubmenuCloseTimer, mSubmenu);
                         ForceClose(mSceneSubmenuOpen,   mSceneCloseTimer,   mSceneSubmenu);
@@ -321,8 +323,8 @@ void CEditorMenuBar::Update(float DeltaTime)
     {
         bool AnyActive = IsActive(mAddComponentButton);
         if (!AnyActive)
-            for (auto& W : mComponentButtons)
-                if (IsActive(W)) { AnyActive = true; break; }
+            for (auto& ButtonWeak : mComponentButtons)
+                if (IsActive(ButtonWeak)) { AnyActive = true; break; }
 
         if (AnyActive)
         {
@@ -335,7 +337,7 @@ void CEditorMenuBar::Update(float DeltaTime)
             {
                 mSubmenuOpen = false;
                 mSubmenuCloseTimer = 0.f;
-                if (auto S = mSubmenu.lock()) S->SetEnable(false);
+                if (auto Submenu = mSubmenu.lock()) Submenu->SetEnable(false);
             }
         }
     }
@@ -345,8 +347,8 @@ void CEditorMenuBar::Update(float DeltaTime)
     {
         bool AnyActive = IsActive(mSceneButton);
         if (!AnyActive)
-            for (auto& W : mSceneSubmenuButtons)
-                if (IsActive(W)) { AnyActive = true; break; }
+            for (auto& ButtonWeak : mSceneSubmenuButtons)
+                if (IsActive(ButtonWeak)) { AnyActive = true; break; }
 
         if (AnyActive)
         {
@@ -359,7 +361,7 @@ void CEditorMenuBar::Update(float DeltaTime)
             {
                 mSceneSubmenuOpen = false;
                 mSceneCloseTimer  = 0.f;
-                if (auto S = mSceneSubmenu.lock()) S->SetEnable(false);
+                if (auto Submenu = mSceneSubmenu.lock()) Submenu->SetEnable(false);
             }
         }
     }
@@ -369,8 +371,8 @@ void CEditorMenuBar::Update(float DeltaTime)
     {
         bool AnyActive = IsActive(mPrefabButton);
         if (!AnyActive)
-            for (auto& W : mPrefabSubmenuButtons)
-                if (IsActive(W)) { AnyActive = true; break; }
+            for (auto& ButtonWeak : mPrefabSubmenuButtons)
+                if (IsActive(ButtonWeak)) { AnyActive = true; break; }
 
         if (AnyActive)
         {
@@ -383,7 +385,7 @@ void CEditorMenuBar::Update(float DeltaTime)
             {
                 mPrefabSubmenuOpen = false;
                 mPrefabCloseTimer  = 0.f;
-                if (auto S = mPrefabSubmenu.lock()) S->SetEnable(false);
+                if (auto Submenu = mPrefabSubmenu.lock()) Submenu->SetEnable(false);
             }
         }
     }
@@ -394,8 +396,8 @@ void CEditorMenuBar::Update(float DeltaTime)
         bool AnyActive = IsActive(mMaterialButton);
         if (!AnyActive)
         {
-            if (auto Sub = mMaterialSubmenu.lock())
-                if (IsActive(Sub->FindWidget<CButton>("NewMaterialBtn")))
+            if (auto Submenu = mMaterialSubmenu.lock())
+                if (IsActive(Submenu->FindWidget<CButton>("NewMaterialBtn")))
                     AnyActive = true;
         }
 
@@ -410,7 +412,7 @@ void CEditorMenuBar::Update(float DeltaTime)
             {
                 mMaterialSubmenuOpen = false;
                 mMaterialCloseTimer  = 0.f;
-                if (auto S = mMaterialSubmenu.lock()) S->SetEnable(false);
+                if (auto Submenu = mMaterialSubmenu.lock()) Submenu->SetEnable(false);
             }
         }
     }
@@ -472,7 +474,7 @@ void CEditorMenuBar::OnAddComponentHovered()
 {
     if (mSubmenuOpen) return;
     mSubmenuOpen = true;
-    if (auto S = mSubmenu.lock()) S->SetEnable(true);
+    if (auto Submenu = mSubmenu.lock()) Submenu->SetEnable(true);
 }
 
 void CEditorMenuBar::OnMeshComponentClicked()
@@ -595,14 +597,25 @@ void CEditorMenuBar::OnDirectionInputComponentClicked()
     LOG_DEBUG("[MenuBar] Added DirectionInputComponent");
 }
 
-void CEditorMenuBar::OnAnimStateComponentClicked()
+void CEditorMenuBar::OnActionStateComponentClicked()
 {
     auto Actor = mSelectedActor.lock();
     if (!Actor) { LOG_DEBUG("[MenuBar] No actor selected."); return; }
-    Actor->CreateComponent<CAnimStateComponent>("AnimState");
-    TrackComponent("AnimState", "AnimState");
+    Actor->CreateComponent<CActionStateComponent>("ActionState");
+    TrackComponent("ActionState", "ActionState");
     if (mOnActorCreated) mOnActorCreated(mSelectedActor);
-    LOG_DEBUG("[MenuBar] Added AnimStateComponent");
+    LOG_DEBUG("[MenuBar] Added ActionStateComponent");
+}
+
+void CEditorMenuBar::OnHeightComponentClicked()
+{
+    auto Actor = mSelectedActor.lock();
+    if (!Actor) return;
+
+    Actor->CreateComponent<CHeightComponent>("Height");
+    TrackComponent("Height", "Height");
+
+    LOG_DEBUG("[MenuBar] Added HeightComponent");
 }
 
 // ---- 프리팹 콜백 ----
@@ -611,7 +624,7 @@ void CEditorMenuBar::OnPrefabHovered()
 {
     if (mPrefabSubmenuOpen) return;
     mPrefabSubmenuOpen = true;
-    if (auto S = mPrefabSubmenu.lock()) S->SetEnable(true);
+    if (auto Submenu = mPrefabSubmenu.lock()) Submenu->SetEnable(true);
 }
 
 void CEditorMenuBar::OnSavePrefabClicked()
@@ -686,7 +699,7 @@ void CEditorMenuBar::OnSceneHovered()
 {
     if (mSceneSubmenuOpen) return;
     mSceneSubmenuOpen = true;
-    if (auto S = mSceneSubmenu.lock()) S->SetEnable(true);
+    if (auto Submenu = mSceneSubmenu.lock()) Submenu->SetEnable(true);
 }
 
 void CEditorMenuBar::OnSaveSceneClicked()
@@ -726,17 +739,17 @@ void CEditorMenuBar::OnLoadSceneClicked()
 
 void CEditorMenuBar::OnMaterialHovered()
 {
-    if (auto S = mSubmenu.lock())         S->SetEnable(false); mSubmenuOpen = false;
-    if (auto S = mSceneSubmenu.lock())    S->SetEnable(false); mSceneSubmenuOpen = false;
-    if (auto S = mPrefabSubmenu.lock())   S->SetEnable(false); mPrefabSubmenuOpen = false;
+    if (auto Submenu = mSubmenu.lock())         Submenu->SetEnable(false); mSubmenuOpen = false;
+    if (auto Submenu = mSceneSubmenu.lock())    Submenu->SetEnable(false); mSceneSubmenuOpen = false;
+    if (auto Submenu = mPrefabSubmenu.lock())   Submenu->SetEnable(false); mPrefabSubmenuOpen = false;
 
     mMaterialSubmenuOpen = true;
-    if (auto S = mMaterialSubmenu.lock()) S->SetEnable(true);
+    if (auto Submenu = mMaterialSubmenu.lock()) Submenu->SetEnable(true);
 }
 
 void CEditorMenuBar::OnNewMaterialClicked()
 {
-    if (auto S = mMaterialSubmenu.lock()) S->SetEnable(false);
+    if (auto Submenu = mMaterialSubmenu.lock()) Submenu->SetEnable(false);
     mMaterialSubmenuOpen = false;
 
     if (mOnOpenMaterialEditor)

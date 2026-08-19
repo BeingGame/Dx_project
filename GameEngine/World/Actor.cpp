@@ -151,26 +151,30 @@ void CActor::Update(float DeltaTime)
 		++SceneIter;
 	}
 
-	auto ActorIter = mActorCompList.begin();
-	auto ActorIterEnd = mActorCompList.end();
+	//업데이트 도중에 컴포넌트가 새로 붙을 수 있으므로 반복자 대신 인덱스로 돈다.
+	//(예: 액션 상태 컴포넌트가 없는 높이 컴포넌트를 스스로 만들어 붙인다)
+	//push_back 한 번이면 반복자는 전부 무효가 되어 그대로 터진다.
+	//개수를 미리 재두었으므로 이번 프레임에 붙은 것은 다음 프레임부터 돈다.
+	size_t ActorCompCount = mActorCompList.size();
 
-	for (; ActorIter != ActorIterEnd;)
+	for (size_t i = 0; i < ActorCompCount;)
 	{
-		if (!(*ActorIter)->IsAlive())
+		if (!mActorCompList[i]->IsAlive())
 		{
-			ActorIter = mActorCompList.erase(ActorIter);
-			ActorIterEnd = mActorCompList.end();
-			continue;
-		}
-		else if (!(*ActorIter)->IsEnable())
-		{
-			++ActorIter;
+			mActorCompList.erase(mActorCompList.begin() + i);
+			--ActorCompCount;
 			continue;
 		}
 
-		(*ActorIter)->Update(DeltaTime);
+		if (!mActorCompList[i]->IsEnable())
+		{
+			++i;
+			continue;
+		}
 
-		++ActorIter;
+		mActorCompList[i]->Update(DeltaTime);
+
+		++i;
 	}
 }
 
@@ -1151,6 +1155,48 @@ void CActor::SaveScene(std::ofstream& File, int ActorIdx) const
 		Comp->Save(File);
 		File << "\n";
 	}
+}
+
+std::weak_ptr<CSceneComponent> CActor::InsertBareRoot(const std::string& Name)
+{
+	auto OldRoot = mRoot.lock();
+
+	if (!OldRoot)
+	{
+		return std::weak_ptr<CSceneComponent>();
+	}
+
+	//이미 빈 루트를 쓰고 있으면 그대로 둔다.
+	if (OldRoot->GetTypeName() == "CSceneComponent")
+	{
+		return OldRoot;
+	}
+
+	auto NewRoot = std::make_shared<CSceneComponent>();
+
+	NewRoot->SetName(Name);
+	NewRoot->SetWorld(mWorld);
+	NewRoot->SetOwner(GetThisPtr<CActor>());
+	NewRoot->Init();
+
+	//트랜스폼은 새 루트가 통째로 가져간다.
+	//옛 루트를 원점/기본값으로 되돌려 자식으로 달면 최종 위치가 그대로 유지된다.
+	//(월드 트랜스폼이 부모와 곱해져 내려가므로 결과가 달라지지 않는다)
+	NewRoot->SetRelativePos(OldRoot->GetRelativePos());
+	NewRoot->SetRelativeScale(OldRoot->GetRelativeScale());
+	NewRoot->SetRelativeRotation(OldRoot->GetRelativeRot());
+
+	OldRoot->SetRelativePos(0.f, 0.f, 0.f);
+	OldRoot->SetRelativeScale(1.f, 1.f, 1.f);
+	OldRoot->SetRelativeRotation(0.f, 0.f, 0.f);
+
+	mRoot = NewRoot;
+	NewRoot->AddChild(OldRoot);
+
+	//저장할 때 루트가 먼저 나와야 불러올 때도 루트로 잡힌다.
+	mSceneCompList.insert(mSceneCompList.begin(), NewRoot);
+
+	return NewRoot;
 }
 
 void CActor::LoadSceneComp(std::shared_ptr<CSceneComponent> Comp, const std::string& Parent)

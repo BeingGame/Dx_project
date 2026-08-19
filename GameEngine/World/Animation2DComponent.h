@@ -46,6 +46,21 @@ public:
 	void AddAnimation(const std::weak_ptr<class CAnimation2D>& Anim, float PlayTime = 1.f, float PlayRate = 1.f, bool Loop = false, bool Reverse = false, bool Symmetry = false);
 	void AddAnimation(const std::string& Name, float PlayTime = 1.f, float PlayRate = 1.f, bool Loop = false, bool Reverse = false, bool Symmetry = false);
 	void ChangeAnimation(const std::string& Name);
+
+	//같은 애니메이션이어도 처음부터 다시 재생한다. (공격 연타 등)
+	void PlayAnimation(const std::string& Name);
+
+	//반복이 아닌 현재 애니메이션이 끝까지 재생됐는지.
+	//액션 상태(공격/피격)가 종료 시점을 판단하는 데 쓴다.
+	bool IsCurrentAnimationEnd() const;
+
+	//지금 재생 중인 시퀀스를 그 프레임에 세워둔다. 풀면 그 프레임부터 이어서 간다.
+	//(기본 공격 3타 모으기 — 공격키를 누르고 있는 동안 첫 프레임에서 붙잡아둔다)
+	void SetCurrentAnimationPause(bool Pause);
+	bool IsCurrentAnimationPaused() const;
+
+	std::weak_ptr<CAnimation2DSequence> FindSequence(const std::string& Name) const;
+
 	void SetPlayTime(const std::string& Name, float PlayTime);
 	void SetPlayRate(const std::string& Name, float PlayRate);
 	void SetLoop(const std::string& Name, bool Loop);

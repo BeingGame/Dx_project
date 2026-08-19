@@ -46,9 +46,9 @@ private:
 	std::vector<FEntry> mEntries;
 
 public:
-	void SetOnActorSelected(std::function<void(std::weak_ptr<class CActor>)> Fn)
+	void SetOnActorSelected(std::function<void(std::weak_ptr<class CActor>)> Function)
 	{
-		mOnActorSelected = std::move(Fn);
+		mOnActorSelected = std::move(Function);
 	}
 
 public:

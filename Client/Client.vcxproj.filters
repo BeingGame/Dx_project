@@ -93,7 +93,10 @@
     <ClCompile Include="World\Component\TurretSkillComp.cpp">
       <Filter>소스 파일\Player\Skill\PlayerSkillComponent</Filter>
     </ClCompile>
-    <ClCompile Include="World\Component\AnimStateComponent.cpp">
+    <ClCompile Include="World\Component\ActionStateComponent.cpp">
+      <Filter>소스 파일\Player\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="World\Component\HeightComponent.cpp">
       <Filter>소스 파일\Player\Component</Filter>
     </ClCompile>
     <ClCompile Include="World\Component\DirectionInputComponent.cpp">
@@ -203,7 +206,10 @@
     <ClInclude Include="World\Component\TurretSkillComp.h">
       <Filter>소스 파일\Player\Skill\PlayerSkillComponent</Filter>
     </ClInclude>
-    <ClInclude Include="World\Component\AnimStateComponent.h">
+    <ClInclude Include="World\Component\ActionStateComponent.h">
+      <Filter>소스 파일\Player\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="World\Component\HeightComponent.h">
       <Filter>소스 파일\Player\Component</Filter>
     </ClInclude>
     <ClInclude Include="World\Component\DirectionInputComponent.h">

@@ -163,7 +163,8 @@
     <ClCompile Include="World\Bullet.cpp" />
     <ClCompile Include="World\Chaser.cpp" />
     <ClCompile Include="World\Component\SkillComponent.cpp" />
-    <ClCompile Include="World\Component\AnimStateComponent.cpp" />
+    <ClCompile Include="World\Component\ActionStateComponent.cpp" />
+    <ClCompile Include="World\Component\HeightComponent.cpp" />
     <ClCompile Include="World\Component\DirectionInputComponent.cpp" />
     <ClCompile Include="World\Component\StatusComponent.cpp" />
     <ClCompile Include="World\Component\TurretSkillComp.cpp" />
@@ -201,7 +202,8 @@
     <ClInclude Include="World\Bullet.h" />
     <ClInclude Include="World\Chaser.h" />
     <ClInclude Include="World\Component\SkillComponent.h" />
-    <ClInclude Include="World\Component\AnimStateComponent.h" />
+    <ClInclude Include="World\Component\ActionStateComponent.h" />
+    <ClInclude Include="World\Component\HeightComponent.h" />
     <ClInclude Include="World\Component\DirectionInputComponent.h" />
     <ClInclude Include="World\Component\StatusComponent.h" />
     <ClInclude Include="World\Component\TurretSkillComp.h" />

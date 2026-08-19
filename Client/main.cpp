@@ -27,7 +27,8 @@
 #include "World/Component/StatusComponent.h"
 #include "World/Component/TurretSkillComp.h"
 #include "World/Component/DirectionInputComponent.h"
-#include "World/Component/AnimStateComponent.h"
+#include "World/Component/ActionStateComponent.h"
+#include "World/Component/HeightComponent.h"
 
 #include "World/World.h"
 
@@ -78,14 +79,15 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CWorld::RegisterComponentType<CStatusComponent>("CStatusComponent");
 	CWorld::RegisterComponentType<CTurretSkillComp>("CTurretSkillComp");
 	CWorld::RegisterComponentType<CDirectionInputComponent>("CDirectionInputComponent");
-	CWorld::RegisterComponentType<CAnimStateComponent>("CAnimStateComponent");
+	CWorld::RegisterComponentType<CActionStateComponent>("CActionStateComponent");
+	CWorld::RegisterComponentType<CHeightComponent>("CHeightComponent");
 
 	CWorldManager::GetInst()->CreateWorld<CMainWorld>(false);
 
-	int Ret = CEngine::GetInst()->Run();
+	int ExitCode = CEngine::GetInst()->Run();
 
 	CPrefabManager::GetInst()->DestroyInst();
 	CEngine::GetInst()->DestroyInst();
 
-	return Ret;
+	return ExitCode;
 }

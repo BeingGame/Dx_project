@@ -5,31 +5,75 @@ ActorCount=1
 TypeName=CActor
 Name=EmptyActor_0
 Tag=Actor
-WorldPos=0 0 0
-WorldScale=1 1 1
+WorldPos=0.20129 0.0530494 0
+WorldScale=0.8 0.8 1
 WorldRot=0 0 0
 SceneCompCount=1
-ActorCompCount=1
+ActorCompCount=4
 
 [SceneComp:0:0]
 TypeName=CMeshComponent
 Name=MeshComponent
 Parent=
-RelPos=0 0 0
-RelScale=1 1 1
+RelPos=0.20129 0.0530494 0
+RelScale=0.8 0.8 1
 RelRot=0 0 0
 Layer=1
+Mesh=TexRect
+Shader=Animation2D
+Material=Default
+Blend=(none)
+MatBaseColor=1 1 1 1
+MatOpacity=1
 
 [ActorComp:0:0]
 TypeName=CAnimation2DComponent
 Name=Animation2DComponent
-SeqCount=7
-Seq0=BasicAttack|1|1|1|0|0
-Seq1=PlayerHit|1|1|1|0|0
-Seq2=Idle|1|1|1|0|0
-Seq3=PlayerWalk|1|1|1|0|0
-Seq4=PlayerRunning|1|1|1|0|0
-Seq5=PlayerDown|1|1|1|0|0
-Seq6=PlayerJump|1|1|1|0|0
-Current=PlayerDown
+SeqCount=9
+Seq0=BasicAttack2|0.999999|1.8|0|0|0
+Seq1=PlayerHit|1|1|0|0|0
+Seq2=BasicAttack|1|1.8|0|0|0
+Seq3=BasicAttack3|0.384616|1|0|0|0
+Seq4=Idle|1|1|1|0|0
+Seq5=PlayerWalk|0.857142|1|1|0|0
+Seq6=PlayerRunning|1|1|1|0|0
+Seq7=PlayerJump|1|1|0|0|0
+Seq8=PlayerDown|1|1|0|0|0
+Current=Idle
+
+[ActorComp:0:1]
+TypeName=CDirectionInputComponent
+Name=DirectionInput
+DoubleTapTime=0.28
+WalkSpeed=0.3
+RunSpeed=0.85
+RunVertScale=2
+AttackKey=88
+JumpKey=32
+
+[ActorComp:0:2]
+TypeName=CActionStateComponent
+Name=ActionState
+MinStateTime=0.05
+ActionTimeout=5
+ComboResetTime=0.5
+JumpHeight=0.4
+JumpTime=0
+JumpMoveScale=0.5
+StateCount=10
+State0=Idle|Idle|0|1|1|1|-1|0|0|0.12
+State1=Walk|PlayerWalk|0|1|1|1|-1|0|0|0.12
+State2=Run|PlayerRunning|0|1|1|1|-1|0|0|0.12
+State3=Attack1|BasicAttack|10|0|0|0|0.15|0|0.02|0.1
+State4=Attack2|BasicAttack2|10|0|0|0|0.15|0|0.02|0.1
+State5=Attack3|BasicAttack3|10|0|0|0|0.15|1|0.02|0.14
+State6=Jump|PlayerJump|12|0|1|1|-1|0|0|0.12
+State7=Hit|PlayerHit|20|0|0|0|-1|0|0|0.12
+State8=Dash||15|0|0|0|-1|0|0|0.12
+State9=Dead|PlayerDown|100|0|0|0|-1|0|0|0.12
+
+[ActorComp:0:3]
+TypeName=CCharacterMovementComponent
+Name=CharacterMovement
+Speed=0.3
 

@@ -12,12 +12,18 @@ public:
 	virtual ~CInspectorUI();
 
 private:
-	static constexpr float PANEL_W  = 200.f;
+	//속성 이름이 두 줄로 접혀서 잘리지 않을 만큼은 넓어야 한다.
+	//(ComboReset / JumpHeight 같은 열 글자짜리가 기준이다)
+	static constexpr float PANEL_W  = 240.f;
 	static constexpr float PANEL_H  = 680.f;
-	static constexpr float PANEL_X  = 1080.f;
+	//화면이 1280이므로 오른쪽 끝에 붙여둔다. 폭을 바꾸면 여기도 같이 바꾼다.
+	static constexpr float PANEL_X  = 1040.f;
 	static constexpr float PANEL_Y  = 40.f;
 	static constexpr float TITLE_H  = 28.f;
 	static constexpr float ROW_H    = 20.f;
+	//컴포넌트 헤더는 이름과 타입명을 두 줄로 나눠 적는다.
+	//"CCharacterMovementComponent" 같은 긴 이름이 한 줄에 안 들어가기 때문이다.
+	static constexpr float HEADER_H = ROW_H * 2.f;
 
 	static constexpr float HANDLE_SZ = 10.f;
 	static constexpr float DEL_BTN_W = 18.f;   // 컴포넌트 헤더 우측 [X] 버튼 폭
@@ -51,9 +57,9 @@ private:
 	struct FInspProp
 	{
 		std::weak_ptr<class CTextBlock> ValueLabel;
-		std::weak_ptr<class CButton>    ValueBtn;   // 값 영역 — 더블클릭하면 직접 입력
-		std::weak_ptr<class CButton>    MinusBtn;
-		std::weak_ptr<class CButton>    PlusBtn;
+		std::weak_ptr<class CButton>    ValueButton;   // 값 영역 — 더블클릭하면 직접 입력
+		std::weak_ptr<class CButton>    MinusButton;
+		std::weak_ptr<class CButton>    PlusButton;
 		float Step          = 1.f;
 		float MinHoldTime   = 0.f;   int MinRepeat  = 0;
 		float PlusHoldTime  = 0.f;   int PlusRepeat = 0;
@@ -64,20 +70,23 @@ private:
 	// 액션 행: 사이클 또는 탐색 버튼 (+/- 없음)
 	struct FInspAction
 	{
-		std::weak_ptr<class CButton>    ActionBtn;
-		std::weak_ptr<class CTextBlock> DisplayLbl;
+		std::weak_ptr<class CButton>    ActionButton;
+		std::weak_ptr<class CTextBlock> DisplayLabel;
 		std::function<void()>           OnClick;
 		std::function<std::string()>    GetDisplay;
+
+		//같은 문자열을 매 프레임 다시 넣지 않으려고 직전 값을 기억해둔다.
+		std::string                     LastDisplay;
 	};
 
 	// 콤보/드롭다운 행
 	struct FInspDropdown
 	{
 		void*                           DropKey  = nullptr;
-		std::weak_ptr<class CButton>    ToggleBtn;
-		std::weak_ptr<class CTextBlock> ValueLbl;
+		std::weak_ptr<class CButton>    ToggleButton;
+		std::weak_ptr<class CTextBlock> ValueLabel;
 		std::vector<std::string>        Items;
-		std::vector<std::weak_ptr<class CButton>> ItemBtns;
+		std::vector<std::weak_ptr<class CButton>> ItemButtons;
 		std::function<std::string()>             Getter;
 		std::function<void(const std::string&)>  Setter;
 	};
@@ -87,9 +96,9 @@ private:
 	{
 		void*                           CompKey   = nullptr;
 		std::weak_ptr<class CComponent>	CompRef;    // 삭제 대상 컴포넌트
-		std::weak_ptr<class CButton>    HeaderBtn;
-		std::weak_ptr<class CTextBlock> HeaderLbl;
-		std::weak_ptr<class CButton>    DeleteBtn;  // [X] 제거 버튼
+		std::weak_ptr<class CButton>    HeaderButton;
+		std::weak_ptr<class CTextBlock> HeaderLabel;
+		std::weak_ptr<class CButton>    DeleteButton;  // [X] 제거 버튼
 		bool                            bExpanded = false;
 		std::vector<FInspProp>          Props;
 		std::vector<FInspAction>        Actions;
@@ -121,9 +130,9 @@ public:
 	void SetTarget(std::weak_ptr<class CActor> Actor);
 	void Rebuild();
 
-	void SetOnComponentRemoved(std::function<void(const std::string&)> Fn)
+	void SetOnComponentRemoved(std::function<void(const std::string&)> Function)
 	{
-		mOnComponentRemoved = std::move(Fn);
+		mOnComponentRemoved = std::move(Function);
 	}
 
 public:
@@ -132,6 +141,9 @@ public:
 	virtual CInspectorUI* Clone();
 
 private:
+	//액션 상태 컴포넌트에서 지금 편집 중인 상태. (9개를 전부 펼치면 너무 길어진다)
+	int mActionEditIdx = 0;
+
 	void UpdateAllRowWidths(float NewWidth);
 
 	// Rebuild 마무리 — 동적 행을 스크롤 대상으로 표시하고 콘텐츠 길이를 알려준다.
@@ -149,7 +161,7 @@ private:
 	std::weak_ptr<class CTextBlock> AddRow(float Y, const wchar_t* Text, float FontSize = 13.f);
 
 	// 컴포넌트 헤더 우측에 [X] 제거 버튼을 만든다.
-	std::weak_ptr<class CButton> AddDeleteButton(float Y, float PanelW, int I);
+	std::weak_ptr<class CButton> AddDeleteButton(float Y, float PanelW, int WidgetIdx);
 
 	// 삭제 버튼 클릭을 처리한다. 실제로 제거했으면 true (호출부는 즉시 Rebuild 후 반환할 것)
 	bool HandleDeleteButtons();
@@ -170,7 +182,7 @@ private:
 
 	void AddActionRow(float& Y,
 	                  const wchar_t* Label,
-	                  const wchar_t* BtnText,
+	                  const wchar_t* ButtonText,
 	                  std::function<void()>        OnClick,
 	                  std::function<std::string()> GetDisplay,
 	                  FInspCompEntry& Entry);

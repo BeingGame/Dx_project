@@ -20,7 +20,8 @@
 #include "Component/StatusComponent.h"
 #include "Component/TurretSkillComp.h"
 #include "Component/DirectionInputComponent.h"
-#include "Component/AnimStateComponent.h"
+#include "Component/ActionStateComponent.h"
+#include "Component/HeightComponent.h"
 
 #include "LogManager.h"
 
@@ -48,58 +49,65 @@ bool CPrefabManager::Init()
 
 void CPrefabManager::RegisterComponents()
 {
-    auto Reg = [&](const std::string& TypeName, SpawnFunc Fn)
+    auto RegisterType = [&](const std::string& TypeName, SpawnFunc SpawnFunction)
     {
-        mFactoryMap[TypeName] = std::move(Fn);
+        mFactoryMap[TypeName] = std::move(SpawnFunction);
     };
 
     // 씬 컴포넌트 (계층 구조 지원, Parent 이름 전달)
-    Reg("MeshComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CMeshComponent>(N, P.empty() ? "Root" : P);
+    RegisterType("MeshComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CMeshComponent>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
-    Reg("CameraComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CCameraComponent>(N, P.empty() ? "Root" : P);
+    RegisterType("CameraComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CCameraComponent>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
-    Reg("Animation2DComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CAnimation2DComponent>(N, P.empty() ? "Root" : P);
+    RegisterType("Animation2DComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CAnimation2DComponent>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
-    Reg("ColliderBox2D", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CColliderBox2D>(N, P.empty() ? "Root" : P);
+    RegisterType("ColliderBox2D", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CColliderBox2D>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
-    Reg("ColliderSphere2D", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CColliderSphere2D>(N, P.empty() ? "Root" : P);
+    RegisterType("ColliderSphere2D", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CColliderSphere2D>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
-    Reg("WidgetComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CWidgetComponent>(N, P.empty() ? "Root" : P);
+    RegisterType("WidgetComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CWidgetComponent>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
-    Reg("TileMapComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string& P) {
-        A->CreateComponent<CTileMapComponent>(N, P.empty() ? "Root" : P);
+    RegisterType("TileMapComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CTileMapComponent>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
 
     // 액터 컴포넌트 (계층 구조 없음, Parent 무시)
-    Reg("CharacterMovement", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CCharacterMovementComponent>(N);
+    RegisterType("CharacterMovement", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CCharacterMovementComponent>(CompName);
     });
-    Reg("ProjectileMovement", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CProjectileMovementComponent>(N);
+    RegisterType("ProjectileMovement", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CProjectileMovementComponent>(CompName);
     });
-    Reg("AIComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CAIComponent>(N);
+    RegisterType("AIComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CAIComponent>(CompName);
     });
-    Reg("SoundComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CSoundComponent>(N);
+    RegisterType("SoundComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CSoundComponent>(CompName);
     });
-    Reg("StatusComponent", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CStatusComponent>(N);
+    RegisterType("StatusComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CStatusComponent>(CompName);
     });
-    Reg("TurretSkillComp", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CTurretSkillComp>(N);
+    RegisterType("TurretSkillComp", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CTurretSkillComp>(CompName);
     });
-    Reg("DirectionInput", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CDirectionInputComponent>(N);
+    RegisterType("DirectionInput", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CDirectionInputComponent>(CompName);
     });
-    Reg("AnimState", [](std::shared_ptr<CActor> A, const std::string& N, const std::string&) {
-        A->CreateComponent<CAnimStateComponent>(N);
+    RegisterType("ActionState", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CActionStateComponent>(CompName);
+    });
+    RegisterType("Height", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string&) {
+        Actor->CreateComponent<CHeightComponent>(CompName);
+    });
+    //빈 루트로 쓰는 순수 씬 컴포넌트
+    RegisterType("SceneComponent", [](std::shared_ptr<CActor> Actor, const std::string& CompName, const std::string& ParentName) {
+        Actor->CreateComponent<CSceneComponent>(CompName, ParentName.empty() ? "Root" : ParentName);
     });
 
     // CComponent::GetTypeName()이 돌려주는 엔진 타입명으로도 찾을 수 있게 별칭을 건다.
@@ -107,9 +115,9 @@ void CPrefabManager::RegisterComponents()
     // 예전 프리팹의 짧은 이름도 그대로 남아 있어 둘 다 열린다.
     auto Alias = [&](const std::string& EngineName, const std::string& ShortName)
     {
-        auto It = mFactoryMap.find(ShortName);
-        if (It != mFactoryMap.end())
-            mFactoryMap[EngineName] = It->second;
+        auto Found = mFactoryMap.find(ShortName);
+        if (Found != mFactoryMap.end())
+            mFactoryMap[EngineName] = Found->second;
     };
 
     Alias("CMeshComponent",                "MeshComponent");
@@ -126,7 +134,12 @@ void CPrefabManager::RegisterComponents()
     Alias("CStatusComponent",              "StatusComponent");
     Alias("CTurretSkillComp",              "TurretSkillComp");
     Alias("CDirectionInputComponent",      "DirectionInput");
-    Alias("CAnimStateComponent",           "AnimState");
+    Alias("CActionStateComponent",         "ActionState");
+    Alias("CHeightComponent",              "Height");
+    Alias("CSceneComponent",               "SceneComponent");
+    //예전 프리팹에 AnimState로 적혀 있어도 새 컴포넌트로 열어준다.
+    Alias("CAnimStateComponent",           "ActionState");
+    Alias("AnimState",                     "ActionState");
 }
 
 void CPrefabManager::BuildPrefabData(const std::shared_ptr<CActor>& Actor, FPrefabData& OutData)
@@ -236,8 +249,8 @@ void CPrefabManager::SavePrefab(const std::string& PrefabName, const FPrefabData
     File << "Count=" << Data.Components.size() << "\n";
     for (size_t i = 0; i < Data.Components.size(); ++i)
     {
-        const auto& C = Data.Components[i];
-        File << "C" << i << "=" << C.TypeName << "|" << C.Name << "|" << C.Parent << "\n";
+        const auto& CompEntry = Data.Components[i];
+        File << "CompEntry" << i << "=" << CompEntry.TypeName << "|" << CompEntry.Name << "|" << CompEntry.Parent << "\n";
     }
 
     // 컴포넌트별 상태 블록.
@@ -305,55 +318,55 @@ bool CPrefabManager::LoadPrefabDataFromPath(const std::string& FullPath, FPrefab
             continue;
         }
 
-        size_t Eq = Line.find('=');
-        if (Eq == std::string::npos) continue;
+        size_t EqualPos = Line.find('=');
+        if (EqualPos == std::string::npos) continue;
 
-        std::string Key = Line.substr(0, Eq);
-        std::string Val = Line.substr(Eq + 1);
+        std::string Key = Line.substr(0, EqualPos);
+        std::string Value = Line.substr(EqualPos + 1);
 
         // 컴포넌트 블록 안이면 그 항목의 Props에 쌓는다.
         if (CurrentBlock >= 0)
         {
             if (CurrentBlock < (int)OutData.Components.size())
-                OutData.Components[CurrentBlock].Props[Key] = Val;
+                OutData.Components[CurrentBlock].Props[Key] = Value;
             continue;
         }
 
         if (Key == "Tag")
         {
-            OutData.ActorTag = Val;
+            OutData.ActorTag = Value;
         }
         else if (Key == "PX")
         {
-            sscanf_s(Val.c_str(), "%f PY=%f PZ=%f",
+            sscanf_s(Value.c_str(), "%f PY=%f PZ=%f",
                      &OutData.WorldPos.x, &OutData.WorldPos.y, &OutData.WorldPos.z);
         }
         else if (Key == "SX")
         {
-            sscanf_s(Val.c_str(), "%f SY=%f SZ=%f",
+            sscanf_s(Value.c_str(), "%f SY=%f SZ=%f",
                      &OutData.WorldScale.x, &OutData.WorldScale.y, &OutData.WorldScale.z);
         }
         else if (Key == "RX")
         {
-            sscanf_s(Val.c_str(), "%f RY=%f RZ=%f",
+            sscanf_s(Value.c_str(), "%f RY=%f RZ=%f",
                      &OutData.WorldRot.x, &OutData.WorldRot.y, &OutData.WorldRot.z);
         }
         else if (Key == "Count")
         {
-            OutData.Components.reserve(std::stoi(Val));
+            OutData.Components.reserve(std::stoi(Value));
         }
         else if (!Key.empty() && Key[0] == 'C' && Key.size() > 1 && std::isdigit((unsigned char)Key[1]))
         {
             // "TypeName|CompName|ParentName" 형식 파싱
             FPrefabComponentEntry Entry;
-            size_t P1 = Val.find('|');
-            size_t P2 = (P1 != std::string::npos) ? Val.find('|', P1 + 1) : std::string::npos;
+            size_t FirstBar = Value.find('|');
+            size_t SecondBar = (FirstBar != std::string::npos) ? Value.find('|', FirstBar + 1) : std::string::npos;
 
-            Entry.TypeName = (P1 != std::string::npos) ? Val.substr(0, P1) : Val;
-            Entry.Name     = (P1 != std::string::npos && P2 != std::string::npos)
-                                 ? Val.substr(P1 + 1, P2 - P1 - 1)
-                                 : (P1 != std::string::npos ? Val.substr(P1 + 1) : "");
-            Entry.Parent   = (P2 != std::string::npos) ? Val.substr(P2 + 1) : "";
+            Entry.TypeName = (FirstBar != std::string::npos) ? Value.substr(0, FirstBar) : Value;
+            Entry.Name     = (FirstBar != std::string::npos && SecondBar != std::string::npos)
+                                 ? Value.substr(FirstBar + 1, SecondBar - FirstBar - 1)
+                                 : (FirstBar != std::string::npos ? Value.substr(FirstBar + 1) : "");
+            Entry.Parent   = (SecondBar != std::string::npos) ? Value.substr(SecondBar + 1) : "";
 
             OutData.Components.push_back(Entry);
         }
@@ -440,9 +453,9 @@ std::vector<std::string> CPrefabManager::GetPrefabNames() const
     do
     {
         std::string FileName = FindData.cFileName;
-        size_t Dot = FileName.rfind(".prefab");
-        if (Dot != std::string::npos)
-            Names.push_back(FileName.substr(0, Dot));
+        size_t DotPos = FileName.rfind(".prefab");
+        if (DotPos != std::string::npos)
+            Names.push_back(FileName.substr(0, DotPos));
     }
     while (FindNextFileA(hFind, &FindData));
 
@@ -457,12 +470,12 @@ bool CPrefabManager::AttachComponent(const std::string& TypeName,
                                       const std::string& CompName,
                                       const std::string& Parent)
 {
-    auto It = mFactoryMap.find(TypeName);
-    if (It == mFactoryMap.end())
+    auto Found = mFactoryMap.find(TypeName);
+    if (Found == mFactoryMap.end())
     {
         LOG_WARNING("[PrefabManager] Unknown component type: %s", TypeName.c_str());
         return false;
     }
-    It->second(Actor, CompName, Parent);
+    Found->second(Actor, CompName, Parent);
     return true;
 }

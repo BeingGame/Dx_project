@@ -10,6 +10,7 @@
 #include "../Asset/Texture.h"
 
 
+
 CAnimation2DComponent::CAnimation2DComponent()
 {}
 
@@ -83,6 +84,11 @@ int CAnimation2DComponent::GetAnimationFrame() const
 
 FVector2 CAnimation2DComponent::GetAnimLTUV()
 {
+	if (!mCurrentAnimation)
+	{
+		return FVector2(0.f, 0.f);
+	}
+
 	int Frame = mCurrentAnimation->GetFrame();
 
 	auto Anim = mCurrentAnimation->GetAnimation().lock();
@@ -111,6 +117,11 @@ FVector2 CAnimation2DComponent::GetAnimLTUV()
 
 FVector2 CAnimation2DComponent::GetAnimRBUV()
 {
+	if (!mCurrentAnimation)
+	{
+		return FVector2(1.f, 1.f);
+	}
+
 	int Frame = mCurrentAnimation->GetFrame();
 
 	auto Anim = mCurrentAnimation->GetAnimation().lock();
@@ -233,8 +244,63 @@ void CAnimation2DComponent::ChangeAnimation(const std::string& Name)
 	//애니메이션을 변경한다.
 	mCurrentAnimation = iter->second;
 
+	//새로 들어온 시퀀스도 처음부터 재생되도록 되감아준다.
+	//반복이 아닌 애니메이션(공격/피격)은 한 번 끝나면 mEnd가 true로 남기 때문에,
+	//이걸 안 해주면 두 번째부터는 마지막 프레임에서 멈춘 채로 나온다.
+	mCurrentAnimation->PlayAnimation();
+
 	//상수버퍼의 텍스처 타입을 갱신한다.
 	RefreshTexture();
+}
+
+void CAnimation2DComponent::SetCurrentAnimationPause(bool Pause)
+{
+	if (!mCurrentAnimation)
+	{
+		return;
+	}
+
+	mCurrentAnimation->SetPause(Pause);
+}
+
+bool CAnimation2DComponent::IsCurrentAnimationPaused() const
+{
+	return mCurrentAnimation ? mCurrentAnimation->IsPaused() : false;
+}
+
+void CAnimation2DComponent::PlayAnimation(const std::string& Name)
+{
+	//같은 애니메이션을 다시 요청해도 처음부터 재생한다.
+	//(공격을 연속으로 눌렀을 때 ChangeAnimation은 "같은 이름"이라 그냥 빠져나간다)
+	if (mCurrentAnimation && mCurrentAnimation->GetName() == Name)
+	{
+		mCurrentAnimation->PlayAnimation();
+		return;
+	}
+
+	ChangeAnimation(Name);
+}
+
+bool CAnimation2DComponent::IsCurrentAnimationEnd() const
+{
+	if (!mCurrentAnimation)
+	{
+		return false;
+	}
+
+	return mCurrentAnimation->IsEnd();
+}
+
+std::weak_ptr<CAnimation2DSequence> CAnimation2DComponent::FindSequence(const std::string& Name) const
+{
+	auto iter = mAnimationMap.find(Name);
+
+	if (iter == mAnimationMap.end())
+	{
+		return std::weak_ptr<CAnimation2DSequence>();
+	}
+
+	return iter->second;
 }
 
 void CAnimation2DComponent::SetPlayTime(const std::string& Name, float PlayTime)
@@ -353,6 +419,13 @@ void CAnimation2DComponent::SetPaletteIndex(int Index)
 
 void CAnimation2DComponent::SetShader()
 {
+	//메시가 애니메이션을 물고 있어도 시퀀스가 하나도 없을 수 있다.
+	//(월드에서 불러온 이름이 애니메이션 매니저에 없을 때)
+	if (!mCurrentAnimation)
+	{
+		return;
+	}
+
 	//SetShader에서 상수버퍼에 데이터를 레지스터에 등록하기전에
 	//데이터를 전부 업데이트해준다.
 	int Frame = mCurrentAnimation->GetFrame();
@@ -396,6 +469,7 @@ void CAnimation2DComponent::SetShader()
 
 	mCBufferPalette->UpdateBuffer();
 	mCBufferAnim2D->UpdateBuffer();
+
 }
 
 void CAnimation2DComponent::RefreshTexture()
@@ -420,8 +494,15 @@ void CAnimation2DComponent::RefreshTexture()
 		{
 			//상수버퍼의 텍스처 타입을 갱신한다.
 			mCBufferAnim2D->SetAnimation2DTextureType(Anim->GetType());
+
 			//메쉬 컴포넌트의 텍스처를 애니메이션의 텍스처로 변경한다.
-			MeshComp->SetTexture(0, 0, Anim->GetTexture());
+			//단, 애니메이션이 텍스처를 못 들고 있으면 그냥 둔다.
+			//빈 것을 넘기면 머티리얼에 물려 있던 멀쩡한 텍스처까지 지워져서
+			//그 뒤로 아무것도 안 그려진다. (애니메이션을 바꾼 순간부터 화면이 비는 경로)
+			if (!Anim->GetTexture().expired())
+			{
+				MeshComp->SetTexture(0, 0, Anim->GetTexture());
+			}
 		}
 	}
 }
@@ -571,8 +652,39 @@ void CAnimation2DComponent::Load(const std::unordered_map<std::string, std::stri
 			//숫자가 깨졌으면 기본값으로 둔다.
 		}
 
-		AddAnimation(Fields[0], PlayTime, PlayRate,
-			Fields[3] == "1", Fields[4] == "1", Fields[5] == "1");
+		bool Loop     = (Fields[3] == "1");
+		bool Reverse  = (Fields[4] == "1");
+		bool Symmetry = (Fields[5] == "1");
+
+		//.anim2d 에셋이 우선이다.
+		//여기 적힌 값은 저장 당시의 사본일 뿐인데, 그대로 적용하면
+		//  · PlayTime이 SetPlayTime -> ScaleTotalDuration을 타면서
+		//    에셋이 들고 있는 프레임별 재생 시간을 통째로 비율 조정해버리고
+		//  · 애님 에디터에서 고쳐 저장한 PlayRate/Loop/Reverse/Symmetry가 덮인다.
+		//결과적으로 애니메이션을 저장해도 월드를 불러오면 예전 값으로 돌아간다.
+		if (auto AnimMgr = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D))
+		{
+			auto Anim = AnimMgr->FindAnimation(Fields[0]).lock();
+
+			if (Anim)
+			{
+				//프레임별 시간의 합이 곧 총 재생 시간이다. 같은 값을 넣어 비율 조정을 무효화한다.
+				if (Anim->GetFrameCount() > 0)
+				{
+					PlayTime = Anim->GetTotalDuration();
+				}
+
+				if (Anim->HasPlaySettings())
+				{
+					PlayRate = Anim->GetPlayRate();
+					Loop     = Anim->GetLoop();
+					Reverse  = Anim->GetReverse();
+					Symmetry = Anim->GetSymmetry();
+				}
+			}
+		}
+
+		AddAnimation(Fields[0], PlayTime, PlayRate, Loop, Reverse, Symmetry);
 	}
 
 	//현재 시퀀스 복원.

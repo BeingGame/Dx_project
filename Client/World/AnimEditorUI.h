@@ -13,7 +13,7 @@ struct CAnimRegistry
     inline static std::vector<std::string> sNames;
     static void Register(const std::string& Name)
     {
-        for (auto& N : sNames) if (N == Name) return;
+        for (auto& Registered : sNames) if (Registered == Name) return;
         sNames.push_back(Name);
     }
     static const std::vector<std::string>& GetAll() { return sNames; }
@@ -30,8 +30,29 @@ struct CAnimRegistry
 
     static FVector2 GetPivot(const std::string& Name)
     {
-        auto It = sPivots.find(Name);
-        return (It != sPivots.end()) ? It->second : FVector2(0.f, 0.f);
+        auto Found = sPivots.find(Name);
+        return (Found != sPivots.end()) ? Found->second : FVector2(0.f, 0.f);
+    }
+
+    // 애니메이션 이름 → 그 이름을 등록한 .anim2d 경로.
+    //
+    // 애니메이션은 파일 이름이 아니라 파일 안의 AnimName으로 구분된다.
+    // 그래서 백업하려고 파일만 복사해두면(예: PlayerBasicAttack3 → ...original)
+    // 두 파일이 같은 이름을 주장하게 되고, 폴더를 통째로 읽을 때 뒤에 읽힌 쪽이
+    // 앞의 것을 덮어써버린다. 저장은 됐는데 다시 켜면 옛날 데이터가 나오는 원인이다.
+    // 어느 파일이 그 이름을 먼저 가져갔는지 기억해두고 충돌을 잡아낸다.
+    inline static std::map<std::string, std::string> sSources;
+
+    static const std::string& GetSourceFile(const std::string& Name)
+    {
+        static const std::string Empty;
+        auto Found = sSources.find(Name);
+        return (Found != sSources.end()) ? Found->second : Empty;
+    }
+
+    static void SetSourceFile(const std::string& Name, const std::string& Path)
+    {
+        sSources[Name] = Path;
     }
 };
 
@@ -125,55 +146,69 @@ private:
     bool                        mShowFrameEditor = false;
 
     // ── 동적 위젯 핸들 ───────────────────────────────────────────────────────
-    struct FTabBtn   { std::weak_ptr<CButton> Btn; int Idx; };
-    struct FSeqBtn   { std::weak_ptr<CButton> Btn; int Idx; };
-    struct FPropBtn
+    struct FTabButton   { std::weak_ptr<CButton> Button; int Idx; };
+    struct FSeqButton   { std::weak_ptr<CButton> Button; int Idx; };
+    struct FPropButton
     {
         std::weak_ptr<CButton>    Minus, Plus;
-        std::weak_ptr<CTextBlock> Lbl;
-        std::weak_ptr<CButton>    ValBtn;   // 값 영역 — 더블클릭하면 직접 입력
+        std::weak_ptr<CTextBlock> Label;
+        std::weak_ptr<CButton>    ValButton;   // 값 영역 — 더블클릭하면 직접 입력
         float Step;
         int   Decimals = 1;                // 표시 소수 자릿수 (재생 시간은 0.01초 단위라 3이 필요)
-        std::function<float()>     Get;
-        std::function<void(float)> Set;
+        std::function<float()>     Getter;
+        std::function<void(float)> Setter;
+
+        // ── "All" (프레임 속성 행에만 있다) ──
+        // 켜두면 선택한 프레임 하나가 아니라 시퀀스의 모든 프레임에 적용된다.
+        //   +/- 버튼  → 모든 프레임을 Step만큼 밀어준다 (bDelta = true)
+        //   직접 입력 → 모든 프레임을 그 값으로 맞춘다  (bDelta = false)
+        std::function<void(float, bool)> SetAll;
+        std::weak_ptr<CButton>    AllButton;
+        std::weak_ptr<CTextBlock> AllLabel;
+        int AllIdx = -1;                   // mFramePropAll 인덱스 (-1이면 All 버튼이 없는 행)
     };
-    struct FToggleBtn
+    struct FToggleButton
     {
-        std::weak_ptr<CButton>    Btn;
-        std::weak_ptr<CTextBlock> Lbl;
-        std::function<bool()>     Get;
-        std::function<void(bool)> Set;
+        std::weak_ptr<CButton>    Button;
+        std::weak_ptr<CTextBlock> Label;
+        std::function<bool()>     Getter;
+        std::function<void(bool)> Setter;
     };
-    struct FRegBtn { std::weak_ptr<CButton> Btn; std::string Name; };
+    struct FRegButton { std::weak_ptr<CButton> Button; std::string Name; };
 
-    std::vector<FTabBtn>    mTabBtns;
-    std::vector<FSeqBtn>    mSeqBtns;
-    std::vector<FPropBtn>   mPropBtns;
-    std::vector<FToggleBtn> mToggleBtns;
-    std::vector<FRegBtn>    mRegBtns;
-    std::vector<FPropBtn>   mFramePropBtns;  // Start.X/Y, Size.W/H, Off.X/Y
+    std::vector<FTabButton>    mTabButtons;
+    std::vector<FSeqButton>    mSeqButtons;
+    std::vector<FPropButton>   mPropButtons;
+    std::vector<FToggleButton> mToggleButtons;
+    std::vector<FRegButton>    mRegButtons;
+    std::vector<FPropButton>   mFramePropButtons;  // Start.X/Y, Size.W/H, Off.X/Y, Dur
 
-    std::weak_ptr<CButton>    mAddToggleBtn;
+    // 프레임 속성 행마다 "All"이 켜져 있는지.
+    // 위젯은 Rebuild 때마다 새로 만들어지므로 상태는 여기 남겨둔다.
+    static constexpr int FRAME_PROP_MAX = 8;
+    bool mFramePropAll[FRAME_PROP_MAX] = {};
+
+    std::weak_ptr<CButton>    mAddToggleButton;
     std::weak_ptr<CTextBlock> mFrameCountText;
     std::weak_ptr<CTextBlock> mPlayTimeText;   // 프레임 Duration 합계 표시 (읽기 전용)
 
     // 프레임 에디터 위젯
-    std::weak_ptr<CButton>    mToggleFrameBtn;
-    std::weak_ptr<CButton>    mFramePrevBtn, mFrameNextBtn;
-    std::weak_ptr<CTextBlock> mFrameIdxLbl;
-    std::weak_ptr<CButton>    mAddFrameBtn, mDelFrameBtn, mClearFramesBtn;
+    std::weak_ptr<CButton>    mToggleFrameButton;
+    std::weak_ptr<CButton>    mFramePrevButton, mFrameNextButton;
+    std::weak_ptr<CTextBlock> mFrameIdxLabel;
+    std::weak_ptr<CButton>    mAddFrameButton, mDelFrameButton, mClearFramesButton;
 
     // 텍스처 / 타입
-    std::weak_ptr<CButton>    mSetTextureBtn;
-    std::weak_ptr<CButton>    mTypeToggleBtn;
+    std::weak_ptr<CButton>    mSetTextureButton;
+    std::weak_ptr<CButton>    mTypeToggleButton;
 
     // 저장 / 불러오기 / 새 애니메이션
-    std::weak_ptr<CButton>    mSaveAnimBtn, mLoadAnimBtn;
-    std::weak_ptr<CButton>    mNewAnimBtn;
+    std::weak_ptr<CButton>    mSaveAnimButton, mLoadAnimButton;
+    std::weak_ptr<CButton>    mNewAnimButton;
 
     // SpriteViewer 연동
     std::weak_ptr<class CSpriteViewerUI> mSpriteViewer;
-    std::weak_ptr<CButton>               mOpenViewerBtn;
+    std::weak_ptr<CButton>               mOpenViewerButton;
 
     // ── 값 직접 입력 (더블클릭 → 타이핑 → Enter) ────────────────────────────
     static constexpr float DOUBLE_CLICK_SEC = 0.35f;  // 더블클릭 인정 간격
@@ -185,7 +220,7 @@ private:
     float mLastClickTime  = -10.f;
 
     bool        mEditActive = false;
-    int         mEditList   = -1;    // 0 = mPropBtns, 1 = mFramePropBtns
+    int         mEditList   = -1;    // 0 = mPropButtons, 1 = mFramePropButtons
     int         mEditIdx    = -1;    // 해당 목록 내 인덱스
     std::string mEditBuffer;         // 타이핑 중인 문자열
 
@@ -193,7 +228,7 @@ public:
     void SetTarget(std::weak_ptr<class CActor> Actor);
     void RefreshTarget() { SetTarget(mTarget); }
     void Rebuild();
-    void SetSpriteViewer(std::weak_ptr<class CSpriteViewerUI> SV) { mSpriteViewer = SV; }
+    void SetSpriteViewer(std::weak_ptr<class CSpriteViewerUI> SpriteViewer) { mSpriteViewer = SpriteViewer; }
 
     virtual bool Init();
     virtual void Update(float DeltaTime);
@@ -224,27 +259,40 @@ private:
     void       HandleValueEditInput();   // 편집 중 키 입력 처리
     void       DetectValueDoubleClick(); // 값 영역 더블클릭 감지 → 편집 시작
     void       BeginEdit(int ListIdx, int RowIdx);
-    void       CommitEdit();             // Enter — 버퍼를 파싱해 Set 호출
+    void       CommitEdit();             // Enter — 버퍼를 파싱해 Setter 호출
     void       CancelEdit();             // Esc / 바깥 클릭 / Rebuild
     void       RefreshEditLabel();       // 편집 중인 행에 버퍼 + 캐럿 표시
-    FPropBtn*  GetEditProp();            // 편집 대상 행 (없으면 nullptr)
+    FPropButton*  GetEditProp();            // 편집 대상 행 (없으면 nullptr)
 
     // 파싱 + CAnimation2D 생성. OutInfo를 주면 읽어낸 시퀀스 설정을 채워준다.
-    static bool LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo = nullptr);
+    //
+    // bSkipDuplicateName: 그 AnimName을 이미 다른 파일이 가져갔으면 읽지 않고 물러난다.
+    //   폴더를 통째로 훑는 LoadAllAnims가 켜고 부른다. 사용자가 직접 고른
+    //   "Load Anim"은 덮어쓰는 게 의도이므로 끈 채로 부른다.
+    static bool LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo = nullptr,
+                                 bool bSkipDuplicateName = false);
 
 public:
     static void LoadAllAnims(); // Asset\Anim\ 폴더 전체 자동 로드
 
-    std::weak_ptr<CButton>    MakeBtn(const std::string& Name,
-        float X, float Y, float W, float H, float R, float G, float B);
-    std::weak_ptr<CTextBlock> MakeLbl(const std::string& Name,
-        float X, float Y, float W, float H, const wchar_t* Text,
+    std::weak_ptr<CButton>    MakeButton(const std::string& Name,
+        float X, float Y, float Width, float Height, float Red, float Green, float Blue);
+    std::weak_ptr<CTextBlock> MakeLabel(const std::string& Name,
+        float X, float Y, float Width, float Height, const wchar_t* Text,
         float FontSize = 12.f, ETextAlignH AlignH = ETextAlignH::Left);
 
     void AddPropRow(float& Y, const wchar_t* Label, float Step,
-        std::function<float()> Get, std::function<void(float)> Set);
+        std::function<float()> Getter, std::function<void(float)> Setter);
     void AddToggleRow(float& Y, const wchar_t* Label,
-        std::function<bool()> Get, std::function<void(bool)> Set);
+        std::function<bool()> Getter, std::function<void(bool)> Setter);
     void AddFramePropRow(float& Y, const wchar_t* Label, float Step,
-        std::function<float()> Get, std::function<void(float)> Set, int Decimals = 1);
+        std::function<float()> Getter, std::function<void(float)> Setter,
+        std::function<void(float, bool)> SetAll = nullptr, int Decimals = 1);
+
+    // 프레임의 실수 값 하나를 편집하는 행.
+    // Field는 프레임에서 그 값을 참조로 꺼내주는 함수다.
+    //   예) [](FFrameData& F) -> float& { return F.Size.x; }
+    // MinValue 아래로는 내려가지 않는다. 제한이 필요 없으면 아주 작은 값을 넘긴다.
+    void AddFrameFieldRow(float& Y, const wchar_t* Label, float Step,
+        std::function<float&(FFrameData&)> Field, float MinValue, int Decimals = 1);
 };

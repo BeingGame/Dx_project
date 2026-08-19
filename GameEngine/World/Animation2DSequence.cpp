@@ -51,6 +51,14 @@ void CAnimation2DSequence::Update(float DeltaTime)
         return;
     }
 
+    //멈춰 세운 동안에는 프레임을 진행시키지 않는다.
+    //노티파이는 그대로 확인해서, 멈춘 프레임에 걸린 알림이 누락되지 않게 한다.
+    if (mPaused)
+    {
+        CallNotify();
+        return;
+    }
+
     if (!mEnd)
     {
         auto Anim = mAnimation.lock();
@@ -150,6 +158,10 @@ void CAnimation2DSequence::PlayAnimation()
 void CAnimation2DSequence::Clear()
 {
     //애니메이션을 초기화해서 재실행될수있도록 만들어준다.
+
+    //멈춤은 초기화 시점에 반드시 풀어준다.
+    //안 그러면 멈춘 채로 교체된 시퀀스가 다음에 재생될 때도 그대로 서 있게 된다.
+    mPaused = false;
 
     if (!mAnimation.expired())
     {

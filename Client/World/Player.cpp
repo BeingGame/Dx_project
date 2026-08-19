@@ -581,11 +581,11 @@ void CPlayer::ReturnCamera()
 
 	if (World)
 	{
-		auto CameraMgr = World->GetCameraManager().lock();
+		auto CameraManager = World->GetCameraManager().lock();
 
-		if (CameraMgr)
+		if (CameraManager)
 		{
-			CameraMgr->ChangeMainCamera(mCamera);
+			CameraManager->ChangeMainCamera(mCamera);
 		}
 	}
 }

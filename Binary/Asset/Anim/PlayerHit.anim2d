@@ -5,7 +5,7 @@ TextureName ÇÁ¸®½ºÆ®_³´
 TextureRelPath Asset\Texture\Player\ÇÁ¸®½ºÆ®_³´.png
 PlayTime 1
 PlayRate 1
-Loop 1
+Loop 0
 Reverse 0
 Symmetry 0
 Pivot 207.87 133.51

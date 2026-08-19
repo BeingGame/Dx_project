@@ -40,6 +40,11 @@ void CMeshComponent::SetMesh(const std::weak_ptr<class CMesh> Mesh)
 
 	auto _Mesh = mMesh.lock();
 
+	//메쉬를 바꾸면 슬롯도 새 메쉬 것으로 갈아엎는다.
+	//예전에는 지우지 않고 push_back만 해서, 메쉬를 두 번 고르면 슬롯이 쌓이고
+	//슬롯 0은 계속 옛날 메쉬의 머티리얼을 가리키고 있었다.
+	mMaterialSlot.clear();
+
 	if (_Mesh)
 	{
 		size_t Size = _Mesh->GetMeshSlot().size();
@@ -61,7 +66,19 @@ void CMeshComponent::SetMesh(const std::string& Name)
 
 	if (MeshMgr)
 	{
-		auto Check = MeshMgr->FindMesh(Name);
+		//FindMesh는 이름 앞에 "Mesh_"를 붙여서 찾는다.
+		//그래서 CMesh::GetName()이 주는 "Mesh_TexRect"를 그대로 넘기면
+		//"Mesh_Mesh_TexRect"를 찾다가 실패한다. (예전 씬 파일이 이 형태로 저장돼 있다)
+		std::string Key = Name;
+
+		static const std::string Prefix = "Mesh_";
+
+		if (Key.size() > Prefix.size() && Key.compare(0, Prefix.size(), Prefix) == 0)
+		{
+			Key = Key.substr(Prefix.size());
+		}
+
+		auto Check = MeshMgr->FindMesh(Key);
 
 		if (Check.expired())
 		{
@@ -465,11 +482,15 @@ void CMeshComponent::Render()
 
 			Anim->SetShader();
 
+			//타입이 None(-1)으로 나오는 경우가 있다. (시퀀스가 비었거나 애니메이션 에셋이 끊겼을 때)
+			//예전에는 두 분기 어디에도 안 걸려서 SetMaterial 자체가 호출되지 않았고,
+			//그러면 텍스처도 샘플러도 안 물린 채로 그려져서 화면에서 사라졌다.
+			//이제는 스프라이트시트와 동일하게 처리해서 최소한 그림은 나오게 한다.
 			if (Anim->GetTextureType() == EAnimation2DTextureType::Frame)
 			{
 				mMaterialSlot[i]->SetMaterial(Anim->GetAnimationFrame());
 			}
-			else if (Anim->GetTextureType() == EAnimation2DTextureType::SpriteSheet)
+			else
 			{
 				mMaterialSlot[i]->SetMaterial();
 			}
@@ -496,8 +517,20 @@ void CMeshComponent::Destroy()
 void CMeshComponent::Save(std::ofstream& File) const
 {
 	CSceneComponent::Save(File);
+
+	//메쉬 이름은 "Mesh_" 접두사를 떼고 저장한다.
+	//불러올 때 쓰는 FindMesh가 접두사를 스스로 붙이기 때문이다.
 	auto Mesh = mMesh.lock();
-	if (Mesh) File << "Mesh=" << Mesh->GetName() << "\n";
+	if (Mesh)
+	{
+		std::string MeshName = Mesh->GetName();
+		static const std::string Prefix = "Mesh_";
+		if (MeshName.size() > Prefix.size() && MeshName.compare(0, Prefix.size(), Prefix) == 0)
+			MeshName = MeshName.substr(Prefix.size());
+
+		File << "Mesh=" << MeshName << "\n";
+	}
+
 	auto Shader = mShader.lock();
 	if (Shader) File << "Shader=" << Shader->GetName() << "\n";
 
@@ -506,28 +539,35 @@ void CMeshComponent::Save(std::ofstream& File) const
 	if (!MatName.empty())
 		File << "Material=" << MatName << "\n";
 
-	// 블렌드 스테이트
 	if (!mMaterialSlot.empty() && mMaterialSlot[0])
 	{
-		auto RS = mMaterialSlot[0]->GetBlendState().lock();
+		const auto& Mat = mMaterialSlot[0];
+
+		// 블렌드 스테이트
+		auto RS = Mat->GetBlendState().lock();
 		File << "Blend=" << (RS ? RS->GetName() : "(none)") << "\n";
+
+		// 인스펙터에서 고친 머티리얼 값.
+		// 슬롯의 머티리얼은 에셋의 복사본이라 여기 적어두지 않으면 되돌아간다.
+		const FVector4& Color = Mat->GetBaseColor();
+		File << "MatBaseColor=" << Color.x << " " << Color.y << " " << Color.z << " " << Color.w << "\n";
+		File << "MatOpacity=" << Mat->GetOpacity() << "\n";
 	}
 }
 
 void CMeshComponent::Load(const std::unordered_map<std::string, std::string>& Props)
 {
 	CSceneComponent::Load(Props);
+
+	// 1) 메쉬 — 머티리얼 슬롯이 여기서 만들어지므로 제일 먼저 처리해야 한다.
+	//    이게 실패하면 슬롯이 비어서 머티리얼/블렌드/색 전부 적용되지 않는다.
 	{
 		auto it = Props.find("Mesh");
 		if (it != Props.end() && !it->second.empty())
 			SetMesh(it->second);
 	}
-	{
-		auto it = Props.find("Shader");
-		if (it != Props.end() && !it->second.empty())
-			SetShader(it->second);
-	}
-	// 머티리얼: Mesh 로드 후 mMaterialSlot[0]이 생성된 뒤에 교체
+
+	// 2) 머티리얼 — 슬롯 0을 저장해 둔 머티리얼의 인스턴스로 교체한다.
 	{
 		auto it = Props.find("Material");
 		if (it != Props.end() && !it->second.empty())
@@ -537,20 +577,53 @@ void CMeshComponent::Load(const std::unordered_map<std::string, std::string>& Pr
 			{
 				auto NewMat = MatMgr->CreateMaterialInstance(it->second);
 				if (NewMat)
-				{
 					SetMaterialSlot(0, NewMat);
-					const std::string& ShaderName = NewMat->GetShaderName();
-					if (!ShaderName.empty())
-						SetShader(ShaderName);
-				}
 			}
 		}
 	}
-	// 블렌드 스테이트
+
+	// 3) 셰이더 — 저장된 값이 최종이다.
+	//    예전에는 머티리얼을 붙이면서 그 머티리얼의 셰이더로 덮어썼는데,
+	//    그러면 Animation2D로 저장해 둔 게 Material로 되돌아가 스프라이트 시트가
+	//    통째로 그려졌다. 파일에 셰이더가 없을 때만 머티리얼 쪽을 쓴다.
+	{
+		auto it = Props.find("Shader");
+		if (it != Props.end() && !it->second.empty())
+		{
+			SetShader(it->second);
+		}
+		else if (auto Mat = GetMaterial(0))
+		{
+			const std::string& ShaderName = Mat->GetShaderName();
+			if (!ShaderName.empty())
+				SetShader(ShaderName);
+		}
+	}
+
+	// 4) 블렌드 스테이트. "(none)"이면 머티리얼 에셋에 붙어 있던 것도 떼어낸다.
 	{
 		auto it = Props.find("Blend");
-		if (it != Props.end() && it->second != "(none)" && !it->second.empty())
-			SetBlendState(0, it->second);
+		if (it != Props.end() && !it->second.empty())
+			SetBlendState(0, it->second == "(none)" ? "" : it->second);
+	}
+
+	// 5) 인스펙터에서 고쳐둔 머티리얼 값
+	{
+		auto it = Props.find("MatBaseColor");
+		if (it != Props.end())
+		{
+			FVector4 Color(1.f, 1.f, 1.f, 1.f);
+			sscanf_s(it->second.c_str(), "%f %f %f %f", &Color.x, &Color.y, &Color.z, &Color.w);
+			SetBaseColor(0, Color);
+		}
+	}
+	{
+		auto it = Props.find("MatOpacity");
+		if (it != Props.end())
+		{
+			try { SetOpacity(0, std::stof(it->second)); }
+			catch (...) {}
+		}
 	}
 }
 

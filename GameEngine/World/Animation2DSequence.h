@@ -67,6 +67,10 @@ private:
 	//애니메이션의 실행을 멈춰줄 변수
 	bool mEnd = false;
 
+	//지금 자리에 세워둘지. (기본 공격 3타 모으기처럼 특정 프레임에서 붙잡아둘 때 쓴다)
+	//프레임만 멈추고 노티파이는 계속 확인한다.
+	bool mPaused = false;
+
 	//애니메이션 노티파이를 저장할 배열
 	std::vector<FAnimation2DNotify> mNotifyArray;
 
@@ -116,6 +120,25 @@ public:
 		return Anim->GetFrameCount();
 	}
 
+	//반복이 아닌 애니메이션이 마지막 프레임까지 갔는지.
+	//공격/피격처럼 "끝나면 원래 상태로 돌아가는" 동작이 이걸로 종료를 판단한다.
+	//(콜백 대신 매 프레임 물어보는 방식이라 소유자가 사라져도 안전하다)
+	bool IsEnd() const
+	{
+		return mEnd;
+	}
+
+	//현재 프레임에 머문 시간. (프레임이 왜 안 넘어가는지 볼 때 쓴다)
+	float GetTime() const
+	{
+		return mTime;
+	}
+
+	float GetFrameTime() const
+	{
+		return mFrameTime;
+	}
+
 	int GetFrame() const
 	{
 		return mFrame;
@@ -152,6 +175,17 @@ public:
 	bool GetLoop() const
 	{
 		return mLoop;
+	}
+
+	bool IsPaused() const
+	{
+		return mPaused;
+	}
+
+	//지금 프레임에 세워둔다. 풀어주면 그 프레임부터 이어서 재생된다.
+	void SetPause(bool Pause)
+	{
+		mPaused = Pause;
 	}
 
 	void SetAnimation(const std::weak_ptr<CAnimation2D>& Animation)
@@ -241,6 +275,22 @@ public:
 	void SetFinishFunction(T* Object, void(T::* Func)())
 	{
 		mFinishFunction = std::bind(Func, Object);
+	}
+
+	//람다/std::function을 그대로 넘기고 싶을 때 쓴다.
+	void AddNotify(const std::string& Name, int Frame, const std::function<void()>& Func)
+	{
+		FAnimation2DNotify Notify;
+		Notify.Name = Name;
+		Notify.Frame = Frame;
+		Notify.Function = Func;
+
+		mNotifyArray.push_back(Notify);
+	}
+
+	void SetFinishFunction(const std::function<void()>& Func)
+	{
+		mFinishFunction = Func;
 	}
 };
 

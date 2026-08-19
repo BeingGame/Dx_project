@@ -49,6 +49,10 @@ public:
 		mCurrentSpeed = Speed;
 	}
 
+protected:
+	//소유 액터의 루트 씬 컴포넌트를 이동 대상으로 물린다.
+	bool BindUpdateCompFromOwner();
+
 public:
 	virtual bool Init();
 	virtual void Update(float DeltaTime);

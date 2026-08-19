@@ -59,11 +59,18 @@ private:
     FVector2 mPanMouseStart  = {};
     FVector2 mPanOriginStart = {};  // 패닝 시작 시점의 {mTexLocalX, mTexLocalY}
 
+    // 프레임을 선택하면 그 프레임의 시작 지점을 확대해서 보여줄지.
+    // 뷰어 안에서 박스를 직접 클릭한 경우는 화면이 튀면 곤란하므로 건드리지 않고,
+    // 애님 에디터의 < > 로 프레임을 넘길 때(SelectFrame)만 따라간다.
+    bool mAutoFocus          = true;
+    std::weak_ptr<class CButton>    mFocusButton;
+    std::weak_ptr<class CTextBlock> mFocusLabel;
+
     // 방향키 LT 이동
     bool mMoveSliceLT        = false;
     bool mArrowKeysRegistered = false;
-    std::weak_ptr<class CButton>    mMoveSliceLTBtn;
-    std::weak_ptr<class CTextBlock> mMoveSliceLTLbl;
+    std::weak_ptr<class CButton>    mMoveSliceLTButton;
+    std::weak_ptr<class CTextBlock> mMoveSliceLTLabel;
 
     FVector2 mPanelPosStart;
     FVector2 mDragMouseStart;
@@ -73,13 +80,13 @@ private:
     int mStaticChildCount = 0;
 
     // 정적 위젯 핸들
-    std::weak_ptr<class CButton>    mBgBtn;
-    std::weak_ptr<class CButton>    mTexBtn;    // 스프라이트 시트 표시 버튼
-    std::weak_ptr<class CButton>    mCloseBtn;
-    std::weak_ptr<class CTextBlock> mZoomLbl;
-    std::weak_ptr<class CButton>    mZoomInBtn, mZoomOutBtn, mZoomFitBtn;
-    std::weak_ptr<class CTextBlock> mInfoLbl;
-    std::weak_ptr<class CButton>    mAddBtn, mDelBtn;
+    std::weak_ptr<class CButton>    mBgButton;
+    std::weak_ptr<class CButton>    mTexButton;    // 스프라이트 시트 표시 버튼
+    std::weak_ptr<class CButton>    mCloseButton;
+    std::weak_ptr<class CTextBlock> mZoomLabel;
+    std::weak_ptr<class CButton>    mZoomInButton, mZoomOutButton, mZoomFitButton;
+    std::weak_ptr<class CTextBlock> mInfoLabel;
+    std::weak_ptr<class CButton>    mAddButton, mDelButton;
 
     // 핸들 히트 영역 (위젯 경계 대신 수치로 보관 → 아웃라인 표현과 분리)
     struct FHitRect { float x = 0, y = 0, w = 0, h = 0; bool valid = false; };
@@ -100,7 +107,13 @@ public:
     // TexName: AssetManager에 등록된 텍스처 이름, TexSize: 픽셀 크기
     void ShowTexture(const std::string& TexName, FVector2 TexSize);
     void SetFrames(const std::vector<FFrameRect>& Frames, int Selected = -1);
-    void SelectFrame(int fi);
+    void SelectFrame(int FrameIdx);
+
+    // fi번 프레임의 시작(좌상단)이 잘 보이도록 배율과 위치를 잡는다.
+    void FocusFrame(int FrameIdx);
+
+    void SetAutoFocus(bool bOn);
+    bool IsAutoFocus() const { return mAutoFocus; }
 
     // 시퀀스가 들고 있는 피벗 값을 뷰어에 밀어넣는다. (시퀀스를 바꿀 때마다 호출)
     void SetPivot(float PivotX, float PivotY);
@@ -108,11 +121,11 @@ public:
     float GetPivotX() const { return mPivotX; }
     float GetPivotY() const { return mPivotY; }
 
-    void SetOnFrameChanged (std::function<void(int, FVector2, FVector2)> Fn) { mOnFrameChanged  = Fn; }
-    void SetOnFrameSelected(std::function<void(int)> Fn)                     { mOnFrameSelected = Fn; }
-    void SetOnFrameDeleted (std::function<void(int)> Fn)                     { mOnFrameDeleted  = Fn; }
-    void SetOnFrameAdded   (std::function<void(FVector2, FVector2)> Fn)      { mOnFrameAdded    = Fn; }
-    void SetOnPivotChanged (std::function<void(float, float)> Fn)            { mOnPivotChanged  = Fn; }
+    void SetOnFrameChanged (std::function<void(int, FVector2, FVector2)> Function) { mOnFrameChanged  = Function; }
+    void SetOnFrameSelected(std::function<void(int)> Function)                     { mOnFrameSelected = Function; }
+    void SetOnFrameDeleted (std::function<void(int)> Function)                     { mOnFrameDeleted  = Function; }
+    void SetOnFrameAdded   (std::function<void(FVector2, FVector2)> Function)      { mOnFrameAdded    = Function; }
+    void SetOnPivotChanged (std::function<void(float, float)> Function)            { mOnPivotChanged  = Function; }
 
     virtual bool Init() override;
     virtual void Update(float DeltaTime) override;
@@ -124,30 +137,31 @@ private:
     void ApplyZoom(float NewScale);
     void UpdateZoomLabel();
     void UpdateInfoLabel();
+    void UpdateFocusLabel();   // Focus 토글 버튼의 글자/색
 
     // 패널 로컬 좌표 → 텍스처 픽셀 좌표 (FrameDisp*의 역변환)
     FVector2 PanelToTex(FVector2 PanelLocalPos) const;
 
     // 텍스처 픽셀 좌표 → 패널 로컬 좌표. fi번 프레임 박스가 화면에서 차지하는 사각형.
-    float FrameDispX(int fi) const;
-    float FrameDispY(int fi) const;
-    float FrameDispW(int fi) const;
-    float FrameDispH(int fi) const;
+    float FrameDispX(int FrameIdx) const;
+    float FrameDispY(int FrameIdx) const;
+    float FrameDispW(int FrameIdx) const;
+    float FrameDispH(int FrameIdx) const;
 
     // 스크린 좌표 기준 히트 테스트
-    bool HitTestFrame (int fi,     FVector2 mouseScreen) const;
+    bool HitTestFrame (int FrameIdx,     FVector2 mouseScreen) const;
     bool HitTestHandle(int Corner, FVector2 mouseScreen) const; // 0=TL 1=TR 2=BL 3=BR
     bool IsInCanvas   (FVector2 mouseScreen) const;
 
-    std::weak_ptr<class CButton>    MakeBtn(const std::string& Name,
-        float X, float Y, float W, float H,
-        float R, float G, float B, float A = 1.f, int Z = 10);
-    std::weak_ptr<class CTextBlock> MakeLbl(const std::string& Name,
-        float X, float Y, float W, float H, const wchar_t* Text,
-        float FontSize = 12.f, ETextAlignH AlignH = ETextAlignH::Left, int Z = 11);
+    std::weak_ptr<class CButton>    MakeButton(const std::string& Name,
+        float X, float Y, float Width, float Height,
+        float Red, float Green, float Blue, float Alpha = 1.f, int ZOrder = 10);
+    std::weak_ptr<class CTextBlock> MakeLabel(const std::string& Name,
+        float X, float Y, float Width, float Height, const wchar_t* Text,
+        float FontSize = 12.f, ETextAlignH AlignH = ETextAlignH::Left, int ZOrder = 11);
 
     // 아웃라인 사각형: 두께 T인 4개 얇은 바로 구성
     void MakeRectBorder(const std::string& Prefix,
-        float X, float Y, float W, float H, float T,
-        float R, float G, float B, float A, int Z);
+        float X, float Y, float Width, float Height, float Thickness,
+        float Red, float Green, float Blue, float Alpha, int ZOrder);
 };

@@ -113,6 +113,8 @@ void CAnimation2D::AddFrame(const FVector2& Start, const FVector2& Size, const F
 	Frame.Duration = (Duration < 0.001f) ? 0.001f : Duration;
 
 	mFrameArray.push_back(Frame);
+
+	mFrameRatioDirty = true;
 }
 
 void CAnimation2D::AddFrame(float StartX, float StartY, float SizeX, float SizeY, float OffsetX, float OffsetY)
@@ -123,6 +125,8 @@ void CAnimation2D::AddFrame(float StartX, float StartY, float SizeX, float SizeY
 	Frame.Offset = FVector2(OffsetX, OffsetY);
 
 	mFrameArray.push_back(Frame);
+
+	mFrameRatioDirty = true;
 }
 
 void CAnimation2D::AddFrame(int Count, const FVector2& Start, const FVector2& Size, const FVector2& Offset)
@@ -136,6 +140,8 @@ void CAnimation2D::AddFrame(int Count, const FVector2& Start, const FVector2& Si
 
 		mFrameArray.push_back(Frame);
 	}
+
+	mFrameRatioDirty = true;
 }
 
 void CAnimation2D::AddFrame(int Count, float StartX, float StartY, float SizeX, float SizeY, float OffsetX, float OffsetY)
@@ -150,11 +156,16 @@ void CAnimation2D::AddFrame(int Count, float StartX, float StartY, float SizeX, 
 		mFrameArray.push_back(Frame);
 	}
 
+
+	mFrameRatioDirty = true;
 }
 
 void CAnimation2D::ClearFrame()
 {
 	mFrameArray.clear();
+
+	mMaxFrameSize    = FVector2(0.f, 0.f);
+	mFrameRatioDirty = true;
 }
 
 void CAnimation2D::CalculateFrameRatio()

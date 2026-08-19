@@ -73,6 +73,15 @@ public:
 	}
 
 public:
+	//루트가 메시 같은 실체 있는 컴포넌트면, 그 위에 빈 씬 컴포넌트를 끼워 넣고
+	//원래 루트를 자식으로 내린다. 이미 빈 루트면 아무것도 하지 않는다.
+	//
+	//필요한 이유: 이 판은 Y가 깊이 축이고 렌더러가 Y로 정렬한다.
+	//점프/피격으로 몸을 띄울 때 액터 자체의 Y를 올리면 뒤로 물러난 것으로
+	//취급되어 정렬과 판정이 어긋난다. 그래서 지면 위치(루트)와
+	//화면에 보이는 높이(자식 메시)를 갈라놓아야 한다.
+	std::weak_ptr<class CSceneComponent> InsertBareRoot(const std::string& Name = "Root");
+
 	void AttachActorToActor(const std::weak_ptr<CActor> OtherActor);
 	void DetachActorFromActor();
 

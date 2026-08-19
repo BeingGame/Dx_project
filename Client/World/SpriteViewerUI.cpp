@@ -17,42 +17,42 @@ CSpriteViewerUI::~CSpriteViewerUI() {}
 
 // ── 위젯 헬퍼 ────────────────────────────────────────────────────────────────
 
-std::weak_ptr<CButton> CSpriteViewerUI::MakeBtn(const std::string& Name,
-    float X, float Y, float W, float H,
-    float R, float G, float B, float A, int Z)
+std::weak_ptr<CButton> CSpriteViewerUI::MakeButton(const std::string& Name,
+    float X, float Y, float Width, float Height,
+    float Red, float Green, float Blue, float Alpha, int ZOrder)
 {
-    auto Btn = CreateWidget<CButton>(Name, Z).lock();
-    if (Btn)
+    auto Button = CreateWidget<CButton>(Name, ZOrder).lock();
+    if (Button)
     {
-        Btn->SetPos(X, Y);
-        Btn->SetSize(W, H);
-        float HR = min(R + .12f, 1.f), HG = min(G + .12f, 1.f), HB = min(B + .12f, 1.f);
-        float CR = min(R + .22f, 1.f), CG = min(G + .22f, 1.f), CB = min(B + .22f, 1.f);
-        Btn->SetTint(EWidgetState::Normal,  R,  G,  B,  A);
-        Btn->SetTint(EWidgetState::Hovered, HR, HG, HB, A);
-        Btn->SetTint(EWidgetState::Clicked, CR, CG, CB, A);
-        Btn->SetTint(EWidgetState::Release, HR, HG, HB, A);
-        Btn->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.15f, A * 0.5f);
+        Button->SetPos(X, Y);
+        Button->SetSize(Width, Height);
+        float HoverRed = min(Red + .12f, 1.f), HoverGreen = min(Green + .12f, 1.f), HoverBlue = min(Blue + .12f, 1.f);
+        float ClickRed = min(Red + .22f, 1.f), ClickGreen = min(Green + .22f, 1.f), ClickBlue = min(Blue + .22f, 1.f);
+        Button->SetTint(EWidgetState::Normal,  Red,  Green,  Blue,  Alpha);
+        Button->SetTint(EWidgetState::Hovered, HoverRed, HoverGreen, HoverBlue, Alpha);
+        Button->SetTint(EWidgetState::Clicked, ClickRed, ClickGreen, ClickBlue, Alpha);
+        Button->SetTint(EWidgetState::Release, HoverRed, HoverGreen, HoverBlue, Alpha);
+        Button->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.15f, Alpha * 0.5f);
     }
-    return Btn;
+    return Button;
 }
 
-std::weak_ptr<CTextBlock> CSpriteViewerUI::MakeLbl(const std::string& Name,
-    float X, float Y, float W, float H, const wchar_t* Text,
-    float FontSize, ETextAlignH AlignH, int Z)
+std::weak_ptr<CTextBlock> CSpriteViewerUI::MakeLabel(const std::string& Name,
+    float X, float Y, float Width, float Height, const wchar_t* Text,
+    float FontSize, ETextAlignH AlignH, int ZOrder)
 {
-    auto Lbl = CreateWidget<CTextBlock>(Name, Z).lock();
-    if (Lbl)
+    auto Label = CreateWidget<CTextBlock>(Name, ZOrder).lock();
+    if (Label)
     {
-        Lbl->SetPos(X, Y);
-        Lbl->SetSize(W, H);
-        Lbl->SetText(Text);
-        Lbl->SetFontSize(FontSize);
-        Lbl->SetTextColor(FVector4(0.88f, 0.88f, 0.92f, 1.f));
-        Lbl->SetAlignH(AlignH);
-        Lbl->SetAlignV(ETextAlignV::Middle);
+        Label->SetPos(X, Y);
+        Label->SetSize(Width, Height);
+        Label->SetText(Text);
+        Label->SetFontSize(FontSize);
+        Label->SetTextColor(FVector4(0.88f, 0.88f, 0.92f, 1.f));
+        Label->SetAlignH(AlignH);
+        Label->SetAlignV(ETextAlignV::Middle);
     }
-    return Lbl;
+    return Label;
 }
 
 
@@ -64,17 +64,17 @@ bool CSpriteViewerUI::Init()
     SetSize(PANEL_W, PANEL_H);
 
     // ── 배경 ──────────────────────────────────────────────────────────────────
-    auto Bg = CreateWidget<CButton>("SVBg", 0).lock();
-    if (Bg)
+    auto Background = CreateWidget<CButton>("SVBg", 0).lock();
+    if (Background)
     {
-        Bg->SetPos(0.f, 0.f);
-        Bg->SetSize(PANEL_W, PANEL_H);
-        Bg->SetTint(EWidgetState::Normal,  0.10f, 0.10f, 0.14f, 0.97f);
-        Bg->SetTint(EWidgetState::Hovered, 0.10f, 0.10f, 0.14f, 0.97f);
-        Bg->SetTint(EWidgetState::Clicked, 0.10f, 0.10f, 0.14f, 0.97f);
-        Bg->SetTint(EWidgetState::Release, 0.10f, 0.10f, 0.14f, 0.97f);
-        Bg->SetTint(EWidgetState::Disable, 0.10f, 0.10f, 0.14f, 0.97f);
-        mBgBtn = Bg;
+        Background->SetPos(0.f, 0.f);
+        Background->SetSize(PANEL_W, PANEL_H);
+        Background->SetTint(EWidgetState::Normal,  0.10f, 0.10f, 0.14f, 0.97f);
+        Background->SetTint(EWidgetState::Hovered, 0.10f, 0.10f, 0.14f, 0.97f);
+        Background->SetTint(EWidgetState::Clicked, 0.10f, 0.10f, 0.14f, 0.97f);
+        Background->SetTint(EWidgetState::Release, 0.10f, 0.10f, 0.14f, 0.97f);
+        Background->SetTint(EWidgetState::Disable, 0.10f, 0.10f, 0.14f, 0.97f);
+        mBgButton = Background;
     }
 
     // ── 타이틀 바 ──────────────────────────────────────────────────────────────
@@ -89,24 +89,24 @@ bool CSpriteViewerUI::Init()
         TitleBg->SetTint(EWidgetState::Release, 0.15f, 0.15f, 0.30f, 1.f);
         TitleBg->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.30f, 1.f);
     }
-    MakeLbl("SVTitleLbl", 6.f, 0.f, PANEL_W - 40.f, TITLE_H,
+    MakeLabel("SVTitleLbl", 6.f, 0.f, PANEL_W - 40.f, TITLE_H,
         TEXT("Sprite Viewer  (drag: move / corners: resize / Arrow: move / Space: dup / Ctrl+D: del)"), 11.f);
 
     // 닫기 버튼
     {
-        auto Cl = CreateWidget<CButton>("SVClose", 10).lock();
-        if (Cl)
+        auto CloseButton = CreateWidget<CButton>("SVClose", 10).lock();
+        if (CloseButton)
         {
-            Cl->SetPos(PANEL_W - 28.f, 2.f);
-            Cl->SetSize(24.f, TITLE_H - 4.f);
-            Cl->SetTint(EWidgetState::Normal,  0.55f, 0.15f, 0.15f, 1.f);
-            Cl->SetTint(EWidgetState::Hovered, 0.80f, 0.20f, 0.20f, 1.f);
-            Cl->SetTint(EWidgetState::Clicked, 0.90f, 0.25f, 0.25f, 1.f);
-            Cl->SetTint(EWidgetState::Release, 0.55f, 0.15f, 0.15f, 1.f);
-            Cl->SetTint(EWidgetState::Disable, 0.30f, 0.10f, 0.10f, 1.f);
-            mCloseBtn = Cl;
+            CloseButton->SetPos(PANEL_W - 28.f, 2.f);
+            CloseButton->SetSize(24.f, TITLE_H - 4.f);
+            CloseButton->SetTint(EWidgetState::Normal,  0.55f, 0.15f, 0.15f, 1.f);
+            CloseButton->SetTint(EWidgetState::Hovered, 0.80f, 0.20f, 0.20f, 1.f);
+            CloseButton->SetTint(EWidgetState::Clicked, 0.90f, 0.25f, 0.25f, 1.f);
+            CloseButton->SetTint(EWidgetState::Release, 0.55f, 0.15f, 0.15f, 1.f);
+            CloseButton->SetTint(EWidgetState::Disable, 0.30f, 0.10f, 0.10f, 1.f);
+            mCloseButton = CloseButton;
         }
-        MakeLbl("SVCloseL", PANEL_W - 28.f, 2.f, 24.f, TITLE_H - 4.f,
+        MakeLabel("SVCloseL", PANEL_W - 28.f, 2.f, 24.f, TITLE_H - 4.f,
             TEXT("X"), 13.f, ETextAlignH::Center);
     }
 
@@ -124,36 +124,36 @@ bool CSpriteViewerUI::Init()
             ZOut->SetTint(EWidgetState::Clicked, 0.42f, 0.42f, 0.52f, 1.f);
             ZOut->SetTint(EWidgetState::Release, 0.22f, 0.22f, 0.28f, 1.f);
             ZOut->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.18f, 1.f);
-            mZoomOutBtn = ZOut;
+            mZoomOutButton = ZOut;
         }
-        MakeLbl("SVZOutL", CtrlX, CtrlY, 24.f, 20.f, TEXT("-"), 12.f, ETextAlignH::Center);
+        MakeLabel("SVZOutL", CtrlX, CtrlY, 24.f, 20.f, TEXT("-"), 12.f, ETextAlignH::Center);
         CtrlX += 26.f;
 
-        auto ZLbl = CreateWidget<CTextBlock>("SVZLbl", 11).lock();
-        if (ZLbl) {
-            ZLbl->SetPos(CtrlX, CtrlY);
-            ZLbl->SetSize(56.f, 20.f);
-            ZLbl->SetText(TEXT("100%"));
-            ZLbl->SetFontSize(11.f);
-            ZLbl->SetTextColor(FVector4(0.9f, 0.9f, 0.9f, 1.f));
-            ZLbl->SetAlignH(ETextAlignH::Center);
-            ZLbl->SetAlignV(ETextAlignV::Middle);
-            mZoomLbl = ZLbl;
+        auto ZLabel = CreateWidget<CTextBlock>("SVZLbl", 11).lock();
+        if (ZLabel) {
+            ZLabel->SetPos(CtrlX, CtrlY);
+            ZLabel->SetSize(56.f, 20.f);
+            ZLabel->SetText(TEXT("100%"));
+            ZLabel->SetFontSize(11.f);
+            ZLabel->SetTextColor(FVector4(0.9f, 0.9f, 0.9f, 1.f));
+            ZLabel->SetAlignH(ETextAlignH::Center);
+            ZLabel->SetAlignV(ETextAlignV::Middle);
+            mZoomLabel = ZLabel;
         }
         CtrlX += 58.f;
 
-        auto ZIn = CreateWidget<CButton>("SVZIn", 10).lock();
-        if (ZIn) {
-            ZIn->SetPos(CtrlX, CtrlY);
-            ZIn->SetSize(24.f, 20.f);
-            ZIn->SetTint(EWidgetState::Normal,  0.22f, 0.22f, 0.28f, 1.f);
-            ZIn->SetTint(EWidgetState::Hovered, 0.32f, 0.32f, 0.40f, 1.f);
-            ZIn->SetTint(EWidgetState::Clicked, 0.42f, 0.42f, 0.52f, 1.f);
-            ZIn->SetTint(EWidgetState::Release, 0.22f, 0.22f, 0.28f, 1.f);
-            ZIn->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.18f, 1.f);
-            mZoomInBtn = ZIn;
+        auto ZoomInButton = CreateWidget<CButton>("SVZIn", 10).lock();
+        if (ZoomInButton) {
+            ZoomInButton->SetPos(CtrlX, CtrlY);
+            ZoomInButton->SetSize(24.f, 20.f);
+            ZoomInButton->SetTint(EWidgetState::Normal,  0.22f, 0.22f, 0.28f, 1.f);
+            ZoomInButton->SetTint(EWidgetState::Hovered, 0.32f, 0.32f, 0.40f, 1.f);
+            ZoomInButton->SetTint(EWidgetState::Clicked, 0.42f, 0.42f, 0.52f, 1.f);
+            ZoomInButton->SetTint(EWidgetState::Release, 0.22f, 0.22f, 0.28f, 1.f);
+            ZoomInButton->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.18f, 1.f);
+            mZoomInButton = ZoomInButton;
         }
-        MakeLbl("SVZInL", CtrlX, CtrlY, 24.f, 20.f, TEXT("+"), 12.f, ETextAlignH::Center);
+        MakeLabel("SVZInL", CtrlX, CtrlY, 24.f, 20.f, TEXT("+"), 12.f, ETextAlignH::Center);
         CtrlX += 26.f;
 
         auto ZFit = CreateWidget<CButton>("SVZFit", 10).lock();
@@ -165,36 +165,58 @@ bool CSpriteViewerUI::Init()
             ZFit->SetTint(EWidgetState::Clicked, 0.28f, 0.42f, 0.65f, 1.f);
             ZFit->SetTint(EWidgetState::Release, 0.15f, 0.25f, 0.42f, 1.f);
             ZFit->SetTint(EWidgetState::Disable, 0.10f, 0.15f, 0.25f, 1.f);
-            mZoomFitBtn = ZFit;
+            mZoomFitButton = ZFit;
         }
-        MakeLbl("SVZFitL", CtrlX, CtrlY, 40.f, 20.f, TEXT("Fit"), 10.f, ETextAlignH::Center);
+        MakeLabel("SVZFitL", CtrlX, CtrlY, 40.f, 20.f, TEXT("Fit"), 10.f, ETextAlignH::Center);
         CtrlX += 48.f;
 
         // ── Slice LT 토글 (방향키로 프레임 Start 이동, slice=Size 단위 / 아니면 연속) ──
-        auto MvBtn = CreateWidget<CButton>("SVMvSlice", 10).lock();
-        if (MvBtn)
+        auto MvButton = CreateWidget<CButton>("SVMvSlice", 10).lock();
+        if (MvButton)
         {
-            MvBtn->SetPos(CtrlX, CtrlY);
-            MvBtn->SetSize(86.f, 20.f);
-            MvBtn->SetTint(EWidgetState::Normal,  0.18f, 0.18f, 0.22f, 1.f);
-            MvBtn->SetTint(EWidgetState::Hovered, 0.26f, 0.26f, 0.32f, 1.f);
-            MvBtn->SetTint(EWidgetState::Clicked, 0.32f, 0.32f, 0.40f, 1.f);
-            MvBtn->SetTint(EWidgetState::Release, 0.18f, 0.18f, 0.22f, 1.f);
-            MvBtn->SetTint(EWidgetState::Disable, 0.12f, 0.12f, 0.15f, 1.f);
-            mMoveSliceLTBtn = MvBtn;
+            MvButton->SetPos(CtrlX, CtrlY);
+            MvButton->SetSize(86.f, 20.f);
+            MvButton->SetTint(EWidgetState::Normal,  0.18f, 0.18f, 0.22f, 1.f);
+            MvButton->SetTint(EWidgetState::Hovered, 0.26f, 0.26f, 0.32f, 1.f);
+            MvButton->SetTint(EWidgetState::Clicked, 0.32f, 0.32f, 0.40f, 1.f);
+            MvButton->SetTint(EWidgetState::Release, 0.18f, 0.18f, 0.22f, 1.f);
+            MvButton->SetTint(EWidgetState::Disable, 0.12f, 0.12f, 0.15f, 1.f);
+            mMoveSliceLTButton = MvButton;
         }
-        auto MvLbl = CreateWidget<CTextBlock>("SVMvSliceL", 11).lock();
-        if (MvLbl)
+        auto MvLabel = CreateWidget<CTextBlock>("SVMvSliceL", 11).lock();
+        if (MvLabel)
         {
-            MvLbl->SetPos(CtrlX, CtrlY);
-            MvLbl->SetSize(86.f, 20.f);
-            MvLbl->SetText(TEXT("[ ] Slice LT"));
-            MvLbl->SetFontSize(9.f);
-            MvLbl->SetTextColor(FVector4(0.75f, 0.75f, 0.80f, 1.f));
-            MvLbl->SetAlignH(ETextAlignH::Center);
-            MvLbl->SetAlignV(ETextAlignV::Middle);
-            mMoveSliceLTLbl = MvLbl;
+            MvLabel->SetPos(CtrlX, CtrlY);
+            MvLabel->SetSize(86.f, 20.f);
+            MvLabel->SetText(TEXT("[ ] Slice LT"));
+            MvLabel->SetFontSize(9.f);
+            MvLabel->SetTextColor(FVector4(0.75f, 0.75f, 0.80f, 1.f));
+            MvLabel->SetAlignH(ETextAlignH::Center);
+            MvLabel->SetAlignV(ETextAlignV::Middle);
+            mMoveSliceLTLabel = MvLabel;
         }
+        CtrlX += 88.f;
+
+        // ── Focus 토글 (프레임을 선택하면 그 시작 지점으로 확대) ──
+        auto FcButton = CreateWidget<CButton>("SVFocus", 10).lock();
+        if (FcButton)
+        {
+            FcButton->SetPos(CtrlX, CtrlY);
+            FcButton->SetSize(76.f, 20.f);
+            FcButton->SetTint(EWidgetState::Disable, 0.12f, 0.12f, 0.15f, 1.f);
+            mFocusButton = FcButton;
+        }
+        auto FcLabel = CreateWidget<CTextBlock>("SVFocusL", 11).lock();
+        if (FcLabel)
+        {
+            FcLabel->SetPos(CtrlX, CtrlY);
+            FcLabel->SetSize(76.f, 20.f);
+            FcLabel->SetFontSize(9.f);
+            FcLabel->SetAlignH(ETextAlignH::Center);
+            FcLabel->SetAlignV(ETextAlignV::Middle);
+            mFocusLabel = FcLabel;
+        }
+        UpdateFocusLabel();
     }
 
     // ── 캔버스 배경 ───────────────────────────────────────────────────────────
@@ -211,17 +233,17 @@ bool CSpriteViewerUI::Init()
     }
 
     // ── 텍스처 표시 버튼 (ShowTexture에서 크기/위치 업데이트) ─────────────────
-    auto TexBtn = CreateWidget<CButton>("SVTex", 2).lock();
-    if (TexBtn)
+    auto TexButton = CreateWidget<CButton>("SVTex", 2).lock();
+    if (TexButton)
     {
-        TexBtn->SetPos(0.f, CANVAS_Y);
-        TexBtn->SetSize(0.f, 0.f);
-        TexBtn->SetTint(EWidgetState::Normal,  1.f, 1.f, 1.f, 1.f);
-        TexBtn->SetTint(EWidgetState::Hovered, 1.f, 1.f, 1.f, 1.f);
-        TexBtn->SetTint(EWidgetState::Clicked, 1.f, 1.f, 1.f, 1.f);
-        TexBtn->SetTint(EWidgetState::Release, 1.f, 1.f, 1.f, 1.f);
-        TexBtn->SetTint(EWidgetState::Disable, 1.f, 1.f, 1.f, 1.f);
-        mTexBtn = TexBtn;
+        TexButton->SetPos(0.f, CANVAS_Y);
+        TexButton->SetSize(0.f, 0.f);
+        TexButton->SetTint(EWidgetState::Normal,  1.f, 1.f, 1.f, 1.f);
+        TexButton->SetTint(EWidgetState::Hovered, 1.f, 1.f, 1.f, 1.f);
+        TexButton->SetTint(EWidgetState::Clicked, 1.f, 1.f, 1.f, 1.f);
+        TexButton->SetTint(EWidgetState::Release, 1.f, 1.f, 1.f, 1.f);
+        TexButton->SetTint(EWidgetState::Disable, 1.f, 1.f, 1.f, 1.f);
+        mTexButton = TexButton;
     }
 
     // ── 정보 바 ───────────────────────────────────────────────────────────────
@@ -238,49 +260,49 @@ bool CSpriteViewerUI::Init()
         InfoBg->SetTint(EWidgetState::Disable, 0.13f, 0.13f, 0.18f, 1.f);
     }
 
-    auto InfoLbl = CreateWidget<CTextBlock>("SVInfo", 11).lock();
-    if (InfoLbl)
+    auto InfoLabel = CreateWidget<CTextBlock>("SVInfo", 11).lock();
+    if (InfoLabel)
     {
-        InfoLbl->SetPos(6.f, InfoY + 2.f);
-        InfoLbl->SetSize(PANEL_W - 116.f, INFO_H - 4.f);
-        InfoLbl->SetText(TEXT("텍스처를 설정한 뒤 Open Sprite Viewer를 클릭하세요."));
-        InfoLbl->SetFontSize(10.f);
-        InfoLbl->SetTextColor(FVector4(0.85f, 0.85f, 0.92f, 1.f));
-        InfoLbl->SetAlignV(ETextAlignV::Middle);
-        mInfoLbl = InfoLbl;
+        InfoLabel->SetPos(6.f, InfoY + 2.f);
+        InfoLabel->SetSize(PANEL_W - 116.f, INFO_H - 4.f);
+        InfoLabel->SetText(TEXT("텍스처를 설정한 뒤 Open Sprite Viewer를 클릭하세요."));
+        InfoLabel->SetFontSize(10.f);
+        InfoLabel->SetTextColor(FVector4(0.85f, 0.85f, 0.92f, 1.f));
+        InfoLabel->SetAlignV(ETextAlignV::Middle);
+        mInfoLabel = InfoLabel;
     }
 
     // [+ Add] 버튼 (커서 위치에 32x32 프레임 추가)
-    float InfoBtnX = PANEL_W - 108.f; // 정보 바 우측 버튼들의 가로 커서
-    auto AddBtn = CreateWidget<CButton>("SVAdd", 10).lock();
-    if (AddBtn)
+    float InfoButtonX = PANEL_W - 108.f; // 정보 바 우측 버튼들의 가로 커서
+    auto AddButton = CreateWidget<CButton>("SVAdd", 10).lock();
+    if (AddButton)
     {
-        AddBtn->SetPos(InfoBtnX, InfoY + 14.f);
-        AddBtn->SetSize(48.f, 22.f);
-        AddBtn->SetTint(EWidgetState::Normal,  0.14f, 0.34f, 0.14f, 1.f);
-        AddBtn->SetTint(EWidgetState::Hovered, 0.20f, 0.46f, 0.20f, 1.f);
-        AddBtn->SetTint(EWidgetState::Clicked, 0.26f, 0.56f, 0.26f, 1.f);
-        AddBtn->SetTint(EWidgetState::Release, 0.14f, 0.34f, 0.14f, 1.f);
-        AddBtn->SetTint(EWidgetState::Disable, 0.10f, 0.20f, 0.10f, 1.f);
-        mAddBtn = AddBtn;
+        AddButton->SetPos(InfoButtonX, InfoY + 14.f);
+        AddButton->SetSize(48.f, 22.f);
+        AddButton->SetTint(EWidgetState::Normal,  0.14f, 0.34f, 0.14f, 1.f);
+        AddButton->SetTint(EWidgetState::Hovered, 0.20f, 0.46f, 0.20f, 1.f);
+        AddButton->SetTint(EWidgetState::Clicked, 0.26f, 0.56f, 0.26f, 1.f);
+        AddButton->SetTint(EWidgetState::Release, 0.14f, 0.34f, 0.14f, 1.f);
+        AddButton->SetTint(EWidgetState::Disable, 0.10f, 0.20f, 0.10f, 1.f);
+        mAddButton = AddButton;
     }
-    MakeLbl("SVAddL", InfoBtnX, InfoY + 14.f, 48.f, 22.f, TEXT("+ Add"), 10.f, ETextAlignH::Center);
-    InfoBtnX += 52.f;
+    MakeLabel("SVAddL", InfoButtonX, InfoY + 14.f, 48.f, 22.f, TEXT("+ Add"), 10.f, ETextAlignH::Center);
+    InfoButtonX += 52.f;
 
     // [- Del] 버튼 (선택된 프레임 삭제)
-    auto DelBtn = CreateWidget<CButton>("SVDel", 10).lock();
-    if (DelBtn)
+    auto DelButton = CreateWidget<CButton>("SVDel", 10).lock();
+    if (DelButton)
     {
-        DelBtn->SetPos(InfoBtnX, InfoY + 14.f);
-        DelBtn->SetSize(48.f, 22.f);
-        DelBtn->SetTint(EWidgetState::Normal,  0.34f, 0.14f, 0.14f, 1.f);
-        DelBtn->SetTint(EWidgetState::Hovered, 0.46f, 0.20f, 0.20f, 1.f);
-        DelBtn->SetTint(EWidgetState::Clicked, 0.56f, 0.26f, 0.26f, 1.f);
-        DelBtn->SetTint(EWidgetState::Release, 0.34f, 0.14f, 0.14f, 1.f);
-        DelBtn->SetTint(EWidgetState::Disable, 0.20f, 0.10f, 0.10f, 1.f);
-        mDelBtn = DelBtn;
+        DelButton->SetPos(InfoButtonX, InfoY + 14.f);
+        DelButton->SetSize(48.f, 22.f);
+        DelButton->SetTint(EWidgetState::Normal,  0.34f, 0.14f, 0.14f, 1.f);
+        DelButton->SetTint(EWidgetState::Hovered, 0.46f, 0.20f, 0.20f, 1.f);
+        DelButton->SetTint(EWidgetState::Clicked, 0.56f, 0.26f, 0.26f, 1.f);
+        DelButton->SetTint(EWidgetState::Release, 0.34f, 0.14f, 0.14f, 1.f);
+        DelButton->SetTint(EWidgetState::Disable, 0.20f, 0.10f, 0.10f, 1.f);
+        mDelButton = DelButton;
     }
-    MakeLbl("SVDelL", InfoBtnX, InfoY + 14.f, 48.f, 22.f, TEXT("- Del"), 10.f, ETextAlignH::Center);
+    MakeLabel("SVDelL", InfoButtonX, InfoY + 14.f, 48.f, 22.f, TEXT("- Del"), 10.f, ETextAlignH::Center);
 
     mStaticChildCount = (int)mChildList.size();
     return true;
@@ -296,13 +318,13 @@ void CSpriteViewerUI::ShowTexture(const std::string& TexName, FVector2 TexSize)
 
     FitToCanvas();
 
-    if (auto B = mTexBtn.lock())
+    if (auto Button = mTexButton.lock())
     {
-        B->SetTexture(EWidgetState::Normal,  mTexName);
-        B->SetTexture(EWidgetState::Hovered, mTexName);
-        B->SetTexture(EWidgetState::Clicked, mTexName);
-        B->SetTexture(EWidgetState::Release, mTexName);
-        B->SetTexture(EWidgetState::Disable, mTexName);
+        Button->SetTexture(EWidgetState::Normal,  mTexName);
+        Button->SetTexture(EWidgetState::Hovered, mTexName);
+        Button->SetTexture(EWidgetState::Clicked, mTexName);
+        Button->SetTexture(EWidgetState::Release, mTexName);
+        Button->SetTexture(EWidgetState::Disable, mTexName);
     }
 
     RebuildFrameOverlays();
@@ -317,11 +339,88 @@ void CSpriteViewerUI::SetFrames(const std::vector<FFrameRect>& Frames, int Selec
     UpdateInfoLabel();
 }
 
-void CSpriteViewerUI::SelectFrame(int fi)
+void CSpriteViewerUI::SelectFrame(int FrameIdx)
 {
-    mSelectedFrame = (fi >= 0 && fi < (int)mFrames.size()) ? fi : -1;
+    mSelectedFrame = (FrameIdx >= 0 && FrameIdx < (int)mFrames.size()) ? FrameIdx : -1;
+
+    // Focus가 켜져 있으면 새로 고른 프레임의 시작 지점으로 화면을 옮긴다.
+    // (FocusFrame이 오버레이도 다시 만들어주므로 아래 RebuildFrameOverlays는 건너뛴다)
+    if (mAutoFocus && mSelectedFrame >= 0)
+    {
+        FocusFrame(mSelectedFrame);
+        UpdateInfoLabel();
+        return;
+    }
+
     RebuildFrameOverlays();
     UpdateInfoLabel();
+}
+
+// 선택한 프레임의 시작(좌상단)이 캔버스 왼쪽 위 근처에 오도록 확대해서 보여준다.
+// Start 값을 다듬을 때 그 모서리를 크게 봐야 하므로, 프레임 전체를 꽉 채우는 대신
+// 시작 지점을 기준으로 잡고 프레임이 캔버스의 절반쯤 되도록 배율을 정한다.
+void CSpriteViewerUI::FocusFrame(int FrameIdx)
+{
+    if (FrameIdx < 0 || FrameIdx >= (int)mFrames.size())
+    {
+        return;
+    }
+
+    const FFrameRect& Frame = mFrames[FrameIdx];
+
+    float FrameW = max(1.f, Frame.Size.x);
+    float FrameH = max(1.f, Frame.Size.y);
+
+    // 프레임이 캔버스의 절반 정도를 차지하는 배율. 주변도 같이 보여야 다루기 쉽다.
+    float Target = min(PANEL_W * 0.5f / FrameW, CANVAS_H * 0.5f / FrameH);
+
+    mScale = max(0.05f, min(Target, 12.f));
+
+    // 시작 지점을 캔버스의 30% 지점에 놓는다.
+    // 정중앙에 두면 프레임 몸통이 오른쪽 아래로 잘려나가기 때문이다.
+    float AnchorX = PANEL_W * 0.30f;
+    float AnchorY = CANVAS_Y + CANVAS_H * 0.30f;
+
+    mTexLocalX = AnchorX - Frame.Start.x * mScale;
+    mTexLocalY = AnchorY - Frame.Start.y * mScale;
+
+    if (auto Button = mTexButton.lock())
+    {
+        Button->SetPos(mTexLocalX, mTexLocalY);
+        Button->SetSize(mTexSize.x * mScale, mTexSize.y * mScale);
+    }
+
+    UpdateZoomLabel();
+    RebuildFrameOverlays();
+}
+
+void CSpriteViewerUI::SetAutoFocus(bool bOn)
+{
+    mAutoFocus = bOn;
+    UpdateFocusLabel();
+}
+
+void CSpriteViewerUI::UpdateFocusLabel()
+{
+    if (auto Label = mFocusLabel.lock())
+    {
+        Label->SetText(mAutoFocus ? TEXT("[v] Focus") : TEXT("[ ] Focus"));
+        Label->SetTextColor(mAutoFocus ? FVector4(0.70f, 1.f, 0.75f, 1.f)
+                                   : FVector4(0.75f, 0.75f, 0.80f, 1.f));
+    }
+
+    if (auto Button = mFocusButton.lock())
+    {
+        // 켜지면 초록, 꺼지면 회색 (Slice LT 토글과 같은 규칙)
+        float Red = mAutoFocus ? 0.10f : 0.18f;
+        float Green = mAutoFocus ? 0.38f : 0.18f;
+        float Blue = mAutoFocus ? 0.10f : 0.22f;
+
+        Button->SetTint(EWidgetState::Normal,  Red, Green, Blue, 1.f);
+        Button->SetTint(EWidgetState::Hovered, Red + 0.10f, Green + 0.10f, Blue + 0.10f, 1.f);
+        Button->SetTint(EWidgetState::Clicked, Red + 0.16f, Green + 0.16f, Blue + 0.16f, 1.f);
+        Button->SetTint(EWidgetState::Release, Red + 0.10f, Green + 0.10f, Blue + 0.10f, 1.f);
+    }
 }
 
 void CSpriteViewerUI::SetPivot(float PivotX, float PivotY)
@@ -347,10 +446,10 @@ void CSpriteViewerUI::FitToCanvas()
     mTexLocalX = (PANEL_W - DrawW) * 0.5f;
     mTexLocalY = CANVAS_Y + (CANVAS_H - DrawH) * 0.5f;
 
-    if (auto B = mTexBtn.lock())
+    if (auto Button = mTexButton.lock())
     {
-        B->SetPos(mTexLocalX, mTexLocalY);
-        B->SetSize(DrawW, DrawH);
+        Button->SetPos(mTexLocalX, mTexLocalY);
+        Button->SetSize(DrawW, DrawH);
     }
     UpdateZoomLabel();
 }
@@ -365,10 +464,10 @@ void CSpriteViewerUI::ApplyZoom(float NewScale)
     mTexLocalX = max(0.f, (PANEL_W - DrawW) * 0.5f);
     mTexLocalY = CANVAS_Y + max(0.f, (CANVAS_H - DrawH) * 0.5f);
 
-    if (auto B = mTexBtn.lock())
+    if (auto Button = mTexButton.lock())
     {
-        B->SetPos(mTexLocalX, mTexLocalY);
-        B->SetSize(DrawW, DrawH);
+        Button->SetPos(mTexLocalX, mTexLocalY);
+        Button->SetSize(DrawW, DrawH);
     }
     UpdateZoomLabel();
     RebuildFrameOverlays();
@@ -376,36 +475,36 @@ void CSpriteViewerUI::ApplyZoom(float NewScale)
 
 void CSpriteViewerUI::UpdateZoomLabel()
 {
-    if (auto L = mZoomLbl.lock())
+    if (auto Label = mZoomLabel.lock())
     {
-        TCHAR Buf[32];
-        swprintf_s(Buf, 32, L"%.0f%%", mScale * 100.f);
-        L->SetText(Buf);
+        TCHAR TextBuffer[32];
+        swprintf_s(TextBuffer, 32, L"%.0f%%", mScale * 100.f);
+        Label->SetText(TextBuffer);
     }
 }
 
 void CSpriteViewerUI::UpdateInfoLabel()
 {
-    if (auto L = mInfoLbl.lock())
+    if (auto Label = mInfoLabel.lock())
     {
         if (mFrames.empty())
         {
-            L->SetText(TEXT("프레임 없음  |  [+ Add]: 커서 위치에 32x32 프레임 추가"));
+            Label->SetText(TEXT("프레임 없음  |  [+ Add]: 커서 위치에 32x32 프레임 추가"));
         }
         else if (mSelectedFrame < 0 || mSelectedFrame >= (int)mFrames.size())
         {
-            TCHAR Buf[128];
-            swprintf_s(Buf, 128, L"총 %d 프레임  |  박스를 클릭해서 선택", (int)mFrames.size());
-            L->SetText(Buf);
+            TCHAR TextBuffer[128];
+            swprintf_s(TextBuffer, 128, L"총 %d 프레임  |  박스를 클릭해서 선택", (int)mFrames.size());
+            Label->SetText(TextBuffer);
         }
         else
         {
-            auto& F = mFrames[mSelectedFrame];
-            TCHAR Buf[160];
-            swprintf_s(Buf, 160, L"[%d/%d]  Start:(%.0f,%.0f)  Size:(%.0fx%.0f)  Pivot:(%.1f,%.1f)  |  드래그=이동  모서리=리사이즈  청선/자홍선=피벗",
+            auto& Frame = mFrames[mSelectedFrame];
+            TCHAR TextBuffer[160];
+            swprintf_s(TextBuffer, 160, L"[%d/%d]  Start:(%.0f,%.0f)  Size:(%.0fx%.0f)  Pivot:(%.1f,%.1f)  |  드래그=이동  모서리=리사이즈  청선/자홍선=피벗",
                 mSelectedFrame + 1, (int)mFrames.size(),
-                F.Start.x, F.Start.y, F.Size.x, F.Size.y, mPivotX, mPivotY);
-            L->SetText(Buf);
+                Frame.Start.x, Frame.Start.y, Frame.Size.x, Frame.Size.y, mPivotX, mPivotY);
+            Label->SetText(TextBuffer);
         }
     }
 }
@@ -418,25 +517,25 @@ FVector2 CSpriteViewerUI::PanelToTex(FVector2 PanelLocalPos) const
              (PanelLocalPos.y - mTexLocalY) / mScale };
 }
 
-float CSpriteViewerUI::FrameDispX(int fi) const { return mTexLocalX + mFrames[fi].Start.x * mScale; }
-float CSpriteViewerUI::FrameDispY(int fi) const { return mTexLocalY + mFrames[fi].Start.y * mScale; }
-float CSpriteViewerUI::FrameDispW(int fi) const { return max(2.f, mFrames[fi].Size.x * mScale); }
-float CSpriteViewerUI::FrameDispH(int fi) const { return max(2.f, mFrames[fi].Size.y * mScale); }
+float CSpriteViewerUI::FrameDispX(int FrameIdx) const { return mTexLocalX + mFrames[FrameIdx].Start.x * mScale; }
+float CSpriteViewerUI::FrameDispY(int FrameIdx) const { return mTexLocalY + mFrames[FrameIdx].Start.y * mScale; }
+float CSpriteViewerUI::FrameDispW(int FrameIdx) const { return max(2.f, mFrames[FrameIdx].Size.x * mScale); }
+float CSpriteViewerUI::FrameDispH(int FrameIdx) const { return max(2.f, mFrames[FrameIdx].Size.y * mScale); }
 
 // ── 히트 테스트 ───────────────────────────────────────────────────────────────
 
 // 프레임 박스 안쪽(테두리가 아니라 전체 영역)을 눌렀는지
-bool CSpriteViewerUI::HitTestFrame(int fi, FVector2 mouseScreen) const
+bool CSpriteViewerUI::HitTestFrame(int FrameIdx, FVector2 mouseScreen) const
 {
-    if (fi < 0 || fi >= (int)mFrames.size()) return false;
+    if (FrameIdx < 0 || FrameIdx >= (int)mFrames.size()) return false;
 
     // 마우스를 패널 로컬 좌표로 옮긴다.
     FVector3 PanelPos = GetPos();
     float LocalX = mouseScreen.x - PanelPos.x;
     float LocalY = mouseScreen.y - PanelPos.y;
 
-    float BoxX = FrameDispX(fi), BoxY = FrameDispY(fi);
-    float BoxW = FrameDispW(fi), BoxH = FrameDispH(fi);
+    float BoxX = FrameDispX(FrameIdx), BoxY = FrameDispY(FrameIdx);
+    float BoxW = FrameDispW(FrameIdx), BoxH = FrameDispH(FrameIdx);
 
     return LocalX >= BoxX && LocalX < BoxX + BoxW &&
            LocalY >= BoxY && LocalY < BoxY + BoxH;
@@ -451,10 +550,10 @@ bool CSpriteViewerUI::HitTestHandle(int Corner, FVector2 mouseScreen) const
     float LocalX = mouseScreen.x - PanelPos.x;
     float LocalY = mouseScreen.y - PanelPos.y;
 
-    const auto& Hit = mHandleHitRects[Corner];
+    const auto& HitRect = mHandleHitRects[Corner];
 
-    return LocalX >= Hit.x && LocalX < Hit.x + Hit.w &&
-           LocalY >= Hit.y && LocalY < Hit.y + Hit.h;
+    return LocalX >= HitRect.x && LocalX < HitRect.x + HitRect.w &&
+           LocalY >= HitRect.y && LocalY < HitRect.y + HitRect.h;
 }
 
 bool CSpriteViewerUI::IsInCanvas(FVector2 mouseScreen) const
@@ -471,37 +570,37 @@ bool CSpriteViewerUI::IsInCanvas(FVector2 mouseScreen) const
 // 두께 T인 4개 얇은 바(Top/Bottom/Left/Right)로 빈 테두리를 그린다
 
 void CSpriteViewerUI::MakeRectBorder(const std::string& Prefix,
-    float X, float Y, float W, float H, float T,
-    float R, float G, float B, float A, int Z)
+    float X, float Y, float Width, float Height, float Thickness,
+    float Red, float Green, float Blue, float Alpha, int ZOrder)
 {
-    T = min(T, min(W, H) * 0.5f);
-    if (T <= 0.f) return;
+    Thickness = min(Thickness, min(Width, Height) * 0.5f);
+    if (Thickness <= 0.f) return;
 
-    auto SetAll = [&](std::shared_ptr<CButton> Btn)
+    auto SetAll = [&](std::shared_ptr<CButton> Button)
     {
-        Btn->SetTint(EWidgetState::Normal,  R, G, B, A);
-        Btn->SetTint(EWidgetState::Hovered, R, G, B, A);
-        Btn->SetTint(EWidgetState::Clicked, R, G, B, A);
-        Btn->SetTint(EWidgetState::Release, R, G, B, A);
-        Btn->SetTint(EWidgetState::Disable, R, G, B, A);
+        Button->SetTint(EWidgetState::Normal,  Red, Green, Blue, Alpha);
+        Button->SetTint(EWidgetState::Hovered, Red, Green, Blue, Alpha);
+        Button->SetTint(EWidgetState::Clicked, Red, Green, Blue, Alpha);
+        Button->SetTint(EWidgetState::Release, Red, Green, Blue, Alpha);
+        Button->SetTint(EWidgetState::Disable, Red, Green, Blue, Alpha);
     };
 
     // Top
-    if (auto Btn = CreateWidget<CButton>(Prefix + "T", Z).lock())
-    { Btn->SetPos(X, Y);           Btn->SetSize(W, T);           SetAll(Btn); }
+    if (auto Button = CreateWidget<CButton>(Prefix + "T", ZOrder).lock())
+    { Button->SetPos(X, Y);           Button->SetSize(Width, Thickness);           SetAll(Button); }
     // Bottom
-    if (auto Btn = CreateWidget<CButton>(Prefix + "B", Z).lock())
-    { Btn->SetPos(X, Y + H - T);  Btn->SetSize(W, T);           SetAll(Btn); }
+    if (auto Button = CreateWidget<CButton>(Prefix + "B", ZOrder).lock())
+    { Button->SetPos(X, Y + Height - Thickness);  Button->SetSize(Width, Thickness);           SetAll(Button); }
 
-    float InnerH = H - T * 2.f;
-    if (InnerH > 0.f)
+    float InnerHeight = Height - Thickness * 2.f;
+    if (InnerHeight > 0.f)
     {
         // Left
-        if (auto Btn = CreateWidget<CButton>(Prefix + "L", Z).lock())
-        { Btn->SetPos(X, Y + T);       Btn->SetSize(T, InnerH);  SetAll(Btn); }
+        if (auto Button = CreateWidget<CButton>(Prefix + "L", ZOrder).lock())
+        { Button->SetPos(X, Y + Thickness);       Button->SetSize(Thickness, InnerHeight);  SetAll(Button); }
         // Right
-        if (auto Btn = CreateWidget<CButton>(Prefix + "R", Z).lock())
-        { Btn->SetPos(X + W - T, Y + T); Btn->SetSize(T, InnerH); SetAll(Btn); }
+        if (auto Button = CreateWidget<CButton>(Prefix + "R", ZOrder).lock())
+        { Button->SetPos(X + Width - Thickness, Y + Thickness); Button->SetSize(Thickness, InnerHeight); SetAll(Button); }
     }
 }
 
@@ -515,20 +614,20 @@ void CSpriteViewerUI::RebuildFrameOverlays()
     // resize는 정적 위젯을 잘라내고 동적 위젯을 남기는 버그를 일으킨다.
     mChildList.erase(
         std::remove_if(mChildList.begin(), mChildList.end(),
-            [](const std::shared_ptr<CWidget>& w)
+            [](const std::shared_ptr<CWidget>& Widget)
             {
-                const std::string& n = w->GetName();
-                return n.size() >= 4 &&
-                    (n.compare(0, 4, "SVFr") == 0 ||
-                     n.compare(0, 4, "SVHa") == 0 ||
-                     n.compare(0, 4, "SVPi") == 0);
+                const std::string& WidgetName = Widget->GetName();
+                return WidgetName.size() >= 4 &&
+                    (WidgetName.compare(0, 4, "SVFr") == 0 ||
+                     WidgetName.compare(0, 4, "SVHa") == 0 ||
+                     WidgetName.compare(0, 4, "SVPi") == 0);
             }),
         mChildList.end());
-    for (auto& R : mHandleHitRects) R.valid = false;
+    for (auto& Rect : mHandleHitRects) Rect.valid = false;
 
     // 캔버스 유효 범위 (패널 로컬 좌표) — 이 밖으로 나가는 부분은 잘라낸다
-    const float CanvasL = 0.f,      CanvasR = PANEL_W;
-    const float CanvasT = CANVAS_Y, CanvasB = CANVAS_Y + CANVAS_H;
+    const float CanvasLeft = 0.f,      CanvasRight = PANEL_W;
+    const float CanvasTop = CANVAS_Y, CanvasBottom = CANVAS_Y + CANVAS_H;
 
     // ── 선택된 프레임 박스 (ZOrder 5 → 캔버스/텍스처 위) ─────────────────────
     // 모든 프레임을 그리지 않고 편집 중인 하나만 그린다.
@@ -539,20 +638,20 @@ void CSpriteViewerUI::RebuildFrameOverlays()
         float BoxX = FrameDispX(mSelectedFrame), BoxY = FrameDispY(mSelectedFrame);
         float BoxW = FrameDispW(mSelectedFrame), BoxH = FrameDispH(mSelectedFrame);
 
-        float ClipL = max(BoxX, CanvasL), ClipR = min(BoxX + BoxW, CanvasR);
-        float ClipT = max(BoxY, CanvasT), ClipB = min(BoxY + BoxH, CanvasB);
+        float ClipLeft = max(BoxX, CanvasLeft), ClipRight = min(BoxX + BoxW, CanvasRight);
+        float ClipTop = max(BoxY, CanvasTop), ClipBottom = min(BoxY + BoxH, CanvasBottom);
 
-        if (ClipR > ClipL && ClipB > ClipT)
+        if (ClipRight > ClipLeft && ClipBottom > ClipTop)
         {
-            if (auto B = CreateWidget<CButton>("SVFrBox", 5).lock())
+            if (auto Button = CreateWidget<CButton>("SVFrBox", 5).lock())
             {
-                B->SetPos(ClipL, ClipT);
-                B->SetSize(ClipR - ClipL, ClipB - ClipT);
-                B->SetTint(EWidgetState::Normal,  1.f, 0.85f, 0.10f, 0.25f);
-                B->SetTint(EWidgetState::Hovered, 1.f, 0.85f, 0.10f, 0.25f);
-                B->SetTint(EWidgetState::Clicked, 1.f, 0.85f, 0.10f, 0.25f);
-                B->SetTint(EWidgetState::Release, 1.f, 0.85f, 0.10f, 0.25f);
-                B->SetTint(EWidgetState::Disable, 1.f, 0.85f, 0.10f, 0.25f);
+                Button->SetPos(ClipLeft, ClipTop);
+                Button->SetSize(ClipRight - ClipLeft, ClipBottom - ClipTop);
+                Button->SetTint(EWidgetState::Normal,  1.f, 0.85f, 0.10f, 0.25f);
+                Button->SetTint(EWidgetState::Hovered, 1.f, 0.85f, 0.10f, 0.25f);
+                Button->SetTint(EWidgetState::Clicked, 1.f, 0.85f, 0.10f, 0.25f);
+                Button->SetTint(EWidgetState::Release, 1.f, 0.85f, 0.10f, 0.25f);
+                Button->SetTint(EWidgetState::Disable, 1.f, 0.85f, 0.10f, 0.25f);
             }
         }
     }
@@ -578,15 +677,15 @@ void CSpriteViewerUI::RebuildFrameOverlays()
             mHandleHitRects[Corner] = { HandleX[Corner], HandleY[Corner], HandleSize, HandleSize, true };
 
             // 캔버스와 전혀 안 겹치면 시각 생략
-            if (HandleX[Corner] + HandleSize <= CanvasL || HandleX[Corner] >= CanvasR ||
-                HandleY[Corner] + HandleSize <= CanvasT || HandleY[Corner] >= CanvasB)
+            if (HandleX[Corner] + HandleSize <= CanvasLeft || HandleX[Corner] >= CanvasRight ||
+                HandleY[Corner] + HandleSize <= CanvasTop || HandleY[Corner] >= CanvasBottom)
                 continue;
 
             // 캔버스 범위로 잘라낸 뒤 아웃라인 그리기
-            float ClipX = max(HandleX[Corner], CanvasL);
-            float ClipY = max(HandleY[Corner], CanvasT);
-            float ClipW = min(HandleX[Corner] + HandleSize, CanvasR) - ClipX;
-            float ClipH = min(HandleY[Corner] + HandleSize, CanvasB) - ClipY;
+            float ClipX = max(HandleX[Corner], CanvasLeft);
+            float ClipY = max(HandleY[Corner], CanvasTop);
+            float ClipW = min(HandleX[Corner] + HandleSize, CanvasRight) - ClipX;
+            float ClipH = min(HandleY[Corner] + HandleSize, CanvasBottom) - ClipY;
 
             if (ClipW > 0.f && ClipH > 0.f)
                 MakeRectBorder("SVHa" + to_string(Corner), ClipX, ClipY, ClipW, ClipH, 2.f,
@@ -600,31 +699,31 @@ void CSpriteViewerUI::RebuildFrameOverlays()
     if (mSelectedFrame >= 0 && mSelectedFrame < (int)mFrames.size())
     {
         auto MakePivotLine = [&](const std::string& Name,
-            float X, float Y, float W, float H, float R, float G, float B2)
+            float X, float Y, float Width, float Height, float Red, float Green, float Blue)
         {
-            if (auto B = CreateWidget<CButton>(Name, 9).lock())
+            if (auto Button = CreateWidget<CButton>(Name, 9).lock())
             {
-                B->SetPos(X, Y);
-                B->SetSize(W, H);
-                B->SetTint(EWidgetState::Normal,  R, G, B2, 0.55f);
-                B->SetTint(EWidgetState::Hovered, R, G, B2, 0.85f);
-                B->SetTint(EWidgetState::Clicked, 1.f, 1.f, 0.f, 1.f);
-                B->SetTint(EWidgetState::Release, R, G, B2, 0.55f);
-                B->SetTint(EWidgetState::Disable, R, G, B2, 0.55f);
+                Button->SetPos(X, Y);
+                Button->SetSize(Width, Height);
+                Button->SetTint(EWidgetState::Normal,  Red, Green, Blue, 0.55f);
+                Button->SetTint(EWidgetState::Hovered, Red, Green, Blue, 0.85f);
+                Button->SetTint(EWidgetState::Clicked, 1.f, 1.f, 0.f, 1.f);
+                Button->SetTint(EWidgetState::Release, Red, Green, Blue, 0.55f);
+                Button->SetTint(EWidgetState::Disable, Red, Green, Blue, 0.55f);
             }
         };
 
         // 세로선 — 행을 가로지른다 (청록)
         float PivotLocalX = FrameDispX(mSelectedFrame) + mPivotX * mScale;
-        if (PivotLocalX >= CanvasL && PivotLocalX < CanvasR)
-            MakePivotLine("SVPivX", max(PivotLocalX - 1.f, CanvasL), CanvasT,
-                2.f, CanvasB - CanvasT, 0.f, 1.f, 1.f);
+        if (PivotLocalX >= CanvasLeft && PivotLocalX < CanvasRight)
+            MakePivotLine("SVPivX", max(PivotLocalX - 1.f, CanvasLeft), CanvasTop,
+                2.f, CanvasBottom - CanvasTop, 0.f, 1.f, 1.f);
 
         // 가로선 — 열을 가로지른다 (자홍) — 세로선과 구분되게 색을 다르게 준다
         float PivotLocalY = FrameDispY(mSelectedFrame) + mPivotY * mScale;
-        if (PivotLocalY >= CanvasT && PivotLocalY < CanvasB)
-            MakePivotLine("SVPivY", CanvasL, max(PivotLocalY - 1.f, CanvasT),
-                CanvasR - CanvasL, 2.f, 1.f, 0.f, 1.f);
+        if (PivotLocalY >= CanvasTop && PivotLocalY < CanvasBottom)
+            MakePivotLine("SVPivY", CanvasLeft, max(PivotLocalY - 1.f, CanvasTop),
+                CanvasRight - CanvasLeft, 2.f, 1.f, 0.f, 1.f);
     }
 }
 
@@ -648,31 +747,41 @@ void CSpriteViewerUI::Update(float DeltaTime)
     FVector3 PanelPos = GetPos();
 
     // ── 닫기 ──────────────────────────────────────────────────────────────────
-    if (auto B = mCloseBtn.lock(); B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mCloseButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     { SetEnable(false); return; }
 
     // ── 줌 컨트롤 ─────────────────────────────────────────────────────────────
-    if (auto B = mZoomInBtn.lock();  B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mZoomInButton.lock();  Button && Button->GetWidgetState() == EWidgetState::Release)
     { ApplyZoom(mScale * 1.25f); }
-    if (auto B = mZoomOutBtn.lock(); B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mZoomOutButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     { ApplyZoom(mScale * 0.80f); }
-    if (auto B = mZoomFitBtn.lock(); B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mZoomFitButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     { FitToCanvas(); RebuildFrameOverlays(); }
 
+    // ── Focus 토글 버튼 ───────────────────────────────────────────────────────
+    // 켤 때는 지금 고른 프레임으로 바로 한 번 이동해준다.
+    if (auto Button = mFocusButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
+    {
+        SetAutoFocus(!mAutoFocus);
+
+        if (mAutoFocus && mSelectedFrame >= 0)
+            FocusFrame(mSelectedFrame);
+    }
+
     // ── Slice LT 토글 버튼 ────────────────────────────────────────────────────
-    if (auto B = mMoveSliceLTBtn.lock(); B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mMoveSliceLTButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         mMoveSliceLT = !mMoveSliceLT;
-        if (auto L = mMoveSliceLTLbl.lock())
-            L->SetText(mMoveSliceLT ? TEXT("[v] Slice LT") : TEXT("[ ] Slice LT"));
-        if (auto B2 = mMoveSliceLTBtn.lock())
+        if (auto Label = mMoveSliceLTLabel.lock())
+            Label->SetText(mMoveSliceLT ? TEXT("[v] Slice LT") : TEXT("[ ] Slice LT"));
+        if (auto SliceButton = mMoveSliceLTButton.lock())
         {
             // 켜지면 초록, 꺼지면 회색
             float TintR = mMoveSliceLT ? 0.10f : 0.18f;
             float TintG = mMoveSliceLT ? 0.38f : 0.18f;
             float TintB = mMoveSliceLT ? 0.10f : 0.22f;
-            B2->SetTint(EWidgetState::Normal,  TintR, TintG, TintB, 1.f);
-            B2->SetTint(EWidgetState::Hovered,
+            SliceButton->SetTint(EWidgetState::Normal,  TintR, TintG, TintB, 1.f);
+            SliceButton->SetTint(EWidgetState::Hovered,
                 min(TintR + .10f, 1.f), min(TintG + .10f, 1.f), min(TintB + .10f, 1.f), 1.f);
         }
     }
@@ -695,33 +804,33 @@ void CSpriteViewerUI::Update(float DeltaTime)
     // ── 방향키: 선택된 프레임 Start(LT) 이동 ────────────────────────────────
     if (mSelectedFrame >= 0 && mSelectedFrame < (int)mFrames.size())
     {
-        auto& F  = mFrames[mSelectedFrame];
+        auto& Frame  = mFrames[mSelectedFrame];
         constexpr float SPEED = 100.f;
-        float dx = 0.f, dy = 0.f;
+        float DeltaX = 0.f, DeltaY = 0.f;
 
         if (mMoveSliceLT)
         {
             // 슬라이스 단위 이동 — 좌/우는 Size.W, 상/하는 Size.H 만큼 한 칸씩
-            if (Input->GetKey(VK_LEFT,  EInputType::Press)) dx = -F.Size.x;
-            if (Input->GetKey(VK_RIGHT, EInputType::Press)) dx =  F.Size.x;
-            if (Input->GetKey(VK_UP,    EInputType::Press)) dy = -F.Size.y;
-            if (Input->GetKey(VK_DOWN,  EInputType::Press)) dy =  F.Size.y;
+            if (Input->GetKey(VK_LEFT,  EInputType::Press)) DeltaX = -Frame.Size.x;
+            if (Input->GetKey(VK_RIGHT, EInputType::Press)) DeltaX =  Frame.Size.x;
+            if (Input->GetKey(VK_UP,    EInputType::Press)) DeltaY = -Frame.Size.y;
+            if (Input->GetKey(VK_DOWN,  EInputType::Press)) DeltaY =  Frame.Size.y;
         }
         else
         {
-            if (Input->GetKey(VK_LEFT,  EInputType::Hold)) dx = -SPEED * DeltaTime;
-            if (Input->GetKey(VK_RIGHT, EInputType::Hold)) dx =  SPEED * DeltaTime;
-            if (Input->GetKey(VK_UP,    EInputType::Hold)) dy = -SPEED * DeltaTime;
-            if (Input->GetKey(VK_DOWN,  EInputType::Hold)) dy =  SPEED * DeltaTime;
+            if (Input->GetKey(VK_LEFT,  EInputType::Hold)) DeltaX = -SPEED * DeltaTime;
+            if (Input->GetKey(VK_RIGHT, EInputType::Hold)) DeltaX =  SPEED * DeltaTime;
+            if (Input->GetKey(VK_UP,    EInputType::Hold)) DeltaY = -SPEED * DeltaTime;
+            if (Input->GetKey(VK_DOWN,  EInputType::Hold)) DeltaY =  SPEED * DeltaTime;
         }
 
-        if (dx != 0.f || dy != 0.f)
+        if (DeltaX != 0.f || DeltaY != 0.f)
         {
-            F.Start.x = max(0.f, min(F.Start.x + dx, mTexSize.x - F.Size.x));
-            F.Start.y = max(0.f, min(F.Start.y + dy, mTexSize.y - F.Size.y));
+            Frame.Start.x = max(0.f, min(Frame.Start.x + DeltaX, mTexSize.x - Frame.Size.x));
+            Frame.Start.y = max(0.f, min(Frame.Start.y + DeltaY, mTexSize.y - Frame.Size.y));
             RebuildFrameOverlays();
             UpdateInfoLabel();
-            if (mOnFrameChanged) mOnFrameChanged(mSelectedFrame, F.Start, F.Size);
+            if (mOnFrameChanged) mOnFrameChanged(mSelectedFrame, Frame.Start, Frame.Size);
         }
     }
 
@@ -770,7 +879,7 @@ void CSpriteViewerUI::Update(float DeltaTime)
     }
 
     // ── 프레임 추가 (커서 위치) ────────────────────────────────────────────────
-    if (auto B = mAddBtn.lock(); B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mAddButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         float LocalX = Mouse.x - PanelPos.x;
         float LocalY = Mouse.y - PanelPos.y;
@@ -781,7 +890,7 @@ void CSpriteViewerUI::Update(float DeltaTime)
     }
 
     // ── 프레임 삭제 (선택된 프레임) ───────────────────────────────────────────
-    if (auto B = mDelBtn.lock(); B && B->GetWidgetState() == EWidgetState::Release)
+    if (auto Button = mDelButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
         if (mSelectedFrame >= 0 && mSelectedFrame < (int)mFrames.size())
         {
@@ -831,8 +940,8 @@ void CSpriteViewerUI::Update(float DeltaTime)
             {
                 mTexLocalX = mPanOriginStart.x + (Mouse.x - mPanMouseStart.x);
                 mTexLocalY = mPanOriginStart.y + (Mouse.y - mPanMouseStart.y);
-                if (auto B = mTexBtn.lock())
-                    B->SetPos(mTexLocalX, mTexLocalY);
+                if (auto Button = mTexButton.lock())
+                    Button->SetPos(mTexLocalX, mTexLocalY);
                 RebuildFrameOverlays();
             }
             if (RRelease) mCanvasPanning = false;
@@ -904,37 +1013,37 @@ void CSpriteViewerUI::Update(float DeltaTime)
     {
         if (Held)
         {
-            float dx = (Mouse.x - mDragMouseStart.x) / mScale;
-            float dy = (Mouse.y - mDragMouseStart.y) / mScale;
-            auto& F = mFrames[mSelectedFrame];
+            float DeltaX = (Mouse.x - mDragMouseStart.x) / mScale;
+            float DeltaY = (Mouse.y - mDragMouseStart.y) / mScale;
+            auto& Frame = mFrames[mSelectedFrame];
 
             switch (mResizeCorner)
             {
             case 0: // TL: Start 이동, Size 반대 방향
-                F.Start.x = mDragDataStart.x + dx;
-                F.Start.y = mDragDataStart.y + dy;
-                F.Size.x  = max(4.f, mDragSizeStart.x - dx);
-                F.Size.y  = max(4.f, mDragSizeStart.y - dy);
+                Frame.Start.x = mDragDataStart.x + DeltaX;
+                Frame.Start.y = mDragDataStart.y + DeltaY;
+                Frame.Size.x  = max(4.f, mDragSizeStart.x - DeltaX);
+                Frame.Size.y  = max(4.f, mDragSizeStart.y - DeltaY);
                 break;
             case 1: // TR: 위쪽 Start.y 이동, 오른쪽 Size.x 증가
-                F.Start.y = mDragDataStart.y + dy;
-                F.Size.x  = max(4.f, mDragSizeStart.x + dx);
-                F.Size.y  = max(4.f, mDragSizeStart.y - dy);
+                Frame.Start.y = mDragDataStart.y + DeltaY;
+                Frame.Size.x  = max(4.f, mDragSizeStart.x + DeltaX);
+                Frame.Size.y  = max(4.f, mDragSizeStart.y - DeltaY);
                 break;
             case 2: // BL: 왼쪽 Start.x 이동, 아래쪽 Size.y 증가
-                F.Start.x = mDragDataStart.x + dx;
-                F.Size.x  = max(4.f, mDragSizeStart.x - dx);
-                F.Size.y  = max(4.f, mDragSizeStart.y + dy);
+                Frame.Start.x = mDragDataStart.x + DeltaX;
+                Frame.Size.x  = max(4.f, mDragSizeStart.x - DeltaX);
+                Frame.Size.y  = max(4.f, mDragSizeStart.y + DeltaY);
                 break;
             case 3: // BR: Size 증가
-                F.Size.x = max(4.f, mDragSizeStart.x + dx);
-                F.Size.y = max(4.f, mDragSizeStart.y + dy);
+                Frame.Size.x = max(4.f, mDragSizeStart.x + DeltaX);
+                Frame.Size.y = max(4.f, mDragSizeStart.y + DeltaY);
                 break;
             }
 
             RebuildFrameOverlays();
             UpdateInfoLabel();
-            if (mOnFrameChanged) mOnFrameChanged(mSelectedFrame, F.Start, F.Size);
+            if (mOnFrameChanged) mOnFrameChanged(mSelectedFrame, Frame.Start, Frame.Size);
         }
         if (Release) mResizing = false;
         return;
@@ -977,15 +1086,15 @@ void CSpriteViewerUI::Update(float DeltaTime)
     {
         if (Held)
         {
-            float dx = (Mouse.x - mDragMouseStart.x) / mScale;
-            float dy = (Mouse.y - mDragMouseStart.y) / mScale;
-            auto& F = mFrames[mSelectedFrame];
-            F.Start.x = max(0.f, min(mDragDataStart.x + dx, mTexSize.x - F.Size.x));
-            F.Start.y = max(0.f, min(mDragDataStart.y + dy, mTexSize.y - F.Size.y));
+            float DeltaX = (Mouse.x - mDragMouseStart.x) / mScale;
+            float DeltaY = (Mouse.y - mDragMouseStart.y) / mScale;
+            auto& Frame = mFrames[mSelectedFrame];
+            Frame.Start.x = max(0.f, min(mDragDataStart.x + DeltaX, mTexSize.x - Frame.Size.x));
+            Frame.Start.y = max(0.f, min(mDragDataStart.y + DeltaY, mTexSize.y - Frame.Size.y));
 
             RebuildFrameOverlays();
             UpdateInfoLabel();
-            if (mOnFrameChanged) mOnFrameChanged(mSelectedFrame, F.Start, F.Size);
+            if (mOnFrameChanged) mOnFrameChanged(mSelectedFrame, Frame.Start, Frame.Size);
         }
         if (Release) mDragging = false;
     }

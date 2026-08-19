@@ -62,7 +62,7 @@ public:
     virtual void Update(float DeltaTime);
     virtual CEditorMenuBar* Clone();
 
-    void SetOnActorCreated(std::function<void(std::weak_ptr<class CActor>)> Fn) { mOnActorCreated = std::move(Fn); }
+    void SetOnActorCreated(std::function<void(std::weak_ptr<class CActor>)> Function) { mOnActorCreated = std::move(Function); }
     void SetSelectedActor(std::weak_ptr<class CActor> Actor) { mSelectedActor = Actor; }
 
     // Inspector에서 컴포넌트가 제거되면 프리팹 추적 목록에서도 지워준다.
@@ -85,7 +85,8 @@ public:
     void OnWidgetComponentClicked();
     void OnTileMapComponentClicked();
     void OnDirectionInputComponentClicked();
-    void OnAnimStateComponentClicked();
+    void OnActionStateComponentClicked();
+    void OnHeightComponentClicked();
 
     // Prefab 콜백
     void OnPrefabHovered();
@@ -102,8 +103,8 @@ public:
     void OnNewMaterialClicked();
 
 public:
-    void SetOnOpenMaterialEditor(std::function<void()> Fn) { mOnOpenMaterialEditor = std::move(Fn); }
-    void SetOnOpenAnimEditor(std::function<void()> Fn) { mOnOpenAnimEditor = std::move(Fn); }
+    void SetOnOpenMaterialEditor(std::function<void()> Function) { mOnOpenMaterialEditor = std::move(Function); }
+    void SetOnOpenAnimEditor(std::function<void()> Function) { mOnOpenAnimEditor = std::move(Function); }
     void OnAnimEditorClicked();
 
 private:

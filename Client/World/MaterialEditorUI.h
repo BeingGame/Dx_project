@@ -26,12 +26,12 @@ private:
 	// ── 드롭다운 콤보박스 ────────────────────────────────────────────────────
 	struct FMatDropdown
 	{
-		std::weak_ptr<class CTextBlock> ValueLbl;
-		std::weak_ptr<class CButton>    ToggleBtn;
-		std::weak_ptr<class CTextBlock> ToggleLbl;
+		std::weak_ptr<class CTextBlock> ValueLabel;
+		std::weak_ptr<class CButton>    ToggleButton;
+		std::weak_ptr<class CTextBlock> ToggleLabel;
 		std::weak_ptr<class CButton>    ListBg;
-		std::vector<std::weak_ptr<class CButton>>    ItemBtns;
-		std::vector<std::weak_ptr<class CTextBlock>> ItemLbls;
+		std::vector<std::weak_ptr<class CButton>>    ItemButtons;
+		std::vector<std::weak_ptr<class CTextBlock>> ItemLabels;
 		std::vector<std::string> Items;
 		int   SelectedIdx = 0;
 		bool  bOpen       = false;
@@ -43,13 +43,13 @@ private:
 
 	// 텍스처 탐색
 	std::weak_ptr<class CTextBlock> mTexDisp;
-	std::weak_ptr<class CButton>    mTexBtn;
+	std::weak_ptr<class CButton>    mTexButton;
 
 	// 색상 R/G/B/A + Opacity (수치 행)
 	struct FColorRow {
-		std::weak_ptr<class CButton>    MinusBtn;
-		std::weak_ptr<class CTextBlock> ValueLbl;
-		std::weak_ptr<class CButton>    PlusBtn;
+		std::weak_ptr<class CButton>    MinusButton;
+		std::weak_ptr<class CTextBlock> ValueLabel;
+		std::weak_ptr<class CButton>    PlusButton;
 		float Step = 0.05f;
 		float Value = 1.f;
 		float MinHoldTime = 0.f; int MinRepeat = 0;
@@ -58,12 +58,12 @@ private:
 	FColorRow mColorRows[5];  // R G B A Opacity
 
 	// 생성 / 할당 / 저장 / 불러오기 버튼
-	std::weak_ptr<class CButton>    mCreateBtn;
-	std::weak_ptr<class CButton>    mAssignBtn;
-	std::weak_ptr<class CButton>    mSaveBtn;
-	std::weak_ptr<class CButton>    mLoadBtn;
-	std::weak_ptr<class CTextBlock> mStatusLbl;
-	std::weak_ptr<class CButton>    mCloseBtn;
+	std::weak_ptr<class CButton>    mCreateButton;
+	std::weak_ptr<class CButton>    mAssignButton;
+	std::weak_ptr<class CButton>    mSaveButton;
+	std::weak_ptr<class CButton>    mLoadButton;
+	std::weak_ptr<class CTextBlock> mStatusLabel;
+	std::weak_ptr<class CButton>    mCloseButton;
 
 	// ── 현재 머티리얼 설정 ───────────────────────────────────────────────
 	int mShaderIdx  = 0;
@@ -82,22 +82,22 @@ private:
 
 	// ── 헬퍼 함수 ────────────────────────────────────────────────────────
 	void MakeDropdown(float Y, const wchar_t* Label,
-	                  FMatDropdown& DD,
+	                  FMatDropdown& Dropdown,
 	                  const std::vector<std::string>& Items,
-	                  int InitIdx, const std::string& Pfx);
+	                  int InitIdx, const std::string& NamePrefix);
 
-	void OpenDropdown(FMatDropdown& DD);
-	void CloseDropdown(FMatDropdown& DD);
+	void OpenDropdown(FMatDropdown& Dropdown);
+	void CloseDropdown(FMatDropdown& Dropdown);
 	void CloseAllDropdowns();
 
 	void MakeNumRow(float Y, const wchar_t* Label, FColorRow& Row, float InitVal, float Step);
 
 	std::weak_ptr<class CButton> MakeButton(const std::string& Name,
-	                                        float X, float Y, float W, float H,
+	                                        float X, float Y, float Width, float Height,
 	                                        float r, float g, float b);
 
 	std::weak_ptr<class CTextBlock> MakeLabel(const std::string& Name,
-	                                          float X, float Y, float W, float H,
+	                                          float X, float Y, float Width, float Height,
 	                                          const wchar_t* Text, float FontSize = 12.f,
 	                                          int ZOrder = 3);
 
@@ -114,7 +114,7 @@ private:
 
 public:
 	void SetSelectedActor(std::weak_ptr<class CActor> Actor) { mSelectedActor = Actor; }
-	void SetOnMaterialUpdated(std::function<void()> Fn) { mOnMaterialUpdated = std::move(Fn); }
+	void SetOnMaterialUpdated(std::function<void()> Function) { mOnMaterialUpdated = std::move(Function); }
 
 public:
 	virtual bool Init();

@@ -17,11 +17,11 @@ bool CStartWorld::Init()
 
 	auto Player = CreateActor<CStartPlayer>("Player").lock();
 
-	auto UIMgr = GetUIManager().lock();
+	auto UIManager = GetUIManager().lock();
 
-	if (UIMgr)
+	if (UIManager)
 	{
-		auto MainUI = UIMgr->CreateWidgetContainer<CStartWidget>("StartWidget", 0).lock();
+		auto MainUI = UIManager->CreateWidgetContainer<CStartWidget>("StartWidget", 0).lock();
 
 		if (MainUI)
 		{

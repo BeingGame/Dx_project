@@ -3,6 +3,7 @@
 #include "World/BlackBoard.h"
 
 #include "World/Actor.h"
+#include "Component/ActionStateComponent.h"
 
 #include "LogManager.h"
 
@@ -18,13 +19,13 @@ void CMonsterMoveState::Enter()
 
 	if (OwnerAI)
 	{
-		auto BB = OwnerAI->GetBlackBoard().lock();
+		auto BlackBoard = OwnerAI->GetBlackBoard().lock();
 
-		if (BB)
+		if (BlackBoard)
 		{
-			int Count = BB->GetInt("MoveCount");
+			int Count = BlackBoard->GetInt("MoveCount");
 			++Count;
-			BB->SetInt("MoveCount", Count);
+			BlackBoard->SetInt("MoveCount", Count);
 
 			LOG_DEBUG("Monster Move Start MoveCount:", Count);
 		}
@@ -38,6 +39,20 @@ void CMonsterMoveState::Update(float DeltaTime)
 	if (OwnerActor)
 	{
 		OwnerActor->AddWorldPos(OwnerActor->GetAxis(EAxis::Y) * 100.f * DeltaTime);
+
+		//액션 상태 컴포넌트가 붙어 있으면 이동 의도를 넘겨준다.
+		//플레이어의 DirectionInput과 완전히 같은 통로다. (애니메이션은 저쪽이 고른다)
+		for (const auto& Comp : OwnerActor->GetActorCompList())
+		{
+			auto State = std::dynamic_pointer_cast<CActionStateComponent>(Comp);
+
+			if (State)
+			{
+				//전진 중이므로 위쪽 방향, 달리기는 아님
+				State->SetMoveInput(FVector2(0.f, 1.f), false);
+				break;
+			}
+		}
 	}
 
 

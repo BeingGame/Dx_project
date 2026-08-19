@@ -54,19 +54,19 @@ bool CMainUI::Init()
 		Text->SetShadowOffset(5.f, 5.f);
 	}
 
-	auto Bar = mBar.lock();
+	auto ProgressBar = mBar.lock();
 
-	if (Bar)
+	if (ProgressBar)
 	{
-		Bar->SetPos(200.f, 200.f);
-		Bar->SetSize(300.f, 30.f);
+		ProgressBar->SetPos(200.f, 200.f);
+		ProgressBar->SetSize(300.f, 30.f);
 
-		Bar->SetMinValue(0.f);
-		Bar->SetMaxValue(100.f);
-		Bar->SetPercent(0.5f);
+		ProgressBar->SetMinValue(0.f);
+		ProgressBar->SetMaxValue(100.f);
+		ProgressBar->SetPercent(0.5f);
 
-		Bar->SetTint(EProgressBarImageType::Back, 0.3f, 0.3f, 0.3f, 1.f);
-		Bar->SetTint(EProgressBarImageType::Fill, 1.f, 1.f, 1.f, 1.f);
+		ProgressBar->SetTint(EProgressBarImageType::Back, 0.3f, 0.3f, 0.3f, 1.f);
+		ProgressBar->SetTint(EProgressBarImageType::Fill, 1.f, 1.f, 1.f, 1.f);
 
 		auto World = mWorld.lock();
 
@@ -124,22 +124,22 @@ void CMainUI::TestButtonClicked()
 {
 	LOG_DEBUG("Button Clicked");
 
-	for (auto It : mOnFuncCall)
+	for (auto Found : mOnFuncCall)
 	{
-		if (It)
+		if (Found)
 		{
-			It();
+			Found();
 		}
 	}
 }
 
 void CMainUI::ProgressBarTimer()
 {
-	auto Bar = mBar.lock();
+	auto ProgressBar = mBar.lock();
 
-	if (Bar)
+	if (ProgressBar)
 	{
-		float Percent = Bar->GetPercent();
+		float Percent = ProgressBar->GetPercent();
 		Percent += 0.1f;
 
 		if (Percent > 1.f)
@@ -147,7 +147,7 @@ void CMainUI::ProgressBarTimer()
 			Percent = 0.f;
 		}
 
-		Bar->SetPercent(Percent);
+		ProgressBar->SetPercent(Percent);
 
 
 	}

@@ -87,11 +87,11 @@ void CEditorPlayer::Update(float DeltaTime)
 
 		if (World)
 		{
-			auto UIMgr = World->GetUIManager().lock();
+			auto UIManager = World->GetUIManager().lock();
 
-			if (UIMgr)
+			if (UIManager)
 			{
-				mEditorWidget = UIMgr->FindWidget<CEditorWidget>("EditorWidget");
+				mEditorWidget = UIManager->FindWidget<CEditorWidget>("EditorWidget");
 			}
 		}
 	}
@@ -254,7 +254,7 @@ void CEditorPlayer::ChangeFrame()
 
 void CEditorPlayer::Save()
 {
-	OPENFILENAME ofn = {};
+	OPENFILENAME OpenFileName = {};
 	TCHAR FullPath[MAX_PATH] = {};
 
 	//파일 대화상자를 열어준다.
@@ -269,17 +269,17 @@ void CEditorPlayer::Save()
 	lstrcpy(Path, AssetPath);
 	lstrcat(Path, TEXT("Map\\"));
 
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = CEngine::GetInst()->GetWindowHandle();
-	ofn.lpstrFilter = Filter;
-	ofn.lpstrDefExt = TEXT("tlm");
-	ofn.lpstrInitialDir = Path;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.lpstrFile = FullPath;
+	OpenFileName.lStructSize = sizeof(OPENFILENAME);
+	OpenFileName.hwndOwner = CEngine::GetInst()->GetWindowHandle();
+	OpenFileName.lpstrFilter = Filter;
+	OpenFileName.lpstrDefExt = TEXT("tlm");
+	OpenFileName.lpstrInitialDir = Path;
+	OpenFileName.nMaxFile = MAX_PATH;
+	OpenFileName.lpstrFile = FullPath;
 
 	ShowCursor(true);
 
-	if (GetSaveFileName(&ofn) !=0)
+	if (GetSaveFileName(&OpenFileName) !=0)
 	{
 		auto TileMap = mTileMap.lock();
 
@@ -299,7 +299,7 @@ void CEditorPlayer::Save()
 
 void CEditorPlayer::Load()
 {
-	OPENFILENAME ofn = {};
+	OPENFILENAME OpenFileName = {};
 	TCHAR FullPath[MAX_PATH] = {};
 
 	//파일 대화상자를 열어준다.
@@ -314,17 +314,17 @@ void CEditorPlayer::Load()
 	lstrcpy(Path, AssetPath);
 	lstrcat(Path, TEXT("Map\\"));
 
-	ofn.lStructSize = sizeof(OPENFILENAME);
-	ofn.hwndOwner = CEngine::GetInst()->GetWindowHandle();
-	ofn.lpstrFilter = Filter;
-	ofn.lpstrDefExt = TEXT("tlm");
-	ofn.lpstrInitialDir = Path;
-	ofn.nMaxFile = MAX_PATH;
-	ofn.lpstrFile = FullPath;
+	OpenFileName.lStructSize = sizeof(OPENFILENAME);
+	OpenFileName.hwndOwner = CEngine::GetInst()->GetWindowHandle();
+	OpenFileName.lpstrFilter = Filter;
+	OpenFileName.lpstrDefExt = TEXT("tlm");
+	OpenFileName.lpstrInitialDir = Path;
+	OpenFileName.nMaxFile = MAX_PATH;
+	OpenFileName.lpstrFile = FullPath;
 
 	ShowCursor(true);
 
-	if (GetOpenFileName(&ofn) != 0)
+	if (GetOpenFileName(&OpenFileName) != 0)
 	{
 		auto TileMap = mTileMap.lock();
 

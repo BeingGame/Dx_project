@@ -38,14 +38,32 @@ protected:
 	//픽셀 단위 값을 정규화 좌표로 바꿀 때 기준이 된다.
 	FVector2 mMaxFrameSize = FVector2(0.f, 0.f);
 
+	//프레임이 바뀌었으니 Ratio와 mMaxFrameSize를 다시 계산해야 하는지.
+	//예전에는 CalculateFrameRatio를 부르는 쪽이 알아서 챙겨야 했는데,
+	//애님 에디터와 .anim2d 로드 경로가 둘 다 빼먹고 있었다. 그래서
+	//mMaxFrameSize가 0으로 남아 프레임 Offset이 화면에 전혀 반영되지 않았다.
+	bool mFrameRatioDirty = false;
+
+	//---- .anim2d에 저장된 재생 설정 ----
+	//시퀀스(CAnimation2DSequence)가 들고 다니는 값이지만, 그 원본은 애니메이션 에셋이다.
+	//여기 보관해두지 않으면 .anim2d에서 읽은 PlayRate/Loop/Reverse/Symmetry가
+	//파일을 파싱하는 순간 버려지고, 월드에 적혀 있던 예전 값이 대신 쓰인다.
+	//(애님 에디터에서 고쳐 저장해도 다시 켜면 옛날 값으로 돌아가 보이는 원인이었다)
+	bool  mHasPlaySettings = false;
+	float mPlayRate        = 1.f;
+	bool  mLoop            = false;
+	bool  mReverse         = false;
+	bool  mSymmetry        = false;
+
 public:
 	EAnimation2DTextureType GetType() const
 	{
 		return mTextureType;
 	}
 
-	const FVector2& GetMaxFrameSize() const
+	const FVector2& GetMaxFrameSize()
 	{
+		EnsureFrameRatio();
 		return mMaxFrameSize;
 	}
 
@@ -56,10 +74,24 @@ public:
 
 	const FTextureFrame& GetFrame(int Index)
 	{
-		if (Index < 0 || Index >= mFrameArray.size())
+		EnsureFrameRatio();
+
+		if (mFrameArray.empty())
 		{
 			static FTextureFrame dummy;
 			return dummy;
+		}
+
+		//범위를 벗어나면 예전에는 크기 0짜리 더미를 돌려줬다.
+		//그러면 UV 폭이 0이 되어 스프라이트가 통째로 투명해진다.
+		//가장 가까운 실제 프레임으로 잘라준다.
+		if (Index < 0)
+		{
+			Index = 0;
+		}
+		else if (Index >= (int)mFrameArray.size())
+		{
+			Index = (int)mFrameArray.size() - 1;
 		}
 
 		return mFrameArray[Index];
@@ -74,6 +106,41 @@ public:
 	void SetAnimationTextureType(EAnimation2DTextureType Type)
 	{
 		mTextureType = Type;
+
+		//타입에 따라 최대 크기를 재는 방법이 달라진다.
+		mFrameRatioDirty = true;
+	}
+
+	//프레임이 바뀐 뒤 처음 조회될 때 한 번만 다시 계산한다.
+	//프레임을 추가할 때마다 계산하면 로드 중에 헛일을 반복하게 된다.
+	void EnsureFrameRatio()
+	{
+		if (!mFrameRatioDirty)
+		{
+			return;
+		}
+
+		//먼저 꺼둔다. CalculateFrameRatio 안에서 다시 들어와도 되돌지 않도록.
+		mFrameRatioDirty = false;
+
+		CalculateFrameRatio();
+	}
+
+	//---- .anim2d에 저장된 재생 설정 ----
+	//에셋에서 읽은 값이 있는지. 코드로 만든 애니메이션은 없다.
+	bool  HasPlaySettings() const { return mHasPlaySettings; }
+	float GetPlayRate() const     { return mPlayRate; }
+	bool  GetLoop() const         { return mLoop; }
+	bool  GetReverse() const      { return mReverse; }
+	bool  GetSymmetry() const     { return mSymmetry; }
+
+	void SetPlaySettings(float PlayRate, bool Loop, bool Reverse, bool Symmetry)
+	{
+		mHasPlaySettings = true;
+		mPlayRate        = PlayRate;
+		mLoop            = Loop;
+		mReverse         = Reverse;
+		mSymmetry        = Symmetry;
 	}
 
 public:

@@ -355,11 +355,19 @@ void CMaterial::AddTextureFullPath(const std::string& Name, std::vector<const TC
 bool CMaterial::SetTexture(int TextureIndex, const std::weak_ptr<class CTexture>& Texture)
 {
 	//텍스처를 새로받을때 인덱스가 사이즈랑 동일하면 새로운 텍스처 정보를 만들어준다.
+	//빈 텍스처가 들어오는 경우가 있다.
+	//(애니메이션 에셋이 텍스처를 못 불러왔을 때 CAnimation2DComponent::RefreshTexture가 그대로 넘긴다)
+	//그대로 두면 아래에서 GetName()을 부르다가 죽으므로 여기서 막는다.
+	auto _Texture = Texture.lock();
+
+	if (!_Texture)
+	{
+		return false;
+	}
+
 	if (TextureIndex == mTextureArray.size())
 	{
 		std::shared_ptr<FMaterialTextureInfo> NewInfo = std::make_shared<FMaterialTextureInfo>();
-
-		auto _Texture = Texture.lock();
 
 		NewInfo->Texture = _Texture;
 		NewInfo->Name = _Texture->GetName();

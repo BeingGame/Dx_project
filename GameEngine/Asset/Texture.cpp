@@ -163,9 +163,18 @@ bool CTexture::LoadTexture(const std::vector<const TCHAR*>& FullPath)
 
 void CTexture::SetShader(int Register, int ShaderBufferType, int TextureIndex)
 {
-	if (TextureIndex < 0 || TextureIndex >= mTextureList.size())
+	if (mTextureList.empty())
 	{
 		return;
+	}
+
+	//프레임 애니메이션은 프레임 번호를 텍스처 번호로 쓴다.
+	//한 장짜리 텍스처에 프레임이 여러 개면 번호가 범위를 넘어가는데,
+	//예전에는 그냥 빠져나가서 아무 텍스처도 안 물린 채로 그려졌다. (화면에서 사라짐)
+	//범위를 넘으면 첫 장으로 떨어뜨린다.
+	if (TextureIndex < 0 || TextureIndex >= (int)mTextureList.size())
+	{
+		TextureIndex = 0;
 	}
 
 	ID3D11ShaderResourceView* SRV = mTextureList[TextureIndex]->SRV;

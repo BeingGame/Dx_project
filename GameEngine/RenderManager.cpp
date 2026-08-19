@@ -1,6 +1,7 @@
 #include "RenderManager.h"
 
 #include "World/SceneComponent.h"
+#include "World/Actor.h"
 #include "World/WorldManager.h"
 #include "Asset/AssetManager.h"
 #include "Asset/ShaderManager.h"
@@ -467,24 +468,34 @@ void CRenderManager::PostRender()
 
 bool CRenderManager::SortYRenderList(const std::weak_ptr<CSceneComponent>& Src, const std::weak_ptr<CSceneComponent>& Dest)
 {
-	//Y좌표를 이용해서 src와 dest를 비교한다.
-	//비교할때 src가 더 큰지에 따라 비교를 시도한다.
 	auto _Src = Src.lock();
 	auto _Dest = Dest.lock();
 
-	float SrcY = 0.f;
-	float DestY = 0.f;
-
-	if (!_Src)
+	if (!_Src || !_Dest)
 	{
-		SrcY = _Src->GetWorldPos().y;
-	}
-	else if (!_Dest)
-	{
-		DestY = _Dest->GetWorldPos().y;
+		return false;
 	}
 
-	//sort함수가 comp함수를 기준으로 정렬되며, Src와Dest를 비교할때 true를 기준으로 위치가 변경될 필요가 있다고 판단한다.
-	//따라서 Src의 y좌표가 dest의 y좌표보다 크면 두 요소의 자리가 교체된다.
-	return SrcY > DestY;
+	//정렬 기준은 컴포넌트 자신의 Y가 아니라 소유 액터의 지면 Y다.
+	//
+	//이 판은 Y가 깊이 축이고, 점프나 띄우기로 몸이 뜨면 메시의 월드 Y가 올라간다.
+	//그걸 기준으로 잡으면 뛰어오른 캐릭터가 뒤로 물러난 것처럼 그려진다.
+	//액터의 루트는 뜬 것과 무관하게 지면에 남아 있으므로 그쪽을 본다.
+	auto GroundY = [](const std::shared_ptr<CSceneComponent>& Comp) -> float
+	{
+		if (auto Owner = Comp->GetOwner().lock())
+		{
+			if (auto Root = Owner->GetRootComponent().lock())
+			{
+				return Root->GetWorldPos().y;
+			}
+		}
+
+		//액터에 안 붙은 컴포넌트는 자기 위치를 그대로 쓴다.
+		return Comp->GetWorldPos().y;
+	};
+
+	//sort는 comp(a,b)가 true면 a를 앞에 둔다. 먼저 그린 것이 뒤에 깔리므로,
+	//Y가 큰(화면에서 위쪽 = 안쪽) 것부터 그려야 앞뒤가 맞는다.
+	return GroundY(_Src) > GroundY(_Dest);
 }

@@ -25,17 +25,17 @@ bool CContentUI::Init()
 	SetSize(PANEL_W, PANEL_H);
 
 	// 배경
-	auto Bg = CreateWidget<CButton>("ContentBg", 0).lock();
-	if (Bg)
+	auto Background = CreateWidget<CButton>("ContentBg", 0).lock();
+	if (Background)
 	{
-		Bg->SetPos(0.f, 0.f);
-		Bg->SetSize(PANEL_W, PANEL_H);
-		Bg->SetTint(EWidgetState::Normal,  0.13f, 0.13f, 0.15f, 0.92f);
-		Bg->SetTint(EWidgetState::Hovered, 0.13f, 0.13f, 0.15f, 0.92f);
-		Bg->SetTint(EWidgetState::Clicked, 0.13f, 0.13f, 0.15f, 0.92f);
-		Bg->SetTint(EWidgetState::Release, 0.13f, 0.13f, 0.15f, 0.92f);
-		Bg->SetTint(EWidgetState::Disable, 0.13f, 0.13f, 0.15f, 0.92f);
-		mBackground = Bg;
+		Background->SetPos(0.f, 0.f);
+		Background->SetSize(PANEL_W, PANEL_H);
+		Background->SetTint(EWidgetState::Normal,  0.13f, 0.13f, 0.15f, 0.92f);
+		Background->SetTint(EWidgetState::Hovered, 0.13f, 0.13f, 0.15f, 0.92f);
+		Background->SetTint(EWidgetState::Clicked, 0.13f, 0.13f, 0.15f, 0.92f);
+		Background->SetTint(EWidgetState::Release, 0.13f, 0.13f, 0.15f, 0.92f);
+		Background->SetTint(EWidgetState::Disable, 0.13f, 0.13f, 0.15f, 0.92f);
+		mBackground = Background;
 	}
 
 	// 드래그 가능한 타이틀바
@@ -65,18 +65,18 @@ bool CContentUI::Init()
 	// 코너 리사이즈 핸들 (ZOrder 10, 시각 전용 — 히트 테스트는 수동으로 처리)
 	auto MakeHandle = [&](const std::string& Name, float X, float Y) -> std::weak_ptr<CButton>
 	{
-		auto H = CreateWidget<CButton>(Name, 10).lock();
-		if (H)
+		auto Handle = CreateWidget<CButton>(Name, 10).lock();
+		if (Handle)
 		{
-			H->SetPos(X, Y);
-			H->SetSize(HANDLE_SZ, HANDLE_SZ);
-			H->SetTint(EWidgetState::Normal,  0.45f, 0.45f, 0.55f, 0.85f);
-			H->SetTint(EWidgetState::Hovered, 0.70f, 0.90f, 1.00f, 1.f);
-			H->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
-			H->SetTint(EWidgetState::Release, 1.00f, 1.00f, 1.00f, 1.f);
-			H->SetTint(EWidgetState::Disable, 0.30f, 0.30f, 0.30f, 0.5f);
+			Handle->SetPos(X, Y);
+			Handle->SetSize(HANDLE_SZ, HANDLE_SZ);
+			Handle->SetTint(EWidgetState::Normal,  0.45f, 0.45f, 0.55f, 0.85f);
+			Handle->SetTint(EWidgetState::Hovered, 0.70f, 0.90f, 1.00f, 1.f);
+			Handle->SetTint(EWidgetState::Clicked, 1.00f, 1.00f, 1.00f, 1.f);
+			Handle->SetTint(EWidgetState::Release, 1.00f, 1.00f, 1.00f, 1.f);
+			Handle->SetTint(EWidgetState::Disable, 0.30f, 0.30f, 0.30f, 0.5f);
 		}
-		return H;
+		return Handle;
 	};
 
 	mHandleTL = MakeHandle("HandleTL", 0.f,              0.f);
@@ -113,28 +113,28 @@ void CContentUI::Update(float DeltaTime)
 
 		FVector3 PanelPos  = GetPos();
 		FVector3 PanelSize = GetSize();
-		float W = PanelSize.x, H = PanelSize.y;
+		float PanelWidth = PanelSize.x, PanelHeight = PanelSize.y;
 
 		// 코너 화면 좌표 (좌상 우상 좌하 우하)
-		float CX[4] = {
+		float CornerX[4] = {
 			PanelPos.x,
-			PanelPos.x + W - HANDLE_SZ,
+			PanelPos.x + PanelWidth - HANDLE_SZ,
 			PanelPos.x,
-			PanelPos.x + W - HANDLE_SZ
+			PanelPos.x + PanelWidth - HANDLE_SZ
 		};
-		float CY[4] = {
+		float CornerY[4] = {
 			PanelPos.y,
 			PanelPos.y,
-			PanelPos.y + H - HANDLE_SZ,
-			PanelPos.y + H - HANDLE_SZ
+			PanelPos.y + PanelHeight - HANDLE_SZ,
+			PanelPos.y + PanelHeight - HANDLE_SZ
 		};
 
 		if (mActiveCorner == -1 && Press)
 		{
 			for (int i = 0; i < 4; ++i)
 			{
-				if (MousePos.x >= CX[i] && MousePos.x < CX[i] + HANDLE_SZ &&
-					MousePos.y >= CY[i] && MousePos.y < CY[i] + HANDLE_SZ)
+				if (MousePos.x >= CornerX[i] && MousePos.x < CornerX[i] + HANDLE_SZ &&
+					MousePos.y >= CornerY[i] && MousePos.y < CornerY[i] + HANDLE_SZ)
 				{
 					mActiveCorner = i;
 					break;
@@ -147,30 +147,30 @@ void CContentUI::Update(float DeltaTime)
 
 		if (mActiveCorner >= 0 && Held && (Delta.x != 0.f || Delta.y != 0.f))
 		{
-			float nx = PanelPos.x, ny = PanelPos.y, nw = W, nh = H;
+			float NewX = PanelPos.x, NewY = PanelPos.y, NewWidth = PanelWidth, NewHeight = PanelHeight;
 
 			switch (mActiveCorner)
 			{
-			case 0: nx += Delta.x; ny += Delta.y; nw -= Delta.x; nh -= Delta.y; break; // 좌상
-			case 1:                ny += Delta.y; nw += Delta.x; nh -= Delta.y; break; // 우상
-			case 2: nx += Delta.x;                nw -= Delta.x; nh += Delta.y; break; // 좌하
-			case 3:                                nw += Delta.x; nh += Delta.y; break; // 우하
+			case 0: NewX += Delta.x; NewY += Delta.y; NewWidth -= Delta.x; NewHeight -= Delta.y; break; // 좌상
+			case 1:                NewY += Delta.y; NewWidth += Delta.x; NewHeight -= Delta.y; break; // 우상
+			case 2: NewX += Delta.x;                NewWidth -= Delta.x; NewHeight += Delta.y; break; // 좌하
+			case 3:                                NewWidth += Delta.x; NewHeight += Delta.y; break; // 우하
 			}
 
-			nw = max(nw, 120.f);
-			nh = max(nh, 80.f);
+			NewWidth = max(NewWidth, 120.f);
+			NewHeight = max(NewHeight, 80.f);
 
-			SetPos(nx, ny);
-			SetSize(nw, nh);
+			SetPos(NewX, NewY);
+			SetSize(NewWidth, NewHeight);
 
-			if (auto Bg = mBackground.lock())    Bg->SetSize(nw, nh);
-			if (auto TB = mTitleBarWidget.lock()) TB->SetSize(nw, TITLE_H);
-			if (auto TT = mTitleText.lock())      TT->SetSize(nw, TITLE_H);
+			if (auto Background = mBackground.lock())    Background->SetSize(NewWidth, NewHeight);
+			if (auto TitleBar = mTitleBarWidget.lock()) TitleBar->SetSize(NewWidth, TITLE_H);
+			if (auto TitleText = mTitleText.lock())      TitleText->SetSize(NewWidth, TITLE_H);
 
-			if (auto H = mHandleTL.lock()) H->SetPos(0.f,            0.f);
-			if (auto H = mHandleTR.lock()) H->SetPos(nw - HANDLE_SZ, 0.f);
-			if (auto H = mHandleBL.lock()) H->SetPos(0.f,            nh - HANDLE_SZ);
-			if (auto H = mHandleBR.lock()) H->SetPos(nw - HANDLE_SZ, nh - HANDLE_SZ);
+			if (auto Handle = mHandleTL.lock()) Handle->SetPos(0.f,            0.f);
+			if (auto Handle = mHandleTR.lock()) Handle->SetPos(NewWidth - HANDLE_SZ, 0.f);
+			if (auto Handle = mHandleBL.lock()) Handle->SetPos(0.f,            NewHeight - HANDLE_SZ);
+			if (auto Handle = mHandleBR.lock()) Handle->SetPos(NewWidth - HANDLE_SZ, NewHeight - HANDLE_SZ);
 
 			mLastActorCount = -1; // 새 너비로 강제 재구성
 		}
@@ -182,9 +182,9 @@ void CContentUI::Update(float DeltaTime)
 		mSelectedActor.reset();
 
 	bool bStale = false;
-	for (auto& E : mEntries)
+	for (auto& Entry : mEntries)
 	{
-		if (E.Actor.expired()) { bStale = true; break; }
+		if (Entry.Actor.expired()) { bStale = true; break; }
 	}
 
 	int CurrentCount = (int)World->GetActorList().size();
@@ -198,8 +198,8 @@ void CContentUI::Update(float DeltaTime)
 	// 버튼 Release 상태를 폴링하여 클릭 감지
 	for (int i = 0; i < (int)mEntries.size(); ++i)
 	{
-		auto Btn = mEntries[i].Button.lock();
-		if (Btn && Btn->GetWidgetState() == EWidgetState::Release)
+		auto Button = mEntries[i].Button.lock();
+		if (Button && Button->GetWidgetState() == EWidgetState::Release)
 		{
 			OnEntryClicked(i);
 		}
@@ -227,37 +227,37 @@ void CContentUI::Rebuild()
 
 	for (auto& [Name, ActorPtr] : ActorMap)
 	{
-		std::string BtnName = "ContentEntry_" + std::to_string(Index);
-		std::string LblName = "ContentLbl_"   + std::to_string(Index);
+		std::string ButtonName = "ContentEntry_" + std::to_string(Index);
+		std::string LabelName = "ContentLbl_"   + std::to_string(Index);
 
-		auto Btn = CreateWidget<CButton>(BtnName, 3).lock();
-		if (Btn)
+		auto Button = CreateWidget<CButton>(ButtonName, 3).lock();
+		if (Button)
 		{
-			Btn->SetPos(4.f, Y);
-			Btn->SetSize(CurW - 8.f, ENTRY_H - 2.f);
-			Btn->SetTint(EWidgetState::Normal,  0.20f, 0.20f, 0.24f, 1.f);
-			Btn->SetTint(EWidgetState::Hovered, 0.30f, 0.50f, 0.90f, 1.f);
-			Btn->SetTint(EWidgetState::Clicked, 0.40f, 0.65f, 1.00f, 1.f);
-			Btn->SetTint(EWidgetState::Release, 0.40f, 0.65f, 1.00f, 1.f);
-			Btn->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.18f, 1.f);
+			Button->SetPos(4.f, Y);
+			Button->SetSize(CurW - 8.f, ENTRY_H - 2.f);
+			Button->SetTint(EWidgetState::Normal,  0.20f, 0.20f, 0.24f, 1.f);
+			Button->SetTint(EWidgetState::Hovered, 0.30f, 0.50f, 0.90f, 1.f);
+			Button->SetTint(EWidgetState::Clicked, 0.40f, 0.65f, 1.00f, 1.f);
+			Button->SetTint(EWidgetState::Release, 0.40f, 0.65f, 1.00f, 1.f);
+			Button->SetTint(EWidgetState::Disable, 0.15f, 0.15f, 0.18f, 1.f);
 		}
 
 		std::wstring WName(Name.begin(), Name.end());
-		auto Lbl = CreateWidget<CTextBlock>(LblName, 4).lock();
-		if (Lbl)
+		auto Label = CreateWidget<CTextBlock>(LabelName, 4).lock();
+		if (Label)
 		{
-			Lbl->SetPos(8.f, Y);
-			Lbl->SetSize(CurW - 12.f, ENTRY_H - 2.f);
-			Lbl->SetText(WName.c_str());
-			Lbl->SetFontSize(13.f);
-			Lbl->SetTextColor(FVector4::White);
-			Lbl->SetAlignH(ETextAlignH::Left);
-			Lbl->SetAlignV(ETextAlignV::Middle);
+			Label->SetPos(8.f, Y);
+			Label->SetSize(CurW - 12.f, ENTRY_H - 2.f);
+			Label->SetText(WName.c_str());
+			Label->SetFontSize(13.f);
+			Label->SetTextColor(FVector4::White);
+			Label->SetAlignH(ETextAlignH::Left);
+			Label->SetAlignV(ETextAlignV::Middle);
 		}
 
 		FEntry Entry;
 		Entry.Actor  = ActorPtr;
-		Entry.Button = Btn;
+		Entry.Button = Button;
 		Entry.Index  = Index;
 		mEntries.push_back(Entry);
 
@@ -298,16 +298,16 @@ void CContentUI::RefreshSelectionTints()
 	auto SelActor = mSelectedActor.lock();
 	for (auto& Entry : mEntries)
 	{
-		auto Btn = Entry.Button.lock();
-		if (!Btn) continue;
+		auto Button = Entry.Button.lock();
+		if (!Button) continue;
 		bool bSelected = SelActor && (Entry.Actor.lock() == SelActor);
 		if (bSelected)
 		{
-			Btn->SetTint(EWidgetState::Normal, 0.15f, 0.45f, 0.90f, 1.f);
+			Button->SetTint(EWidgetState::Normal, 0.15f, 0.45f, 0.90f, 1.f);
 		}
 		else
 		{
-			Btn->SetTint(EWidgetState::Normal, 0.20f, 0.20f, 0.24f, 1.f);
+			Button->SetTint(EWidgetState::Normal, 0.20f, 0.20f, 0.24f, 1.f);
 		}
 	}
 }
