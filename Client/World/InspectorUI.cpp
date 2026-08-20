@@ -111,7 +111,43 @@ bool CInspectorUI::Init()
 	float Y = TITLE_H + 6.f;
 
 	mActorNameText = AddRow(Y, TEXT("Name: -"));       Y += ROW_H + 2.f;
-	mActorTagText  = AddRow(Y, TEXT("Tag:  -"));        Y += ROW_H + 6.f;
+	mActorTagText  = AddRow(Y, TEXT("Tag:  -"));        Y += ROW_H + 2.f;
+
+	// ── 애니메이션 타입 선택 콤보 ────────────────────────────────────────────
+	// 클릭하면 Asset\Anim\ 하위 폴더에서 스캔한 타입 목록이 아래로 펼쳐진다.
+	// (맨 앞은 ""(공용) — 최상위 폴더의 공용 애니를 쓰는 상태)
+	{
+		float CurW = GetSize().x;
+		mAnimTypeRowY = Y;
+
+		auto TypeButton = CreateWidget<CButton>("InspAnimTypeBtn", 3).lock();
+		if (TypeButton)
+		{
+			TypeButton->SetPos(6.f, Y);
+			TypeButton->SetSize(CurW - 12.f, ROW_H);
+			TypeButton->SetTint(EWidgetState::Normal,  0.18f, 0.20f, 0.28f, 1.f);
+			TypeButton->SetTint(EWidgetState::Hovered, 0.26f, 0.32f, 0.46f, 1.f);
+			TypeButton->SetTint(EWidgetState::Clicked, 0.34f, 0.44f, 0.62f, 1.f);
+			TypeButton->SetTint(EWidgetState::Release, 0.26f, 0.32f, 0.46f, 1.f);
+			TypeButton->SetTint(EWidgetState::Disable, 0.14f, 0.14f, 0.18f, 1.f);
+			mAnimTypeButton = TypeButton;
+		}
+
+		auto TypeLabel = CreateWidget<CTextBlock>("InspAnimTypeLbl", 4).lock();
+		if (TypeLabel)
+		{
+			TypeLabel->SetPos(12.f, Y);
+			TypeLabel->SetSize(CurW - 20.f, ROW_H);
+			TypeLabel->SetText(TEXT("Type: (공용) ▼"));
+			TypeLabel->SetFontSize(11.f);
+			TypeLabel->SetTextColor(FVector4(0.85f, 0.92f, 1.f, 1.f));
+			TypeLabel->SetAlignH(ETextAlignH::Left);
+			TypeLabel->SetAlignV(ETextAlignV::Middle);
+			mAnimTypeText = TypeLabel;
+		}
+
+		Y += ROW_H + 6.f;
+	}
 
 	mTransformHeader = AddRow(Y, TEXT("[ Transform ]"), 12.f); Y += ROW_H + 2.f;
 	if (auto Text = mTransformHeader.lock())
@@ -613,7 +649,9 @@ void CInspectorUI::Rebuild()
 		if (auto Text = mPosText.lock())       Text->SetText(TEXT("Pos: -"));
 		if (auto Text = mRotText.lock())       Text->SetText(TEXT("Rot: -"));
 		if (auto Text = mScaleText.lock())     Text->SetText(TEXT("Scale: -"));
+		RefreshAnimTypeLabel();
 		FinishLayout(mComponentsStartY);
+		BuildAnimTypeMenu();
 		return;
 	}
 
@@ -624,6 +662,8 @@ void CInspectorUI::Rebuild()
 		if (auto Text = mActorNameText.lock()) { wsprintf(TextBuffer, TEXT("Name: %s"), WName.c_str()); Text->SetText(TextBuffer); }
 		if (auto Text = mActorTagText.lock())  { wsprintf(TextBuffer, TEXT("Tag:  %s"), WTag.c_str());  Text->SetText(TextBuffer); }
 	}
+
+	RefreshAnimTypeLabel();
 
 	if (auto Root = Actor->GetRootComponent().lock())
 	{
@@ -966,6 +1006,9 @@ void CInspectorUI::Rebuild()
 	}
 
 	FinishLayout(Y);
+
+	// 타입 콤보가 열려 있으면 컴포넌트 목록 위에 오버레이로 항목을 띄운다.
+	BuildAnimTypeMenu();
 }
 
 // ── 콜라이더 속성 ────────────────────────────────────────────────────────────
@@ -1626,6 +1669,113 @@ void CInspectorUI::AddActorCompProps(float& Y,
 
 // 동적으로 만든 컴포넌트 행들만 스크롤 대상으로 표시한다.
 // (이름/트랜스폼 같은 상단 고정 행과 리사이즈 핸들은 제자리에 남는다)
+// 대상 액터의 애니메이션 타입을 "Type: <이름> ▼/▲" 형태로 라벨에 반영한다.
+void CInspectorUI::RefreshAnimTypeLabel()
+{
+	auto Label = mAnimTypeText.lock();
+	if (!Label) return;
+
+	const wchar_t* Arrow = mAnimTypeOpen ? TEXT("▲") : TEXT("▼");
+
+	auto Actor = mTarget.lock();
+	if (!Actor)
+	{
+		TCHAR NoneBuffer[64] = {};
+		swprintf_s(NoneBuffer, 64, TEXT("Type: - %s"), Arrow);
+		Label->SetText(NoneBuffer);
+		return;
+	}
+
+	const std::string& Type = Actor->GetAnimType();
+	std::wstring WType = Type.empty()
+		? std::wstring(TEXT("(공용)"))
+		: DialogUtil::ToWide(Type);
+
+	TCHAR TextBuffer[128] = {};
+	swprintf_s(TextBuffer, 128, TEXT("Type: %s %s"), WType.c_str(), Arrow);
+	Label->SetText(TextBuffer);
+}
+
+// 타입 콤보가 열려 있을 때 항목 버튼들을 타입 행 바로 아래에 오버레이로 만든다.
+// RebuildComponents 끝(FinishLayout 뒤)에서 호출한다:
+//  - mDynamicRows에 넣어 다음 Rebuild 때 자동으로 정리되게 하고,
+//  - 스크롤 대상에서 빼고 높은 ZOrder를 줘서 아래 내용 위에 고정으로 뜨게 한다.
+void CInspectorUI::BuildAnimTypeMenu()
+{
+	mAnimTypeItemButtons.clear();
+	mAnimTypeOptions.clear();
+
+	if (!mAnimTypeOpen) return;
+
+	// 맨 앞에 ""(공용), 그 뒤로 스캔된 타입 폴더들.
+	mAnimTypeOptions.push_back("");
+	for (const auto& Type : CAnimRegistry::ScanTypes())
+		mAnimTypeOptions.push_back(Type);
+
+	std::string CurType;
+	if (auto Actor = mTarget.lock()) CurType = Actor->GetAnimType();
+
+	const float PanelW = GetSize().x;
+	const float ItemH  = ROW_H;
+	float ItemY = mAnimTypeRowY + ROW_H + 1.f;
+
+	// 목록 배경 (불투명) — 아래 내용이 비쳐 보이지 않게.
+	auto MenuBg = CreateWidget<CButton>("InspAnimTypeBg_" + std::to_string(mDynIdx++), 20).lock();
+	if (MenuBg)
+	{
+		MenuBg->SetPos(8.f, ItemY - 1.f);
+		MenuBg->SetSize(PanelW - 16.f, (float)mAnimTypeOptions.size() * (ItemH + 1.f) + 2.f);
+		MenuBg->SetTint(EWidgetState::Normal,  0.08f, 0.09f, 0.12f, 1.f);
+		MenuBg->SetTint(EWidgetState::Hovered, 0.08f, 0.09f, 0.12f, 1.f);
+		MenuBg->SetTint(EWidgetState::Clicked, 0.08f, 0.09f, 0.12f, 1.f);
+		MenuBg->SetTint(EWidgetState::Release, 0.08f, 0.09f, 0.12f, 1.f);
+		MenuBg->SetTint(EWidgetState::Disable, 0.08f, 0.09f, 0.12f, 1.f);
+		MenuBg->SetScrollTarget(false);
+		mDynamicRows.push_back(MenuBg);
+	}
+
+	for (const auto& Option : mAnimTypeOptions)
+	{
+		bool bSelected = (Option == CurType);
+		std::wstring WLabel = Option.empty()
+			? std::wstring(TEXT("(공용)"))
+			: DialogUtil::ToWide(Option);
+
+		int ItemIdx = mDynIdx++;
+
+		auto ItemButton = CreateWidget<CButton>("InspAnimTypeItem_" + std::to_string(ItemIdx), 21).lock();
+		if (ItemButton)
+		{
+			ItemButton->SetPos(10.f, ItemY);
+			ItemButton->SetSize(PanelW - 20.f, ItemH);
+			ItemButton->SetTint(EWidgetState::Normal,  bSelected ? 0.18f : 0.12f, bSelected ? 0.34f : 0.16f, bSelected ? 0.28f : 0.22f, 1.f);
+			ItemButton->SetTint(EWidgetState::Hovered, 0.24f, 0.40f, 0.52f, 1.f);
+			ItemButton->SetTint(EWidgetState::Clicked, 0.32f, 0.52f, 0.66f, 1.f);
+			ItemButton->SetTint(EWidgetState::Release, 0.24f, 0.40f, 0.52f, 1.f);
+			ItemButton->SetTint(EWidgetState::Disable, 0.10f, 0.12f, 0.14f, 1.f);
+			ItemButton->SetScrollTarget(false);
+			mDynamicRows.push_back(ItemButton);
+		}
+
+		auto ItemLabel = CreateWidget<CTextBlock>("InspAnimTypeItemLbl_" + std::to_string(ItemIdx), 22).lock();
+		if (ItemLabel)
+		{
+			ItemLabel->SetPos(16.f, ItemY);
+			ItemLabel->SetSize(PanelW - 26.f, ItemH);
+			ItemLabel->SetText(WLabel.c_str());
+			ItemLabel->SetFontSize(11.f);
+			ItemLabel->SetTextColor(bSelected ? FVector4(0.6f, 1.f, 0.7f, 1.f) : FVector4(0.85f, 0.85f, 0.85f, 1.f));
+			ItemLabel->SetAlignH(ETextAlignH::Left);
+			ItemLabel->SetAlignV(ETextAlignV::Middle);
+			ItemLabel->SetScrollTarget(false);
+			mDynamicRows.push_back(ItemLabel);
+		}
+
+		mAnimTypeItemButtons.push_back(ItemButton);
+		ItemY += ItemH + 1.f;
+	}
+}
+
 void CInspectorUI::FinishLayout(float ContentEndY)
 {
 	for (auto& Row : mDynamicRows)
@@ -1933,19 +2083,69 @@ void CInspectorUI::Update(float DeltaTime)
 		}
 	}
 
-	// ── 루트 트랜스폼 실시간 표시 ────────────────────────────────────────────
+	// ── 트랜스폼 실시간 표시 ────────────────────────────────────────────────
 	auto Actor = mTarget.lock();
 	if (Actor)
 	{
-		if (auto Root = Actor->GetRootComponent().lock())
+		auto Root = Actor->GetRootComponent().lock();
+
+		// 표시 기준 컴포넌트: 기본은 루트.
+		// 메시 컴포넌트가 루트가 아니라 자식으로 붙어 있으면, 루트부터
+		// 메시까지 누적된(월드) 트랜스폼을 보여준다. 높이/오프셋 컴포넌트가
+		// 메시의 상대 Y에만 얹히기 때문에, 루트만 보면 실제로 보이는 위치가
+		// 안 나온다.
+		std::shared_ptr<CSceneComponent> DispComp = Root;
+		for (const auto& Comp : Actor->GetSceneCompList())
+		{
+			if (Comp && Comp != Root && Comp->GetTypeName() == "CMeshComponent")
+			{
+				DispComp = Comp;
+				break;
+			}
+		}
+
+		if (DispComp)
 		{
 			TCHAR TextBuffer[128] = {};
-			auto Pos   = Root->GetWorldPos();
-			auto Rot   = Root->GetWorldRot();
-			auto Scale = Root->GetWorldScale();
+			auto Pos   = DispComp->GetWorldPos();
+			auto Rot   = DispComp->GetWorldRot();
+			auto Scale = DispComp->GetWorldScale();
 			if (auto Text = mPosText.lock())   { swprintf_s(TextBuffer, 128, L"Pos: %.1f %.1f", Pos.x, Pos.y);    Text->SetText(TextBuffer); }
 			if (auto Text = mRotText.lock())   { swprintf_s(TextBuffer, 128, L"Rot: %.1f",       Rot.z);            Text->SetText(TextBuffer); }
 			if (auto Text = mScaleText.lock()) { swprintf_s(TextBuffer, 128, L"Scl: %.2f %.2f",  Scale.x, Scale.y); Text->SetText(TextBuffer); }
+		}
+	}
+
+	// ── 애니메이션 타입 콤보 (열기/닫기 + 항목 선택) ────────────────────────
+	{
+		// 토글: 목록 열고 닫기
+		if (auto TypeButton = mAnimTypeButton.lock())
+		{
+			if (TypeButton->GetWidgetState() == EWidgetState::Release)
+			{
+				mAnimTypeOpen = !mAnimTypeOpen;
+				RefreshAnimTypeLabel();   // ▼/▲ 갱신
+				Rebuild();                 // 목록 오버레이 생성/제거
+				return;
+			}
+		}
+
+		// 항목 선택: 액터 타입 적용 후 닫기
+		for (size_t i = 0; i < mAnimTypeItemButtons.size(); ++i)
+		{
+			auto ItemButton = mAnimTypeItemButtons[i].lock();
+			if (!ItemButton) continue;
+			if (ItemButton->GetWidgetState() != EWidgetState::Release) continue;
+
+			if (auto Actor = mTarget.lock())
+			{
+				if (i < mAnimTypeOptions.size())
+					Actor->SetAnimType(mAnimTypeOptions[i]);
+			}
+			mAnimTypeOpen = false;
+			RefreshAnimTypeLabel();
+			Rebuild();
+			return;
 		}
 	}
 
@@ -2152,6 +2352,9 @@ void CInspectorUI::UpdateAllRowWidths(float NewWidth)
 	if (auto Text = mTitleText.lock()) Text->SetSize(NewWidth, TITLE_H);
 	SetRowWidth(mActorNameText);
 	SetRowWidth(mActorTagText);
+	// 타입 선택 행 — 버튼은 좌우 6px 여백, 라벨은 그 안쪽.
+	if (auto Button = mAnimTypeButton.lock()) Button->SetSize(NewWidth - 12.f, ROW_H);
+	SetRowWidth(mAnimTypeText);
 	SetRowWidth(mTransformHeader);
 	SetRowWidth(mRootNameText);
 	SetRowWidth(mPosText);

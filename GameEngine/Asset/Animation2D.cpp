@@ -222,11 +222,20 @@ void CAnimation2D::CalculateFrameRatio()
 		}
 	}
 
-	//Offset을 픽셀 단위로 환산할 때 기준이 되므로 보관해둔다.
-	mMaxFrameSize = MaxSize;
+	//이 애니메이션 자체의 최대 크기는 공용 기준과 무관하게 보관해둔다.
+	//(컴포넌트가 이 값을 모아 공용 기준을 정한다)
+	mOwnMaxFrameSize = MaxSize;
 
-	//maxsize가 따로 없다면 ratio계산을 하지 않는다.
-	if (MaxSize.x <= 0.f || MaxSize.y <= 0.f)
+	//정규화 기준(Base). 공용 기준이 설정돼 있으면 그걸 쓰고, 아니면 자기 최대를 쓴다.
+	//여러 아틀라스를 섞어 써도 이 Base가 같으면 픽셀 크기가 화면 크기로 일관되게 매핑된다.
+	FVector2 Base = (mRatioReference.x > 0.f && mRatioReference.y > 0.f)
+		? mRatioReference : MaxSize;
+
+	//Offset을 픽셀 단위로 환산할 때 기준이 되므로 실제로 쓴 Base를 보관해둔다.
+	mMaxFrameSize = Base;
+
+	//base가 따로 없다면 ratio계산을 하지 않는다.
+	if (Base.x <= 0.f || Base.y <= 0.f)
 	{
 		return;
 	}
@@ -253,8 +262,8 @@ void CAnimation2D::CalculateFrameRatio()
 			}
 		}
 
-		mFrameArray[i].Ratio.x = FrameSize.x / MaxSize.x;
-		mFrameArray[i].Ratio.y = FrameSize.y / MaxSize.y;
+		mFrameArray[i].Ratio.x = FrameSize.x / Base.x;
+		mFrameArray[i].Ratio.y = FrameSize.y / Base.y;
 	}
 }
 

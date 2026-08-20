@@ -33,6 +33,8 @@ static constexpr float BTN_Y         = 4.f;
 static constexpr float BTN_H         = 32.f;
 static constexpr float SUBMENU_BTN_H = 32.f;
 static constexpr float SUBMENU_W     = 220.f;
+// 서브메뉴가 이 줄 수를 넘으면 높이를 여기서 자르고 휠 스크롤로 넘긴다.
+static constexpr int   SUBMENU_MAX_ROWS = 10;
 
 CEditorMenuBar::CEditorMenuBar()
 {}
@@ -78,7 +80,7 @@ static std::weak_ptr<CButton> MakeMenuButton(CWidgetContainer* Parent,
 }
 
 static std::weak_ptr<CButton> MakeSubmenuButton(CWidgetContainer* Parent,
-    const std::string& Name, int Row, const wchar_t* Label)
+    const std::string& Name, int Row, const wchar_t* Label, bool bScrollTarget = false)
 {
     auto ButtonWeak = Parent->CreateWidget<CButton>(Name, 1);
     auto Button = ButtonWeak.lock();
@@ -91,6 +93,10 @@ static std::weak_ptr<CButton> MakeSubmenuButton(CWidgetContainer* Parent,
         Button->SetTint(EWidgetState::Clicked, 0.60f, 0.80f, 1.00f, 1.f);
         Button->SetTint(EWidgetState::Release, 0.40f, 0.60f, 1.00f, 1.f);
         Button->SetTint(EWidgetState::Disable, 0.30f, 0.30f, 0.30f, 0.5f);
+
+        // 스크롤되는 서브메뉴는 버튼/텍스트를 스크롤 대상으로 표시해야
+        // 휠에 맞춰 같이 움직이고, 영역 밖으로 나가면 자동으로 숨겨진다.
+        if (bScrollTarget) Button->SetScrollTarget(true);
     }
 
     auto TextWeak = Parent->CreateWidget<CTextBlock>(Name + "_Lbl", 2);
@@ -103,6 +109,8 @@ static std::weak_ptr<CButton> MakeSubmenuButton(CWidgetContainer* Parent,
         Text->SetTextColor(FVector4::White);
         Text->SetAlignH(ETextAlignH::Center);
         Text->SetAlignV(ETextAlignV::Middle);
+
+        if (bScrollTarget) Text->SetScrollTarget(true);
     }
 
     return ButtonWeak;
@@ -146,12 +154,11 @@ bool CEditorMenuBar::Init()
     if (Submenu)
     {
         Submenu->SetPos(140.f, BAR_H);
-        Submenu->SetSize(SUBMENU_W, SUBMENU_BTN_H * 13.f);
         Submenu->SetEnable(false);
 
         auto AddComponentButton = [&](const std::string& Name, int Row, const wchar_t* Label, void(CEditorMenuBar::* ClickFunc)())
         {
-            auto ButtonWeak = MakeSubmenuButton(Submenu.get(), Name, Row, Label);
+            auto ButtonWeak = MakeSubmenuButton(Submenu.get(), Name, Row, Label, true);
             if (auto Button = ButtonWeak.lock())
                 Button->SetWidgetEventFunc(EWidgetEventState::Clicked, this, ClickFunc);
             mComponentButtons.push_back(ButtonWeak);
@@ -171,6 +178,18 @@ bool CEditorMenuBar::Init()
         AddComponentButton("DirectionInput",       11, TEXT("Direction Input"),        &CEditorMenuBar::OnDirectionInputComponentClicked);
         AddComponentButton("ActionState",          12, TEXT("Action State"),           &CEditorMenuBar::OnActionStateComponentClicked);
         AddComponentButton("Height",               13, TEXT("Height (Jump/Fall)"),     &CEditorMenuBar::OnHeightComponentClicked);
+
+        // 줄 수가 SUBMENU_MAX_ROWS를 넘으면 높이를 잘라 화면 밖으로 나가지 않게 하고,
+        // 나머지는 휠 스크롤로 넘긴다. (넘지 않으면 스크롤바가 안 그려져 예전과 동일)
+        int   TotalRows = (int)mComponentButtons.size();
+        int   ViewRows  = (TotalRows < SUBMENU_MAX_ROWS) ? TotalRows : SUBMENU_MAX_ROWS;
+        float ViewH     = SUBMENU_BTN_H * (float)ViewRows;
+
+        Submenu->SetSize(SUBMENU_W, ViewH);
+        Submenu->EnableScroll(true);
+        Submenu->SetScrollArea(0.f, ViewH);
+        Submenu->SetScrollContentEnd(SUBMENU_BTN_H * (float)TotalRows);
+        Submenu->SetScrollStep(SUBMENU_BTN_H);
     }
 
     // ---- "World" 메뉴 (x=300) ----

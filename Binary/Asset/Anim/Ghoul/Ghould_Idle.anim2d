@@ -1,0 +1,14 @@
+ANIM2D 1
+AnimName Ghould_Idle
+TextureType SpriteSheet
+TextureName ghoul
+TextureRelPath Asset\Texture\Monster\ghoul.png
+PlayTime 0.2
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 29.9017 51.4099
+Frames 2
+0 1.25902 184.565 100.219 0 0 0.1
+198.689 0 184.565 100.219 0 0 0.1

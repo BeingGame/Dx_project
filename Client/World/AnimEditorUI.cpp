@@ -17,6 +17,7 @@
 #include <fstream>
 #include <sstream>
 #include <cstdio>   // sprintf_s (값 직접 입력 버퍼 초기화)
+#include <algorithm> // std::sort (ScanTypes 정렬)
 
 namespace
 {
@@ -73,6 +74,19 @@ namespace
             return Name.substr(Prefix.size());
 
         return Name;
+    }
+
+    // 프레임 피벗(앵커, 프레임 Start 기준 텍셀) ↔ 렌더 오프셋은 서로 역변환이다.
+    //   Offset = Size/2 - Pivot   (피벗이 프레임 중심=원점에 오도록 미는 양)
+    // 이렇게 하면 아틀라스가 달라 프레임마다 캐릭터 위치가 어긋나도,
+    // 각 프레임의 피벗(예: 발밑)을 같은 부위에 두면 화면에선 한 점에 겹쳐 정렬된다.
+    FVector2 PivotFromOffset(const FVector2& Size, const FVector2& Offset)
+    {
+        return FVector2(Size.x * 0.5f - Offset.x, Size.y * 0.5f - Offset.y);
+    }
+    FVector2 OffsetFromPivot(const FVector2& Size, const FVector2& Pivot)
+    {
+        return FVector2(Size.x * 0.5f - Pivot.x, Size.y * 0.5f - Pivot.y);
     }
 }
 
@@ -523,6 +537,128 @@ void CAnimEditorUI::ApplyFrames(int CompIdx, int SeqIdx)
     Anim->ClearFrame();
     for (auto& FrameData : Seq.Frames)
         Anim->AddFrame(FrameData.Start, FrameData.Size, FrameData.Offset, FrameData.Duration);
+
+    //프레임 크기가 바뀌면 이 컴포넌트의 공용 크기 기준도 달라질 수 있다.
+    if (auto AnimComp = mComps[CompIdx].Comp.lock())
+        AnimComp->RecomputeSharedRatio();
+}
+
+// 소스 애니메이션(SrcName)의 내용을 대상 시퀀스에 이름만 빼고 통째로 복사한다.
+// 편집 화면(FSeqData)과 대상 CAnimation2D 에셋 양쪽에 반영해서,
+// 바로 미리보기·저장까지 그대로 이어지게 한다.
+void CAnimEditorUI::CopyAnimData(int CompIdx, int DstSeqIdx, const std::string& SrcName)
+{
+    if (CompIdx < 0 || CompIdx >= (int)mComps.size()) return;
+    if (DstSeqIdx < 0 || DstSeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
+
+    auto AnimManager = CAssetManager::GetInst()->GetSubManager<CAnimationManager>(EAssetType::Animation2D);
+    if (!AnimManager) return;
+
+    auto SrcAnim = AnimManager->FindAnimation(SrcName).lock();
+    if (!SrcAnim) return;
+
+    auto& Dst = mComps[CompIdx].Seqs[DstSeqIdx];
+    const std::string DstName = Dst.Name;   // 이름만은 그대로 둔다
+
+    // ── 소스 데이터를 먼저 전부 읽어둔다 ─────────────────────────────────────
+    // 소스와 대상이 같은 에셋일 수 있어서(같은 파일을 로드한 경우) 대상을 지우기
+    // 전에 값들을 복사해두지 않으면, ClearFrame 뒤에 소스 프레임이 0이 되어버린다.
+    const EAnimation2DTextureType SrcType = SrcAnim->GetType();
+
+    std::vector<FFrameData> SrcFrames;
+    {
+        int Count = SrcAnim->GetFrameCount();
+        SrcFrames.reserve(Count);
+        for (int i = 0; i < Count; ++i)
+        {
+            const FTextureFrame& F = SrcAnim->GetFrame(i);
+            FFrameData FrameData;
+            FrameData.Start    = F.Start;
+            FrameData.Size     = F.Size;
+            FrameData.Offset   = F.Offset;
+            FrameData.Duration = F.Duration;
+            SrcFrames.push_back(FrameData);
+        }
+    }
+
+    bool  SrcHasPlay = SrcAnim->HasPlaySettings();
+    float SrcRate = SrcAnim->GetPlayRate();
+    bool  SrcLoop = SrcAnim->GetLoop();
+    bool  SrcRev  = SrcAnim->GetReverse();
+    bool  SrcSym  = SrcAnim->GetSymmetry();
+
+    std::string  SrcTexName;
+    std::wstring SrcTexFullPath;
+    bool         SrcHasTex = false;
+    if (auto SrcTex = SrcAnim->GetTexture().lock())
+    {
+        SrcHasTex  = true;
+        SrcTexName = StripTexturePrefix(SrcTex->GetName());
+        if (const FTextureInfo* Info = SrcTex->GetTexture(0))
+            SrcTexFullPath = Info->FullPath;
+    }
+
+    const FVector2 SrcPivot = CAnimRegistry::GetPivot(SrcName);
+
+    // ── 대상 에셋 확보 (방금 만든 빈 애니메이션이면 없을 수 있다) ──────────
+    auto DstAnim = AnimManager->FindAnimation(DstName).lock();
+    if (!DstAnim)
+    {
+        AnimManager->CreateAnimation(DstName);
+        DstAnim = AnimManager->FindAnimation(DstName).lock();
+    }
+    if (!DstAnim) return;
+
+    // ── 타입 ──
+    Dst.TextureType = SrcType;
+    DstAnim->SetAnimationTextureType(SrcType);
+
+    // ── 스프라이트 텍스처 ──
+    Dst.TextureName.clear();
+    Dst.TextureRelPath.clear();
+    if (SrcHasTex)
+    {
+        Dst.TextureName = SrcTexName;
+        if (!SrcTexFullPath.empty())
+        {
+            // 파일 경로까지 복사해야 다음 실행에서도 텍스처를 다시 올릴 수 있다.
+            Dst.TextureRelPath = DialogUtil::ToRelativePath(DialogUtil::ToNarrow(SrcTexFullPath));
+            DstAnim->SetTextureFullPath(SrcTexName, SrcTexFullPath.c_str());
+        }
+        else
+        {
+            // 경로가 없으면 이미 올라와 있는 텍스처를 이름으로 참조한다.
+            DstAnim->SetTexture(SrcTexName);
+        }
+    }
+
+    // ── 프레임 ──
+    Dst.Frames = SrcFrames;
+    DstAnim->ClearFrame();
+    for (const auto& F : SrcFrames)
+        DstAnim->AddFrame(F.Start, F.Size, F.Offset, F.Duration);
+
+    Dst.SelectedFrame = Dst.Frames.empty() ? -1 : 0;
+    Dst.PlayTime = DstAnim->GetTotalDuration();
+
+    // ── 재생 설정 ──
+    if (SrcHasPlay)
+    {
+        Dst.PlayRate = SrcRate;
+        Dst.Loop     = SrcLoop;
+        Dst.Reverse  = SrcRev;
+        Dst.Symmetry = SrcSym;
+    }
+    DstAnim->SetPlaySettings(Dst.PlayRate, Dst.Loop, Dst.Reverse, Dst.Symmetry);
+
+    // ── 피벗 (CAnimation2D가 안 들고 있어 레지스트리로 옮긴다) ──
+    Dst.PivotX = SrcPivot.x;
+    Dst.PivotY = SrcPivot.y;
+    CAnimRegistry::SetPivot(DstName, SrcPivot.x, SrcPivot.y);
+
+    //복사로 프레임/텍스처(아틀라스)가 바뀌었으니 공용 크기 기준을 다시 잡는다.
+    if (auto AnimComp = mComps[CompIdx].Comp.lock())
+        AnimComp->RecomputeSharedRatio();
 }
 
 void CAnimEditorUI::SetTarget(std::weak_ptr<CActor> Actor)
@@ -628,6 +764,36 @@ void CAnimEditorUI::AddSeq(int CompIdx, const std::string& AnimName)
     RefreshSpriteViewer();
 
     mShowRegistry = false;
+    Rebuild();
+}
+
+void CAnimEditorUI::RemoveSeq(int CompIdx, int SeqIdx)
+{
+    if (CompIdx < 0 || CompIdx >= (int)mComps.size()) return;
+    auto& CompData = mComps[CompIdx];
+    if (SeqIdx < 0 || SeqIdx >= (int)CompData.Seqs.size()) return;
+
+    const std::string Name = CompData.Seqs[SeqIdx].Name;
+
+    // 액터의 컴포넌트에서 이 시퀀스를 뗀다.
+    // (에셋과 .anim2d 파일, "+ 애니메이션 추가" 목록은 그대로 남는다 —
+    //  이 액터에서 빼는 것뿐이라 다시 추가할 수 있다)
+    if (auto AnimComp = CompData.Comp.lock())
+        AnimComp->RemoveAnimation(Name);
+
+    // 에디터 목록에서 제거
+    CompData.Seqs.erase(CompData.Seqs.begin() + SeqIdx);
+
+    // 선택 인덱스 보정
+    if (CompData.Seqs.empty())
+        CompData.Selected = -1;
+    else if (CompData.Selected == SeqIdx)
+        CompData.Selected = (SeqIdx < (int)CompData.Seqs.size()) ? SeqIdx : (int)CompData.Seqs.size() - 1;
+    else if (CompData.Selected > SeqIdx)
+        CompData.Selected -= 1;
+
+    RefreshSpriteViewer();
+    LOG_DEBUG("[AnimEditor] Removed sequence '%s' from %s", Name.c_str(), CompData.CompName.c_str());
     Rebuild();
 }
 
@@ -742,6 +908,10 @@ void CAnimEditorUI::SetAnimTexture(int CompIdx, int SeqIdx)
 
     std::wstring WPath = DialogUtil::ToWide(Path);
     Anim->SetTextureFullPath(TexName, WPath.c_str());
+
+    //Frame 타입은 텍스처 크기가 곧 프레임 크기라, 텍스처가 바뀌면 공용 기준도 갱신한다.
+    if (auto AnimComp = mComps[CompIdx].Comp.lock())
+        AnimComp->RecomputeSharedRatio();
 
     // 뷰어가 열려 있으면 새 텍스처로 다시 그려준다.
     // (안 하면 이전 시퀀스의 시트가 그대로 남아 있다)
@@ -865,7 +1035,7 @@ void CAnimEditorUI::SaveAnim(int CompIdx, int SeqIdx)
 // ── 공통 파싱: 파일 하나를 읽어 CAnimation2D 생성 + CAnimRegistry 등록 ──────
 
 bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo,
-                                     bool bSkipDuplicateName)
+                                     bool bSkipDuplicateName, const std::string& Type)
 {
     std::ifstream File(Path);
     if (!File) return false;
@@ -999,6 +1169,10 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
 
     CAnimRegistry::Register(AnimName);
 
+    // 이 애니가 어느 타입(하위 폴더)에서 왔는지 기록한다.
+    // 애님 에디터가 액터의 타입으로 목록을 좁힐 때 이 값을 본다.
+    CAnimRegistry::SetType(AnimName, Type);
+
     // 피벗은 CAnimation2D가 안 들고 있으므로 레지스트리에 맡겨둔다.
     // SyncFrames가 시퀀스를 채울 때 여기서 다시 꺼내간다.
     CAnimRegistry::SetPivot(AnimName, PivotX, PivotY);
@@ -1022,13 +1196,16 @@ bool CAnimEditorUI::LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* O
 
 // ── 시작 시 전체 자동 로드 ────────────────────────────────────────────────────
 
-void CAnimEditorUI::LoadAllAnims()
+// Asset\Anim\<Type>\*.anim2d 를 읽어 Type으로 등록한다.
+// Type이 ""면 최상위 폴더(공용)를 읽는다.
+int CAnimEditorUI::LoadAnimsInFolder(const std::string& AnimRoot, const std::string& Type)
 {
-    std::string Dir = DialogUtil::GetExeDir() + "Asset\\Anim\\";
+    std::string Dir = AnimRoot;
+    if (!Type.empty()) Dir += Type + "\\";
 
     WIN32_FIND_DATAA FindData;
     HANDLE hFind = FindFirstFileA((Dir + "*.anim2d").c_str(), &FindData);
-    if (hFind == INVALID_HANDLE_VALUE) return;
+    if (hFind == INVALID_HANDLE_VALUE) return 0;
 
     int Count = 0;
     do
@@ -1037,12 +1214,52 @@ void CAnimEditorUI::LoadAllAnims()
 
         // 이름이 겹치는 파일은 건너뛴다. 폴더를 읽는 순서에 따라
         // 어느 쪽이 살아남을지 달라지는 게 제일 곤란하다.
-        if (LoadAnimFromFile(Dir + FindData.cFileName, nullptr, true))
+        if (LoadAnimFromFile(Dir + FindData.cFileName, nullptr, true, Type))
             ++Count;
     } while (FindNextFileA(hFind, &FindData));
 
     FindClose(hFind);
-    LOG_DEBUG("[AnimEditor] Auto-loaded %d anim(s) from %s", Count, Dir.c_str());
+    return Count;
+}
+
+std::vector<std::string> CAnimRegistry::ScanTypes()
+{
+    std::string Dir = DialogUtil::GetExeDir() + "Asset\\Anim\\";
+
+    std::vector<std::string> Types;
+
+    WIN32_FIND_DATAA FindData;
+    HANDLE hFind = FindFirstFileA((Dir + "*").c_str(), &FindData);
+    if (hFind == INVALID_HANDLE_VALUE) return Types;
+
+    do
+    {
+        if (!(FindData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)) continue;
+
+        std::string Name = FindData.cFileName;
+        if (Name == "." || Name == "..") continue;
+
+        Types.push_back(Name);
+    } while (FindNextFileA(hFind, &FindData));
+
+    FindClose(hFind);
+
+    std::sort(Types.begin(), Types.end());
+    return Types;
+}
+
+void CAnimEditorUI::LoadAllAnims()
+{
+    std::string Root = DialogUtil::GetExeDir() + "Asset\\Anim\\";
+
+    // 최상위 폴더의 공용 애니 (Type = "")
+    int Count = LoadAnimsInFolder(Root, "");
+
+    // 타입별 하위 폴더
+    for (const auto& Type : CAnimRegistry::ScanTypes())
+        Count += LoadAnimsInFolder(Root, Type);
+
+    LOG_DEBUG("[AnimEditor] Auto-loaded %d anim(s) from %s (types included)", Count, Root.c_str());
 }
 
 void CAnimEditorUI::LoadAnim()
@@ -1074,6 +1291,34 @@ void CAnimEditorUI::LoadAnim()
         mActiveComp = 0;
 
     auto& CompData = mComps[mActiveComp];
+
+    // ── 지금 편집 중인 시퀀스가 있으면, 그 시퀀스에 "덮어쓰기 복사" ──────────
+    // 로드한 애니메이션의 내용(프레임/텍스처/타입/재생설정/피벗)을 이름만 빼고
+    // 현재 시퀀스에 통째로 복사한다. 새 애니메이션을 만들어 두고 다른 애니를
+    // 골라 그 내용을 그대로 가져오려는 흐름을 지원한다.
+    int Sel = CompData.Selected;
+    if (Sel >= 0 && Sel < (int)CompData.Seqs.size())
+    {
+        const std::string DstName = CompData.Seqs[Sel].Name;
+
+        CopyAnimData(mActiveComp, Sel, Info.Name);
+
+        // 컴포넌트가 대상 애니를 아직 안 들고 있으면 붙여준다.
+        // (프레임/텍스처는 CopyAnimData가 이미 대상 에셋에 반영했다)
+        if (auto AnimComp = CompData.Comp.lock())
+        {
+            auto& Seq = CompData.Seqs[Sel];
+            if (AnimComp->GetAnimationMap().find(DstName) == AnimComp->GetAnimationMap().end())
+                AnimComp->AddAnimation(DstName, Seq.PlayTime, Seq.PlayRate, Seq.Loop, Seq.Reverse, Seq.Symmetry);
+        }
+
+        RefreshSpriteViewer();
+        LOG_DEBUG("[AnimEditor] Copied '%s' into '%s' (name kept)", Info.Name.c_str(), DstName.c_str());
+        Rebuild();
+        return;
+    }
+
+    // ── 편집 중인 시퀀스가 없으면(빈 컴포넌트 등) 예전처럼 새 시퀀스로 추가 ──
 
     // 이 컴포넌트가 실제로 그 애니메이션을 들고 있는지 본다.
     // 에디터 목록(Seqs)이 아니라 컴포넌트를 직접 확인해야 한다.
@@ -1158,6 +1403,7 @@ void CAnimEditorUI::Rebuild()
     mAddToggleButton = {}; mFrameCountText = {}; mPlayTimeText = {};
     mToggleFrameButton = {}; mFramePrevButton = {}; mFrameNextButton = {};
     mFrameIdxLabel = {}; mAddFrameButton = {}; mDelFrameButton = {}; mClearFramesButton = {};
+    mAlignFeetButton = {};
     mSetTextureButton = {}; mTypeToggleButton = {};
     mSaveAnimButton = {}; mLoadAnimButton = {}; mNewAnimButton = {};
     mOpenViewerButton = {};
@@ -1230,18 +1476,29 @@ void CAnimEditorUI::Rebuild()
     Y += 16.f;
 
     float MaxSeqY = LayoutH - 300.f;
+    const float SeqDelW = 22.f;   // 우측 [X] 삭제 버튼 폭
     for (int i = 0; i < (int)CompData.Seqs.size(); ++i)
     {
         if (Y + ROW_H > MaxSeqY) break;
         std::wstring WName(CompData.Seqs[i].Name.begin(), CompData.Seqs[i].Name.end());
         bool bSel = (i == CompData.Selected);
-        auto Button = MakeButton("SequenceButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H,
+
+        // 이름 버튼 — [X] 버튼 자리를 남겨두고 폭을 줄인다.
+        auto Button = MakeButton("SequenceButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f - SeqDelW - 2.f, ROW_H,
             bSel ? 0.18f : 0.14f,
             bSel ? 0.38f : 0.20f,
             bSel ? 0.65f : 0.26f);
-        MakeLabel("SequenceButtonLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 12.f, ROW_H,
+        MakeLabel("SequenceButtonLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 12.f - SeqDelW - 2.f, ROW_H,
             WName.c_str(), 11.f);
-        mSeqButtons.push_back({ Button, i });
+
+        // 우측 [X] 삭제 버튼 (붉은 톤)
+        float DelX = PanelW - 4.f - SeqDelW;
+        auto DelButton = MakeButton("SequenceDelButton_" + std::to_string(mDynIdx), DelX, Y, SeqDelW, ROW_H,
+            0.42f, 0.16f, 0.18f);
+        MakeLabel("SequenceDelLabel_" + std::to_string(mDynIdx++), DelX, Y, SeqDelW, ROW_H,
+            TEXT("X"), 11.f, ETextAlignH::Center);
+
+        mSeqButtons.push_back({ Button, DelButton, i });
         Y += ROW_H + 2.f;
     }
 
@@ -1287,33 +1544,65 @@ void CAnimEditorUI::Rebuild()
                     AnimComp->SetPlayRate(mComps[CompIdx].Seqs[SeqIdx].Name, mComps[CompIdx].Seqs[SeqIdx].PlayRate);
             });
 
-        // ── 피벗 기준선 ────────────────────────────────────────────────────
-        // 스프라이트 뷰어의 청록 세로선(X) / 자홍 가로선(Y) 위치.
-        // 시퀀스 단위 값이라 프레임을 넘겨도 유지된다.
-        AddPropRow(Y, TEXT("Pivot.X"), 1.f,
-            [this, CompIdx, SeqIdx]() -> float {
-                if (CompIdx < (int)mComps.size() && SeqIdx < (int)mComps[CompIdx].Seqs.size())
-                    return mComps[CompIdx].Seqs[SeqIdx].PivotX;
+        // ── 피벗(앵커) — 이제 "선택 프레임"의 앵커다 ─────────────────────────
+        // 스프라이트 뷰어의 청록 세로선(X) / 자홍 가로선(Y) 위치이자 정렬 기준점.
+        // 저장값은 프레임 Offset이고, 피벗은 그 역산(Size/2 - Offset)으로 보여준다.
+        // 여러 프레임의 피벗을 같은 부위(예: 발밑)에 두면 화면에서 한 점에 겹쳐 정렬된다.
+        auto CurFrame = [this, CompIdx, SeqIdx]() -> FFrameData* {
+            if (CompIdx >= (int)mComps.size() || SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return nullptr;
+            auto& S = mComps[CompIdx].Seqs[SeqIdx];
+            if (S.SelectedFrame < 0 || S.SelectedFrame >= (int)S.Frames.size()) return nullptr;
+            return &S.Frames[S.SelectedFrame];
+        };
+
+        // 모든 프레임을 순회하는 헬퍼. (All 버튼용)
+        auto AllFrames = [this, CompIdx, SeqIdx]() -> std::vector<FFrameData>* {
+            if (CompIdx >= (int)mComps.size() || SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return nullptr;
+            return &mComps[CompIdx].Seqs[SeqIdx].Frames;
+        };
+
+        // Pivot.X — 오른쪽 "All"을 켜면 모든 프레임에 같이 적용된다.
+        AddFramePropRow(Y, TEXT("Pivot.X"), 1.f,
+            [CurFrame]() -> float {
+                if (auto* F = CurFrame()) return PivotFromOffset(F->Size, F->Offset).x;
                 return 0.f;
             },
-            [this, CompIdx, SeqIdx](float Value) {
-                if (CompIdx >= (int)mComps.size() || SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
-                auto& Target = mComps[CompIdx].Seqs[SeqIdx];
-                Target.PivotX = Value;
-                CAnimRegistry::SetPivot(Target.Name, Target.PivotX, Target.PivotY);
+            [CurFrame](float Value) {
+                if (auto* F = CurFrame()) {
+                    FVector2 P = PivotFromOffset(F->Size, F->Offset);
+                    F->Offset = OffsetFromPivot(F->Size, FVector2(Value, P.y));
+                }
+            },
+            [AllFrames](float Value, bool bDelta) {
+                auto* Fs = AllFrames();
+                if (!Fs) return;
+                for (auto& F : *Fs) {
+                    FVector2 P = PivotFromOffset(F.Size, F.Offset);
+                    float NewX = bDelta ? P.x + Value : Value;
+                    F.Offset = OffsetFromPivot(F.Size, FVector2(NewX, P.y));
+                }
             });
 
-        AddPropRow(Y, TEXT("Pivot.Y"), 1.f,
-            [this, CompIdx, SeqIdx]() -> float {
-                if (CompIdx < (int)mComps.size() && SeqIdx < (int)mComps[CompIdx].Seqs.size())
-                    return mComps[CompIdx].Seqs[SeqIdx].PivotY;
+        // Pivot.Y — 발밑 높이 등. All을 켜면 모든 프레임의 세로 앵커를 한 번에 맞춘다.
+        AddFramePropRow(Y, TEXT("Pivot.Y"), 1.f,
+            [CurFrame]() -> float {
+                if (auto* F = CurFrame()) return PivotFromOffset(F->Size, F->Offset).y;
                 return 0.f;
             },
-            [this, CompIdx, SeqIdx](float Value) {
-                if (CompIdx >= (int)mComps.size() || SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
-                auto& Target = mComps[CompIdx].Seqs[SeqIdx];
-                Target.PivotY = Value;
-                CAnimRegistry::SetPivot(Target.Name, Target.PivotX, Target.PivotY);
+            [CurFrame](float Value) {
+                if (auto* F = CurFrame()) {
+                    FVector2 P = PivotFromOffset(F->Size, F->Offset);
+                    F->Offset = OffsetFromPivot(F->Size, FVector2(P.x, Value));
+                }
+            },
+            [AllFrames](float Value, bool bDelta) {
+                auto* Fs = AllFrames();
+                if (!Fs) return;
+                for (auto& F : *Fs) {
+                    FVector2 P = PivotFromOffset(F.Size, F.Offset);
+                    float NewY = bDelta ? P.y + Value : Value;
+                    F.Offset = OffsetFromPivot(F.Size, FVector2(P.x, NewY));
+                }
             });
 
         AddToggleRow(Y, TEXT("Loop"),
@@ -1476,6 +1765,17 @@ void CAnimEditorUI::Rebuild()
                 mClearFramesButton = ClrButton;
                 Y += ROW_H + 4.f;
             }
+
+            // 발밑 정렬 — 모든 프레임의 앵커를 하단 중앙(발밑)으로 맞춘다.
+            // 아틀라스가 달라 프레임마다 위치가 어긋나도 한 번에 발밑 기준으로 정렬된다.
+            if (Y + ROW_H < LayoutH - 10.f)
+            {
+                auto FeetButton = MakeButton("AlignFeetButton_" + std::to_string(mDynIdx), 4.f, Y, PanelW - 8.f, ROW_H, 0.16f, 0.26f, 0.34f);
+                MakeLabel("AlignFeetButtonLabel_" + std::to_string(mDynIdx++), 4.f, Y, PanelW - 8.f, ROW_H,
+                    TEXT("발밑 정렬 (전 프레임 하단중앙)"), 10.f, ETextAlignH::Center);
+                mAlignFeetButton = FeetButton;
+                Y += ROW_H + 4.f;
+            }
         }
 
         // ── 저장 / 불러오기 ──────────────────────────────────────────────────
@@ -1509,7 +1809,15 @@ void CAnimEditorUI::Rebuild()
     // ── 레지스트리 목록 ───────────────────────────────────────────────────────
     if (mShowRegistry)
     {
-        for (auto& AnimName : CAnimRegistry::GetAll())
+        // 대상 액터의 타입 폴더에 속한 애니만 보여준다.
+        // 타입이 없으면(공용) 최상위 폴더 애니(Type == "")가 나온다.
+        std::string ActorType;
+        if (auto TargetActor = mTarget.lock())
+            ActorType = TargetActor->GetAnimType();
+
+        std::vector<std::string> AnimList = CAnimRegistry::GetByType(ActorType);
+
+        for (auto& AnimName : AnimList)
         {
             if (Y + ROW_H > LayoutH - 6.f) break;
             std::wstring WName(AnimName.begin(), AnimName.end());
@@ -1519,10 +1827,13 @@ void CAnimEditorUI::Rebuild()
             Y += ROW_H + 2.f;
         }
 
-        if (CAnimRegistry::GetAll().empty())
+        if (AnimList.empty())
         {
+            const wchar_t* EmptyMsg = ActorType.empty()
+                ? TEXT("(공용 애니메이션 없음)")
+                : TEXT("(이 타입 폴더에 애니메이션 없음)");
             MakeLabel("RegistryEmptyLabel_" + std::to_string(mDynIdx++), 8.f, Y, PanelW - 16.f, ROW_H,
-                TEXT("(등록된 애니메이션 없음)"), 10.f);
+                EmptyMsg, 10.f);
             Y += ROW_H + 2.f;
         }
     }
@@ -1906,6 +2217,16 @@ void CAnimEditorUI::Update(float DeltaTime)
         }
     }
 
+    // ── 시퀀스 [X] 삭제 (재생보다 먼저 확인) ─────────────────────────────────
+    for (auto& SeqEntry : mSeqButtons)
+    {
+        if (auto Del = SeqEntry.DeleteButton.lock(); Del && Del->GetWidgetState() == EWidgetState::Release)
+        {
+            RemoveSeq(mActiveComp, SeqEntry.Idx);
+            return;
+        }
+    }
+
     // ── 시퀀스 버튼 (클릭 → 재생) ────────────────────────────────────────────
     for (auto& SeqEntry : mSeqButtons)
     {
@@ -2166,6 +2487,29 @@ void CAnimEditorUI::Update(float DeltaTime)
         }
     }
 
+    // ── 발밑 정렬 (전 프레임 하단중앙) ───────────────────────────────────────
+    if (auto Button = mAlignFeetButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
+    {
+        if (mActiveComp < (int)mComps.size())
+        {
+            auto& CompData = mComps[mActiveComp];
+            if (CompData.Selected >= 0 && CompData.Selected < (int)CompData.Seqs.size())
+            {
+                auto& Seq = CompData.Seqs[CompData.Selected];
+
+                // 각 프레임의 앵커를 하단 중앙(Size.x/2, Size.y = 발밑)으로 두고
+                // 그에 맞는 렌더 오프셋을 계산해 넣는다. 프레임 크기가 달라도
+                // 발밑이 모두 원점에 겹치므로 애니가 안 튄다.
+                for (auto& F : Seq.Frames)
+                    F.Offset = OffsetFromPivot(F.Size, FVector2(F.Size.x * 0.5f, F.Size.y));
+
+                ApplyFrames(mActiveComp, CompData.Selected);
+                SyncSpriteViewer(mActiveComp, CompData.Selected);
+                Rebuild(); return;
+            }
+        }
+    }
+
     // ── 새 애니메이션 만들기 ──────────────────────────────────────────────────
     if (auto Button = mNewAnimButton.lock(); Button && Button->GetWidgetState() == EWidgetState::Release)
     {
@@ -2300,7 +2644,14 @@ void CAnimEditorUI::SyncSpriteViewer(int CompIdx, int SeqIdx)
         Rects.push_back({ FrameData.Start, FrameData.Size });
 
     Viewer->SetFrames(Rects, Seq.SelectedFrame);
-    Viewer->SetPivot(Seq.PivotX, Seq.PivotY);
+
+    // 피벗선은 프레임별로 — 그 프레임의 오프셋에서 역산한 앵커를 보여준다.
+    if (Seq.SelectedFrame >= 0 && Seq.SelectedFrame < (int)Seq.Frames.size())
+    {
+        const auto& F = Seq.Frames[Seq.SelectedFrame];
+        FVector2 P = PivotFromOffset(F.Size, F.Offset);
+        Viewer->SetPivot(P.x, P.y);
+    }
 }
 
 void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
@@ -2381,7 +2732,17 @@ void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
     {
         if (CompIdx >= (int)mComps.size()) return;
         if (SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
-        mComps[CompIdx].Seqs[SeqIdx].SelectedFrame = FrameIdx;
+        auto& Seq2 = mComps[CompIdx].Seqs[SeqIdx];
+        Seq2.SelectedFrame = FrameIdx;
+
+        // 프레임이 바뀌면 피벗선도 그 프레임의 앵커로 갱신한다.
+        if (auto V = mSpriteViewer.lock();
+            V && FrameIdx >= 0 && FrameIdx < (int)Seq2.Frames.size())
+        {
+            const auto& F = Seq2.Frames[FrameIdx];
+            FVector2 P = PivotFromOffset(F.Size, F.Offset);
+            V->SetPivot(P.x, P.y);
+        }
         Rebuild();
     });
 
@@ -2436,8 +2797,14 @@ void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
         }
     });
 
-    // 피벗 기준선 — 값의 주인은 시퀀스다. 뷰어에서 끌면 여기로 돌려받는다.
-    Viewer->SetPivot(Seq.PivotX, Seq.PivotY);
+    // 피벗 기준선 — 이제 "프레임별 앵커"다. 선택 프레임의 오프셋에서 역산해 보여주고,
+    // 뷰어에서 끌면 그 프레임의 오프셋으로 되돌려 계산해 넣는다.
+    if (Seq.SelectedFrame >= 0 && Seq.SelectedFrame < (int)Seq.Frames.size())
+    {
+        const auto& F = Seq.Frames[Seq.SelectedFrame];
+        FVector2 P = PivotFromOffset(F.Size, F.Offset);
+        Viewer->SetPivot(P.x, P.y);
+    }
 
     Viewer->SetOnPivotChanged([this, CompIdx, SeqIdx](float PivotX, float PivotY)
     {
@@ -2445,11 +2812,15 @@ void CAnimEditorUI::OpenSpriteViewer(int CompIdx, int SeqIdx)
         if (SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
 
         auto& Target = mComps[CompIdx].Seqs[SeqIdx];
-        Target.PivotX = PivotX;
-        Target.PivotY = PivotY;
-        CAnimRegistry::SetPivot(Target.Name, PivotX, PivotY);
+        int Fi = Target.SelectedFrame;
+        if (Fi < 0 || Fi >= (int)Target.Frames.size()) return;
 
-        Rebuild();   // 에디터의 Pivot.X / Pivot.Y 표시 갱신
+        // 끌어 놓은 피벗 위치가 이 프레임의 앵커. 렌더 오프셋으로 역변환해 저장한다.
+        auto& F = Target.Frames[Fi];
+        F.Offset = OffsetFromPivot(F.Size, FVector2(PivotX, PivotY));
+
+        ApplyFrames(CompIdx, SeqIdx);
+        Rebuild();   // 에디터의 Offset 표시 갱신
     });
 
     Viewer->SetEnable(true);

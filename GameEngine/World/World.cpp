@@ -356,7 +356,7 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		auto AProps = ParseSection(Lines, ASec.Start, ASec.End);
 
 		std::string TypeName = "CActor";
-		std::string ActorName, Tag;
+		std::string ActorName, Tag, AnimType;
 		FVector3 WorldPos(0,0,0), WorldScale(1,1,1), WorldRot(0,0,0);
 		int SceneCompCount = 0, ActorCompCount = 0;
 
@@ -368,6 +368,9 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		}
 		{
 			auto i2 = AProps.find("Tag"); if (i2 != AProps.end()) Tag = i2->second;
+		}
+		{
+			auto i2 = AProps.find("AnimType"); if (i2 != AProps.end()) AnimType = i2->second;
 		}
 		{
 			auto i2 = AProps.find("WorldPos");
@@ -402,6 +405,7 @@ bool CWorld::LoadScene(const std::string& FilePath)
 		Actor->SetName(ActorName);
 		Actor->SetWorld(GetThisPtr());
 		Actor->SetActorTag(Tag);
+		Actor->SetAnimType(AnimType);
 
 		if (!Actor->Init())
 			continue;

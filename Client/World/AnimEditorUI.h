@@ -54,6 +54,37 @@ struct CAnimRegistry
     {
         sSources[Name] = Path;
     }
+
+    // 애니메이션 이름 → 타입(= Asset\Anim\ 아래 하위 폴더 이름).
+    // 최상위 폴더에서 읽은 애니는 타입이 ""(공용)다.
+    // 액터가 고른 타입으로 "+ 애니메이션 추가" 목록을 좁힐 때 쓴다.
+    inline static std::map<std::string, std::string> sTypes;
+
+    static void SetType(const std::string& Name, const std::string& Type)
+    {
+        sTypes[Name] = Type;
+    }
+
+    static std::string GetType(const std::string& Name)
+    {
+        auto Found = sTypes.find(Name);
+        return (Found != sTypes.end()) ? Found->second : std::string();
+    }
+
+    // 특정 타입에 속한 애니메이션 이름만 등록 순서대로 돌려준다.
+    static std::vector<std::string> GetByType(const std::string& Type)
+    {
+        std::vector<std::string> Out;
+        for (const auto& Name : sNames)
+            if (GetType(Name) == Type)
+                Out.push_back(Name);
+        return Out;
+    }
+
+    // Asset\Anim\ 아래의 하위 폴더 이름을 훑어 타입 목록을 만든다. (정렬됨)
+    // 파일이 아니라 폴더 구조를 직접 읽으므로, 폴더만 만들어두면 목록에 잡힌다.
+    // 구현은 AnimEditorUI.cpp에 있다. (디렉터리 순회 때문에 <windows.h> 필요)
+    static std::vector<std::string> ScanTypes();
 };
 
 // .anim2d 한 개를 읽었을 때 나오는 시퀀스 설정.
@@ -147,7 +178,7 @@ private:
 
     // ── 동적 위젯 핸들 ───────────────────────────────────────────────────────
     struct FTabButton   { std::weak_ptr<CButton> Button; int Idx; };
-    struct FSeqButton   { std::weak_ptr<CButton> Button; int Idx; };
+    struct FSeqButton   { std::weak_ptr<CButton> Button; std::weak_ptr<CButton> DeleteButton; int Idx; };
     struct FPropButton
     {
         std::weak_ptr<CButton>    Minus, Plus;
@@ -185,7 +216,7 @@ private:
 
     // 프레임 속성 행마다 "All"이 켜져 있는지.
     // 위젯은 Rebuild 때마다 새로 만들어지므로 상태는 여기 남겨둔다.
-    static constexpr int FRAME_PROP_MAX = 8;
+    static constexpr int FRAME_PROP_MAX = 12;   // Start/Size/Offset/Dur(7) + Pivot.X/Y(2) + 여유
     bool mFramePropAll[FRAME_PROP_MAX] = {};
 
     std::weak_ptr<CButton>    mAddToggleButton;
@@ -197,6 +228,7 @@ private:
     std::weak_ptr<CButton>    mFramePrevButton, mFrameNextButton;
     std::weak_ptr<CTextBlock> mFrameIdxLabel;
     std::weak_ptr<CButton>    mAddFrameButton, mDelFrameButton, mClearFramesButton;
+    std::weak_ptr<CButton>    mAlignFeetButton;   // 전 프레임 발밑(하단중앙) 정렬
 
     // 텍스처 / 타입
     std::weak_ptr<CButton>    mSetTextureButton;
@@ -240,9 +272,15 @@ private:
     void SyncFrames(int CompIdx, int SeqIdx);
     void ApplyFrames(int CompIdx, int SeqIdx);
     void CreateNewAnim();
+    void RemoveSeq(int CompIdx, int SeqIdx);   // 시퀀스를 컴포넌트와 목록에서 제거
     void SetAnimTexture(int CompIdx, int SeqIdx);
     void SaveAnim(int CompIdx, int SeqIdx);
     void LoadAnim();
+
+    // 소스 애니메이션(SrcName)의 내용을 대상 시퀀스(CompIdx, DstSeqIdx)에
+    // 이름만 빼고 통째로 복사한다. 프레임/텍스처/타입/재생설정/피벗까지.
+    // FSeqData와 대상 CAnimation2D 에셋 양쪽에 반영한다.
+    void CopyAnimData(int CompIdx, int DstSeqIdx, const std::string& SrcName);
     void UpdateHandles(float NewW, float NewH);
 
     //Rebuild 마무리 — 동적 위젯을 스크롤 대상으로 표시하고 콘텐츠 길이를 알려준다.
@@ -269,11 +307,18 @@ private:
     // bSkipDuplicateName: 그 AnimName을 이미 다른 파일이 가져갔으면 읽지 않고 물러난다.
     //   폴더를 통째로 훑는 LoadAllAnims가 켜고 부른다. 사용자가 직접 고른
     //   "Load Anim"은 덮어쓰는 게 의도이므로 끈 채로 부른다.
+    //   Type: 이 파일이 속한 타입(하위 폴더 이름). 레지스트리에 그대로 기록한다.
+    //         최상위 폴더에서 읽었으면 ""(공용)다.
     static bool LoadAnimFromFile(const std::string& Path, FLoadedAnimInfo* OutInfo = nullptr,
-                                 bool bSkipDuplicateName = false);
+                                 bool bSkipDuplicateName = false,
+                                 const std::string& Type = "");
+
+    // AnimRoot\<Type>\*.anim2d 를 Type으로 등록한다. Type이 ""면 최상위 폴더.
+    // 읽어 등록한 개수를 돌려준다. (LoadAllAnims가 타입별로 불러 모은다)
+    static int LoadAnimsInFolder(const std::string& AnimRoot, const std::string& Type);
 
 public:
-    static void LoadAllAnims(); // Asset\Anim\ 폴더 전체 자동 로드
+    static void LoadAllAnims(); // Asset\Anim\ 폴더 전체(하위 타입 폴더 포함) 자동 로드
 
     std::weak_ptr<CButton>    MakeButton(const std::string& Name,
         float X, float Y, float Width, float Height, float Red, float Green, float Blue);

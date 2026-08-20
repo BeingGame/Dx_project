@@ -17,6 +17,8 @@ CActor::CActor(const CActor& src)
 	mWorld = src.mWorld;
 	mName = src.mName;
 	mRenderEnable = src.mRenderEnable;
+	mActorTag = src.mActorTag;
+	mAnimType = src.mAnimType;
 
 	//씬컴포넌트 리스트를 복사한다.
 	auto iter = src.mSceneCompList.begin();
@@ -1131,6 +1133,7 @@ void CActor::SaveScene(std::ofstream& File, int ActorIdx) const
 	File << "TypeName=" << GetTypeName() << "\n";
 	File << "Name=" << mName << "\n";
 	File << "Tag=" << mActorTag << "\n";
+	File << "AnimType=" << mAnimType << "\n";
 	File << "WorldPos=" << Pos.x << " " << Pos.y << " " << Pos.z << "\n";
 	File << "WorldScale=" << Scale.x << " " << Scale.y << " " << Scale.z << "\n";
 	File << "WorldRot=" << Rot.x << " " << Rot.y << " " << Rot.z << "\n";

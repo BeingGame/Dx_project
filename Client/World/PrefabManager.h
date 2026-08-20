@@ -17,6 +17,7 @@ struct FPrefabComponentEntry
 struct FPrefabData
 {
     std::string ActorTag = "Actor";
+    std::string AnimType;
     FVector3    WorldPos;
     FVector3    WorldScale = FVector3(1.f, 1.f, 1.f);
     FVector3    WorldRot;

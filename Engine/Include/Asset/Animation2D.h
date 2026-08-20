@@ -36,7 +36,16 @@ protected:
 	//시퀀스에서 가장 큰 프레임의 크기(텍셀). CalculateFrameRatio에서 갱신된다.
 	//정점의 1.0(쿼드 전체 폭)이 이 크기에 대응하므로,
 	//픽셀 단위 값을 정규화 좌표로 바꿀 때 기준이 된다.
+	//공용 기준(mRatioReference)이 설정돼 있으면 그 값이 여기 그대로 들어간다.
 	FVector2 mMaxFrameSize = FVector2(0.f, 0.f);
+
+	//이 애니메이션만 놓고 본 최대 프레임 크기(텍셀). 공용 기준과 무관하게 항상 계산.
+	//컴포넌트가 여러 애니의 이 값을 모아 공용 기준(최대)을 구하는 데 쓴다.
+	FVector2 mOwnMaxFrameSize = FVector2(0.f, 0.f);
+
+	//여러 아틀라스를 섞어 쓸 때 화면 크기가 튀지 않도록, 컴포넌트가 자기 애니들의
+	//최대 프레임 크기를 모아 공용 기준을 정해 넣어준다. (0이면 예전처럼 자기 최대 기준)
+	FVector2 mRatioReference = FVector2(0.f, 0.f);
 
 	//프레임이 바뀌었으니 Ratio와 mMaxFrameSize를 다시 계산해야 하는지.
 	//예전에는 CalculateFrameRatio를 부르는 쪽이 알아서 챙겨야 했는데,
@@ -65,6 +74,25 @@ public:
 	{
 		EnsureFrameRatio();
 		return mMaxFrameSize;
+	}
+
+	//이 애니메이션 자체의 최대 프레임 크기. (공용 기준과 무관)
+	const FVector2& GetOwnMaxFrameSize()
+	{
+		EnsureFrameRatio();
+		return mOwnMaxFrameSize;
+	}
+
+	//공용 정규화 기준을 설정한다. 여러 아틀라스를 쓸 때 컴포넌트가 자기 애니들의
+	//최대 프레임 크기를 모아 그 최댓값을 모두에게 넣어주면 화면 크기가 일관된다.
+	//(0,0)을 주면 예전처럼 각 애니 자체 최대를 기준으로 되돌린다.
+	void SetRatioReference(const FVector2& Reference)
+	{
+		if (mRatioReference.x == Reference.x && mRatioReference.y == Reference.y)
+			return;
+
+		mRatioReference = Reference;
+		mFrameRatioDirty = true;
 	}
 
 	const std::weak_ptr<class CTexture>& GetTexture() const

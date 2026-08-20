@@ -337,6 +337,11 @@ protected:
 
 	std::string mActorTag = "Actor";
 
+	//애니메이션 타입. Asset\Anim\ 아래의 하위 폴더 이름과 대응한다.
+	//(예: "Titan", "Zombie") 비어 있으면 최상위 폴더의 공용 애니를 쓴다.
+	//애님 에디터가 이 값으로 "+ 애니메이션 추가" 목록을 그 타입 폴더로 좁힌다.
+	std::string mAnimType;
+
 public:
 	const std::string& GetActorTag() const
 	{
@@ -346,6 +351,16 @@ public:
 	void SetActorTag(const std::string& Tag)
 	{
 		mActorTag = Tag;
+	}
+
+	const std::string& GetAnimType() const
+	{
+		return mAnimType;
+	}
+
+	void SetAnimType(const std::string& Type)
+	{
+		mAnimType = Type;
 	}
 
 	virtual std::string GetTypeName() const { return "CActor"; }

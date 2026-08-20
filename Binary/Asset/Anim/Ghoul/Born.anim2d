@@ -1,0 +1,18 @@
+ANIM2D 1
+AnimName Born
+TextureType SpriteSheet
+TextureName ghoulrise
+TextureRelPath Asset\Texture\Monster\ghoulrise.png
+PlayTime 0.6
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 19.5812 39.8395
+Frames 6
+0 0 39 25 0 0 0.1
+38.0187 0 39 41 0 0 0.1
+83.0753 0 41.8457 61.8683 0 0 0.1
+0 76.1771 41.8457 61.8683 0 0 0.1
+41.8752 74.8407 41.4002 73.4508 0 0 0.1
+84.5998 74.8407 40.554 74.7201 0 0 0.1

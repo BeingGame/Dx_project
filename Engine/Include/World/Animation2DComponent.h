@@ -45,6 +45,17 @@ public:
 	void SetUpdateComponent(std::weak_ptr<class CMeshComponent>& MeshComponent);
 	void AddAnimation(const std::weak_ptr<class CAnimation2D>& Anim, float PlayTime = 1.f, float PlayRate = 1.f, bool Loop = false, bool Reverse = false, bool Symmetry = false);
 	void AddAnimation(const std::string& Name, float PlayTime = 1.f, float PlayRate = 1.f, bool Loop = false, bool Reverse = false, bool Symmetry = false);
+
+	//등록된 시퀀스를 제거한다. 지운 게 현재 재생 중이던 것이면
+	//남은 시퀀스 하나로 바꾸고, 하나도 없으면 현재를 비운다. 지웠으면 true.
+	bool RemoveAnimation(const std::string& Name);
+
+	//이 컴포넌트가 가진 모든 애니메이션의 최대 프레임 크기를 모아, 그 최댓값을
+	//공용 정규화 기준으로 각 애니에 넣어준다. 여러 아틀라스를 섞어 써도 프레임
+	//픽셀 크기가 화면 크기에 일관되게 매핑돼서, 애니를 바꿔도 크기가 튀지 않는다.
+	//애니를 추가/제거하거나 프레임·텍스처가 바뀐 뒤에 부르면 된다.
+	void RecomputeSharedRatio();
+
 	void ChangeAnimation(const std::string& Name);
 
 	//같은 애니메이션이어도 처음부터 다시 재생한다. (공격 연타 등)

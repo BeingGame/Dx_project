@@ -42,6 +42,19 @@ private:
 	std::weak_ptr<class CTextBlock> mTitleText;
 	std::weak_ptr<class CTextBlock> mActorNameText;
 	std::weak_ptr<class CTextBlock> mActorTagText;
+
+	// 애니메이션 타입 선택 콤보 (Tag 아래). 클릭하면 목록이 아래로 펼쳐진다.
+	// 타입 목록은 Asset\Anim\ 하위 폴더에서 매번 스캔한다. (CAnimRegistry::ScanTypes)
+	std::weak_ptr<class CTextBlock> mAnimTypeText;    // "Type: <이름> ▼" 표시
+	std::weak_ptr<class CButton>    mAnimTypeButton;  // 열기/닫기 토글
+	bool  mAnimTypeOpen = false;                      // 목록이 펼쳐져 있는가
+	float mAnimTypeRowY = 0.f;                        // 타입 행의 Y (목록 위치 계산용)
+
+	// 펼쳐졌을 때의 항목 버튼과 그에 대응하는 타입 문자열. (""=공용)
+	// 목록은 매 Rebuild 때 다시 만들고, 폴링에서 이 쌍을 보고 선택을 처리한다.
+	std::vector<std::weak_ptr<class CButton>> mAnimTypeItemButtons;
+	std::vector<std::string>                  mAnimTypeOptions;
+
 	std::weak_ptr<class CTextBlock> mTransformHeader;
 	std::weak_ptr<class CTextBlock> mRootNameText;
 	std::weak_ptr<class CTextBlock> mPosText;
@@ -145,6 +158,13 @@ private:
 	int mActionEditIdx = 0;
 
 	void UpdateAllRowWidths(float NewWidth);
+
+	// 대상 액터의 애니메이션 타입을 라벨(mAnimTypeText)에 반영한다. (▼/▲ 포함)
+	void RefreshAnimTypeLabel();
+
+	// 타입 콤보가 열려 있을 때 항목 버튼들을 오버레이로 만든다.
+	// (RebuildComponents 끝에서 호출 — 고정 위치, 비스크롤, 높은 ZOrder)
+	void BuildAnimTypeMenu();
 
 	// Rebuild 마무리 — 동적 행을 스크롤 대상으로 표시하고 콘텐츠 길이를 알려준다.
 	void FinishLayout(float ContentEndY);

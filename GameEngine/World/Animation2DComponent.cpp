@@ -193,7 +193,8 @@ void CAnimation2DComponent::AddAnimation(const std::weak_ptr<class CAnimation2D>
 		RefreshTexture();
 	}
 
-
+	//새 애니가 들어오면 아틀라스 크기가 달라질 수 있으니 공용 기준을 다시 잡는다.
+	RecomputeSharedRatio();
 }
 
 void CAnimation2DComponent::AddAnimation(const std::string& Name, float PlayTime, float PlayRate, bool Loop, bool Reverse, bool Symmetry)
@@ -207,6 +208,81 @@ void CAnimation2DComponent::AddAnimation(const std::string& Name, float PlayTime
 
 		AddAnimation(Anim, PlayTime, PlayRate, Loop, Reverse, Symmetry);
 	}
+}
+
+void CAnimation2DComponent::RecomputeSharedRatio()
+{
+	//1) 모든 애니의 "자기 최대 프레임 크기"를 모아 공용 최댓값을 구한다.
+	FVector2 SharedMax(0.f, 0.f);
+
+	for (auto& Pair : mAnimationMap)
+	{
+		auto Anim = Pair.second->GetAnimation().lock();
+
+		if (!Anim)
+		{
+			continue;
+		}
+
+		FVector2 Own = Anim->GetOwnMaxFrameSize();
+
+		if (Own.x > SharedMax.x) SharedMax.x = Own.x;
+		if (Own.y > SharedMax.y) SharedMax.y = Own.y;
+	}
+
+	//아직 프레임/텍스처가 안 들어온 애니만 있으면(로드 도중 등) 기준을 정하지 않는다.
+	if (SharedMax.x <= 0.f || SharedMax.y <= 0.f)
+	{
+		return;
+	}
+
+	//2) 그 공용 기준을 모든 애니에 넣어준다. (비율/오프셋이 이 기준으로 다시 계산됨)
+	for (auto& Pair : mAnimationMap)
+	{
+		auto Anim = Pair.second->GetAnimation().lock();
+
+		if (Anim)
+		{
+			Anim->SetRatioReference(SharedMax);
+		}
+	}
+}
+
+bool CAnimation2DComponent::RemoveAnimation(const std::string& Name)
+{
+	auto iter = mAnimationMap.find(Name);
+
+	if (iter == mAnimationMap.end())
+	{
+		return false;
+	}
+
+	//지우려는 게 지금 재생 중인 시퀀스인지 미리 확인해둔다.
+	bool bWasCurrent = (mCurrentAnimation == iter->second);
+
+	mAnimationMap.erase(iter);
+
+	if (bWasCurrent)
+	{
+		//현재 시퀀스를 지웠으면 남은 것 하나로 바꿔준다.
+		//(ChangeAnimation은 mCurrentAnimation이 널이면 동작하지 않으므로 직접 건다)
+		if (!mAnimationMap.empty())
+		{
+			mCurrentAnimation = mAnimationMap.begin()->second;
+			mCurrentAnimation->PlayAnimation();
+			RefreshTexture();
+		}
+		else
+		{
+			mCurrentAnimation.reset();
+			mUpdateEnable = false;
+		}
+	}
+
+	//애니가 빠지면 공용 기준(최대)이 줄어들 수 있으니 다시 잡는다.
+	RecomputeSharedRatio();
+
+	return true;
 }
 
 void CAnimation2DComponent::ChangeAnimation(const std::string& Name)

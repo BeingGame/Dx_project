@@ -147,6 +147,7 @@ void CPrefabManager::BuildPrefabData(const std::shared_ptr<CActor>& Actor, FPref
     if (!Actor) return;
 
     OutData.ActorTag   = Actor->GetActorTag();
+    OutData.AnimType   = Actor->GetAnimType();
     OutData.WorldPos   = Actor->GetWorldPos();
     OutData.WorldScale = Actor->GetWorldScale();
     OutData.WorldRot   = Actor->GetWorldRot();
@@ -235,6 +236,7 @@ void CPrefabManager::SavePrefab(const std::string& PrefabName, const FPrefabData
 
     // 액터 정보
     File << "Tag=" << Data.ActorTag << "\n";
+    File << "AnimType=" << Data.AnimType << "\n";
     File << "PX=" << Data.WorldPos.x
          << " PY=" << Data.WorldPos.y
          << " PZ=" << Data.WorldPos.z << "\n";
@@ -336,6 +338,10 @@ bool CPrefabManager::LoadPrefabDataFromPath(const std::string& FullPath, FPrefab
         {
             OutData.ActorTag = Value;
         }
+        else if (Key == "AnimType")
+        {
+            OutData.AnimType = Value;
+        }
         else if (Key == "PX")
         {
             sscanf_s(Value.c_str(), "%f PY=%f PZ=%f",
@@ -355,8 +361,9 @@ bool CPrefabManager::LoadPrefabDataFromPath(const std::string& FullPath, FPrefab
         {
             OutData.Components.reserve(std::stoi(Value));
         }
-        else if (!Key.empty() && Key[0] == 'C' && Key.size() > 1 && std::isdigit((unsigned char)Key[1]))
+        else if (Key.compare(0, 9, "CompEntry") == 0)
         {
+            // 키는 "CompEntry0", "CompEntry1" … (저장 형식과 반드시 일치해야 한다)
             // "TypeName|CompName|ParentName" 형식 파싱
             FPrefabComponentEntry Entry;
             size_t FirstBar = Value.find('|');
@@ -406,6 +413,7 @@ std::weak_ptr<CActor> CPrefabManager::SpawnPrefabFromFile(const std::string& Ful
     if (!ActorPtr) return {};
 
     ActorPtr->SetActorTag(Data.ActorTag);
+    ActorPtr->SetAnimType(Data.AnimType);
 
     for (const auto& Entry : Data.Components)
         AttachComponent(Entry.TypeName, ActorPtr, Entry.Name, Entry.Parent);

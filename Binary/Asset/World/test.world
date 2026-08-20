@@ -5,18 +5,28 @@ ActorCount=1
 TypeName=CActor
 Name=EmptyActor_0
 Tag=Actor
+AnimType=Player
 WorldPos=0.20129 0.0530494 0
 WorldScale=0.8 0.8 1
 WorldRot=0 0 0
-SceneCompCount=1
-ActorCompCount=4
+SceneCompCount=2
+ActorCompCount=5
 
 [SceneComp:0:0]
-TypeName=CMeshComponent
-Name=MeshComponent
+TypeName=CSceneComponent
+Name=Root
 Parent=
 RelPos=0.20129 0.0530494 0
 RelScale=0.8 0.8 1
+RelRot=0 0 0
+Layer=1
+
+[SceneComp:0:1]
+TypeName=CMeshComponent
+Name=MeshComponent
+Parent=Root
+RelPos=-0.211068 -0.0849411 0
+RelScale=1 1 1
 RelRot=0 0 0
 Layer=1
 Mesh=TexRect
@@ -30,15 +40,15 @@ MatOpacity=1
 TypeName=CAnimation2DComponent
 Name=Animation2DComponent
 SeqCount=9
-Seq0=BasicAttack2|0.999999|1.8|0|0|0
-Seq1=PlayerHit|1|1|0|0|0
-Seq2=BasicAttack|1|1.8|0|0|0
-Seq3=BasicAttack3|0.384616|1|0|0|0
+Seq0=BasicAttack|1|1.8|0|0|1
+Seq1=BasicAttack2|0.999999|1.8|0|0|1
+Seq2=PlayerHit|1|1|0|0|0
+Seq3=BasicAttack3|0.384616|1|0|0|1
 Seq4=Idle|1|1|1|0|0
 Seq5=PlayerWalk|0.857142|1|1|0|0
 Seq6=PlayerRunning|1|1|1|0|0
-Seq7=PlayerJump|1|1|0|0|0
-Seq8=PlayerDown|1|1|0|0|0
+Seq7=PlayerDown|1|1|0|0|0
+Seq8=PlayerJump|1|1|0|0|1
 Current=Idle
 
 [ActorComp:0:1]
@@ -57,23 +67,35 @@ Name=ActionState
 MinStateTime=0.05
 ActionTimeout=5
 ComboResetTime=0.5
+ComboMoveLimit=0.06
 JumpHeight=0.4
 JumpTime=0
 JumpMoveScale=0.5
-StateCount=10
-State0=Idle|Idle|0|1|1|1|-1|0|0|0.12
-State1=Walk|PlayerWalk|0|1|1|1|-1|0|0|0.12
-State2=Run|PlayerRunning|0|1|1|1|-1|0|0|0.12
-State3=Attack1|BasicAttack|10|0|0|0|0.15|0|0.02|0.1
-State4=Attack2|BasicAttack2|10|0|0|0|0.15|0|0.02|0.1
-State5=Attack3|BasicAttack3|10|0|0|0|0.15|1|0.02|0.14
-State6=Jump|PlayerJump|12|0|1|1|-1|0|0|0.12
-State7=Hit|PlayerHit|20|0|0|0|-1|0|0|0.12
-State8=Dash||15|0|0|0|-1|0|0|0.12
-State9=Dead|PlayerDown|100|0|0|0|-1|0|0|0.12
+DownTime=0.7
+StateCount=13
+State0=Idle|Idle|0|1|1|1|-1|0|0|0.12|0|0|0
+State1=Walk|PlayerWalk|0|1|1|1|-1|0|0|0.12|0|0|0
+State2=Run|PlayerRunning|0|1|1|1|-1|0|0|0.12|0|0|0
+State3=Attack1|BasicAttack|10|0|0|0|0.15|0|0.02|0.1|0|0|0.25
+State4=Attack2|BasicAttack2|10|0|0|0|0.15|0|0.02|0.1|0|0|0.35
+State5=Attack3|BasicAttack3|10|0|0|0|0.15|1|0.02|0.14|0|1.6|0.6
+State6=Jump|PlayerJump|12|0|1|1|-1|0|0|0.12|0|0|0
+State7=Hit|PlayerHit|20|0|0|0|-1|0|0|0.12|0|0|0
+State8=Dash||15|0|0|0|-1|0|0|0.12|0|0|0
+State9=Dead|PlayerDown|100|0|0|0|-1|0|0|0.12|0|0|0
+State10=Airborne|PlayerHit|25|0|0|0|-1|0|0|0.12|0|0|0
+State11=Down|PlayerDown|30|0|0|0|-1|0|0|0.12|0|0|0
+State12=GetUp|PlayerDown|30|0|0|0|-1|0|0|0.12|1|0|0
 
 [ActorComp:0:3]
 TypeName=CCharacterMovementComponent
 Name=CharacterMovement
 Speed=0.3
+
+[ActorComp:0:4]
+TypeName=CHeightComponent
+Name=Height
+Gravity=3.2
+Bounce=0
+KnockDamp=8
 
