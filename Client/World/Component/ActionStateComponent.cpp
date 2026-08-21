@@ -1,10 +1,12 @@
 #include "ActionStateComponent.h"
 
 #include "World/Actor.h"
+#include "World/World.h"
 #include "World/Animation2DComponent.h"
 #include "World/Animation2DSequence.h"
 #include "World/MovementComponent.h"
 #include "HeightComponent.h"
+#include "../Effect.h"
 
 #include "LogManager.h"
 
@@ -21,7 +23,7 @@ namespace
     {
         "Idle", "Walk", "Run",
         "Attack1", "Attack2", "Attack3", "Jump", "Hit", "Dash", "Dead",
-        "Airborne", "Down", "GetUp"
+        "Airborne", "Down", "GetUp", "JumpAttack"
     };
 }
 
@@ -72,6 +74,11 @@ CActionStateComponent::CActionStateComponent()
     // 우선순위는 공격(10)보다 높고 피격(20)보다 낮다.
     // 즉 공격 중에 점프로 빠져나갈 수는 있지만, 점프는 맞아야만 끊긴다.
     SetStateDef(EActionState::Jump,    "PlayerJump",   12,  false, true,  true,  -1.f);
+
+    // 공중 공격. 점프(12)보다 우선순위가 높아 공중에서 공격키로 갈아탈 수 있고,
+    // 피격(20)보다는 낮아 맞으면 끊긴다. 공중 이동은 점프처럼 열어둔다.
+    // 전용 애니메이션이 아직 없어 지상 공격을 돌려 쓴다. (에디터/인스펙터에서 교체 가능)
+    SetStateDef(EActionState::JumpAttack, "BasicAttack", 14, false, true, true, -1.f);
 
     SetStateDef(EActionState::Hit,     "PlayerHit",    20,  false, false, false, -1.f);
 
@@ -474,12 +481,288 @@ void CActionStateComponent::OnLanded(float ImpactVel)
     {
         EnterState(DecideLocomotion());
     }
+
+    //공중 공격 중에 땅에 닿으면 애니메이션이 남았든 말든 그 자리에서 중지한다.
+    if (mState == EActionState::JumpAttack)
+    {
+        EnterState(DecideLocomotion());
+    }
 }
 
 bool CActionStateComponent::IsInAir() const
 {
     auto HeightComp = mHeight.lock();
     return HeightComp && HeightComp->IsInAir();
+}
+
+std::weak_ptr<CEffect> CActionStateComponent::SpawnStateEffect(const FStateEffect& Effect)
+{
+    if (Effect.Anim.empty())
+    {
+        return std::weak_ptr<CEffect>();
+    }
+
+    auto Owner = mOwner.lock();
+
+    if (!Owner)
+    {
+        return std::weak_ptr<CEffect>();
+    }
+
+    auto World = Owner->GetWorld().lock();
+
+    if (!World)
+    {
+        return std::weak_ptr<CEffect>();
+    }
+
+    //지면 위치 기준. 못 구하면 액터 위치를 쓴다.
+    FVector3 Base;
+
+    if (!GetGroundPos(Base))
+    {
+        Base = Owner->GetWorldPos();
+    }
+
+    //오프셋 X는 바라보는 쪽으로 뒤집는다. (왼쪽을 보면 반대로)
+    const float Dir = mFacingRight ? 1.f : -1.f;
+
+    FVector3 Pos = Base;
+    Pos.x += Effect.Offset.x * Dir;
+    Pos.y += Effect.Offset.y;
+
+    //왼쪽을 볼 때는 스프라이트 피벗 비대칭으로 생긴 거리 차이를 여기서 메운다.
+    //(오른쪽은 손대지 않아 기존 튜닝이 유지된다)
+    if (!mFacingRight)
+    {
+        Pos.x += Effect.LeftAdjustX;
+    }
+
+    //좌우/세로 미러가 홀수 번이면 회전각도 부호를 뒤집어야 기울기가 대칭으로 맞는다.
+    //(미러는 UV, 회전은 정점이라 서로 독립. 가로·세로 둘 다 뒤집히면 상쇄되어 원래대로)
+    float TiltRad = Effect.TiltDeg * 0.01745329252f;
+
+    if ((!mFacingRight) != Effect.FlipY)
+    {
+        TiltRad = -TiltRad;
+    }
+
+    auto Fx = World->CreateActor<CEffect>("Effect");
+
+    if (auto Locked = Fx.lock())
+    {
+        Locked->Play(Effect.Anim, Pos, !mFacingRight, Effect.Scale, Effect.FlipY, TiltRad, Effect.Loop);
+    }
+
+    return Fx;
+}
+
+void CActionStateComponent::CheckSpawnEffects()
+{
+    const std::vector<FStateEffect>& Effects = mDef[mState].Effects;
+
+    if (Effects.empty())
+    {
+        return;
+    }
+
+    auto AnimComp = mAnimComp.lock();
+
+    if (!AnimComp)
+    {
+        return;
+    }
+
+    const std::string& Anim = mDef[mState].Anim;
+
+    //지금 재생 중인 애니가 이 상태의 것일 때만 프레임을 신뢰한다.
+    if (Anim.empty() || AnimComp->GetCurrentAnimationName() != Anim)
+    {
+        return;
+    }
+
+    int FrameCount = 0;
+
+    if (auto Seq = AnimComp->FindSequence(Anim).lock())
+    {
+        FrameCount = Seq->GetFrameCount();
+    }
+
+    if (FrameCount <= 0)
+    {
+        return;
+    }
+
+    const int CurFrame = AnimComp->GetAnimationFrame();
+
+    for (size_t i = 0; i < Effects.size(); ++i)
+    {
+        if (i < mEffectFired.size() && mEffectFired[i])
+        {
+            continue;
+        }
+
+        if (Effects[i].Anim.empty())
+        {
+            continue;
+        }
+
+        int Target = Effects[i].Frame;
+
+        //-1이거나 범위를 벗어나면 마지막 프레임에 낸다.
+        if (Target < 0 || Target >= FrameCount)
+        {
+            Target = FrameCount - 1;
+        }
+
+        if (CurFrame >= Target)
+        {
+            auto Spawned = SpawnStateEffect(Effects[i]);
+
+            if (i < mEffectFired.size())
+            {
+                mEffectFired[i] = true;
+            }
+
+            //홀드 중에 띄운 반복 효과는 홀드가 끝날 때 지우려고 기억해둔다.
+            if (mChargeHolding && Effects[i].Loop && !Spawned.expired())
+            {
+                mHoldEffects.push_back(Spawned);
+            }
+        }
+    }
+}
+
+void CActionStateComponent::ClearHoldEffects()
+{
+    for (auto& Weak : mHoldEffects)
+    {
+        if (auto Fx = Weak.lock())
+        {
+            Fx->Destroy();
+        }
+    }
+
+    mHoldEffects.clear();
+}
+
+// ── 버프(지속형) 이펙트 ─────────────────────────────────────────────────────
+
+FBuffEffect CActionStateComponent::GetBuff(int Index) const
+{
+    if (Index >= 0 && Index < (int)mBuffs.size())
+    {
+        return mBuffs[Index];
+    }
+
+    return FBuffEffect();
+}
+
+void CActionStateComponent::SetBuff(int Index, const FBuffEffect& Buff)
+{
+    if (Index >= 0 && Index < (int)mBuffs.size())
+    {
+        mBuffs[Index] = Buff;
+    }
+}
+
+void CActionStateComponent::AddBuff()
+{
+    mBuffs.push_back(FBuffEffect());
+    mActiveBuff.resize(mBuffs.size());
+}
+
+void CActionStateComponent::RemoveBuff(int Index)
+{
+    if (Index < 0 || Index >= (int)mBuffs.size())
+    {
+        return;
+    }
+
+    //켜져 있으면 먼저 끈다.
+    SetBuffActive(Index, false);
+
+    mBuffs.erase(mBuffs.begin() + Index);
+
+    if (Index < (int)mActiveBuff.size())
+    {
+        mActiveBuff.erase(mActiveBuff.begin() + Index);
+    }
+}
+
+bool CActionStateComponent::IsBuffActive(int Index) const
+{
+    return Index >= 0 && Index < (int)mActiveBuff.size() && !mActiveBuff[Index].expired();
+}
+
+void CActionStateComponent::SetBuffActive(int Index, bool Active)
+{
+    if (Index < 0 || Index >= (int)mBuffs.size())
+    {
+        return;
+    }
+
+    //런타임 배열을 데이터 크기에 맞춰둔다.
+    if ((int)mActiveBuff.size() != (int)mBuffs.size())
+    {
+        mActiveBuff.resize(mBuffs.size());
+    }
+
+    if (Active)
+    {
+        //이미 떠 있으면 다시 만들지 않는다.
+        if (!mActiveBuff[Index].expired())
+        {
+            return;
+        }
+
+        const FBuffEffect& Buff = mBuffs[Index];
+
+        if (Buff.Anim.empty())
+        {
+            return;
+        }
+
+        auto Owner = mOwner.lock();
+
+        if (!Owner)
+        {
+            return;
+        }
+
+        auto World = Owner->GetWorld().lock();
+
+        if (!World)
+        {
+            return;
+        }
+
+        FVector3 Off(Buff.Offset.x, Buff.Offset.y, 0.f);
+
+        auto Fx = World->CreateActor<CEffect>("Buff");
+
+        if (auto Locked = Fx.lock())
+        {
+            //반복 재생 + 캐릭터 따라다니기. 좌우는 지금 방향, 각도는 라디안.
+            Locked->Play(Buff.Anim, Owner->GetWorldPos() + Off, !mFacingRight, Buff.Scale,
+                Buff.FlipY, Buff.TiltDeg * 0.01745329252f, true);
+            Locked->SetFollow(mOwner, Off);
+        }
+
+        mActiveBuff[Index] = Fx;
+    }
+    else
+    {
+        if (Index < (int)mActiveBuff.size())
+        {
+            if (auto Fx = mActiveBuff[Index].lock())
+            {
+                Fx->Destroy();
+            }
+
+            mActiveBuff[Index].reset();
+        }
+    }
 }
 
 float CActionStateComponent::GetAirHeight() const
@@ -622,6 +905,13 @@ bool CActionStateComponent::RequestAttack()
         return false;
     }
 
+    // 공중에 떠 있으면 지상 콤보 대신 공중 공격으로 간다.
+    // (피격으로 뜬 Airborne 중에는 우선순위에 막혀 자동으로 거절된다)
+    if (IsInAir())
+    {
+        return RequestState(EActionState::JumpAttack);
+    }
+
     // 어디까지 이어져 있는지부터 본다.
     //   · 공격 중이면 그 타수 — 취소 창이 열려 있으면 다음 타가 선입력으로 예약된다
     //   · 공격이 끝난 직후면 접수 시간(ComboResetTime)이 남아 있는 동안만 이어진다
@@ -710,7 +1000,8 @@ void CActionStateComponent::EnterState(EActionState::Type State)
     // 점프에서 다른 상태로 빠져나가면 떠 있던 높이를 되돌린다.
     // (공중에서 맞고 피격으로 넘어가는 경로. 그대로 두면 뜬 채로 굳는다)
     // 에어본 상태를 붙이면 여기서 내리지 않고 그대로 날려보내게 된다.
-    if (State != EActionState::Jump && !IsKnockdown(State))
+    // 공중 공격(JumpAttack)은 점프 도중 갈아타는 상태라 여기서 내리면 안 된다.
+    if (State != EActionState::Jump && State != EActionState::JumpAttack && !IsKnockdown(State))
     {
         if (auto HeightComp = mHeight.lock())
         {
@@ -724,9 +1015,16 @@ void CActionStateComponent::EnterState(EActionState::Type State)
         mDownTimer = 0.f;
     }
 
-    mState     = State;
-    mStateTime = 0.f;
-    mQueued    = EActionState::End;
+    mState      = State;
+    mStateTime  = 0.f;
+    mQueued     = EActionState::End;
+
+    // 상태가 바뀌면 이전 홀드에서 띄운 반복 효과는 모두 정리한다.
+    // (피격 등으로 홀드가 끊겨 나가는 경로에서 차징 효과가 남지 않게)
+    ClearHoldEffects();
+
+    // 새 상태에 들어왔으니 이 상태의 이펙트 항목들을 다시 낼 수 있게 초기화한다.
+    mEffectFired.assign(mDef[State].Effects.size(), false);
 
     // 전진 준비. 애니메이션을 못 걸고 빠져나가는 경로에서도
     // 이전 동작이 밀던 걸 반드시 정리해야 하므로 아래 return들보다 먼저 부른다.
@@ -755,7 +1053,25 @@ void CActionStateComponent::EnterState(EActionState::Type State)
     // 액션계는 반드시 끝나야 하므로 반복을 꺼둔다.
     // (에셋이 Loop=1로 저장돼 있어도 여기서 상태 정의가 이긴다)
     AnimComp->SetLoop(StateDef.Anim, StateDef.bLoop);
+
+    // 좌우 반전은 바라보는 방향으로만 정한다. (왼쪽을 보면 뒤집기)
     AnimComp->SetSymmetry(StateDef.Anim, !mFacingRight);
+
+    // 세로(위/아래) 반전은 상태 옵션(FlipY)으로 정한다. 방향과 무관하다.
+    AnimComp->SetSymmetryV(StateDef.Anim, StateDef.bFlipY);
+
+    // 기울기(회전). 도(degree)로 들고 있다가 라디안으로 바꿔 넘긴다.
+    // 좌우/세로 미러가 홀수 번이면 부호를 뒤집어야 대칭으로 기운다. (XOR)
+    {
+        float TiltRad = StateDef.TiltDeg * 0.01745329252f;
+
+        if ((!mFacingRight) != StateDef.bFlipY)
+        {
+            TiltRad = -TiltRad;
+        }
+
+        AnimComp->SetSequenceRotation(StateDef.Anim, TiltRad);
+    }
 
     //역재생은 반드시 재생을 걸기 전에 정해야 한다.
     //되감기(Clear)가 역재생이면 마지막 프레임에서 시작하도록 되어 있어서,
@@ -777,7 +1093,8 @@ void CActionStateComponent::EnterState(EActionState::Type State)
     // 들어오는 순간 이미 손을 뗀 상태면 붙잡을 것도 없이 그대로 재생한다.
     if (StateDef.bChargeHold && mAttackHeld)
     {
-        mChargeHolding = true;
+        mChargeHolding  = true;
+        mChargeHoldTime = 0.f;   // 이번 홀드의 누적 시간을 새로 잰다
         AnimComp->SetCurrentAnimationPause(true);
     }
 }
@@ -788,6 +1105,13 @@ bool CActionStateComponent::IsActionFinished() const
     // 애니메이션이 먼저 끝나도 공중에 떠 있는 동안에는 상태를 유지해야 한다.
     // (여기서 풀리면 아직 떠 있는 채로 걷기 상태가 되어 그대로 굳는다)
     if (mState == EActionState::Jump && IsInAir())
+    {
+        return false;
+    }
+
+    // 공중 공격도 땅에 닿을 때까지 유지한다. 애니메이션이 먼저 끝나도 공중에 떠 있으면
+    // 그 자세로 낙하하다가, 착지하는 순간 OnLanded가 중지시킨다.
+    if (mState == EActionState::JumpAttack && IsInAir())
     {
         return false;
     }
@@ -896,7 +1220,21 @@ void CActionStateComponent::ApplyFacing()
     }
 
     // 원본 스프라이트가 오른쪽을 보므로, 왼쪽을 볼 때만 좌우를 뒤집는다.
+    // (세로 반전은 EnterState에서 한 번 걸어두면 시퀀스가 유지하므로 여기선 안 건드린다)
     AnimComp->SetSymmetry(Current, !mFacingRight);
+
+    // 기울기(회전)도 좌우/세로 미러가 홀수 번이면 부호를 뒤집어 대칭을 맞춘다. (XOR)
+    // (도중에 방향이 바뀌는 상태를 위해 매 프레임 갱신한다. 각도 0이면 그대로 0)
+    {
+        float TiltRad = mDef[mState].TiltDeg * 0.01745329252f;
+
+        if ((!mFacingRight) != mDef[mState].bFlipY)
+        {
+            TiltRad = -TiltRad;
+        }
+
+        AnimComp->SetSequenceRotation(Current, TiltRad);
+    }
 }
 
 // ── 매 프레임 ────────────────────────────────────────────────────────────────
@@ -922,7 +1260,14 @@ void CActionStateComponent::Update(float DeltaTime)
     // 동작이 강제로 풀려버리기 때문이다. 취소 창(CancelTime)도 같이 닫아둔다.
     if (mChargeHolding)
     {
-        if (mAttackHeld)
+        // 붙잡아 둔 시간을 잰다. (여기서 return하면 아래 mStateTime은 안 흐르므로 따로 센다)
+        mChargeHoldTime += DeltaTime;
+
+        // 최대 홀드 시간이 있으면 그만큼 지났을 때 손을 안 떼도 자동으로 풀어준다.
+        const float MaxHold = mDef[mState].ChargeMaxTime;
+        const bool  bTimedOut = (MaxHold > 0.f) && (mChargeHoldTime >= MaxHold);
+
+        if (mAttackHeld && !bTimedOut)
         {
             if (auto Anim = mAnimComp.lock())
             {
@@ -931,19 +1276,26 @@ void CActionStateComponent::Update(float DeltaTime)
 
             ApplyFacing();
 
+            // 홀드 중에도 이펙트가 나오도록 여기서 발동을 확인한다. (아래에서 return하므로
+            // 이걸 안 부르면 홀드 동안엔 프레임 0짜리 차징 효과가 아예 안 뜬다)
+            CheckSpawnEffects();
+
             // 입력은 매 프레임 새로 받는다.
             mMoveDir = FVector2(0.f, 0.f);
             mWantRun = false;
             return;
         }
 
-        // 손을 뗐다. 멈춰 있던 프레임부터 나머지가 이어서 재생된다.
+        // 손을 뗐거나 최대 홀드 시간에 도달했다. 멈춰 있던 프레임부터 나머지가 이어서 재생된다.
         if (auto Anim = mAnimComp.lock())
         {
             Anim->SetCurrentAnimationPause(false);
         }
 
         mChargeHolding = false;
+
+        // 홀드가 끝났으니 차징용 반복 효과들을 정리한다.
+        ClearHoldEffects();
     }
 
     mStateTime += DeltaTime;
@@ -990,6 +1342,12 @@ void CActionStateComponent::Update(float DeltaTime)
     // ── 상태 전진 ──
     // 이동이 잠긴 공격 중에도 여기서 직접 밀어준다. (기본 공격 1/2/3타)
     UpdateStep(DeltaTime);
+
+    // ── 타격 이펙트 (여러 개) ──
+    // 각 이펙트 항목이 자기 프레임에 도달하면 한 번씩 소환된다. (프레임 0 = 시작과 함께)
+    // 홀드(모아치기) 중에도 위쪽 블록에서 이미 한 번 불러주므로, 여기선 홀드가 아닐 때만
+    // 부르면 된다. (홀드 중에는 위에서 return 되기 전에 부른다)
+    CheckSpawnEffects();
 
 
     // ── 액션계: 끝났는지 본다 ──
@@ -1053,7 +1411,7 @@ void CActionStateComponent::Save(std::ofstream& File) const
     File << "StateCount="     << (int)EActionState::End << "\n";
 
     // 이름|애니메이션|우선순위|Loop|CanMove|CanTurn|CancelTime|ChargeHold|MoveDist|StepTime
-    //     |Reverse|LaunchPower|KnockPower
+    //     |Reverse|LaunchPower|KnockPower|EffectCount|[Anim|Frame|OffX|OffY|Scale|LAdjX]...
     for (int i = 0; i < EActionState::End; ++i)
     {
         const FActionStateDef& StateDef = mDef[i];
@@ -1071,7 +1429,58 @@ void CActionStateComponent::Save(std::ofstream& File) const
              << StateDef.StepTime          << "|"
              << (StateDef.bReverse ? 1 : 0) << "|"
              << StateDef.LaunchPower       << "|"
-             << StateDef.KnockPower        << "\n";
+             << StateDef.KnockPower        << "|"
+             << StateDef.Effects.size();
+
+        //이펙트 항목들을 뒤에 이어 붙인다. (항목당 6칸)
+        for (const FStateEffect& E : StateDef.Effects)
+        {
+            File << "|" << E.Anim
+                 << "|" << E.Frame
+                 << "|" << E.Offset.x
+                 << "|" << E.Offset.y
+                 << "|" << E.Scale
+                 << "|" << E.LeftAdjustX;
+        }
+
+        //FlipY, TiltDeg는 가변 길이인 이펙트 리스트 뒤에 붙인다. (인덱스가 개수에 따라 달라짐)
+        File << "|" << (StateDef.bFlipY ? 1 : 0);
+        File << "|" << StateDef.TiltDeg;
+
+        //이펙트별 FlipY/TiltDeg는 맨 뒤에 따로 이어 붙인다. (기존 6칸 이펙트 포맷을
+        //건드리지 않아 예전 파일도 그대로 읽힌다. 없으면 기본값 0으로 로드된다)
+        for (const FStateEffect& E : StateDef.Effects)
+        {
+            File << "|" << (E.FlipY ? 1 : 0) << "|" << E.TiltDeg;
+        }
+
+        //모아치기 최대 홀드 시간도 맨 끝에 이어 붙인다.
+        File << "|" << StateDef.ChargeMaxTime;
+
+        //이펙트별 Loop도 맨 끝에 따로 이어 붙인다. (앞 블록들을 안 건드려 구버전 호환)
+        for (const FStateEffect& E : StateDef.Effects)
+        {
+            File << "|" << (E.Loop ? 1 : 0);
+        }
+
+        File << "\n";
+    }
+
+    // ── 버프(지속형) 이펙트 목록 ──
+    File << "BuffCount=" << mBuffs.size() << "\n";
+
+    for (size_t i = 0; i < mBuffs.size(); ++i)
+    {
+        const FBuffEffect& B = mBuffs[i];
+
+        //Anim|OffX|OffY|Scale|FlipY|TiltDeg
+        File << "Buff" << i << "="
+             << B.Anim         << "|"
+             << B.Offset.x     << "|"
+             << B.Offset.y     << "|"
+             << B.Scale        << "|"
+             << (B.FlipY ? 1 : 0) << "|"
+             << B.TiltDeg      << "\n";
     }
 }
 
@@ -1154,11 +1563,17 @@ void CActionStateComponent::Load(const std::unordered_map<std::string, std::stri
         // ChargeHold / MoveDist / StepTime은 나중에 생긴 항목이라 예전 파일에는 없다.
         // 없으면 생성자가 정해둔 값(3타만 모아치기, 공격에만 전진 거리)을 유지한다.
         StateDef.bChargeHold = mDef[State].bChargeHold;
+        StateDef.ChargeMaxTime = mDef[State].ChargeMaxTime;
         StateDef.MoveDist    = mDef[State].MoveDist;
         StateDef.StepTime    = mDef[State].StepTime;
         StateDef.bReverse    = mDef[State].bReverse;
         StateDef.LaunchPower = mDef[State].LaunchPower;
         StateDef.KnockPower  = mDef[State].KnockPower;
+
+        // 이펙트 리스트도 나중에 생긴 거라 예전 파일엔 없다. 없으면 기본값(비어 있음)을 둔다.
+        StateDef.Effects     = mDef[State].Effects;
+        StateDef.bFlipY      = mDef[State].bFlipY;
+        StateDef.TiltDeg     = mDef[State].TiltDeg;
 
         if (Fields.size() >= 8)
         {
@@ -1192,6 +1607,104 @@ void CActionStateComponent::Load(const std::unordered_map<std::string, std::stri
             catch (...) {}
         }
 
+        // 이펙트 리스트: Fields[13]=개수, 이후 항목당 6칸씩.
+        // 예전 파일(0~12만 있음)은 Fields[13]이 없어 개수 0 → 빈 리스트.
+        if (Fields.size() >= 14)
+        {
+            int EffectCount = 0;
+
+            try { EffectCount = std::stoi(Fields[13]); }
+            catch (...) { EffectCount = 0; }
+
+            StateDef.Effects.clear();
+
+            const int Base = 14;   // 첫 항목이 시작하는 인덱스
+
+            for (int e = 0; e < EffectCount; ++e)
+            {
+                const int o = Base + e * 6;
+
+                //줄이 잘렸으면 멈춘다. (Anim|Frame|OffX|OffY|Scale|LAdjX = 6칸)
+                if (o + 5 >= (int)Fields.size())
+                {
+                    break;
+                }
+
+                FStateEffect Fx;
+                Fx.Anim = Fields[o];
+
+                try
+                {
+                    Fx.Frame       = std::stoi(Fields[o + 1]);
+                    Fx.Offset.x     = std::stof(Fields[o + 2]);
+                    Fx.Offset.y     = std::stof(Fields[o + 3]);
+                    Fx.Scale       = std::stof(Fields[o + 4]);
+                    Fx.LeftAdjustX = std::stof(Fields[o + 5]);
+                }
+                catch (...) {}
+
+                StateDef.Effects.push_back(Fx);
+            }
+
+            //FlipY, TiltDeg는 이펙트 리스트 바로 뒤 칸에 있다. (개수에 따라 위치가 달라진다)
+            const int FlipIdx = Base + EffectCount * 6;
+
+            if ((int)Fields.size() > FlipIdx)
+            {
+                StateDef.bFlipY = (Fields[FlipIdx] == "1");
+            }
+
+            const int TiltIdx = FlipIdx + 1;
+
+            if ((int)Fields.size() > TiltIdx)
+            {
+                try { StateDef.TiltDeg = std::stof(Fields[TiltIdx]); }
+                catch (...) {}
+            }
+
+            //이펙트별 FlipY/TiltDeg는 그 뒤에 이어진다. (항목당 2칸) 없으면 기본값 0.
+            const int PerFxBase = TiltIdx + 1;
+
+            for (int e = 0; e < (int)StateDef.Effects.size(); ++e)
+            {
+                const int fi = PerFxBase + e * 2;
+
+                if (fi + 1 >= (int)Fields.size())
+                {
+                    break;
+                }
+
+                StateDef.Effects[e].FlipY = (Fields[fi] == "1");
+
+                try { StateDef.Effects[e].TiltDeg = std::stof(Fields[fi + 1]); }
+                catch (...) {}
+            }
+
+            //모아치기 최대 홀드 시간은 그 뒤 마지막 칸에 있다. 없으면 기본값 유지.
+            const int ChargeMaxIdx = PerFxBase + EffectCount * 2;
+
+            if ((int)Fields.size() > ChargeMaxIdx)
+            {
+                try { StateDef.ChargeMaxTime = std::stof(Fields[ChargeMaxIdx]); }
+                catch (...) {}
+            }
+
+            //이펙트별 Loop는 그 뒤에 이어진다. (항목당 1칸) 없으면 기본값 false.
+            const int LoopBase = ChargeMaxIdx + 1;
+
+            for (int e = 0; e < (int)StateDef.Effects.size(); ++e)
+            {
+                const int li = LoopBase + e;
+
+                if (li >= (int)Fields.size())
+                {
+                    break;
+                }
+
+                StateDef.Effects[e].Loop = (Fields[li] == "1");
+            }
+        }
+
         try
         {
             StateDef.Priority   = std::stoi(Fields[2]);
@@ -1219,6 +1732,65 @@ void CActionStateComponent::Load(const std::unordered_map<std::string, std::stri
     GetOld("IdleAnim", mDef[EActionState::Idle].Anim);
     GetOld("WalkAnim", mDef[EActionState::Walk].Anim);
     GetOld("RunAnim",  mDef[EActionState::Run].Anim);
+
+    // ── 버프(지속형) 이펙트 목록 ──
+    mBuffs.clear();
+
+    int BuffCount = 0;
+
+    if (auto Found = Props.find("BuffCount"); Found != Props.end())
+    {
+        try { BuffCount = std::stoi(Found->second); }
+        catch (...) { BuffCount = 0; }
+    }
+
+    for (int i = 0; i < BuffCount; ++i)
+    {
+        auto Found = Props.find("Buff" + std::to_string(i));
+
+        if (Found == Props.end())
+        {
+            continue;
+        }
+
+        //Anim|OffX|OffY|Scale|FlipY|TiltDeg
+        std::vector<std::string> F;
+        {
+            const std::string& Line = Found->second;
+            size_t Start = 0;
+
+            while (true)
+            {
+                size_t Bar = Line.find('|', Start);
+
+                if (Bar == std::string::npos)
+                {
+                    F.push_back(Line.substr(Start));
+                    break;
+                }
+
+                F.push_back(Line.substr(Start, Bar - Start));
+                Start = Bar + 1;
+            }
+        }
+
+        FBuffEffect B;
+        if (F.size() >= 1) B.Anim = F[0];
+
+        try
+        {
+            if (F.size() >= 2) B.Offset.x = std::stof(F[1]);
+            if (F.size() >= 3) B.Offset.y = std::stof(F[2]);
+            if (F.size() >= 4) B.Scale    = std::stof(F[3]);
+            if (F.size() >= 5) B.FlipY    = (F[4] == "1");
+            if (F.size() >= 6) B.TiltDeg  = std::stof(F[5]);
+        }
+        catch (...) {}
+
+        mBuffs.push_back(B);
+    }
+
+    mActiveBuff.assign(mBuffs.size(), std::weak_ptr<CEffect>());
 
     BindAnimCompFromOwner();
 }

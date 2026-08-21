@@ -60,8 +60,22 @@ private:
 	//애니메이션을 역재생시킬지 결정하는 변수
 	bool mReverse = false;
 
-	//애니메이션을 대칭으로 만들지 결정하는 변수
+	//애니메이션을 대칭으로 만들지 결정하는 변수 (가로/좌우)
 	bool mSymmetry = false;
+
+	//세로(위/아래) 반전 여부. 가로 대칭과 별개로, 스프라이트를 상하로 뒤집어 낸다.
+	bool mSymmetryV = false;
+
+	//이 시퀀스를 기울여(회전) 낼 각도(라디안). 0이면 그대로다.
+	float mRotation = 0.f;
+
+	//이 시퀀스에만 적용되는 추가 오프셋(텍셀).
+	//시퀀스마다 스프라이트 아틀라스가 달라 캐릭터가 프레임 안에서 다른 위치에
+	//놓일 때, 시퀀스 전체를 통째로 밀어 다른 시퀀스와 정렬을 맞추는 값이다.
+	//프레임별 Offset(피벗)과 달리 애니메이션 에셋(.anim2d)이 아니라 이 시퀀스가
+	//들고 있으므로, 같은 애니를 다른 액터가 써도 액터마다 다른 값을 줄 수 있다.
+	//SetShader에서 프레임 Offset에 더해져 함께 정규화된다.
+	FVector2 mOffset = FVector2(0.f, 0.f);
 
 	//애니메이션이 반복되지 않을때
 	//애니메이션의 실행을 멈춰줄 변수
@@ -172,6 +186,21 @@ public:
 		return mSymmetry;
 	}
 
+	bool GetSymmetryV() const
+	{
+		return mSymmetryV;
+	}
+
+	float GetRotation() const
+	{
+		return mRotation;
+	}
+
+	const FVector2& GetOffset() const
+	{
+		return mOffset;
+	}
+
 	bool GetLoop() const
 	{
 		return mLoop;
@@ -245,6 +274,21 @@ public:
 	void SetSymmetry(bool Symmetry)
 	{
 		mSymmetry = Symmetry;
+	}
+
+	void SetSymmetryV(bool Symmetry)
+	{
+		mSymmetryV = Symmetry;
+	}
+
+	void SetRotation(float Radian)
+	{
+		mRotation = Radian;
+	}
+
+	void SetOffset(const FVector2& Offset)
+	{
+		mOffset = Offset;
 	}
 
 public:

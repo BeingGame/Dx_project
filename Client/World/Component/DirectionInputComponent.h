@@ -31,15 +31,19 @@ protected:
     // 공격키. VK 코드다. (기본값 X)
     unsigned char mAttackKey = 'X';
 
-    // 점프키. VK 코드다. (기본값 Space = 0x20)
-    // 헤더에서 windows.h를 끌어오지 않으려고 VK_SPACE 대신 값을 직접 적었다.
-    unsigned char mJumpKey = 0x20;
+    // 점프키. VK 코드다. (기본값 C)
+    unsigned char mJumpKey = 'C';
 
     // 달리는 중 위/아래로만 갈 때 걷기 속도에 곱하는 배율.
     // 이 판은 위/아래가 화면 안쪽 깊이라, 달리기 속도를 그대로 쓰면
     // 좌우로 뛸 때와 같은 속도로 안쪽까지 파고들어 너무 빠르게 느껴진다.
     // 기준이 달리기가 아니라 걷기인 이유는 "걸을 때의 몇 배"로 잡는 값이라서다.
     float mRunVertScale = 2.f;
+
+    // 좌우로 달리는 도중 위/아래를 누르면, 좌우 달리기를 유지한 채
+    // 위/아래를 이 비율만큼만 섞어 얕은 대각선으로 흐르게 한다. (0이면 순수 좌우,
+    // 1이면 45도) 방향 벡터의 Y 성분에 곱하는 값이라 속도(mRunVertScale)와는 별개다.
+    float mRunDiagVertScale = 0.35f;
 
     // ── 더블탭(연속 입력) 판정 ──
     // 같은 키를 뗐다가 이 시간 안에 다시 누르면 달리기로 본다.
@@ -93,6 +97,10 @@ public:
     // 달리는 중 위/아래 이동 속도 = WalkSpeed * 이 값.
     float GetRunVertScale() const       { return mRunVertScale; }
     void  SetRunVertScale(float Scale)  { mRunVertScale = (Scale < 0.f) ? 0.f : Scale; }
+
+    // 좌우 달리기 중 위/아래를 섞는 대각선 비율 (0~1로 제한).
+    float GetRunDiagVertScale() const      { return mRunDiagVertScale; }
+    void  SetRunDiagVertScale(float Scale) { mRunDiagVertScale = (Scale < 0.f) ? 0.f : ((Scale > 1.f) ? 1.f : Scale); }
 
     void SetWalkSpeed(float Speed)    { mWalkSpeed = Speed; }
     void SetRunSpeed(float Speed)     { mRunSpeed = Speed; }

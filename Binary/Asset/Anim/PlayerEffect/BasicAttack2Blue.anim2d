@@ -1,0 +1,17 @@
+ANIM2D 1
+AnimName BasicAttack2Blue
+TextureType SpriteSheet
+TextureName handswing_atlas
+TextureRelPath Asset\Texture\Effect\handswing_atlas.png
+PlayTime 1
+PlayRate 4.75
+Loop 0
+Reverse 0
+Symmetry 0
+Pivot 0 0
+Frames 5
+592.807 7.50688 164.069 132.274 0 0 0.31856
+451.69 8.726 164.069 132.274 0 0 0.17036
+305.304 8.726 164.069 132.274 0 0 0.17036
+139.679 8.726 164.069 132.274 0 0 0.17036
+145.979 8.726 164.069 132.274 0 0 0.17036

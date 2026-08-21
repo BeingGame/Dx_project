@@ -14,6 +14,9 @@ CAnimation2DSequence::CAnimation2DSequence(const CAnimation2DSequence & src)
     mLoop = src.mLoop;
     mReverse = src.mReverse;
     mSymmetry = src.mSymmetry;
+    mSymmetryV = src.mSymmetryV;
+    mRotation = src.mRotation;
+    mOffset = src.mOffset;
     mEnd = src.mEnd;
 }
 
@@ -28,6 +31,9 @@ CAnimation2DSequence::CAnimation2DSequence(CAnimation2DSequence && src) noexcept
     mLoop = src.mLoop;
     mReverse = src.mReverse;
     mSymmetry = src.mSymmetry;
+    mSymmetryV = src.mSymmetryV;
+    mRotation = src.mRotation;
+    mOffset = src.mOffset;
     mEnd = src.mEnd;
 }
 

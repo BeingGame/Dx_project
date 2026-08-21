@@ -3,8 +3,8 @@ AnimName BasicAttack2
 TextureType SpriteSheet
 TextureName 프리스트_낫
 TextureRelPath Asset\Texture\Player\프리스트_낫.png
-PlayTime 1
-PlayRate 1.8
+PlayTime 0.999999
+PlayRate 2
 Loop 0
 Reverse 0
 Symmetry 1

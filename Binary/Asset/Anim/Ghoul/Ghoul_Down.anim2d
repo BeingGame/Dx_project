@@ -1,0 +1,13 @@
+ANIM2D 1
+AnimName Ghoul_Down
+TextureType SpriteSheet
+TextureName ghoul
+TextureRelPath Asset\Texture\Monster\ghoul.png
+PlayTime 0.1
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 29.9 51.41
+Frames 1
+406.091 128.24 184.6 100.2 0 0 0.1

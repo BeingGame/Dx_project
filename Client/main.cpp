@@ -22,6 +22,7 @@
 #include "World/ReflectBullet.h"
 #include "World/SlowArea.h"
 #include "World/Shield.h"
+#include "World/Effect.h"
 
 // Component types for scene save/load
 #include "World/Component/StatusComponent.h"
@@ -74,6 +75,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	CWorld::RegisterActorType<CReflectBullet>("CReflectBullet");
 	CWorld::RegisterActorType<CSlowArea>("CSlowArea");
 	CWorld::RegisterActorType<CShield>("CShield");
+	CWorld::RegisterActorType<CEffect>("CEffect");
 
 	// Register client component types
 	CWorld::RegisterComponentType<CStatusComponent>("CStatusComponent");

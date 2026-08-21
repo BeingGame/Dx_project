@@ -4,6 +4,7 @@
 
 #include <string>
 #include <unordered_map>
+#include <vector>
 
 // 액터가 "지금 무엇을 하는 중인지"를 혼자서 들고 있는 컴포넌트.
 //
@@ -59,9 +60,56 @@ namespace EActionState
         Down,
         GetUp,
 
+        // 공중 공격. 점프해서 떠 있을 때 공격키를 누르면 들어간다.
+        // 땅에 닿으면(OnLanded) 그 자리에서 중지되고 이동계로 돌아간다.
+        // (enum 맨 뒤에 추가했다. 저장은 이름 기준이라 기존 데이터와 안 깨진다)
+        JumpAttack,
+
         End
     };
 }
+
+// 한 상태(시퀀스)에서 소환할 이펙트 하나의 정의.
+// 한 상태에 여러 개를 둘 수 있어서(FActionStateDef::Effects) 각자 프레임/위치를 가진다.
+struct FStateEffect
+{
+    // 소환할 이펙트 애니메이션 이름. 비면 이 항목은 무시한다.
+    std::string Anim;
+
+    // 낼 프레임. 0이면 시작(타와 함께), -1이면 마지막 프레임(동작 끝).
+    int Frame = 0;
+
+    // 소환 위치 오프셋(액터 지면 기준). X는 바라보는 방향으로 부호가 뒤집힌다.
+    FVector2 Offset = FVector2(0.f, 0.f);
+
+    // 이펙트 메시 크기(정사각).
+    float Scale = 200.f;
+
+    // 왼쪽을 볼 때만 더해지는 X 보정. 스프라이트 피벗이 좌우 비대칭이라
+    // 단순 미러로 위치가 어긋날 때 그 차이를 메운다.
+    float LeftAdjustX = 0.f;
+
+    // 이 이펙트를 상하(위/아래)로 뒤집어 낼지. (좌우는 액터 바라보는 방향을 따른다)
+    bool FlipY = false;
+
+    // 이 이펙트를 기울이는 각도(도, degree). 0이면 그대로.
+    float TiltDeg = 0.f;
+
+    // 반복 재생 여부. 모아치기(홀드) 중 차징 효과처럼 계속 돌려야 할 때 켠다.
+    // 홀드 중에 뜬 반복 효과는 홀드가 끝나면 자동으로 사라진다.
+    bool Loop = false;
+};
+
+// 캐릭터를 따라다니는 지속형(버프) 이펙트 하나의 정의.
+// 특정 공격 프레임과 무관하게, 켜져 있는 동안 캐릭터에 붙어 계속 재생된다.
+struct FBuffEffect
+{
+    std::string Anim;                       // 버프 이펙트 애니메이션 이름
+    FVector2    Offset = FVector2(0.f, 0.f);// 캐릭터 기준 위치 오프셋
+    float       Scale  = 200.f;             // 메시 크기(정사각)
+    bool        FlipY  = false;             // 상하 반전
+    float       TiltDeg = 0.f;              // 기울기(도)
+};
 
 // 상태 하나의 정의. 전부 데이터라서 월드/프리팹에 저장되고 에디터에서 바꿀 수 있다.
 struct FActionStateDef
@@ -84,6 +132,10 @@ struct FActionStateDef
     // 손을 떼는 순간 나머지 프레임이 이어서 재생된다. 기본 공격 3타에만 켜져 있다.
     bool bChargeHold = false;
 
+    // 모아치기(bChargeHold) 최대 홀드 시간(초). 0이면 무제한(손 뗄 때까지).
+    // 0보다 크면 그 시간이 지나면 손을 안 떼도 자동으로 풀려 나머지가 재생된다.
+    float ChargeMaxTime = 0.f;
+
     // 이 상태에 들어가면 바라보는 쪽으로 이만큼(월드 유닛) 밀고 나간다.
     // 이동 축은 X 하나뿐이다. (위/아래를 보고 있어도 앞으로만 나간다)
     float MoveDist = 0.f;
@@ -96,6 +148,15 @@ struct FActionStateDef
     // 애니메이션을 거꾸로 돌린다. 기상(GetUp)이 쓰러지는 동작을 뒤집어 쓴다.
     bool bReverse = false;
 
+    // 이 상태의 애니메이션을 상하(위/아래)로 뒤집어 낸다. 시간 역재생(bReverse)이
+    // 아니라 공간(세로) 반전이다. 원본이 뒤집혀 그려진 시퀀스를 제 방향으로 쓸 때 켠다.
+    // 좌우 반전(바라보는 방향)과 독립이다.
+    bool bFlipY = false;
+
+    // 이 상태의 스프라이트를 기울이는 각도(도, degree). 0이면 그대로.
+    // 중심 기준으로 회전한다. (셰이더로는 라디안으로 변환해 넘긴다)
+    float TiltDeg = 0.f;
+
     // ── 이 동작이 맞은 쪽에게 주는 힘 ──
     // 여기 적힌 값은 "때리는 쪽"의 데이터다. 판정이 붙으면 맞은 액터의
     // RequestHit에 그대로 넘겨주면 된다.
@@ -105,6 +166,11 @@ struct FActionStateDef
 
     // 뒤로 밀어내는 속도. 띄우지 않아도 밀 수는 있다.
     float KnockPower = 0.f;
+
+    // ── 타격 이펙트 (여러 개 가능) ──
+    // 이 상태가 재생되는 동안 각 항목이 자기 프레임에 도달하면 소환된다.
+    // 비어 있으면 이펙트를 내지 않는다. (인스펙터에서 슬롯을 추가/편집한다)
+    std::vector<FStateEffect> Effects;
 };
 
 class CActionStateComponent : public CActorComponent
@@ -150,6 +216,11 @@ protected:
     // 현재 상태에 머문 시간
     float mStateTime = 0.f;
 
+    // 이번 상태 진입에서 각 이펙트 항목을 이미 냈는지. (Effects와 같은 인덱스)
+    // 프레임마다 중복 소환되지 않게 막는다. EnterState에서 현재 상태의 개수만큼
+    // false로 다시 채우므로, 콤보 타마다·상태마다 다시 한 번씩 난다.
+    std::vector<bool> mEffectFired;
+
     // 공격키를 지금 누르고 있는지. 입력 컴포넌트가 매 프레임 알려준다.
     bool mAttackHeld = false;
 
@@ -157,6 +228,17 @@ protected:
     // 한 번 손을 떼면 그 동작이 끝날 때까지 다시 붙잡지 않는다.
     // (재생 도중 공격키를 또 눌렀다고 중간 프레임에서 서버리면 곤란하다)
     bool mChargeHolding = false;
+
+    // 모아치기로 붙잡아 둔 채 흐른 시간. ChargeMaxTime과 비교해 자동 발동을 판단한다.
+    float mChargeHoldTime = 0.f;
+
+    // 홀드 중에 띄운 반복 효과들. 홀드가 끝나거나 상태가 바뀌면 이걸 다 지운다.
+    std::vector<std::weak_ptr<class CEffect>> mHoldEffects;
+
+    // ── 버프(지속형) 이펙트 ──
+    // mBuffs: 설정 데이터(저장됨). mActiveBuff: 지금 떠 있는 효과 액터(런타임, 인덱스 동일).
+    std::vector<FBuffEffect>                  mBuffs;
+    std::vector<std::weak_ptr<class CEffect>> mActiveBuff;
 
     // 이동계가 한두 프레임 만에 걷기↔달리기를 오가는 걸 막는 최소 유지 시간
     float mMinStateTime = 0.05f;
@@ -213,6 +295,18 @@ protected:
 
 public:
     void SetAnimComp(const std::weak_ptr<class CAnimation2DComponent>& Comp) { mAnimComp = Comp; }
+
+    // ── 버프(지속형) 이펙트 ──
+    // 켜면 캐릭터를 따라다니는 반복 이펙트가 뜨고, 끄면 사라진다. 게임 로직(스킬 등)에서
+    // 인덱스로 켜고 끄면 된다. 목록/값은 인스펙터에서 설정하고 월드·프리팹에 저장된다.
+    void SetBuffActive(int Index, bool Active);
+    bool IsBuffActive(int Index) const;
+
+    int         GetBuffCount() const { return (int)mBuffs.size(); }
+    FBuffEffect GetBuff(int Index) const;
+    void        SetBuff(int Index, const FBuffEffect& Buff);
+    void        AddBuff();
+    void        RemoveBuff(int Index);
 
     // ── 의도 넣기 ────────────────────────────────────────────────────────────
 
@@ -312,6 +406,9 @@ public:
 
     // 점프인지. (이동계도 공격도 아닌 별개의 액션이다)
     static bool IsJump(EActionState::Type State) { return State == EActionState::Jump; }
+
+    // 공중 공격인지. 점프처럼 땅에 닿을 때까지 유지되는 공중 상태다.
+    static bool IsJumpAttack(EActionState::Type State) { return State == EActionState::JumpAttack; }
 
     // 지금 몇 타까지 이어져 있는지. (0이면 끊긴 상태)
     int GetComboStage() const { return mComboStage; }
@@ -430,6 +527,15 @@ private:
 
     // 착지 통보. 지금 상태에 따라 다음 상태를 정한다.
     void OnLanded(float ImpactVel);
+
+    // 이펙트 한 항목을 지금 위치(+오프셋, 좌우 반영)에 소환한다. 소환한 액터를 돌려준다.
+    std::weak_ptr<class CEffect> SpawnStateEffect(const FStateEffect& Effect);
+
+    // 현재 상태의 이펙트 항목들을 프레임에 맞춰 한 번씩 소환한다. (홀드 중에도 부른다)
+    void CheckSpawnEffects();
+
+    // 홀드 중 띄운 반복 효과들을 전부 지운다. (홀드 종료·상태 전환 시)
+    void ClearHoldEffects();
 
     // 시퀀스가 실제로 재생되는 시간. 못 찾으면 0이다.
     float GetAnimDuration(const std::string& Anim) const;

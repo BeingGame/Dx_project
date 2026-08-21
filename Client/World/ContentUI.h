@@ -2,6 +2,7 @@
 
 #include "World/WidgetContainer.h"
 #include <functional>
+#include <string>
 
 class CContentUI : public CWidgetContainer
 {
@@ -42,6 +43,9 @@ private:
 		std::weak_ptr<class CActor>    Actor;
 		std::weak_ptr<class CButton>   Button;
 		int                            Index = 0;
+		// 이 항목을 만들 때의 액터 이름. 인스펙터 등에서 이름이 바뀌면
+		// 개수는 그대로라 재구성이 안 걸리므로, 이 값과 현재 이름을 비교해 감지한다.
+		std::string                    Name;
 	};
 	std::vector<FEntry> mEntries;
 

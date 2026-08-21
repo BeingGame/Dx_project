@@ -1,0 +1,18 @@
+ANIM2D 1
+AnimName Ghoul_BasicAttack
+TextureType SpriteSheet
+TextureName ghoul
+TextureRelPath Asset\Texture\Monster\ghoul.png
+PlayTime 0.6
+PlayRate 1
+Loop 0
+Reverse 0
+Symmetry 0
+Pivot 29.9 51.41
+Frames 6
+1217.81 368.777 185.4 100 0 -14.4 0.1
+0 511.576 185.4 100 0 -14.4 0.1
+203.548 510.246 185.4 100 0 -14.4 0.1
+405.224 555.614 185.4 100 0 -14.4 0.1
+609.45 508.374 185.4 100 0 -14.4 0.1
+812.493 497.679 185.4 100 0 -14.4 0.1

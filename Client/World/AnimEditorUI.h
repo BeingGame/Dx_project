@@ -154,6 +154,12 @@ private:
         float PivotX = 0.f;
         float PivotY = 0.f;
 
+        // 시퀀스 전용 오프셋(텍셀). 프레임 피벗과 달리 애니메이션 에셋이 아니라
+        // 이 컴포넌트의 시퀀스가 들고 있는 값이라, 시퀀스마다 아틀라스가 달라
+        // 정렬이 어긋날 때 이 시퀀스만 통째로 밀어 맞춘다. 월드 파일에 저장된다.
+        float OffsetX = 0.f;
+        float OffsetY = 0.f;
+
         // 프레임 데이터 (CAnimation2D 미러)
         std::vector<FFrameData>   Frames;
         int                       SelectedFrame = -1;

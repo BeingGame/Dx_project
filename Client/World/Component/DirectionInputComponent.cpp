@@ -19,6 +19,7 @@ CDirectionInputComponent::CDirectionInputComponent(const CDirectionInputComponen
     mWalkSpeed     = src.mWalkSpeed;
     mRunSpeed      = src.mRunSpeed;
     mRunVertScale  = src.mRunVertScale;
+    mRunDiagVertScale = src.mRunDiagVertScale;
     mAttackKey     = src.mAttackKey;
     mJumpKey       = src.mJumpKey;
 }
@@ -195,13 +196,26 @@ void CDirectionInputComponent::Update(float DeltaTime)
 
         if (VertKey != 0)
         {
-            // 좌우는 버리고 위/아래 이동만 남긴다.
-            // (좌우 입력이 0이 되므로 바라보는 방향도 그대로 유지된다)
-            mMoveDir.x = 0.f;
+            // 달리던 키가 좌우이고 아직 누르고 있으면: 좌우 달리기를 유지한 채
+            // 위/아래를 조금만 섞어 얕은 대각선으로 흐르게 한다. (좌우가 주, 상하가 덤)
+            const bool bHorizRun = (mRunKey == VK_LEFT || mRunKey == VK_RIGHT);
 
-            if (!bRunKeyHeld)
+            if (bRunKeyHeld && bHorizRun)
             {
-                mRunKey = VertKey;
+                // mMoveDir.x(좌우 달리기 방향)는 그대로 두고 위/아래만 작게 줄인다.
+                // 뒤에서 방향을 정규화하므로, 비율이 작을수록 얕은 대각선이 된다.
+                mMoveDir.y *= mRunDiagVertScale;
+            }
+            else
+            {
+                // 좌우 달리기 키에서 손을 뗐다: 예전처럼 위/아래가 달리기를 이어받아
+                // 위/아래로만 달린다. (좌우가 0이라 바라보는 방향도 유지된다)
+                mMoveDir.x = 0.f;
+
+                if (!bRunKeyHeld)
+                {
+                    mRunKey = VertKey;
+                }
             }
         }
         else if (!bRunKeyHeld)
@@ -251,11 +265,16 @@ void CDirectionInputComponent::Update(float DeltaTime)
 
     if (auto Movement = mMovement.lock(); Movement && bCanMove)
     {
-        // 달리는 중에 위/아래를 누르고 있으면 위쪽 블록이 좌우를 버려서
-        // 위/아래로만 가는 상태가 된다. 그때는 달리기 속도 대신
-        // 걷기 속도의 배율을 쓴다. (기본 2배)
+        // 좌우 달리기 키를 놓고 위/아래가 달리기를 이어받으면(좌우=0) 위/아래로만
+        // 가는 상태가 된다. 그때는 달리기 속도 대신 걷기 속도의 배율을 쓴다.(기본 2배)
+        // 좌우를 유지한 얕은 대각선(mMoveDir.x != 0)은 그냥 달리기 속도로 간다.
         const bool bRunVertical = mRunning
                                && (mMoveDir.x == 0.f)
+                               && (mMoveDir.y != 0.f);
+
+        // 좌우를 유지한 얕은 대각선으로 달리는 중인지. (좌우·상하가 둘 다 있음)
+        const bool bRunDiagonal = mRunning
+                               && (mMoveDir.x != 0.f)
                                && (mMoveDir.y != 0.f);
 
         float Speed = bRunVertical ? (mWalkSpeed * mRunVertScale)
@@ -269,13 +288,31 @@ void CDirectionInputComponent::Update(float DeltaTime)
             Speed *= ActionState->GetJumpMoveScale();
         }
 
-        Movement->SetSpeed(Speed);
-
         if (mMoveDir.x != 0.f || mMoveDir.y != 0.f)
         {
-            FVector3 Dir(mMoveDir.x, mMoveDir.y, 0.f);
+            // 속도 벡터 = 속도 × 단위방향.
+            FVector2 Vel = mMoveDir;
+            Vel.Normalize();
+            Vel *= Speed;
+
+            // 대각으로 달릴 때는 좌우로 가던 속도를 반으로 줄인다.
+            // 위/아래 성분은 그대로 두고 좌우 성분만 절반으로 깎는다.
+            if (bRunDiagonal)
+            {
+                Vel.x *= 0.5f;
+            }
+
+            // 이동 컴포넌트는 속도(크기)와 단위방향을 따로 받으므로 다시 분해한다.
+            Movement->SetSpeed(Vel.Length());
+
+            FVector3 Dir(Vel.x, Vel.y, 0.f);
             Dir.Normalize();
             Movement->SetMoveDir(Dir);
+        }
+        else
+        {
+            // 입력이 없어도 속도는 갱신해 둔다. (방향은 이전 값을 유지)
+            Movement->SetSpeed(Speed);
         }
     }
 }
@@ -288,6 +325,7 @@ void CDirectionInputComponent::Save(std::ofstream& File) const
     File << "WalkSpeed="     << mWalkSpeed     << "\n";
     File << "RunSpeed="      << mRunSpeed      << "\n";
     File << "RunVertScale=" << mRunVertScale  << "\n";
+    File << "RunDiagVertScale=" << mRunDiagVertScale << "\n";
     File << "AttackKey="     << (int)mAttackKey << "\n";
     File << "JumpKey="       << (int)mJumpKey   << "\n";
 }
@@ -310,6 +348,9 @@ void CDirectionInputComponent::Load(const std::unordered_map<std::string, std::s
 
     //나중에 생긴 항목이라 예전 월드에는 없다. 없으면 기본값(2배)을 쓴다.
     GetF("RunVertScale",  mRunVertScale);
+
+    //달리기 중 위/아래를 섞는 대각선 비율. 예전 월드엔 없으니 없으면 기본값(0.35)을 쓴다.
+    GetF("RunDiagVertScale", mRunDiagVertScale);
 
     if (auto Found = Props.find("AttackKey"); Found != Props.end())
     {

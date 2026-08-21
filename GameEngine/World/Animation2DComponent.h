@@ -78,6 +78,17 @@ public:
 	void SetReverse(const std::string& Name, bool Reverse);
 	void SetSymmetry(const std::string& Name, bool Symmetry);
 
+	//세로(위/아래) 반전. 가로 대칭과 별개로 스프라이트를 상하로 뒤집어 낸다.
+	void SetSymmetryV(const std::string& Name, bool Symmetry);
+
+	//시퀀스를 기울여(회전) 낸다. 각도는 라디안.
+	void SetSequenceRotation(const std::string& Name, float Radian);
+
+	//시퀀스 전용 오프셋(텍셀). 시퀀스마다 아틀라스가 달라 정렬이 어긋날 때
+	//해당 시퀀스만 통째로 밀어 맞춘다. 월드 파일(Save/Load)에 함께 저장된다.
+	void SetSequenceOffset(const std::string& Name, const FVector2& Offset);
+	FVector2 GetSequenceOffset(const std::string& Name) const;
+
 	void SetUsePalette(bool Use);
 	void SetPaletteIndex(int Index);
 

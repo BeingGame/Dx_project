@@ -1,0 +1,21 @@
+ANIM2D 1
+AnimName BasicAttackFlame
+TextureType SpriteSheet
+TextureName 열정의차크라_4
+TextureRelPath Asset\Texture\Effect\YongtusaEffect\열정의차크라_4.png
+PlayTime 0.9
+PlayRate 1
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 0 0
+Frames 9
+3448.91 6599 337.48 334.795 -11.2328 -9.90903 0.1
+4290.53 6604.88 337.48 334.795 0 0 0.1
+300.198 7405.3 337.48 334.795 0 0 0.1
+1094.73 7417.07 337.48 334.795 0 0 0.1
+1889.27 7417.07 337.48 334.795 0 0 0.1
+2695.57 7417.07 337.48 334.795 0 0 0.1
+3490.11 7417.07 337.48 334.795 0 0 0.1
+4308.19 7417.07 337.48 334.795 0 0 0.1
+4308.19 7417.07 337.48 334.795 0 0 0.1

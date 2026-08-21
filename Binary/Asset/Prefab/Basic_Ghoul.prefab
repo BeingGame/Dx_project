@@ -1,0 +1,91 @@
+Tag=Actor
+AnimType=Ghoul
+PX=0 PY=0 PZ=0
+SX=0.2 SY=0.2 SZ=1
+RX=0 RY=0 RZ=0
+Count=6
+CompEntry0=CSceneComponent|Root|
+CompEntry1=CMeshComponent|MeshComponent|Root
+CompEntry2=CAnimation2DComponent|Animation2DComponent|
+CompEntry3=CActionStateComponent|ActionState|
+CompEntry4=CHeightComponent|Height|
+CompEntry5=CHeightComponent|Height|
+[Comp:0]
+TypeName=CSceneComponent
+Name=Root
+Parent=
+RelPos=0 0 0
+RelScale=0.2 0.2 1
+RelRot=0 0 0
+Layer=1
+
+[Comp:1]
+TypeName=CMeshComponent
+Name=MeshComponent
+Parent=Root
+RelPos=0 0 0
+RelScale=1.4 1.4 1
+RelRot=0 0 0
+Layer=1
+Mesh=TexRect
+Shader=Animation2D
+Material=Default
+Blend=
+MatBaseColor=1 1 1 1
+MatOpacity=1
+
+[Comp:2]
+TypeName=CAnimation2DComponent
+Name=Animation2DComponent
+SeqCount=9
+Seq0=Born|0.6|1|1|0|0|-65|-22
+Seq1=Ghoul_Walk|0.4|1|1|0|0|0|7
+Seq2=Ghould_Idle|0.2|0.7|1|0|0|0|0
+Seq3=Ghoul_Airborne|0.1|1|1|0|0|0|0
+Seq4=Ghoul_Hit|0.1|1|0|0|0|0|0
+Seq5=Ghoul_Down|0.1|1|1|0|0|0|0
+Seq6=Ghoul_Dead|0.1|1|0|0|0|0|0
+Seq7=Ghoul_Skill1|1.5|1|0|0|0|0|0
+Seq8=Ghoul_BasicAttack|0.6|1|0|0|0|0|0
+Current=Ghoul_BasicAttack
+
+[Comp:3]
+TypeName=CActionStateComponent
+Name=ActionState
+MinStateTime=0.05
+ActionTimeout=5
+ComboResetTime=0.5
+ComboMoveLimit=0.06
+JumpHeight=0.35
+JumpTime=0
+JumpMoveScale=1
+DownTime=0.7
+StateCount=13
+State0=Idle|Idle|0|1|1|1|-1|0|0|0.12|0|0|0
+State1=Walk|PlayerWalk|0|1|1|1|-1|0|0|0.12|0|0|0
+State2=Run|PlayerRunning|0|1|1|1|-1|0|0|0.12|0|0|0
+State3=Attack1|BasicAttack|10|0|0|0|0.15|0|0.06|0.1|0|0|0.25
+State4=Attack2|BasicAttack2|10|0|0|0|0.15|0|0.09|0.1|0|0|0.35
+State5=Attack3|BasicAttack3|10|0|0|0|0.15|1|0.14|0.14|0|1.6|0.6
+State6=Jump|PlayerJump|12|0|1|1|-1|0|0|0.12|0|0|0
+State7=Hit|PlayerHit|20|0|0|0|-1|0|0|0.12|0|0|0
+State8=Dash||15|0|0|0|-1|0|0|0.12|0|0|0
+State9=Dead|PlayerDown|100|0|0|0|-1|0|0|0.12|0|0|0
+State10=Airborne|PlayerHit|25|0|0|0|-1|0|0|0.12|0|0|0
+State11=Down|PlayerDown|30|0|0|0|-1|0|0|0.12|0|0|0
+State12=GetUp|PlayerDown|30|0|0|0|-1|0|0|0.12|1|0|0
+
+[Comp:4]
+TypeName=CHeightComponent
+Name=Height
+Gravity=5.7
+Bounce=0
+KnockDamp=8
+
+[Comp:5]
+TypeName=CHeightComponent
+Name=Height
+Gravity=5.7
+Bounce=0
+KnockDamp=8
+

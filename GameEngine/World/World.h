@@ -132,6 +132,40 @@ public:
 		return std::dynamic_pointer_cast<T>(iter->second);
 	}
 
+	//액터 이름을 바꾸고 맵의 키도 같이 옮긴다.
+	//mActorList는 이름을 키로 쓰는 multimap이라, 액터 이름만 바꾸면 키가 옛 이름으로
+	//남아 FindActor/저장이 어긋난다. 포인터가 일치하는 기존 항목을 지우고 새 키로 넣는다.
+	//성공하면 true. (이름이 비었거나 같으면 false)
+	bool RenameActor(const std::shared_ptr<CActor>& Actor, const std::string& NewName)
+	{
+		if (!Actor || NewName.empty())
+		{
+			return false;
+		}
+
+		if (Actor->GetName() == NewName)
+		{
+			return false;
+		}
+
+		//옛 이름 버킷에서 포인터가 일치하는 항목을 찾아 제거한다.
+		auto Range = mActorList.equal_range(Actor->GetName());
+
+		for (auto iter = Range.first; iter != Range.second; ++iter)
+		{
+			if (iter->second == Actor)
+			{
+				mActorList.erase(iter);
+				break;
+			}
+		}
+
+		Actor->SetName(NewName);
+		mActorList.insert(std::make_pair(NewName, Actor));
+
+		return true;
+	}
+
 	//액터 검색을 했을때 여러개를 받을수 있는 함수
 	template<typename T>
 	bool FindObjectList(const std::string& Name, std::list<std::weak_ptr<T>>& ActorList)

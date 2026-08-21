@@ -90,6 +90,8 @@ cbuffer CBAnimation2D : register(b2)
     int cbAnimation2DFrame;
     float2 cbAnimRatio;
     float2 cbAnimOffset;
+    float cbAnimRotation;
+    float3 cbAnimEmpty;
 }
 
 //팔레트 상수버퍼

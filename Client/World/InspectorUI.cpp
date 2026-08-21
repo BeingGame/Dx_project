@@ -1,4 +1,4 @@
-#include "InspectorUI.h"
+﻿#include "InspectorUI.h"
 
 #include "World/Button.h"
 #include "World/TextBlock.h"
@@ -110,7 +110,26 @@ bool CInspectorUI::Init()
 
 	float Y = TITLE_H + 6.f;
 
+	float NameRowY = Y;
 	mActorNameText = AddRow(Y, TEXT("Name: -"));       Y += ROW_H + 2.f;
+
+	// 이름 행 위에 투명 버튼을 깔아, 더블클릭하면 이름을 직접 입력해 바꿀 수 있게 한다.
+	// 텍스트(ZOrder 3)는 클릭을 안 먹으므로 그 아래(ZOrder 2)에 둬도 이 버튼이 받는다.
+	{
+		auto NameBtn = CreateWidget<CButton>("InspNameBtn", 2).lock();
+		if (NameBtn)
+		{
+			NameBtn->SetPos(6.f, NameRowY);
+			NameBtn->SetSize(GetSize().x - 12.f, ROW_H);
+			NameBtn->SetTint(EWidgetState::Normal,  0.f,   0.f,   0.f,   0.f);
+			NameBtn->SetTint(EWidgetState::Hovered, 0.30f, 0.30f, 0.16f, 0.35f);
+			NameBtn->SetTint(EWidgetState::Clicked, 0.42f, 0.42f, 0.20f, 0.55f);
+			NameBtn->SetTint(EWidgetState::Release, 0.30f, 0.30f, 0.16f, 0.35f);
+			NameBtn->SetTint(EWidgetState::Disable, 0.f,   0.f,   0.f,   0.f);
+			mActorNameButton = NameBtn;
+		}
+	}
+
 	mActorTagText  = AddRow(Y, TEXT("Tag:  -"));        Y += ROW_H + 2.f;
 
 	// ── 애니메이션 타입 선택 콤보 ────────────────────────────────────────────
@@ -659,7 +678,9 @@ void CInspectorUI::Rebuild()
 		std::wstring WName(Actor->GetName().begin(), Actor->GetName().end());
 		std::wstring WTag (Actor->GetActorTag().begin(), Actor->GetActorTag().end());
 		TCHAR TextBuffer[128] = {};
-		if (auto Text = mActorNameText.lock()) { wsprintf(TextBuffer, TEXT("Name: %s"), WName.c_str()); Text->SetText(TextBuffer); }
+		//이름을 편집 중이면 라벨은 HandleNameEditInput이 버퍼로 채우므로 덮지 않는다.
+		if (!mEditNameActive)
+			if (auto Text = mActorNameText.lock()) { wsprintf(TextBuffer, TEXT("Name: %s"), WName.c_str()); Text->SetText(TextBuffer); }
 		if (auto Text = mActorTagText.lock())  { wsprintf(TextBuffer, TEXT("Tag:  %s"), WTag.c_str());  Text->SetText(TextBuffer); }
 	}
 
@@ -1227,6 +1248,146 @@ void CInspectorUI::AddActorCompProps(float& Y,
 			},
 			Entry);
 
+		// ── 타격 이펙트 (여러 개) ──
+		// 이 상태가 재생되는 동안 각 항목이 자기 프레임에 도달하면 소환된다.
+		// 추가/삭제로 개수를 늘리고, Sel로 편집할 항목을 고른 뒤 아래 값들을 수정한다.
+		AddSectionHeader(Y, TEXT("Hit Effects"));
+
+		// 편집 인덱스가 개수 범위를 벗어나면 맞춘다. (상태를 바꾸면 개수가 다를 수 있다)
+		{
+			int FxN = (int)GetDef().Effects.size();
+			if (mFxEditIdx >= FxN) mFxEditIdx = FxN - 1;
+			if (mFxEditIdx < 0)    mFxEditIdx = 0;
+		}
+
+		// 항목 추가. 추가하면 그걸 바로 편집 대상으로 잡는다.
+		AddActionRow(Y, TEXT("Add Fx"), TEXT("+"),
+			[this, GetDef, SetDef]() {
+				FActionStateDef StateDef = GetDef();
+				StateDef.Effects.push_back(FStateEffect());
+				mFxEditIdx = (int)StateDef.Effects.size() - 1;
+				SetDef(StateDef);
+			},
+			[GetDef]() -> std::string { return std::to_string(GetDef().Effects.size()) + " total"; },
+			Entry);
+
+		// 지금 편집 중인 항목 삭제.
+		AddActionRow(Y, TEXT("Del Fx"), TEXT("-"),
+			[this, GetDef, SetDef]() {
+				FActionStateDef StateDef = GetDef();
+				if (mFxEditIdx >= 0 && mFxEditIdx < (int)StateDef.Effects.size())
+				{
+					StateDef.Effects.erase(StateDef.Effects.begin() + mFxEditIdx);
+					if (mFxEditIdx >= (int)StateDef.Effects.size()) mFxEditIdx = (int)StateDef.Effects.size() - 1;
+					if (mFxEditIdx < 0) mFxEditIdx = 0;
+					SetDef(StateDef);
+				}
+			},
+			[this]() -> std::string { return "edit #" + std::to_string(mFxEditIdx); },
+			Entry);
+
+		// 편집할 항목 선택 (순환).
+		AddActionRow(Y, TEXT("Sel Fx"), TEXT("Next"),
+			[this, GetDef]() {
+				int FxN = (int)GetDef().Effects.size();
+				if (FxN > 0) mFxEditIdx = (mFxEditIdx + 1) % FxN;
+			},
+			[this, GetDef]() -> std::string {
+				int FxN = (int)GetDef().Effects.size();
+				if (FxN == 0) return "none";
+				return std::to_string(mFxEditIdx) + " / " + std::to_string(FxN - 1);
+			},
+			Entry);
+
+		// 선택된 항목 하나를 값으로 읽고 쓰는 헬퍼.
+		auto GetFx = [this, GetDef]() -> FStateEffect {
+			FActionStateDef StateDef = GetDef();
+			if (mFxEditIdx >= 0 && mFxEditIdx < (int)StateDef.Effects.size())
+				return StateDef.Effects[mFxEditIdx];
+			return FStateEffect();
+		};
+
+		auto SetFx = [this, GetDef, SetDef](const FStateEffect& Fx) {
+			FActionStateDef StateDef = GetDef();
+			if (mFxEditIdx >= 0 && mFxEditIdx < (int)StateDef.Effects.size())
+			{
+				StateDef.Effects[mFxEditIdx] = Fx;
+				SetDef(StateDef);
+			}
+		};
+
+		// 선택된 항목의 값 편집 행. 항목이 없을 땐 GetFx/SetFx가 기본값/무시로 안전하게
+		// 처리하므로 행은 항상 만들어 둔다. (Add로 늘리면 Rebuild 없이 바로 편집된다)
+
+		// 이펙트 애니. 후보는 로드된 모든 애니메이션(CAnimRegistry). 이펙트도 .anim2d다.
+		{
+			std::vector<std::string> FxNames = { "(none)" };
+			for (const auto& Name : CAnimRegistry::GetAll())
+				FxNames.push_back(Name);
+
+			void* DropdownKey = (void*)((char*)ActionComp.get() + 3);
+			AddDropdownRow(Y, TEXT("Effect"), DropdownKey, std::move(FxNames),
+				[GetFx]() -> std::string {
+					const std::string& N = GetFx().Anim;
+					return N.empty() ? "(none)" : N;
+				},
+				[GetFx, SetFx](const std::string& Name) {
+					FStateEffect Fx = GetFx();
+					Fx.Anim = (Name == "(none)") ? std::string() : Name;
+					SetFx(Fx);
+				},
+				Entry);
+		}
+
+		// 낼 프레임. 0이면 시작(타와 함께), -1이면 마지막 프레임(동작 끝).
+		AddPropRow(Y, TEXT("FxFrame"), 1.f,
+			[GetFx]() -> float { return (float)GetFx().Frame; },
+			[GetFx, SetFx](float Value) { FStateEffect Fx = GetFx(); Fx.Frame = (int)Value; SetFx(Fx); },
+			Entry);
+
+		// 소환 위치 오프셋. X는 바라보는 방향으로 부호가 뒤집힌다.
+		AddPropRow(Y, TEXT("FxOffX"), 1.f,
+			[GetFx]() -> float { return GetFx().Offset.x; },
+			[GetFx, SetFx](float Value) { FStateEffect Fx = GetFx(); Fx.Offset.x = Value; SetFx(Fx); },
+			Entry);
+
+		AddPropRow(Y, TEXT("FxOffY"), 1.f,
+			[GetFx]() -> float { return GetFx().Offset.y; },
+			[GetFx, SetFx](float Value) { FStateEffect Fx = GetFx(); Fx.Offset.y = Value; SetFx(Fx); },
+			Entry);
+
+		// 이펙트 메시 크기.
+		AddPropRow(Y, TEXT("FxScale"), 10.f,
+			[GetFx]() -> float { return GetFx().Scale; },
+			[GetFx, SetFx](float Value) { FStateEffect Fx = GetFx(); Fx.Scale = (Value < 0.f) ? 0.f : Value; SetFx(Fx); },
+			Entry);
+
+		// 왼쪽을 볼 때만 더해지는 X 보정. 오른쪽에서 FxOffX로 맞춘 뒤,
+		// 왼쪽에서 위치가 어긋나면 이 값으로 그 차이를 메운다.
+		AddPropRow(Y, TEXT("FxLAdjX"), 1.f,
+			[GetFx]() -> float { return GetFx().LeftAdjustX; },
+			[GetFx, SetFx](float Value) { FStateEffect Fx = GetFx(); Fx.LeftAdjustX = Value; SetFx(Fx); },
+			Entry);
+
+		// 이펙트 상하 반전 토글. (좌우는 액터 바라보는 방향을 따라감)
+		AddActionRow(Y, TEXT("FxFlipY"), TEXT("Toggle"),
+			[GetFx, SetFx]() { FStateEffect Fx = GetFx(); Fx.FlipY = !Fx.FlipY; SetFx(Fx); },
+			[GetFx]() -> std::string { return GetFx().FlipY ? "ON" : "OFF"; },
+			Entry);
+
+		// 이펙트 반복 재생 토글. 홀드(모아치기) 중 차징 효과처럼 계속 돌릴 때 켠다.
+		// 홀드 중에 뜬 반복 효과는 홀드가 끝나면 자동으로 사라진다.
+		AddActionRow(Y, TEXT("FxLoop"), TEXT("Toggle"),
+			[GetFx, SetFx]() { FStateEffect Fx = GetFx(); Fx.Loop = !Fx.Loop; SetFx(Fx); },
+			[GetFx]() -> std::string { return GetFx().Loop ? "ON" : "OFF"; },
+			Entry);
+
+		// 이펙트 기울기(회전) 각도. 도(degree) 단위.
+		AddPropRow(Y, TEXT("FxTilt"), 5.f,
+			[GetFx]() -> float { return GetFx().TiltDeg; },
+			[GetFx, SetFx](float Value) { FStateEffect Fx = GetFx(); Fx.TiltDeg = Value; SetFx(Fx); },
+			Entry);
+
 		// ON/OFF 세 개
 		auto AddDefFlag = [&](const wchar_t* Label, bool FActionStateDef::* Member)
 		{
@@ -1249,8 +1410,33 @@ void CInspectorUI::AddActorCompProps(float& Y,
 		// 공격키를 누르고 있는 동안 첫 프레임에서 멈춰 세울지. (모아치기)
 		AddDefFlag(TEXT("Charge"),  &FActionStateDef::bChargeHold);
 
+		// 모아치기 최대 홀드 시간(초). 0이면 무제한(손 뗄 때까지), 0보다 크면
+		// 그 시간이 지나면 손을 안 떼도 자동으로 발동된다.
+		AddPropRow(Y, TEXT("ChargeMax"), 0.1f,
+			[GetDef]() -> float { return GetDef().ChargeMaxTime; },
+			[GetDef, SetDef](float Value) {
+				FActionStateDef StateDef = GetDef();
+				StateDef.ChargeMaxTime = (Value < 0.f) ? 0.f : Value;
+				SetDef(StateDef);
+			},
+			Entry);
+
 		// 애니메이션 역재생. 기상(GetUp)이 쓰러지는 동작을 뒤집어 쓴다.
 		AddDefFlag(TEXT("Reverse"), &FActionStateDef::bReverse);
+
+		// 상하(위/아래) 미러. 원본이 뒤집혀 그려진 시퀀스를 제 방향으로 낼 때 켠다.
+		// (시간 역재생인 Reverse와 다른 세로 반전. 좌우 반전과 독립)
+		AddDefFlag(TEXT("FlipY"), &FActionStateDef::bFlipY);
+
+		// 기울기(회전) 각도. 도(degree) 단위. 중심 기준으로 스프라이트를 돌린다.
+		AddPropRow(Y, TEXT("Tilt"), 5.f,
+			[GetDef]() -> float { return GetDef().TiltDeg; },
+			[GetDef, SetDef](float Value) {
+				FActionStateDef StateDef = GetDef();
+				StateDef.TiltDeg = Value;
+				SetDef(StateDef);
+			},
+			Entry);
 
 		// 액션계만 눌러서 시험 재생한다. 이동계는 입력으로 바뀌므로 의미가 없다.
 		if (!CActionStateComponent::IsLocomotion(Edit))
@@ -1376,6 +1562,46 @@ void CInspectorUI::AddActorCompProps(float& Y,
 			},
 			Entry);
 
+		// -- Buff (persistent) effects: follow the character, unrelated to attack frames.
+		// Toggle on/off from game logic via SetBuffActive(index, on/off). (Active row = editor preview)
+		AddSectionHeader(Y, TEXT("Buff Effects"));
+		{
+			int BuffN = ActionComp->GetBuffCount();
+			if (mBuffEditIdx >= BuffN) mBuffEditIdx = BuffN - 1;
+			if (mBuffEditIdx < 0)      mBuffEditIdx = 0;
+		}
+		AddActionRow(Y, TEXT("Add Buff"), TEXT("+"),
+			[this, ActionStateWeak]() { if (auto A = ActionStateWeak.lock()) { A->AddBuff(); mBuffEditIdx = A->GetBuffCount() - 1; } },
+			[ActionStateWeak]() -> std::string { auto A = ActionStateWeak.lock(); return A ? (std::to_string(A->GetBuffCount()) + " total") : "-"; },
+			Entry);
+		AddActionRow(Y, TEXT("Del Buff"), TEXT("-"),
+			[this, ActionStateWeak]() { auto A = ActionStateWeak.lock(); if (!A) return; A->RemoveBuff(mBuffEditIdx); if (mBuffEditIdx >= A->GetBuffCount()) mBuffEditIdx = A->GetBuffCount() - 1; if (mBuffEditIdx < 0) mBuffEditIdx = 0; },
+			[this]() -> std::string { return "edit #" + std::to_string(mBuffEditIdx); },
+			Entry);
+		AddActionRow(Y, TEXT("Sel Buff"), TEXT("Next"),
+			[this, ActionStateWeak]() { auto A = ActionStateWeak.lock(); if (!A) return; int n = A->GetBuffCount(); if (n > 0) mBuffEditIdx = (mBuffEditIdx + 1) % n; },
+			[this, ActionStateWeak]() -> std::string { auto A = ActionStateWeak.lock(); if (!A) return "-"; int n = A->GetBuffCount(); if (n == 0) return "none"; return std::to_string(mBuffEditIdx) + " / " + std::to_string(n - 1); },
+			Entry);
+		auto GetBf = [this, ActionStateWeak]() -> FBuffEffect { auto A = ActionStateWeak.lock(); if (A && mBuffEditIdx >= 0 && mBuffEditIdx < A->GetBuffCount()) return A->GetBuff(mBuffEditIdx); return FBuffEffect(); };
+		auto SetBf = [this, ActionStateWeak](const FBuffEffect& Buff) { auto A = ActionStateWeak.lock(); if (A && mBuffEditIdx >= 0 && mBuffEditIdx < A->GetBuffCount()) A->SetBuff(mBuffEditIdx, Buff); };
+		{
+			std::vector<std::string> Names = { "(none)" };
+			for (const auto& N : CAnimRegistry::GetAll()) Names.push_back(N);
+			void* DKey = (void*)((char*)ActionComp.get() + 5);
+			AddDropdownRow(Y, TEXT("Buff Anim"), DKey, std::move(Names),
+				[GetBf]() -> std::string { const std::string& N = GetBf().Anim; return N.empty() ? "(none)" : N; },
+				[GetBf, SetBf](const std::string& N) { FBuffEffect B = GetBf(); B.Anim = (N == "(none)") ? std::string() : N; SetBf(B); },
+				Entry);
+		}
+		AddPropRow(Y, TEXT("BuffOffX"), 1.f, [GetBf]() -> float { return GetBf().Offset.x; }, [GetBf, SetBf](float V) { FBuffEffect B = GetBf(); B.Offset.x = V; SetBf(B); }, Entry);
+		AddPropRow(Y, TEXT("BuffOffY"), 1.f, [GetBf]() -> float { return GetBf().Offset.y; }, [GetBf, SetBf](float V) { FBuffEffect B = GetBf(); B.Offset.y = V; SetBf(B); }, Entry);
+		AddPropRow(Y, TEXT("BuffScale"), 10.f, [GetBf]() -> float { return GetBf().Scale; }, [GetBf, SetBf](float V) { FBuffEffect B = GetBf(); B.Scale = (V < 0.f) ? 0.f : V; SetBf(B); }, Entry);
+		AddActionRow(Y, TEXT("BuffFlipY"), TEXT("Toggle"), [GetBf, SetBf]() { FBuffEffect B = GetBf(); B.FlipY = !B.FlipY; SetBf(B); }, [GetBf]() -> std::string { return GetBf().FlipY ? "ON" : "OFF"; }, Entry);
+		AddPropRow(Y, TEXT("BuffTilt"), 5.f, [GetBf]() -> float { return GetBf().TiltDeg; }, [GetBf, SetBf](float V) { FBuffEffect B = GetBf(); B.TiltDeg = V; SetBf(B); }, Entry);
+		AddActionRow(Y, TEXT("Active"), TEXT("Toggle"),
+			[this, ActionStateWeak]() { auto A = ActionStateWeak.lock(); if (!A) return; A->SetBuffActive(mBuffEditIdx, !A->IsBuffActive(mBuffEditIdx)); },
+			[this, ActionStateWeak]() -> std::string { auto A = ActionStateWeak.lock(); return (A && A->IsBuffActive(mBuffEditIdx)) ? "ON" : "OFF"; },
+			Entry);
 		return;
 	}
 
@@ -1404,6 +1630,13 @@ void CInspectorUI::AddActorCompProps(float& Y,
 		AddPropRow(Y, TEXT("RunVert"), 0.1f,
 			[DirectionInputWeak]() -> float { auto DirectionInput = DirectionInputWeak.lock(); return DirectionInput ? DirectionInput->GetRunVertScale() : 0.f; },
 			[DirectionInputWeak](float Value) { auto DirectionInput = DirectionInputWeak.lock(); if (DirectionInput) DirectionInput->SetRunVertScale(Value); },
+			Entry);
+
+		//좌우로 달리는 중 위/아래를 누르면 이 비율만큼 위/아래를 섞어 얕은 대각선으로 흐른다.
+		//0이면 좌우 그대로, 1이면 45도. (방향 혼합 비율이라 RunVert 속도와는 별개)
+		AddPropRow(Y, TEXT("RunDiag"), 0.05f,
+			[DirectionInputWeak]() -> float { auto DirectionInput = DirectionInputWeak.lock(); return DirectionInput ? DirectionInput->GetRunDiagVertScale() : 0.f; },
+			[DirectionInputWeak](float Value) { auto DirectionInput = DirectionInputWeak.lock(); if (DirectionInput) DirectionInput->SetRunDiagVertScale(Value); },
 			Entry);
 
 		// 같은 방향키를 이 시간 안에 두 번 누르면 달리기로 본다.
@@ -1853,6 +2086,12 @@ void CInspectorUI::RegisterEditKeys()
 	Input->AddBindKey("InspEnter",    VK_RETURN);
 	Input->AddBindKey("InspEsc",      VK_ESCAPE);
 
+	//액터 이름 입력용 알파벳. (대소문자는 GetShift로 판별한다)
+	for (int c = 0; c < 26; ++c)
+	{
+		Input->AddBindKey("InspAlpha" + std::to_string(c), (unsigned char)('A' + c));
+	}
+
 	mKeysRegistered = true;
 }
 
@@ -1862,6 +2101,9 @@ void CInspectorUI::BeginEdit(int CompIdx, int PropIdx)
 
 	auto& Entry = mCompEntries[CompIdx];
 	if (PropIdx < 0 || PropIdx >= (int)Entry.Props.size()) return;
+
+	//이름 편집 중이었으면 접는다. (둘이 동시에 켜지지 않게)
+	if (mEditNameActive) CancelNameEdit();
 
 	mEditActive  = true;
 	mEditCompIdx = CompIdx;
@@ -2019,6 +2261,144 @@ void CInspectorUI::DetectValueDoubleClick()
 	}
 }
 
+// ── 액터 이름 직접 입력 ─────────────────────────────────────────────────────
+void CInspectorUI::DetectNameDoubleClick()
+{
+	auto Button = mActorNameButton.lock();
+	if (!Button) return;
+
+	//대상 액터가 없으면 바꿀 이름도 없다.
+	if (mTarget.expired()) return;
+
+	if (Button->GetWidgetState() != EWidgetState::Release) return;
+
+	void* ClickKey = Button.get();
+
+	//같은 버튼을 짧은 간격으로 두 번 → 편집 시작
+	if (mLastClickKey == ClickKey && (mTimeAccum - mLastClickTime) <= DOUBLE_CLICK_SEC)
+	{
+		BeginNameEdit();
+		mLastClickKey = nullptr;
+	}
+	else
+	{
+		mLastClickKey  = ClickKey;
+		mLastClickTime = mTimeAccum;
+	}
+}
+
+void CInspectorUI::BeginNameEdit()
+{
+	auto Actor = mTarget.lock();
+	if (!Actor) return;
+
+	//숫자 값 편집 중이었으면 접는다. (둘이 동시에 켜지지 않게)
+	if (mEditActive) CancelEdit();
+
+	mEditNameActive = true;
+	mEditBuffer     = Actor->GetName();
+
+	//타이핑이 스킬/타일모드 등 기존 키 바인딩을 같이 발동시키지 않게 막는다.
+	if (auto World = mWorld.lock())
+		if (auto Input = World->GetInput().lock())
+			Input->SetBindKeyBlock(true);
+}
+
+void CInspectorUI::CancelNameEdit()
+{
+	mEditNameActive = false;
+	mEditBuffer.clear();
+
+	if (auto World = mWorld.lock())
+		if (auto Input = World->GetInput().lock())
+			Input->SetBindKeyBlock(false);
+}
+
+void CInspectorUI::CommitNameEdit()
+{
+	if (!mEditNameActive) return;
+
+	std::string NewName = mEditBuffer;
+
+	if (auto World = mWorld.lock())
+		if (auto Actor = mTarget.lock())
+			if (!NewName.empty())
+				World->RenameActor(Actor, NewName);
+
+	CancelNameEdit();
+	Rebuild();   //이름 라벨을 확정 값으로 되돌린다.
+}
+
+void CInspectorUI::HandleNameEditInput()
+{
+	if (!mEditNameActive) return;
+
+	auto World = mWorld.lock();
+	if (!World) { CancelNameEdit(); return; }
+
+	auto Input = World->GetInput().lock();
+	if (!Input) { CancelNameEdit(); return; }
+
+	//편집 도중 대상이 사라지면 취소.
+	if (mTarget.expired()) { CancelNameEdit(); return; }
+
+	//이름 버튼 밖을 클릭하면 확정한다. (값 편집과 달리 바깥 클릭=확정이 자연스럽다)
+	if (Input->GetMouseState(EMouseType::LButton, EInputType::Press))
+	{
+		auto Button = mActorNameButton.lock();
+		EWidgetState::Type State = Button ? Button->GetWidgetState() : EWidgetState::Normal;
+
+		if (State != EWidgetState::Hovered && State != EWidgetState::Clicked && State != EWidgetState::Release)
+		{
+			CommitNameEdit();
+			return;
+		}
+	}
+
+	//확정 / 취소
+	if (Input->GetKey(VK_RETURN, EInputType::Press)) { CommitNameEdit(); return; }
+	if (Input->GetKey(VK_ESCAPE, EInputType::Press)) { CancelNameEdit(); return; }
+
+	//한 글자 지우기
+	if (Input->GetKey(VK_BACK, EInputType::Press) && !mEditBuffer.empty())
+		mEditBuffer.pop_back();
+
+	//알파벳 — Shift 상태로 대소문자를 정한다.
+	bool bShift = Input->GetShift(EInputType::Hold);
+
+	for (int c = 0; c < 26; ++c)
+	{
+		if (Input->GetKey((unsigned char)('A' + c), EInputType::Press) && (int)mEditBuffer.size() < NAME_BUF_MAX)
+			mEditBuffer.push_back((char)((bShift ? 'A' : 'a') + c));
+	}
+
+	//숫자 (상단 숫자열 + 넘패드)
+	for (int d = 0; d < 10; ++d)
+	{
+		bool bPressed = Input->GetKey((unsigned char)('0' + d), EInputType::Press)
+		             || Input->GetKey((unsigned char)(VK_NUMPAD0 + d), EInputType::Press);
+
+		if (bPressed && (int)mEditBuffer.size() < NAME_BUF_MAX)
+			mEditBuffer.push_back((char)('0' + d));
+	}
+
+	//'-' 또는 Shift+'-'='_'. 이름 구분자로 흔히 쓴다. (공백은 맵 키/저장 안전상 안 받는다)
+	if ((Input->GetKey(VK_OEM_MINUS, EInputType::Press) || Input->GetKey(VK_SUBTRACT, EInputType::Press))
+		&& (int)mEditBuffer.size() < NAME_BUF_MAX)
+	{
+		mEditBuffer.push_back(bShift ? '_' : '-');
+	}
+
+	//라벨에 편집 중인 버퍼 + 캐럿을 보여준다.
+	if (auto Text = mActorNameText.lock())
+	{
+		std::wstring WBuf(mEditBuffer.begin(), mEditBuffer.end());
+		TCHAR TextBuffer[128] = {};
+		wsprintf(TextBuffer, TEXT("Name: %s_"), WBuf.c_str());
+		Text->SetText(TextBuffer);
+	}
+}
+
 // ── 업데이트 ─────────────────────────────────────────────────────────────────
 void CInspectorUI::Update(float DeltaTime)
 {
@@ -2153,6 +2533,10 @@ void CInspectorUI::Update(float DeltaTime)
 	HandleValueEditInput();
 	DetectValueDoubleClick();
 
+	// ── 액터 이름 직접 입력 (더블클릭 → 타이핑 → Enter) ────────────────────
+	HandleNameEditInput();
+	DetectNameDoubleClick();
+
 	// ── 액션 버튼 폴링 (사이클 / 탐색) ─────────────────────────────────────
 	for (auto& Entry : mCompEntries)
 	{
@@ -2196,6 +2580,17 @@ void CInspectorUI::Update(float DeltaTime)
 			if (!Entry.bExpanded) continue;
 			for (auto& Dropdown : Entry.Dropdowns)
 			{
+				// 값 레이블을 매 프레임 Getter로 갱신한다. 다른 조작(예: 이펙트 항목
+				// Sel)으로 값이 바뀌어도 라벨이 따라오게 하려는 것. (선택 시에만 갱신하면
+				// 항목을 바꿨을 때 옛 값이 남는다)
+				if (Dropdown.Getter)
+				{
+					if (auto ValueLabel = Dropdown.ValueLabel.lock())
+					{
+						ValueLabel->SetText(DialogUtil::ToWide(Dropdown.Getter()).c_str());
+					}
+				}
+
 				// 열기/닫기 토글
 				if (auto ToggleButton = Dropdown.ToggleButton.lock())
 				{
@@ -2351,6 +2746,8 @@ void CInspectorUI::UpdateAllRowWidths(float NewWidth)
 	};
 	if (auto Text = mTitleText.lock()) Text->SetSize(NewWidth, TITLE_H);
 	SetRowWidth(mActorNameText);
+	//이름 클릭 버튼도 행 폭에 맞춘다. (좌우 6px 여백)
+	if (auto Button = mActorNameButton.lock()) Button->SetSize(NewWidth - 12.f, ROW_H);
 	SetRowWidth(mActorTagText);
 	// 타입 선택 행 — 버튼은 좌우 6px 여백, 라벨은 그 안쪽.
 	if (auto Button = mAnimTypeButton.lock()) Button->SetSize(NewWidth - 12.f, ROW_H);

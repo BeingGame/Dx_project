@@ -90,6 +90,12 @@ public:
 		mData.Offset.y = Y;
 	}
 
+	//스프라이트를 돌리는 회전각(라디안).
+	void SetAnimRotation(float Radian)
+	{
+		mData.Rotation = Radian;
+	}
+
 
 public:
 	virtual bool Init();

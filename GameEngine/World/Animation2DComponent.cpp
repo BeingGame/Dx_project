@@ -439,6 +439,54 @@ void CAnimation2DComponent::SetSymmetry(const std::string& Name, bool Symmetry)
 	iter->second->SetSymmetry(Symmetry);
 }
 
+void CAnimation2DComponent::SetSymmetryV(const std::string& Name, bool Symmetry)
+{
+	auto iter = mAnimationMap.find(Name);
+
+	if (iter == mAnimationMap.end())
+	{
+		return;
+	}
+
+	iter->second->SetSymmetryV(Symmetry);
+}
+
+void CAnimation2DComponent::SetSequenceRotation(const std::string& Name, float Radian)
+{
+	auto iter = mAnimationMap.find(Name);
+
+	if (iter == mAnimationMap.end())
+	{
+		return;
+	}
+
+	iter->second->SetRotation(Radian);
+}
+
+void CAnimation2DComponent::SetSequenceOffset(const std::string& Name, const FVector2& Offset)
+{
+	auto iter = mAnimationMap.find(Name);
+
+	if (iter == mAnimationMap.end())
+	{
+		return;
+	}
+
+	iter->second->SetOffset(Offset);
+}
+
+FVector2 CAnimation2DComponent::GetSequenceOffset(const std::string& Name) const
+{
+	auto iter = mAnimationMap.find(Name);
+
+	if (iter == mAnimationMap.end())
+	{
+		return FVector2(0.f, 0.f);
+	}
+
+	return iter->second->GetOffset();
+}
+
 void CAnimation2DComponent::SetUsePalette(bool Use)
 {
 	if (!mCurrentAnimation)
@@ -522,11 +570,23 @@ void CAnimation2DComponent::SetShader()
 		//그대로 넘기면 에디터에서 +를 눌렀을 때 스프라이트가 위로 올라간다.
 		const FVector2& MaxSize = Anim->GetMaxFrameSize();
 
+		//프레임별 피벗 Offset에 시퀀스 전용 Offset을 더한다.
+		//시퀀스마다 아틀라스가 달라 캐릭터 위치가 어긋날 때, 시퀀스를 통째로 밀어
+		//다른 시퀀스와 발밑/중심을 맞추는 값이다. (텍셀 단위라 같은 기준으로 정규화된다)
+		const FVector2& SeqOffset = mCurrentAnimation->GetOffset();
+
+		FVector2 TotalOffset;
+		TotalOffset.x = TexFrame.Offset.x + SeqOffset.x;
+		TotalOffset.y = TexFrame.Offset.y + SeqOffset.y;
+
 		FVector2 NormalizedOffset;
-		NormalizedOffset.x = (MaxSize.x > 0.f) ?  TexFrame.Offset.x / MaxSize.x : 0.f;
-		NormalizedOffset.y = (MaxSize.y > 0.f) ? -TexFrame.Offset.y / MaxSize.y : 0.f;
+		NormalizedOffset.x = (MaxSize.x > 0.f) ?  TotalOffset.x / MaxSize.x : 0.f;
+		NormalizedOffset.y = (MaxSize.y > 0.f) ? -TotalOffset.y / MaxSize.y : 0.f;
 
 		mCBufferAnim2D->SetAnimOffset(NormalizedOffset);
+
+		//기울기(회전). 시퀀스에 설정된 각도를 그대로 넘긴다. (0이면 셰이더에서 무시)
+		mCBufferAnim2D->SetAnimRotation(mCurrentAnimation->GetRotation());
 
 		//스프라이트 애니메이션일때 추가될 조건문
 		if (Anim->GetType() == EAnimation2DTextureType::SpriteSheet)
@@ -537,8 +597,23 @@ void CAnimation2DComponent::SetShader()
 			{
 				const FTextureInfo* TexInfo = Texture->GetTexture();
 
-				mCBufferAnim2D->SetLTUV(TexFrame.Start.x / TexInfo->Width, TexFrame.Start.y / TexInfo->Height);
-				mCBufferAnim2D->SetRBUV((TexFrame.Start.x + TexFrame.Size.x) / TexInfo->Width, (TexFrame.Start.y + TexFrame.Size.y) / TexInfo->Height);
+				const float LeftU  = TexFrame.Start.x / TexInfo->Width;
+				const float RightU = (TexFrame.Start.x + TexFrame.Size.x) / TexInfo->Width;
+
+				float TopV    = TexFrame.Start.y / TexInfo->Height;
+				float BottomV = (TexFrame.Start.y + TexFrame.Size.y) / TexInfo->Height;
+
+				//세로(위/아래) 반전. LTUV/RBUV의 V만 맞바꾸면 셰이더의 V 매핑이
+				//위/아래를 뒤집어 샘플한다. (가로 반전은 셰이더의 TextureSymmetry가 담당)
+				if (mCurrentAnimation->GetSymmetryV())
+				{
+					float Temp = TopV;
+					TopV = BottomV;
+					BottomV = Temp;
+				}
+
+				mCBufferAnim2D->SetLTUV(LeftU, TopV);
+				mCBufferAnim2D->SetRBUV(RightU, BottomV);
 			}
 		}
 	}
@@ -657,13 +732,17 @@ void CAnimation2DComponent::Save(std::ofstream& File) const
 	{
 		const auto& Seq = Pair.second;
 
+		//Name|PlayTime|PlayRate|Loop|Reverse|Symmetry|OffsetX|OffsetY
+		//OffsetX/Y는 뒤에 덧붙였다. 예전 파일에는 없으므로 Load에서 없으면 0으로 둔다.
 		File << "Seq" << Index++ << "="
 			<< Pair.first            << "|"
 			<< Seq->GetPlayTime()    << "|"
 			<< Seq->GetPlayRate()    << "|"
 			<< (Seq->GetLoop()     ? 1 : 0) << "|"
 			<< (Seq->GetReverse()  ? 1 : 0) << "|"
-			<< (Seq->GetSymmetry() ? 1 : 0) << "\n";
+			<< (Seq->GetSymmetry() ? 1 : 0) << "|"
+			<< Seq->GetOffset().x    << "|"
+			<< Seq->GetOffset().y    << "\n";
 	}
 
 	File << "Current=" << GetCurrentAnimationName() << "\n";
@@ -732,6 +811,22 @@ void CAnimation2DComponent::Load(const std::unordered_map<std::string, std::stri
 		bool Reverse  = (Fields[4] == "1");
 		bool Symmetry = (Fields[5] == "1");
 
+		//시퀀스 전용 오프셋. 예전 파일에는 없으니 있을 때만 읽고 없으면 0.
+		FVector2 SeqOffset(0.f, 0.f);
+
+		if (Fields.size() >= 8)
+		{
+			try
+			{
+				SeqOffset.x = std::stof(Fields[6]);
+				SeqOffset.y = std::stof(Fields[7]);
+			}
+			catch (...)
+			{
+				SeqOffset = FVector2(0.f, 0.f);
+			}
+		}
+
 		//.anim2d 에셋이 우선이다.
 		//여기 적힌 값은 저장 당시의 사본일 뿐인데, 그대로 적용하면
 		//  · PlayTime이 SetPlayTime -> ScaleTotalDuration을 타면서
@@ -761,6 +856,9 @@ void CAnimation2DComponent::Load(const std::unordered_map<std::string, std::stri
 		}
 
 		AddAnimation(Fields[0], PlayTime, PlayRate, Loop, Reverse, Symmetry);
+
+		//AddAnimation이 시퀀스를 만든 뒤 오프셋을 얹는다.
+		SetSequenceOffset(Fields[0], SeqOffset);
 	}
 
 	//현재 시퀀스 복원.

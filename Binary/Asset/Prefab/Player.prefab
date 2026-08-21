@@ -1,6 +1,6 @@
 Tag=Actor
 AnimType=Player
-PX=0.0203774 PY=-0.400966 PZ=0
+PX=0.434526 PY=-0.516641 PZ=0
 SX=0.8 SY=0.8 SZ=1
 RX=0 RY=0 RZ=0
 Count=7
@@ -15,7 +15,7 @@ CompEntry6=CHeightComponent|Height|
 TypeName=CSceneComponent
 Name=Root
 Parent=
-RelPos=0.0203774 -0.400966 0
+RelPos=0.434526 -0.516641 0
 RelScale=0.8 0.8 1
 RelRot=0 0 0
 Layer=1
@@ -31,7 +31,7 @@ Layer=1
 Mesh=TexRect
 Shader=Animation2D
 Material=Default
-Blend=(none)
+Blend=
 MatBaseColor=1 1 1 1
 MatOpacity=1
 
@@ -39,15 +39,15 @@ MatOpacity=1
 TypeName=CAnimation2DComponent
 Name=Animation2DComponent
 SeqCount=9
-Seq0=BasicAttack2|0.999999|1.8|0|0|1
-Seq1=PlayerHit|1|1|0|0|0
-Seq2=BasicAttack|1|1.8|0|0|1
-Seq3=BasicAttack3|0.384616|1|0|0|0
-Seq4=Idle|1|1|1|0|0
-Seq5=PlayerWalk|0.857142|1|1|0|0
-Seq6=PlayerRunning|1|1|1|0|0
-Seq7=PlayerJump|1|1|0|0|0
-Seq8=PlayerDown|1|1|0|0|0
+Seq0=BasicAttack2|0.999999|1.8|0|0|1|0|0
+Seq1=PlayerHit|1|1|0|0|0|0|0
+Seq2=BasicAttack|1|1.8|0|0|1|0|0
+Seq3=BasicAttack3|0.384616|1|0|0|0|0|0
+Seq4=Idle|1|1|1|0|0|0|0
+Seq5=PlayerWalk|0.857142|1|1|0|0|0|0
+Seq6=PlayerRunning|1|1|1|0|0|0|0
+Seq7=PlayerJump|1|1|0|0|0|0|0
+Seq8=PlayerDown|1|1|0|0|0|0|0
 Current=Idle
 
 [Comp:3]

@@ -1,0 +1,13 @@
+ANIM2D 1
+AnimName Ghoul_Dead
+TextureType SpriteSheet
+TextureName ghoul
+TextureRelPath Asset\Texture\Monster\ghoul.png
+PlayTime 0.1
+PlayRate 1
+Loop 0
+Reverse 0
+Symmetry 0
+Pivot 29.9 51.41
+Frames 1
+608.554 96.6488 185.431 85.2332 0 -7.4834 0.1

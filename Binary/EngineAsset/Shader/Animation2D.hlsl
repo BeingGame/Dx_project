@@ -11,6 +11,18 @@ VS_OUTPUT_TEX AnimationVS(VS_INPUT_TEX input)
     //ex)-0.5 ~ 0.5 * ratio(0.3,0.3) = -0.15 ~ 0.15
     Pos.xy *= cbAnimRatio.xy;
 
+    //기울기(회전). 비율로 크기를 맞춘 뒤 중심(원점) 기준으로 돌린다.
+    //0이면 sin/cos가 0/1이라 그대로다. (오프셋보다 먼저 돌려야 제자리에서 기운다)
+    if (cbAnimRotation != 0.f)
+    {
+        float s = sin(cbAnimRotation);
+        float c = cos(cbAnimRotation);
+        float2 rotated;
+        rotated.x = Pos.x * c - Pos.y * s;
+        rotated.y = Pos.x * s + Pos.y * c;
+        Pos.xy = rotated;
+    }
+
     //프레임별 위치 보정.
     //C++에서 최대 프레임 크기로 나눠서 넘겨주므로 여기서는 그대로 더하기만 하면 된다.
     //ratio를 곱한 뒤에 더해야 프레임 크기와 무관하게 같은 거리만큼 움직인다.

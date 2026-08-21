@@ -43,6 +43,10 @@ private:
 	std::weak_ptr<class CTextBlock> mActorNameText;
 	std::weak_ptr<class CTextBlock> mActorTagText;
 
+	// 이름 행 위에 깔아두는 투명 버튼. 더블클릭하면 이름을 직접 입력해 바꾼다.
+	// (CTextBlock은 클릭을 안 먹으므로 아래에 버튼을 둬도 이게 더블클릭을 받는다)
+	std::weak_ptr<class CButton>    mActorNameButton;
+
 	// 애니메이션 타입 선택 콤보 (Tag 아래). 클릭하면 목록이 아래로 펼쳐진다.
 	// 타입 목록은 Asset\Anim\ 하위 폴더에서 매번 스캔한다. (CAnimRegistry::ScanTypes)
 	std::weak_ptr<class CTextBlock> mAnimTypeText;    // "Type: <이름> ▼" 표시
@@ -139,6 +143,10 @@ private:
 	int         mEditPropIdx = -1;   // Entry.Props 인덱스
 	std::string mEditBuffer;         // 타이핑 중인 문자열
 
+	// 액터 이름을 직접 입력해 바꾸는 중인지. (숫자 값 편집과 별개 경로다)
+	bool        mEditNameActive = false;
+	static constexpr int NAME_BUF_MAX = 31;   // 이름 최대 길이
+
 public:
 	void SetTarget(std::weak_ptr<class CActor> Actor);
 	void Rebuild();
@@ -156,6 +164,12 @@ public:
 private:
 	//액션 상태 컴포넌트에서 지금 편집 중인 상태. (9개를 전부 펼치면 너무 길어진다)
 	int mActionEditIdx = 0;
+
+	//그 상태의 이펙트 목록에서 지금 편집 중인 항목 인덱스. (여러 개를 다 펼치면 길어진다)
+	int mFxEditIdx = 0;
+
+	//버프(지속형) 이펙트 목록에서 지금 편집 중인 항목 인덱스.
+	int mBuffEditIdx = 0;
 
 	void UpdateAllRowWidths(float NewWidth);
 
@@ -193,6 +207,13 @@ private:
 	void BeginEdit(int CompIdx, int PropIdx);
 	void CommitEdit();              // Enter — 버퍼를 파싱해 Setter 호출
 	void CancelEdit();              // Esc / 바깥 클릭 / Rebuild
+
+	// ── 액터 이름 직접 입력 ─────────────────────────────────────────────────
+	void DetectNameDoubleClick();   // 이름 행 더블클릭 감지 → 편집 시작
+	void BeginNameEdit();           // 현재 이름을 버퍼에 담고 입력 모드 진입
+	void HandleNameEditInput();     // 편집 중 키 입력 처리 + 라벨 미리보기
+	void CommitNameEdit();          // Enter — 월드에 이름 변경 요청
+	void CancelNameEdit();          // Esc / 바깥 클릭
 	void AddPropRow(float& Y,
 	                const wchar_t* Label,
 	                float Step,

@@ -1,0 +1,20 @@
+ANIM2D 1
+AnimName BasicAttackCharging
+TextureType SpriteSheet
+TextureName chargeweapon_sprite_alpha
+TextureRelPath Asset\Texture\Effect\chargeweapon_sprite_alpha.png
+PlayTime 1
+PlayRate 1.5
+Loop 1
+Reverse 0
+Symmetry 0
+Pivot 0 0
+Frames 8
+28.6314 281.109 201.186 151.731 -0.918571 3.16571 0.125
+248.521 277.111 201.186 151.731 0 0 0.125
+472.408 279.776 201.186 151.731 0 0 0.125
+698.961 275.778 201.186 151.731 0 0 0.125
+690.632 40.8961 201.186 151.731 0 0 0.125
+920.516 47.5594 201.186 151.731 0 0 0.125
+1143.74 264.117 201.186 151.731 0 0 0.125
+1373.62 270.78 201.186 151.731 0 0 0.125

@@ -169,6 +169,7 @@
     <ClCompile Include="World\Component\StatusComponent.cpp" />
     <ClCompile Include="World\Component\TurretSkillComp.cpp" />
     <ClCompile Include="World\EditorPlayer.cpp" />
+    <ClCompile Include="World\Effect.cpp" />
     <ClCompile Include="World\ContentUI.cpp" />
     <ClCompile Include="World\EditorMenuBar.cpp" />
     <ClCompile Include="World\PrefabManager.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="World\Component\StatusComponent.h" />
     <ClInclude Include="World\Component\TurretSkillComp.h" />
     <ClInclude Include="World\EditorPlayer.h" />
+    <ClInclude Include="World\Effect.h" />
     <ClInclude Include="World\ContentUI.h" />
     <ClInclude Include="World\DialogUtil.h" />
     <ClInclude Include="World\EditorMenuBar.h" />

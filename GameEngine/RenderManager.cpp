@@ -134,6 +134,10 @@ void CRenderManager::AddRenderTargetBlendDesc(const std::string& Name, bool Blen
 		BlendState = std::dynamic_pointer_cast<CBlendState>(State.lock());
 	}
 
+	//맵 키와 같은 이름을 박아둔다. 이게 없으면 저장 시 blend 이름이 빈 값으로 나가
+	//월드/프리팹에서 blend가 왕복되지 않는다. (GetName() 기반 직렬화)
+	BlendState->SetName(Name);
+
 	BlendState->AddRenderTargetBlendDesc(BlendEnable, SrcBlend, DestBlend, BlendOp, SrcBlendAlpha, DestBlendAlpha, BlendOpAlpha, RenderTargetWriteMask);
 }
 
@@ -193,6 +197,12 @@ bool CRenderManager::CreateBlendState(const std::string& Name, bool AlphaToCover
 	{
 		BlendState = std::dynamic_pointer_cast<CBlendState>(State.lock());
 	}
+
+	//이름을 박아준다. 이게 없으면 GetName()이 빈 문자열이라,
+	//머티리얼 저장 시 "Blend=" 가 빈 값으로 나가고(저장 실패처럼 보임),
+	//로드 때 빈 값이라 SetBlendState가 스킵된다(로드 실패처럼 보임).
+	//맵 키와 동일한 이름을 넣어야 FindRenderState로 다시 찾을 수 있다.
+	BlendState->SetName(Name);
 
 	if (!BlendState->CreateState(AlphaToCoverageEnable, IndependentBlendEnable))
 	{

@@ -185,6 +185,10 @@ void CContentUI::Update(float DeltaTime)
 	for (auto& Entry : mEntries)
 	{
 		if (Entry.Actor.expired()) { bStale = true; break; }
+
+		//개수는 그대로여도 이름이 바뀌었으면(인스펙터에서 리네임 등) 다시 그린다.
+		auto Actor = Entry.Actor.lock();
+		if (Actor && Actor->GetName() != Entry.Name) { bStale = true; break; }
 	}
 
 	int CurrentCount = (int)World->GetActorList().size();
@@ -259,6 +263,7 @@ void CContentUI::Rebuild()
 		Entry.Actor  = ActorPtr;
 		Entry.Button = Button;
 		Entry.Index  = Index;
+		Entry.Name   = Name;   // 이름 변경 감지용 스냅샷
 		mEntries.push_back(Entry);
 
 		Y += ENTRY_H;

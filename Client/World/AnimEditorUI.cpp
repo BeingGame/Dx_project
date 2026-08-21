@@ -697,6 +697,8 @@ void CAnimEditorUI::SetTarget(std::weak_ptr<CActor> Actor)
                 Seq.Loop     = Sequence->GetLoop();
                 Seq.Reverse  = Sequence->GetReverse();
                 Seq.Symmetry = Sequence->GetSymmetry();
+                Seq.OffsetX  = Sequence->GetOffset().x;
+                Seq.OffsetY  = Sequence->GetOffset().y;
 
                 if (Seq.Name == CurrentName)
                     NewCompData.Selected = (int)NewCompData.Seqs.size();
@@ -1544,6 +1546,38 @@ void CAnimEditorUI::Rebuild()
                     AnimComp->SetPlayRate(mComps[CompIdx].Seqs[SeqIdx].Name, mComps[CompIdx].Seqs[SeqIdx].PlayRate);
             });
 
+        // ── 시퀀스 전용 오프셋 ────────────────────────────────────────────────
+        // 프레임 피벗(아래)과 달리 애니메이션 에셋이 아니라 이 시퀀스가 들고 있어서,
+        // 시퀀스마다 스프라이트 아틀라스가 달라 정렬이 어긋날 때 이 시퀀스만 통째로
+        // 밀어 다른 시퀀스와 맞춘다. 값은 텍셀 단위이고 월드 파일에 저장된다.
+        AddPropRow(Y, TEXT("Seq Off.X"), 1.f,
+            [this, CompIdx, SeqIdx]() -> float {
+                if (CompIdx < (int)mComps.size() && SeqIdx < (int)mComps[CompIdx].Seqs.size())
+                    return mComps[CompIdx].Seqs[SeqIdx].OffsetX;
+                return 0.f;
+            },
+            [this, CompIdx, SeqIdx, WeakComp](float Value) {
+                if (CompIdx >= (int)mComps.size() || SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
+                auto& S = mComps[CompIdx].Seqs[SeqIdx];
+                S.OffsetX = Value;
+                if (auto AnimComp = WeakComp.lock())
+                    AnimComp->SetSequenceOffset(S.Name, FVector2(S.OffsetX, S.OffsetY));
+            });
+
+        AddPropRow(Y, TEXT("Seq Off.Y"), 1.f,
+            [this, CompIdx, SeqIdx]() -> float {
+                if (CompIdx < (int)mComps.size() && SeqIdx < (int)mComps[CompIdx].Seqs.size())
+                    return mComps[CompIdx].Seqs[SeqIdx].OffsetY;
+                return 0.f;
+            },
+            [this, CompIdx, SeqIdx, WeakComp](float Value) {
+                if (CompIdx >= (int)mComps.size() || SeqIdx >= (int)mComps[CompIdx].Seqs.size()) return;
+                auto& S = mComps[CompIdx].Seqs[SeqIdx];
+                S.OffsetY = Value;
+                if (auto AnimComp = WeakComp.lock())
+                    AnimComp->SetSequenceOffset(S.Name, FVector2(S.OffsetX, S.OffsetY));
+            });
+
         // ── 피벗(앵커) — 이제 "선택 프레임"의 앵커다 ─────────────────────────
         // 스프라이트 뷰어의 청록 세로선(X) / 자홍 가로선(Y) 위치이자 정렬 기준점.
         // 저장값은 프레임 Offset이고, 피벗은 그 역산(Size/2 - Offset)으로 보여준다.
@@ -2266,7 +2300,22 @@ void CAnimEditorUI::Update(float DeltaTime)
     {
         auto& CompData = mComps[mActiveComp];
         if (CompData.Selected >= 0)
+        {
             SyncSpriteViewer(mActiveComp, CompData.Selected);
+
+            // PlayRate 등 시퀀스 속성을 만지면 PlayTime 표시도 다시 그려준다.
+            // 값(프레임 Duration 합) 자체는 PlayRate와 무관하지만, +/- 직후 라벨이
+            // 갱신되지 않아 멈춰 보이던 문제를 없앤다. (프레임 Dur 편집 경로와 동일)
+            if (auto TotalLabel = mPlayTimeText.lock())
+            {
+                float Total = 0.f;
+                for (const auto& FrameData : CompData.Seqs[CompData.Selected].Frames)
+                    Total += FrameData.Duration;
+
+                TCHAR TextBuffer[32]; swprintf_s(TextBuffer, 32, L"%.2f s", Total);
+                TotalLabel->SetText(TextBuffer);
+            }
+        }
     }
 
     // ── 토글 (Loop / Reverse / Symmetry) ────────────────────────────────────

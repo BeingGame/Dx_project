@@ -184,7 +184,7 @@ void CHeightComponent::Update(float DeltaTime)
         else
         {
             mKnockVel.x *= Damp;
-            mKnockVel.y *= Damp;
+            mKnockVel.y *= Damp;    
 
             //거의 멈췄으면 딱 끊는다. 안 그러면 영원히 아주 조금씩 흐른다.
             if (fabsf(mKnockVel.x) < 0.01f) mKnockVel.x = 0.f;

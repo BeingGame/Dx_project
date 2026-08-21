@@ -80,6 +80,11 @@ struct FCBufferAnimation2D
 	int Animation2DFrame = 0;
 	FVector2 Ratio = FVector2(1.f, 1.f);
 	FVector2 Offset = FVector2(0.f, 0.f);
+
+	//스프라이트 쿼드를 돌리는 회전각(라디안). 0이면 그대로다.
+	//뒤의 Empty는 16바이트 정렬용 패딩이다. (셰이더 cbuffer와 크기가 같아야 한다)
+	float Rotation = 0.f;
+	FVector3 AnimEmpty = FVector3(0.f, 0.f, 0.f);
 };
 
 //상수버퍼 제한

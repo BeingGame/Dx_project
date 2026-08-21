@@ -1,0 +1,20 @@
+ANIM2D 1
+AnimName PlayerJumpAttack
+TextureType SpriteSheet
+TextureName 프리스트_낫
+TextureRelPath Asset\Texture\Player\프리스트_낫.png
+PlayTime 0.9
+PlayRate 1.8
+Loop 0
+Reverse 0
+Symmetry 0
+Pivot 207.87 133.51
+Frames 8
+2820.28 3404.64 383.577 300 0 0 0.2
+12.4416 3703.25 383.577 300 0 0 0.1
+414.746 3707.4 383.577 300 0 0 0.1
+1230.41 3723.99 383.577 300 0 0 0.1
+1628.57 3706.02 383.577 300 0 0 0.1
+2036.4 3697.72 383.577 300 0 0 0.1
+2435.94 3694.96 383.577 300 0 0 0.1
+2435.94 3694.96 383.577 300 0 0 0.1
